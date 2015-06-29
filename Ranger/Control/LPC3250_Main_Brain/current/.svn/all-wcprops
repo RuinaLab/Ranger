@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/2955/Trunk/Ranger/Control/LPC3250_Main_Brain/current
+END
+LPC3250_main_brain_LPC3250 Ext SDRAM (NAND).dep
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/2955/Trunk/Ranger/Control/LPC3250_Main_Brain/current/LPC3250_main_brain_LPC3250%20Ext%20SDRAM%20(NAND).dep
+END
+LPC3250_main_brain_LPC3250 Int RAM.dep
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/2955/Trunk/Ranger/Control/LPC3250_Main_Brain/current/LPC3250_main_brain_LPC3250%20Int%20RAM.dep
+END
+LPC3250_main_brain.Uv2
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/2955/Trunk/Ranger/Control/LPC3250_Main_Brain/current/LPC3250_main_brain.Uv2
+END
+Prog_NOR.ini
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1592/Trunk/Ranger/Control/LPC3250_Main_Brain/current/Prog_NOR.ini
+END
+Ext_SDRAM.ini
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/1592/Trunk/Ranger/Control/LPC3250_Main_Brain/current/Ext_SDRAM.ini
+END
+Prog_NAND.ini
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/1592/Trunk/Ranger/Control/LPC3250_Main_Brain/current/Prog_NAND.ini
+END
+Int_RAM.ini
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/1592/Trunk/Ranger/Control/LPC3250_Main_Brain/current/Int_RAM.ini
+END
+LPC3250_main_brain_LPC3250 Ext SDRAM (NOR).dep
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/2955/Trunk/Ranger/Control/LPC3250_Main_Brain/current/LPC3250_main_brain_LPC3250%20Ext%20SDRAM%20(NOR).dep
+END

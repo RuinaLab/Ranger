@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1254/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project
+END
+Blinky.Uv2
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/Blinky.Uv2
+END
+Prog_NOR.ini
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/Prog_NOR.ini
+END
+Ext_SDRAM.ini
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/Ext_SDRAM.ini
+END
+Prog_NAND.ini
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/Prog_NAND.ini
+END
+Int_RAM.ini
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/Int_RAM.ini
+END
+blinky.Opt
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/1254/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/blinky.Opt
+END

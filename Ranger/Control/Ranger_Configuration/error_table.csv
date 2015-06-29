@@ -1,0 +1,114 @@
+# All lines beginning with '#' are commented out (ignored) by the parser.,,,
+# Note: Do not use commas in uncommented cells!!!,,,
+#,,,
+#Error Table,,,
+#Module,Error Name,Priority,Description
+ADCI,BAD_CHAN,0,Attempted to read from invalid channel
+ADCI,DNF,0,Did not finish previous conversion
+ADCI,FILT_OOB,0,Filter number was out of bounds
+CAN,AFRAM_FULL,0,Acceptance filter RAM is full - probably an error in the rx descriptors list
+CAN,ACC_FILTER,0,The acceptance filter table has an error
+CAN,DUP_RX_IDS,0,Acceptance filter init function found a pair of rx desciptors with identical IDs
+CAN,RXLST_OF,0,Receive list overflow
+CAN,RTRLST_OF,0,RTR list overflow
+CAN1,TX_BUSOFF,0,Excessive transmit errors on this controller led to bus off condition
+CAN1,ERR_WARN,0,Error warning- shows change in error or bus status bits in either direction
+CAN1,DATA_OVRN,0,Receive data overrun - buffer not read before next frame- data lost
+CAN1,ERR_PASS,0,Change in active or passive error status in either direction
+CAN1,BUS_RX,0,Bus error during receive
+CAN1,BUS_TX,0,Bus error during transmit
+CAN1,LOCKUP,0,CAN controller lockup
+CAN1,RX_BUF_OF,0,Software receive buffer overflow
+CAN2,TX_BUSOFF,0,Excessive transmit errors on this controller led to bus off condition
+CAN2,ERR_WARN,0,Error warning- shows change in error or bus status bits in either direction
+CAN2,DATA_OVRN,0,Receive data overrun - buffer not read before next frame- data lost
+CAN2,ERR_PASS,0,Change in active or passive error status in either direction
+CAN2,BUS_RX,0,Bus error during receive
+CAN2,BUS_TX,0,Bus error during transmit
+CAN2,LOCKUP,0,CAN controller lockup
+CAN2,RX_BUF_OF,0,Software receive buffer overflow
+CAN3,TX_BUSOFF,0,Excessive transmit errors on this controller led to bus off condition
+CAN3,ERR_WARN,0,Error warning- shows change in error or bus status bits in either direction
+CAN3,DATA_OVRN,0,Receive data overrun - buffer not read before next frame- data lost
+CAN3,ERR_PASS,0,Change in active or passive error status in either direction
+CAN3,BUS_RX,0,Bus error during receive
+CAN3,BUS_TX,0,Bus error during transmit
+CAN3,LOCKUP,0,CAN controller lockup
+CAN3,RX_BUF_OF,0,Software receive buffer overflow
+CAN4,TX_BUSOFF,0,Excessive transmit errors on this controller led to bus off condition
+CAN4,ERR_WARN,0,Error warning- shows change in error or bus status bits in either direction
+CAN4,DATA_OVRN,0,Receive data overrun - buffer not read before next frame- data lost
+CAN4,ERR_PASS,0,Change in active or passive error status in either direction
+CAN4,BUS_RX,0,Bus error during receive
+CAN4,BUS_TX,0,Bus error during transmit
+CAN4,LOCKUP,0,CAN controller lockup
+CAN4,RX_BUF_OF,0,Software receive buffer overflow
+QDC,CH01_GLTCH,0,QDC channel 01 glitch detected
+QDC,CH23_GLTCH,0,QDC channel 23 glitch detected
+MC,TCURR_OOB,0,Requested target current is out of bounds
+MC,PWM_OF,0,PWM overflow
+MC,PWM_UF,0,PWM underflow
+MC,CURR_OOB,0,Current is out of bounds
+MC,SHUTOFF,0,Motor controller safety shutoff
+MC,TEMP_SAFE,0,Safe temperature limit reached
+ADCX,DNF,0,Previous conversion did not finish
+ADCX,TX_FULL,0,Transmit buffer full
+ADCX,RX_EMPTY,0,Receive buffer empty
+ADCX,NUM_CFGS,0,Too many configs have been set up
+BUTTON,OOB,0,Invalid button- out of bounds
+LCD,STR_OF,0,String length overflow
+LCD,POS_OOB,0,Position out of bounds
+AE,INVALID_ID,0,Invalid encoder ID
+LS,INVALID_ID,0,Invalid limit switch ID
+LS,NUM_SWITCH,0,Too many switches added
+SCHED,ASYNC,0,Scheduler is now asynchronous
+SCHED,RESYNC,0,Scheduler has resynced with Main Brain
+SCHED,OVERRUN,0,Scheduler overrun- not able to finish in time
+ASCHED,DNF,0,Asynchronous scheduler did not finish in time
+MSIMU,TX_FULL,0,Transmit buffer full
+MSIMU,NUM_BYT,0,Too many bytes
+MSIMU,RX_OF,0,Receive buffer overflow
+UTIL,DUMMY,0,Dummy function called
+STATE,INVALID,0,Invalid state requested
+MCFI,ANKL_LS,0,Middle ankles limit switch activated
+MCFI,ANKL_HI,0,Middle ankles have reached upper limit (negative direction)
+MCFI,ANKL_LO,0,Middle ankles have reached lower limit (positive direction)
+MCFO,ANKL_LS,0,Outer ankles limit switch activated
+MCFO,ANKL_HI,0,Outer ankles have reached upper limit (negative direction)
+MCFO,ANKL_LO,0,Outer ankles have reached lower limit (positive direction)
+MCSI,LEFT,0,New steering motor has reached left steer angle limit (positive direction)
+MCSI,RIGHT,0,New steering motor has reached right steer angle limit (negative direction)
+MB_SSP,TX_FULL,0,DMA transmit buffer full (data going to CAN bus lost due to overflow)
+MB_SSP,CHKSUM,0,Received packet had bad checksum value
+MB_SSP,DMA_JAM,0,DMA transfer could not be halted
+MB_SSP,RX_FULL,0,DMA receive buffer full (data coming from CAN bus lost due to overflow)
+MB_SER,DMA_JAM,0,DMA transfer could not be halted
+MB_SER,RX_FULL,0,software receive buffer full (data coming from serial port (Bluetooth- PC) lost due to overflow)
+MB_SER,DMA_FLL,0,DMA hardware receive buffer full (data coming from serial port (Bluetooth- PC) lost due to overflow)
+MB_SER,DMA_OFF,0,Receive DMA transfer stopped unexpectedly or failed to start properly
+MB_SER,CHKSUM,0,Checksum error found in received packet from serial port (Bluetooth- PC)
+SSP,RX_BUF_OF,0,Receive SSP buffer overflow (data coming in from main brain may be lost)
+SSP,LOW_RATE,0,SSP bit rate is too slow to finish segment within allowed time. Increase rate- time- or decrease seg size.
+SSP,TX_BUF_IDX,0,Weird SSP transmit index error
+SSP,RX_FIFO,0,Receive SSP FIFO overflow
+SSP,BAD_CHKSM,0,Bad SSP receive packet checksum
+SSP,RX_BUF_IDX,0,Corrupted receive buffer index
+SSP,TX_BUF_OF,0,Software transmit buffer full (data coming in from CAN buses may be lost)
+RCX,BAD_CHAN,0,Attempting to read from a channel that is not active
+RCX,NINIT,0,The rc receive module has not been initialized properly. Call rcx_init()
+RCX,BAD_LVLS,0,The capture levels have gone high-high or low-low- indicating a missed pulse
+MB_IO,ID_OOR,0,An attempt was made to access data with a DATA_ID higher than ID_LAST
+MB_SSP,ID_OOR,0,Received data frame from SSP with a DATA_ID higher than ID_LAST
+MC,TEMP_OFF,0,Motor controller turned off due to thermal limit
+MC,MECH_OFF,0,Motor controller turned off due to mechanical limit
+MC,TEMP_ON,0,Motor controller turned back on after thermal turnoff; integrator below safe limit
+MC,MECH_ON,0,Motor controller turned back on after mechanical turnoff; integrator back to 0
+QDC,CH01_BUF_F,0,QDC channel 01 time buffer overflow
+QDC,CH23_BUF_F,0,QDC channel 23 time buffer overflow
+MCFI,CBL_STRCH,0,Inner ankle cable stretched during flipup
+MCFO,CBL_STRCH,0,Outer ankle cable stretched during flipup
+MC,INTEG_SATUR,0,Integral of PID current control is saturated
+MC,FIXED_LIMIT,0,PID value has reached Fixed point limit
+MC,PWM_LIMIT,0,Requested PWM has reached limit
+MC,NOT_RUNNING,0,MC is not running due to off sleep shutdown thermal or mechanical states
+AE,SPIKE,0,A spike was detected and limited. 

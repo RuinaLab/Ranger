@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/src
+END
+mb_hardware_setup.h
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/src/mb_hardware_setup.h
+END
+mb_ssp_dma_testing.c
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/src/mb_ssp_dma_testing.c
+END
+test_ack.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/src/test_ack.h
+END
+main.c
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/src/main.c
+END
+mb_local_headers.h
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/src/mb_local_headers.h
+END
+mb_software_setup.c
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/src/mb_software_setup.c
+END
+LPC32x0.s
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/src/LPC32x0.s
+END
+mb_hardware_setup.c
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/src/mb_hardware_setup.c
+END
+mb_software_setup.h
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/src/mb_software_setup.h
+END
+test_ack.c
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/1181/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_ssp_dma1/mb_ssp_dma_test_project/src/test_ack.c
+END

@@ -1,0 +1,33 @@
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+47GXI-T6F89-TWA2Q-6W99X-3FT8E-5DIHC
+--> MPK Laptop, CID: CSEPS-B1I4Q
+
+SDA3B-2A3CD-WV71T-9DJXA-A6NJL-07QC7
+--> HP Laptop, CID: C6M8J-5IPMJ
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Email from Keil:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+from:	James Fewell <James.Fewell@keil.arm.com>
+to:	Jason Cortell <jbc2@cornell.edu>,
+Matthew P Kelly <mpk72@cornell.edu>
+date:	Wed, Jul 2, 2014 at 10:52 AM
+subject:	RE: MDK License Pricing Request 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Jason and Matt,
+
+PSN PE7GW-QPPPT-EA8DP only has the HP installation now.
+
+PSN TIVRL-0RMZQ-CCMJA does not have installs.
+
+Keep in mind these licenses maintenance agreements expired on 8/31/2009, so you will have to use the previous version search box at - https://www.keil.com/download/product/
+
+Any newer windows operating system released after 8/31/2009 may not be supported by these older uVision versions as well.
+
+Here to help with any questions.
+
+Many Thanks,
+James
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head><meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Electronics_board_design_procedures_and_standards</title></head><body><h1 style="text-align: center;">Biorobotics Lab standards and procedures for design of Robot Nervous System printed circuit modules and boards using EAGLE</h1><h4 style="text-align: center;">By Emily McAdams and Jason Cortell, 2009</h4><h3>Motivation</h3>A
+new electronics system based on distributed microcontrollers (MCU) and
+multiple linked CAN networks was developed, in preparation for design
+of legged robots with ten or more actuated joints. This allows
+noise-prone analog sensor readings and high-speed motor control loops
+to be pushed down to small MCU boards at the joint level, and results
+in a far more compact wiring harness (just network and power cables),
+reduced noise and ground problems, and increased modularity and
+scalability. However, it also requires the development of a variety of
+different MCU boards, each specialized to match the requirements of its
+own local set of sensors and actuators. The major part of each board
+would use circuitry common to all the boards, with variations in the
+peripherals and interface circuits. Clearly, design modularity would be
+key to designing and building all these boards within a reasonable cost
+and time budget. Some commercial MCU board vendors use a stacking board
+approach, as also used in Ranger's original electronics. An MCU module
+is equipped with stacking connectors, and special-purpose daughter
+boards with various interface circuits are plugged in as needed. This
+was the approach used also for the "main brain" ARM9 board on Ranger, a
+PhyCORE LPC3250 board from Phytec. However, for the "satellite" boards,
+we decided that the stacking connectors wasted far too much board real
+estate and design time. Instead, printed circuit modules were developed
+at the board layout level, then copied and pasted to the final board in
+various combinations. For example, most boards need an MCU module;
+instead of laying out the MCU and all its support components for each
+board, we just paste the pre-designed MCU layout into its spot on the
+new board. The modules are positioned on the board with small gaps
+between them, allowing interconnection and additional components as
+needed.&nbsp;This documentation details the CAD software, procedures,
+and standards for design of these electronics modules and boards.<br><br><h3>Creating a Schematic</h3><h4>1. Obtain necessary EAGLE CAD software</h4>The
+lab uses CadSoft EAGLE for&nbsp;schematic capture and layout. EAGLE
+Light is available as a free download from http://www.cadsoftusa.com.
+While EAGLE Light is a good starting point for learning, it is limited
+to two layers, while most board designs for the lab require four
+layers. It lets you open and view the 4-layer board files, but for full
+editing you will need the Standard, Educational (we have three copies),
+or Hobbyist licenses.<br><h4>2. Begin a new project</h4>Open EAGLE and select New --&gt; Project. Begin with the schematic by choosing New --&gt; Schematic<br><h4>3. Adding components to the schematic</h4>For
+this step, there are two possibilities: either the desired component
+exists in an EAGLE library or you need to create a library entry for
+that component. In the case of the latter, refer to the section
+entitled "Creating a Library Part." If the desired component already
+exists in an EAGLE library proceed with the following steps: Click on
+the "Add" button on the left-hand side toolbar. This will open the
+EAGLE library. Browse or search the library to find the component.
+Highlight the component. If there are multiple packages for the device
+consult the part information and choose the appropriate package.
+Selecting the correct package is important for the layout step. Click
+OK to exit the library screen and then place the component on the sheet
+by clicking in the desired place(s) on the schematic. During this step,
+you may add as many instances of this particular component as needed.
+&nbsp;<br><h4>4. Modify the components</h4>Be sure to label each component with the correct name and value.<br><h4>5. Connect the components</h4>Connect
+the components using nets. A net is a named set of connected component
+pins. For example, the GND net might be the set of all component
+leads/pins connected to ground. EAGLE names the nets It is helpful to
+label the nets because it will help you while fixing wiring errors.<br>!!6. Run ERC<br>*Once
+you have finished the schematic, run ERC to try to catch any errors
+made in the design of your schematic. Do not continue onto the layout
+phase if your schematic does not pass ERC.<br>!!7. Some Helpful Tips<br>*In
+EAGLE, schematics can be multiple sheets. This is very helpful for a
+complicated module or board with many components and nets.<br>*Nets do
+not have to be physically connected. Labeling the nets identically
+indicates to EAGLE that they should be considered connected<br>Picture 2(Below): Example of a Finished Schematic<br>{img src="img/wiki_up/FinishedSchematic.jpg" width=500 length=300 }<br>!__Creating an EAGLE Library Part__<br>*In
+some cases, the part you need for your design does not exist in the
+current EAGLE library. It is then necessary to create a library entry
+in EAGLE for the part. The following steps, compiled by Jason Cortell,
+outline the process of successfully creating a library part in EAGLE.<br>!!A. Getting Started<br>*Use
+exactly one component per library file. This is not standard EAGLE
+practice, but is necessary to maintain a version control of the boards.
+<br>*From the EAGLE main menu, choose File --&gt; New --&gt; Library.
+From there, you will create symbols and packages and link them together
+to form an entry for a device. <br>!!B. Library Component Naming Convention<br>*It
+is important to adhere to this convention because it makes the part
+searchable later and it is very clear what part it is when you're
+assembling the board. <br>#Use all capital letters. Separate sections of the file name with underscores, not spaces or hyphens<br>#The
+first letter (or two) is the component type. E.g. C for capacitor, R
+for resistor, L for inductor, J for connector or jack, D for diode, T
+for transformer, Q for transistor, and U for ICs<br>#The next two
+sections of the name should give some clue to the function and the
+manufacturer name, if not generic. E.g., J_USB_HIROSE<br>#The next
+section of the name should give the exact manufacturer's part number
+for the component, if the part if not generic. E.g., SN74LVC1G07DRLR<br>#The
+final section of the name should give the standard designation for the
+package type, if available, or the full number assigned to it by the
+manufacturer, if available. <br>!!C. Copying a Preexisting Library Device<br>*To
+copy a preexisting library device, open the EAGLE control panel and
+find the desired device in the list view. If you do not see the folder
+you want click on the Options menu, then Directories..., and add the
+path to the library path search string. Open or create the destination
+library from the File menu in the Control Panel. You should see an
+empty window. Drag the desired device from the list view to the open
+destination library window. Save the destination library. <br>!!D. Copying a Preexisting Library Symbol or package<br>*Open
+the source library and the destination symbol or package, then use the
+dashed-square group selection tool to select the entire package or
+symbol (make sure all the layers are displayed). Then use the cut
+(scissors) tool to copy it to EAGLE's clipboard, open a new symbol or
+package window in the destination library and use the paste to insert
+it. Note, multiple open copies of EAGLE do not communicate with each
+other so its not possible to copy-paste across copies.<br>!!E. Making a New Library Symbol<br>#
+From the library main menu, choose Symbol and enter the name of the new
+Symbol. Be sure to follow the naming convention specified in step B. <br>#Put
+the origin of the symbol in the exact center of the part, unless you
+have a very good reason not to. This makes placing the symbols and
+moving them much easier later.<br>#Use the Symbols layer to draw your
+schematic representation of your part. A simple rectangle is an easy
+way to get started with an IC. <br>#Add pins. I usually put the input
+pins on the left and the output pins on the right. Power supply pins
+can be at the top and bottom. Choose appropriate directions for the pin
+functions. E.g., input, output, power, NC, and passive. Avoid using
+supply pins because they have the power to rename your signals and
+nets, possibly causing trouble (use power pins for Vcc and GND, for
+example).<br>#Add pin function names where needed. If the functions are
+obvious from the symbol shape you do not need them. E.g., Diode cathode
+and anode.<br>#Turn on or off pin names and numbers. (The numbers will
+come from the package and the connections linking symbol to package
+when you put them together to make a device).<br>#Add &gt;NAME and &gt;VALUE on layers Names and Values, using 0.07 proportional font at 8% ratio.<br>#For the symbol, use only a 0.1 inch grid; otherwise you will not be ble to connect wires to your part. <br>!!F. Making a New Library Package<br>#From the library, choose package and edit. Name the package appropriately. <br>#Put
+the origin in the exact center of the part, you have a very good reason
+not to. Machine part placement will not work otherwise. <br>#Use 8 mil
+lines for silk screen layers (tNames, bNames, tPlace, bPlace). For
+surface mount devices, put the lines on the top copper. <br>#Use layer
+tNames for silkscreen text information. Use layer tPlace to show
+placement location and orientation of parts. These should not overlap
+the pads, solder mask, etc. <br>#Use layer tDoc for visual
+representation of the part for layout an documentation purposes. This
+should show the actual profile of the part and its leads, etc. Its okay
+for this to overlap the pads because it will not be on the silkscreen.
+This also helps to maintain clearance between parts during board
+layout. <br>#Solder mask layer tStop should be 3 mils larger than the
+copper in every direction. This is normally a setting in the DRC, but
+if you end up making oddly shaped pads with polygons then you'll need
+to know this. <br>#Add &gt;NAME and &gt;VALUe on layers tNames and tValues, respectively using 0.04 vector font at 20% ratio.<br>#Add
+a tKeepout boundary if the part is larger than the land pattern in any
+direction or if extra room is needed for soldering. Add tRestrict layer
+lines to keep out polygon/power layers from under a part. <br>!!G. Making a New Library Device<br>#From the main library window, select device and name accordingly. <br>#Add symbol from the list of available symbols in the library. <br>#Add
+package or packages from the list of available packages. In some cases
+the exact same part is available in different packages and you may want
+to create a package for each one. Instead of creating a new part for
+every different package, multiple packages can be attached to one
+symbol. <br>!__Creating a Layout__<br>!!1. Starting a Layout<br>To
+switch from board to layout, go to File -&gt; Switch to Board and
+create a new board. Please carefully read and follow the layout
+specifications in the table below. In this lab, we only design
+four-layer boards because it keeps manufacturing costs down. The table
+at the end of this section, compiled by Jason Cortell, provides
+specific criteria for board sizing, appropriate layer use, and running
+the Design Rules Check (DRC). <br>!!2. Layout Tips and Tricks <br>#Designing
+Board Area: Carefully following the specifications in the table, set
+your board area. All components must be placed within this area. <br>#Planning
+Out Board Area: Before laying down any traces, arrange components with
+the marked off area. There will be yellow lines, called "airwires",
+between components indicating necessary connections that must be made.
+Try to arrange components such that the traces connecting components do
+not need to be extremely complex. <br>#Using Supply Planes: Certain
+layers are primarily for use as either ground or power supply planes.
+Occasionally it will be necessary to create power polygons on other
+layers of the board. There is a polygon drawing tool. <br>#Viewing
+Layers: The display button allows you to choose which layers you want
+to view. Also, when you are putting down traces, the top left tool bar
+indicates which layer you are drawing traces on. There is a drop-down
+menu to change layers. <br>#Using Vias: Vias allow you to connect
+traces on different layers as well as connect to the ground and power
+planes. General rule in the lab is that the few vias on the board the
+better because vias increase the manufacturing cost of the board. <br>#Removing Traces; Use the "rip-up" tool to remove unwanted traces. <br>#Running
+DRC Check: You must run DRC with the settings specified in the table.
+This is crucial to ensure the board will be functioning. See section on
+final error checks for all checks that must be run before the board is
+completed. <br>!!3. Table of Important Layout Specifications<br>||__Criteria for All Electronics Boards Designed for the Lab:__<br>Parameter:|Value:|Comments:<br>Height(Y Direction)&nbsp;&nbsp; | 30mm(1.182 inches)&nbsp;&nbsp; | Modules with Connectors &nbsp;<br>Height(Y Direction)&nbsp;&nbsp; | 18mm(0.787 inches)&nbsp;&nbsp; | Modules without Connectors<br>Length(X Direction)&nbsp;&nbsp; | Multiple of 1 mm (0.0394 in) | As short as is feasible <br>&nbsp;| | <br>__Mounting Holes__ <br>Number of Holes | 2 |<br>Vertical Position | Centered |<br>Horizontal
+Positions | &gt;=3mm(0.118 in) from ends, in 1 mm (0.0394) increments|
+It may be useful on some boards to have a vertically oriented connector
+on the end of the board with the mounting screw located closer to the
+board center.<br>Hole Diameter| 3mm (0.118 in) | For 3mm or #4 screw<br>&nbsp;| | <br>__Board Layers - 4-Layer Boards__ : All modules need to be 4-layer boards<br>First
+(top) copper layer| EAGLE Layer 1| For internal module wiring and power
+polygons (planes) when possible. Use mostly vertical traces. Try to
+minimize use of horizontal traces.<br>Second (internal) copper layer|
+EAGLE Layer 2| Primarily for module to module interface wiring. Leave
+plenty of space for future module writing. All traces should be
+horizontal. NO vertical traces allowed. <br>Third (internal) copper
+layer | EAGLE Layer 15 | Primarily for ground planes. Should not be
+used for other connections, but may be separated into analog and
+digital ground planes. A LAST RESORT for unexpected connections. Try to
+avoid damaging ground plane continuity<br>Fourth (bottom) copper layer|
+EAGLE Layer 16 | Primarily for power supply planes, with some traces
+and components as needed. Traces should be mostly vertical - try to
+avoid horizontal traces<br>__Additional EAGLE Layers__<br>Pads | EAGLE Layer 17 | <br>Vias | EAGLE Layer 18 | <br>Unrouted | EAGLE Layer 19 | Should be empty when you are done with your layout!<br>Dimension
+| EAGLE Layer 20 | For module board outline only. Use width of&nbsp; to
+avoid ambiguity. Include in silkscreen gerber files, though they
+probably won't appear on board. <br>tPlace | EAGLE Layer 21 | Default
+location for top-side component placement lines. EAGLE library parts
+have 5 mil line widths. These are too narrow for board houses so they
+need to be increased to 8 mil.<br>bPlace| EAGLE Layer 22| Default location for bottom-side component placement graphics. See tPlace.<br>tOrigins|
+EAGLE Layer 23| Component origins, top layer. Select components with
+these. Turn off the layer if you don't want to select them
+accidentally. <br>bOrigins| EAGLE Layer 24| Component origins, bottom
+layer. Select components with these. Turn off layer if you don't want
+to select them accidentally. <br>tNames| EAGLE Layer 25 | Component
+names, bottom layer. These will appear in the silkscreen graphics. All
+text must have an 8 mil line width. To achieve this, use 0.04 in
+height, vector font, and 20% width/height ratio.<br>bNames| EAGLE Layer
+26 | Component names, bottom layer. These will appear in the silkscreen
+graphics. All text must have an 8 mil line width. To achieve this, use
+0.04 in height, vector font, and 20% width/height ratio. <br>tValues| EAGLE Layer 27 | Component values, top layer. Do not include in silkscreen gerber file. <br>bValues | EAGLE Layer 28 | Component values, bottom layer. Do not include in silkscreen gerber file. <br>tStop | EAGLE Layer 29 | For generation of top solder mask gerber files. <br>bStop | EAGLE Layer 30 | For generation of top solder mask gerber files. <br>tCream | EAGLE Layer 31 | For generation of top solder paste stencil file<br>bCream| EAGLE Layer 32 | For generation of bottom solder paste stencil file<br>tGlue
+| EAGLE Layer 35 | For generation of top clue stencil file (holds
+components down temporarily for soldering). We probably will not be
+using this layer<br>bGlue | EAGLE Layer 36 | For generation of bottom
+glue stencil file (holds components down temporarily for soldering). We
+will probably not use this layer.<br>tKeepout | EAGLE Layer 39 | Shows component space required for ease of installation, top side<br>bKeepout | EAGLE Layer 40 | Show component space required for ease of installation, bottom side<br>Drills
+| EAGLE Layer 44| Shows drill locations for vias and pads (plated
+holes). Don't include in gerber silkscreen file, but do include in
+gerber/Excellon drill file<br>Holes | EAGLE Layer 45 | Shows drill
+locations for unplated holes. Don't include in gerber silkscreen file,
+but do include in gerber/Excellon drill file.<br>tDocu| EAGLE Layer 51
+| Shows component icons on top layer, to make it easier to understand
+the layout. Don't include in silkscreen.<br>bDocu | EAGLE Layer 52 |
+Shows component icons on bottom layer to make it easier to understand
+the layout. Don't include in silkscreen. <br>| | <br>__Layout Design
+Rules for 4-Layer Boards__ | | These rules are intended to help make
+the various modules compatible and to keep fabrication costs down.<br>Minimum
+Trace Width | 7 mils (0.178 mm) | This and the space width below are a
+little larger than the minimum for 1-oz thickness copper, but we would
+like to be able to use the same module designs with motor controllers
+and other power circuits on 2-oz copper<br>Minimum space between copper objects | 7 mils (0.178mm) | See above. <br>Minimum Hole Size | 15 mils (0.381 mm) | Vias, Pads, Holes, etc.<br>Minimum
+Annular Ring - Vias | 5 mils (0.127 mm) | Radial Distance. EAGLE calls
+this "restring." The copper shape around a via should be at least 10
+mils larger in diameter than the hole itself. <br>Minimum Annular Ring
+- Pads | 7 mils (0.178 mm) | Radial distance. EAGLE calls this
+"restring." The copper pad around a component pin hole should be at
+least 14 mils larger in diameter than the hole itself. <br>Minimum Copper to PCB edge distance | 20 mils (0.508 mm) | Distance from board edge to closest traces<br>Minimum Inner Layer Clearance | 10 mils (0.254 mm) | Distance from board edge to closest traces<br>Solder Mask Clearance | 3 mils (0.076 mm) | Distance from edge of pad to start of solder mask.<br>Silkscreen Line Width | 8 mils (0.203 mm) | Minimum line width for text, part placement graphics, etc. <br>Font | EAGLE Vector Font | This font allows user-selected thickness/height ratio; the proportional one does not. <br>Character thickness/height ratio | 20% EAGLE "ratio" parameter | Gives 8-mil line thickness with 40-mil character height<br>Minimum Text Height | 40 mils (1.016 mm) | <br>&nbsp;|&nbsp; | <br>__EAGLE
+DRC (Design Rules Check)__ | Do a DRC check by clicking on an icon
+showing a magnifying glass full of traces and pads. | Note that many of
+the DRC settings go beyond error checks and actually change your board
+layout<br>Layers | (1+2*15+16) | Setup<br>Clearance | 7 mil (all) | <br>Distance | 20 mil | Copper/dimension<br>&nbsp;| 8 mil | Drill/hole<br>Sizes | 7 mil | Minimum width<br>&nbsp;| 15 mil | Minimum drill<br>Restring | 7 mil | Minimum pads<br>&nbsp;| 5 mil | Minimum via<br>Masks | 3 mil | Solder Mask Swell, Min &nbsp;<br>&nbsp;| 10% | % of mind, SMD Dimension<br>&nbsp;| 4 mil | Solder Mask Swell, Max<br>&nbsp;| 0 mil | Cream<br>Misc. | Angle Check | On||<br>!__Copying a Module to a Board__<br>The
+satellite boards are meant to be combinations of different modules in
+order to complete a certain function. This section provides
+step-by-step instructions for successfully copying a module to the
+board. Compiled by Jason Cortell. <br>#Check that all your component
+and net names are unique between the two boards. Each module/unit
+should have a unique prefix number. For example, the LPC2194-CAN unit
+has component numbers starting at 100 and net names with a 1_prefix.
+Don't forget to check the ground and power symbols on the schematic and
+even the page frames. They have names too. <br>#Make backup copies of you files. This process can completely ruin your layout and schematic if something goes wrong. <br>#Open the source board file. <br>#Turn on all layers, then use the selection tool to select the whole board. <br>#Use the cut (scissors) tool to copy the board layout to the paste buffer. <br>#From the same instance of EAGLE, open the destination board file. DO NOT open the schematic file. Turn on all layers. <br>#Use the paste (paintbrush) tool to copy in the layout. <br>#Save and close the board file. <br>#Open
+the source schematic. Starting with the first schematic sheet, use the
+selection tool and select the entire schematic, including the page
+frame. <br>#Use the cut (scissors) tool to copy the schematic to the paste buffer. <br>#Open
+the destination schematic. Ignore the warning the schematic and board
+are not consistent. DO NOT do anything else - e.g. ERC, RATSNEST<br>#Create a new schematic sheet and paste in the module schematic. Save the file. <br>#Repeat the previous four steps for each additional schematic sheet in the source file. <br>#Now
+run the ERC check. This will show you, hopefully, that the operation
+was successful. It also reestablishes the forward-back annotation so
+you can start editing the combined files.</body></html>

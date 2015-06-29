@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/1544/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_bluetooth/mb_bluetooth_test_project
+END
+Blinky.Uv2
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/1534/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_bluetooth/mb_bluetooth_test_project/Blinky.Uv2
+END
+Prog_NOR.ini
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/1253/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_bluetooth/mb_bluetooth_test_project/Prog_NOR.ini
+END
+Blinky.uvopt
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/1253/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_bluetooth/mb_bluetooth_test_project/Blinky.uvopt
+END
+Ext_SDRAM.ini
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/1253/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_bluetooth/mb_bluetooth_test_project/Ext_SDRAM.ini
+END
+Prog_NAND.ini
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/1253/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_bluetooth/mb_bluetooth_test_project/Prog_NAND.ini
+END
+Int_RAM.ini
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/1253/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_bluetooth/mb_bluetooth_test_project/Int_RAM.ini
+END
+blinky.Opt
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/1544/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_bluetooth/mb_bluetooth_test_project/blinky.Opt
+END
+Blinky.uvproj
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/1253/Trunk/Robot_Nervous_System/LPC3xxx_Modules/mod_mb_bluetooth/mb_bluetooth_test_project/Blinky.uvproj
+END
