@@ -1,3 +1,16 @@
+1) Get installer Matt or Jason
+2) Attempt to register using info below
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+--> Download project from GIT (ask Matt)
+
+--> Open Keil, then go to Project -> open project...
+ 
+--> Open the project:
+RangerCode\Ranger\Control\LPC3250_Main_Brain\current\LPC3250_main_brain.Uv2
+
+--> Good luck.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
