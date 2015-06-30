@@ -32,3 +32,4 @@
 
 # Keil intermediate binaries:
 *.crf
+*/Ext_SDRAM/*
