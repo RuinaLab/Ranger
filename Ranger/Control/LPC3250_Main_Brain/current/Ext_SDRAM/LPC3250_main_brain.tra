@@ -31,7 +31,7 @@
 ### ADS-LD Output File: '.\Ext_SDRAM\LPC3250_main_brain.axf'
 ### ADS-LD Command File: '.\Ext_SDRAM\LPC3250_main_brain.lnp'
 ### Checking for dirty Components...
-### Creating CmdFile '.\Ext_SDRAM\LPC3250_main_brain.lnp', Handle=0x000001E8
+### Creating CmdFile '.\Ext_SDRAM\LPC3250_main_brain.lnp', Handle=0x00000530
 ### Writing '.lnp' file
 ### ADS-LD Command file '.\Ext_SDRAM\LPC3250_main_brain.lnp' is ready.
 ### ADS-LD: About to start ADS-LD Thread.
