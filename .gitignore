@@ -26,4 +26,9 @@
 *.exe
 *.out
 *.app
+
+# Keil log file:
 Ranger/Control/LPC3250_Main_Brain/current/Ext_SDRAM/LPC3250_main_brain.plg
+
+# Keil intermediate binaries:
+*.crf
