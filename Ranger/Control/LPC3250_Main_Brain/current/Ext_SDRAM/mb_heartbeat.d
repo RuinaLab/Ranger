@@ -1,6 +1,6 @@
 .\Ext_SDRAM\mb_heartbeat.o: ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_heartbeat\mb_heartbeat.c
 .\Ext_SDRAM\mb_heartbeat.o: ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mb_includes.h
-.\Ext_SDRAM\mb_heartbeat.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC325x.H
+.\Ext_SDRAM\mb_heartbeat.o: C:\Keil\ARM\INC\Philips\LPC325x.H
 .\Ext_SDRAM\mb_heartbeat.o: ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\lpc3250def.h
 .\Ext_SDRAM\mb_heartbeat.o: ..\..\..\..\Robot_Nervous_System\rns_global_definitions.h
 .\Ext_SDRAM\mb_heartbeat.o: ..\..\Ranger_Configuration\error_id.h

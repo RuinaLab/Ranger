@@ -214,10 +214,44 @@ int ACTION_UI_calibrate(void)
 //    set_UI_LED(5, 'm');  //Set LED #1 to PURPLE
 //    set_UI_LED(6, 'c');  //Set LED #1 to PURPLE
         
-    //Set LCD
+	//Set LCD
     clear_UI_LCD(2);
-    set_UI_LCD("M: C", 1);
+    clear_UI_LCD(1);
+	set_UI_LCD("M: C", 1);
     
+//*************yawen***************
+    char msg[4];
+	float hip_angle = get_io_float(ID_MCH_ANGLE);
+						 
+	if(hip_angle>-0.2){
+		set_UI_LED(2, 'g');	
+	}
+	if(hip_angle>-0.1){
+		set_UI_LED(3, 'g');
+	}
+	if(hip_angle>0){
+		set_UI_LED(5, 'g');
+	}
+	if(hip_angle>0.1){
+		set_UI_LED(4, 'g');
+	}
+	if(hip_angle>0.2){
+	    set_UI_LED(6, 'g');
+	} 
+
+	if(hip_angle<0){
+		hip_angle = -hip_angle;
+		msg[0]= '-';
+	}else{
+		msg[0]= '+';
+	} 
+	msg[1]=	'.';
+	msg[2]=	int2ascii((int)(hip_angle*10)); 
+	msg[3]= int2ascii((int)(hip_angle*100));
+	//cout << "hip angle is" << hip_angle << endl;
+	clear_UI_LCD(2);
+	set_UI_LCD(msg, 2);
+//*********************************
     
     
     // test code to find flip up/flip down max. speed // Petr, 6/28/2013

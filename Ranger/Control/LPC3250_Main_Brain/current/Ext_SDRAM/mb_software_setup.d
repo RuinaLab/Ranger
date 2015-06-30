@@ -1,6 +1,6 @@
 .\Ext_SDRAM\mb_software_setup.o: src\mb_software_setup.c
 .\Ext_SDRAM\mb_software_setup.o: ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mb_includes.h
-.\Ext_SDRAM\mb_software_setup.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC325x.H
+.\Ext_SDRAM\mb_software_setup.o: C:\Keil\ARM\INC\Philips\LPC325x.H
 .\Ext_SDRAM\mb_software_setup.o: ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\lpc3250def.h
 .\Ext_SDRAM\mb_software_setup.o: ..\..\..\..\Robot_Nervous_System\rns_global_definitions.h
 .\Ext_SDRAM\mb_software_setup.o: ..\..\Ranger_Configuration\error_id.h

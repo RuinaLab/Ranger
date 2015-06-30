@@ -1,6 +1,6 @@
 .\Ext_SDRAM\a9_clock.o: ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c
 .\Ext_SDRAM\a9_clock.o: ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mb_includes.h
-.\Ext_SDRAM\a9_clock.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC325x.H
+.\Ext_SDRAM\a9_clock.o: C:\Keil\ARM\INC\Philips\LPC325x.H
 .\Ext_SDRAM\a9_clock.o: ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\lpc3250def.h
 .\Ext_SDRAM\a9_clock.o: ..\..\..\..\Robot_Nervous_System\rns_global_definitions.h
 .\Ext_SDRAM\a9_clock.o: ..\..\Ranger_Configuration\error_id.h

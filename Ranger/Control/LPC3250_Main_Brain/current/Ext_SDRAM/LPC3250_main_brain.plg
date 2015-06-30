@@ -3,8 +3,8 @@
 <pre>
 <h1>µVision3 Build Log</h1>
 <h2>Project:</h2>
-C:\Users\Matt\Git\RangerCode\Ranger\Control\LPC3250_Main_Brain\current\LPC3250_main_brain.uv2
-Project File Date:  01/07/2013
+C:\Users\Yawen Wang\Documents\GitHub\Ranger\Ranger\Control\LPC3250_Main_Brain\current\LPC3250_main_brain.uv2
+Project File Date:  06/30/2015
 
 <h2>Output:</h2>
 Build target 'LPC3250 Ext SDRAM (NOR)'
@@ -59,5 +59,5 @@ compiling leg_fsm.cpp...
 compiling mb_fsm.cpp...
 compiling steering_fsm.cpp...
 linking...
-Program Size: Code=50936 RO-data=2028 RW-data=13420 ZI-data=82660  
+Program Size: Code=51272 RO-data=2028 RW-data=13420 ZI-data=82660  
 ".\Ext_SDRAM\LPC3250_main_brain.axf" - 0 Error(s), 1 Warning(s).
