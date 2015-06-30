@@ -14,11 +14,20 @@ RangerCode\Ranger\Control\LPC3250_Main_Brain\current\LPC3250_main_brain.Uv2
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 47GXI-T6F89-TWA2Q-6W99X-3FT8E-5DIHC
 --> MPK Laptop, CID: CSEPS-B1I4Q
 
+
 SDA3B-2A3CD-WV71T-9DJXA-A6NJL-07QC7
 --> HP Laptop, CID: C6M8J-5IPMJ
+
+
+PC Description       : YAWEN_LAPTOP
+Computer ID     (CID): CCLWI-1YZ19
+Serial Number   (PSN): TIVRL-0RMZQ-CCMJA
+License ID Code (LIC): UJWSM-XXJWW-EACDP-5AX48-LP21Y-W4ZVU
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Email from Keil:
