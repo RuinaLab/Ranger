@@ -27,9 +27,5 @@
 *.out
 *.app
 
-# Keil log file:
-*.plg
-
-# Keil intermediate binaries:
-*.crf
-*/Ext_SDRAM/*
+# Keil intermediate files:
+**/Ext_SDRAM
