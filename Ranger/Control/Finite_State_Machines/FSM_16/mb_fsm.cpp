@@ -111,10 +111,10 @@ void mb_fsm_run(void)
 //if ( (int)get_io_float(ID_MB_SYSTEM_INIT_FSM_STATE) != g_system_init_fsm_state) 
 //  set_io_float(ID_MB_SYSTEM_INIT_FSM_STATE, (float)g_system_init_fsm_state);
 
+
 ui_fsm->run();
 if ((int) get_io_float(ID_MB_UI_FSM_STATE) != g_ui_fsm_state )
   set_io_float(ID_MB_UI_FSM_STATE, (float) g_ui_fsm_state);
-
 
 }
 

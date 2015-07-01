@@ -184,6 +184,78 @@ void all_fsm_run(void)
       set_io_float(ID_MB_STEERING_FSM_STATE, (float)g_steering_fsm_state);
 }
 
+//****YW: helper function********************************************************
+void ctrl_hip(float Kp, float Kd, float uref, float xref, float vref){
+	//uref = reference current 
+	//xref = reference angle 
+	//vref = reference rate 
+	set_io_float(ID_MCH_STIFFNESS, Kp);
+	set_io_float(ID_MCH_DAMPNESS, Kd);
+	float command_current = uref + Kp*xref + Kd*vref; 
+    set_io_float(ID_MCH_COMMAND_CURRENT, command_current);		
+} 
+
+int ACTION_UI_yawen_entry(void)
+{   
+  set_io_float(ID_FSM_RESET,0); //Turn reset flag on
+    clear_UI_LCD(1);
+    clear_UI_LCD(2);
+    
+    clear_UI_LED();
+  
+  return 1;
+}
+
+int ACTION_UI_yawen(void)
+{ 
+  char msg[4];
+  float hip_angle;
+  //make the hip angle track a curve in time  
+  float Kp = get_io_float(ID_F_TEST4); 
+  float Kd = get_io_float(ID_F_TEST5); 
+  float uref = get_io_float(ID_F_TEST6);
+  float xref = get_io_float(ID_F_TEST7); 
+  float vref = get_io_float(ID_F_TEST8);
+  ctrl_hip(Kp, Kd, uref, xref, vref); 
+
+  //make the LEDs blink according to the value of the hip angle  
+  hip_angle = get_io_float(ID_MCH_ANGLE);
+  
+  clear_UI_LED();           
+  if(hip_angle>-0.2){
+    set_UI_LED(2, 'g');  
+  }
+  if(hip_angle>-0.1){
+    set_UI_LED(3, 'g');
+  }
+  if(hip_angle>0){
+    set_UI_LED(5, 'g');
+  }
+  if(hip_angle>0.1){
+    set_UI_LED(4, 'g');
+  }
+  if(hip_angle>0.2){
+      set_UI_LED(6, 'g');
+  } 
+
+  if(hip_angle<0){
+    hip_angle = -hip_angle;
+    msg[0]= '-';
+  }else{
+    msg[0]= '+';
+  } 
+  msg[1]= '.';
+  msg[2]= int2ascii((int)(hip_angle*10)); 
+  msg[3]= int2ascii((int)(hip_angle*100));
+  //cout << "hip angle is" << hip_angle << endl;
+  clear_UI_LCD(2);
+  set_UI_LCD(msg, 2);
+  return 1;
+}
+
+
+//**************************************************
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ACTION_UI_calibrate_entry(void)
@@ -217,42 +289,7 @@ int ACTION_UI_calibrate(void)
 	//Set LCD
     clear_UI_LCD(2);
     clear_UI_LCD(1);
-	set_UI_LCD("M: C", 1);
-    
-//*************yawen***************
-    char msg[4];
-	float hip_angle = get_io_float(ID_MCH_ANGLE);
-						 
-	if(hip_angle>-0.2){
-		set_UI_LED(2, 'g');	
-	}
-	if(hip_angle>-0.1){
-		set_UI_LED(3, 'g');
-	}
-	if(hip_angle>0){
-		set_UI_LED(5, 'g');
-	}
-	if(hip_angle>0.1){
-		set_UI_LED(4, 'g');
-	}
-	if(hip_angle>0.2){
-	    set_UI_LED(6, 'g');
-	} 
-
-	if(hip_angle<0){
-		hip_angle = -hip_angle;
-		msg[0]= '-';
-	}else{
-		msg[0]= '+';
-	} 
-	msg[1]=	'.';
-	msg[2]=	int2ascii((int)(hip_angle*10)); 
-	msg[3]= int2ascii((int)(hip_angle*100));
-	//cout << "hip angle is" << hip_angle << endl;
-	clear_UI_LCD(2);
-	set_UI_LCD(msg, 2);
-//*********************************
-    
+	  set_UI_LCD("M: C", 1);  
     
     // test code to find flip up/flip down max. speed // Petr, 6/28/2013
     get_nav_signal();
@@ -285,7 +322,7 @@ int ACTION_UI_calibrate(void)
     // end of test code
     
     
-    
+  
   	return 1;
 }
 

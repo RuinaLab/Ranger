@@ -16,33 +16,37 @@ Target (LPC3250 Ext SDRAM (NAND)), 0x0004 // Tools: 'ARM-ADS'
 GRPOPT 1,(Startup Code),1,0,0
 GRPOPT 2,(Documentation),1,0,0
 GRPOPT 3,(Board Code),1,0,0
-GRPOPT 4,(Module Code),1,0,0
-GRPOPT 5,(Estimator),0,0,0
+GRPOPT 4,(Module Code),0,0,0
+GRPOPT 5,(Estimator),1,0,0
 GRPOPT 6,(FSM_16),1,0,0
+GRPOPT 7,(Controller),1,0,0
 
 OPTFFF 1,1,2,0,0,0,0,0,<.\src\LPC32x0.s><LPC32x0.s> 
 OPTFFF 3,2,1,0,0,0,0,0,<.\src\mb_hardware_setup.c><mb_hardware_setup.c> 
-OPTFFF 3,3,1,0,0,5,5,0,<.\src\mb_software_setup.c><mb_software_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,22,0,0,0,29,0,0,0,134,3,0,0,83,1,0,0 }
-OPTFFF 3,4,1,0,0,0,0,0,<.\src\main.c><main.c> 
-OPTFFF 3,5,1,704643072,0,6,19,0,<.\src\mb_data_nexus.c><mb_data_nexus.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,88,0,0,0,116,0,0,0,22,5,0,0,111,2,0,0 }
-OPTFFF 4,6,1,587202560,0,21,21,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_scheduler\mb_scheduler.c><mb_scheduler.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,66,0,0,0,87,0,0,0,18,4,0,0,141,1,0,0 }
-OPTFFF 4,7,1,0,0,1,1,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_ssp_dma2\mb_ssp_dma.c><mb_ssp_dma.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,216,255,255,255,86,0,0,0,168,3,0,0,140,1,0,0 }
+OPTFFF 3,3,1,0,0,1,2,0,<.\src\mb_software_setup.c><mb_software_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,26,0,0,0,26,0,0,0,132,3,0,0,59,1,0,0 }
+OPTFFF 3,4,1,285212672,0,35,39,0,<.\src\main.c><main.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,52,0,0,0,52,0,0,0,158,3,0,0,85,1,0,0 }
+OPTFFF 3,5,1,587202560,0,0,0,0,<.\src\mb_data_nexus.c><mb_data_nexus.c> 
+OPTFFF 4,6,1,234881024,0,1,3,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_scheduler\mb_scheduler.c><mb_scheduler.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,66,0,0,0,87,0,0,0,18,4,0,0,141,1,0,0 }
+OPTFFF 4,7,1,268435456,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_ssp_dma2\mb_ssp_dma.c><mb_ssp_dma.c> 
 OPTFFF 4,8,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_heartbeat\mb_heartbeat.c><mb_heartbeat.c> 
 OPTFFF 4,9,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_bluetooth\mb_bluetooth.c><mb_bluetooth.c> 
 OPTFFF 4,10,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c><a9_clock.c> 
-OPTFFF 4,11,1,-2046820352,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c> 
-OPTFFF 4,12,1,67108866,0,7,8,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,110,0,0,0,145,0,0,0,44,5,0,0,140,2,0,0 }
-OPTFFF 5,13,1,0,0,0,0,0,<..\..\Estimator\mb_estimator.c><mb_estimator.c> 
+OPTFFF 4,11,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c> 
+OPTFFF 4,12,1,67108864,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c> 
+OPTFFF 5,13,1,1157627904,0,1,1,0,<..\..\Estimator\mb_estimator.c><mb_estimator.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,78,0,0,0,78,0,0,0,184,3,0,0,111,1,0,0 }
 OPTFFF 5,14,1,0,0,0,0,0,<..\..\Estimator\mb_estimator_execution_time.c><mb_estimator_execution_time.c> 
 OPTFFF 6,15,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\UI_fsm.cpp><UI_fsm.cpp> 
 OPTFFF 6,16,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\foot_inner_fsm.cpp><foot_inner_fsm.cpp> 
 OPTFFF 6,17,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\foot_outer_fsm.cpp><foot_outer_fsm.cpp> 
-OPTFFF 6,18,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\fsm.cpp><fsm.cpp> 
+OPTFFF 6,18,8,218103808,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\fsm.cpp><fsm.cpp> 
 OPTFFF 6,19,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\hip_fsm.cpp><hip_fsm.cpp> 
 OPTFFF 6,20,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\leg_fsm.cpp><leg_fsm.cpp> 
-OPTFFF 6,21,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\mb_fsm.cpp><mb_fsm.cpp> 
-OPTFFF 6,22,8,1,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\steering_fsm.cpp><steering_fsm.cpp> 
+OPTFFF 6,21,8,251658240,0,4,4,0,<..\..\Finite_State_Machines\FSM_16\mb_fsm.cpp><mb_fsm.cpp> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,26,0,0,0,26,0,0,0,132,3,0,0,59,1,0,0 }
+OPTFFF 6,22,8,436207616,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\steering_fsm.cpp><steering_fsm.cpp> 
+OPTFFF 7,23,1,234881025,0,0,0,0,<..\..\Controller\control_code.c><control_code.c> 
 
+ExtF <C:\Users\Yawen Wang\Documents\GitHub\Ranger\Ranger\Control\Controller\control_code.h> 1,10,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,0,0,0,0,0,0,0,0,106,3,0,0,33,1,0,0 }
+ExtF <C:\Users\Yawen Wang\Documents\GitHub\Ranger\Robot_Nervous_System\LPC3xxx_Modules\mb_includes.h> 5,26,0,{ 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,52,0,0,0,52,0,0,0,158,3,0,0,85,1,0,0 }
 
 TARGOPT 1, (LPC3250 Int RAM)
  ADSCLK=13000000
@@ -83,6 +87,11 @@ TARGOPT 2, (LPC3250 Ext SDRAM (NOR))
   OPTKEY 0,(DLGTARM)(Œô)
   OPTKEY 0,(ARMDBGFLAGS)()
   OPTKEY 0,(UL2ARM)(-UV0145LAE -O39 -S135 -C1 -N00("Unknown JTAG device") -D00(1B900F0F) -L00(4) -N01("ARM926EJ-S Core") -D01(17900F0F) -L01(4) -FO15 -FD8000000 -FC2000 -FN1 -FF0LPC32x0_S29AL008Dx2 -FS080000000 -FL01F8000)
+  OPTBB 0,0,89,1,0,0,0,0,0,0,<mb_fsm.cpp>()()
+  OPTBB 1,0,88,1,0,0,0,0,0,0,<mb_fsm.cpp>()()
+  OPTBB 2,0,16,1,0,0,0,0,0,0,<control_code.cpp>()()
+  OPTBB 3,0,14,1,0,0,0,0,0,0,<control_code.cpp>()()
+  OPTBB 4,0,141,1,0,0,0,0,0,0,<mb_software_setup.c>()()
   OPTWA 0,1,(a9_dn_ssp_tx_buffer)
   OPTWA 1,1,(a9_dn_ssp_tx_index1)
   OPTWA 2,1,(a9_dn_ssp_tx_index2)

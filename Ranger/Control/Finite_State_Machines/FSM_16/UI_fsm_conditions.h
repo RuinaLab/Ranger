@@ -10,7 +10,8 @@ enum states {STATE_UI_calibrate,
              STATE_UI_standby, 
              STATE_UI_walk, 
              STATE_UI_stop,
-             STATE_UI_nogo
+             STATE_UI_nogo,
+             STATE_UI_yawen
              };
              
 // define the inputs
