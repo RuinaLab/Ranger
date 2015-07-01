@@ -1,7 +1,7 @@
 # How to read sensors and state estimates:
- - `get_io_float(ID_XXXXXX)`  <-- used in controller  
- - `mb_io_get_float(ID_XXXXXX)`     <-- used in estimator  (??)
- - `mb_io_get_time(ID_XXXXXX)`     <-- used in estimator  (??)
+ - `get_io_float(ID_XXXXXX)`  <-- used in all C++ code (controller)  
+ - `mb_io_get_float(ID_XXXXXX)`     <-- used in all c code (estimator)
+ - `mb_io_get_time(ID_XXXXXX)`     <-- used in all c code (estimator)
 
 The `ID_XXXXXX` is a paramter ID that is obtained from the can_table.csv file, or from the abbreviated list below. 
 

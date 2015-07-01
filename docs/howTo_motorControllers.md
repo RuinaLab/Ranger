@@ -30,7 +30,7 @@ Note that the `XX` in each parameter name is the two letter code for the control
 When writing high-level code, these values are set using the communications function:
 - `set_io_float(ID_MCXX_YYYYYYYY, valueToAssign)`
 
-# How to track a non-zero reference?!
+### How to track a non-zero reference?!
 Answer: do a bit of math in the high-level program
 - `u = uNom + kp*(xNom-x) + kd*(vNom-v)`
 - `refCurrent` = `uNom + kp*xNom + kd*vNom`
