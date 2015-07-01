@@ -184,6 +184,18 @@ void all_fsm_run(void)
       set_io_float(ID_MB_STEERING_FSM_STATE, (float)g_steering_fsm_state);
 }
 
+//****yawen: helper function*****
+void ctrl_hip(float Kp, float Kd, float uref, float xref, float vref){
+	//uref = reference current 
+	//xref = reference angle 
+	//vref = reference rate 
+	set_io_float(ID_MCH_STIFFNESS, Kp);
+	set_io_float(ID_MCH_DAMPNESS, Kd);
+	float command_current = uref + Kp*xref + Kd*vref; 
+    set_io_float(ID_MCH_COMMAND_CURRENT, command_current);		
+} 
+//*******************************
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ACTION_UI_calibrate_entry(void)
@@ -220,6 +232,15 @@ int ACTION_UI_calibrate(void)
 	set_UI_LCD("M: C", 1);
     
 //*************yawen***************
+	//make the hip angle track a curve in time  
+	float Kp = get_io_float(ID_F_TEST4); 
+	float Kd = get_io_float(ID_F_TEST5); 
+	float uref = get_io_float(ID_F_TEST6);
+	float xref = get_io_float(ID_F_TEST7); 
+	float vref = get_io_float(ID_F_TEST8);
+	ctrl_hip(Kp, Kd, uref, xref, vref); 
+
+	//make the LEDs blink according to the value of the hip angle  
     char msg[4];
 	float hip_angle = get_io_float(ID_MCH_ANGLE);
 						 
@@ -251,6 +272,7 @@ int ACTION_UI_calibrate(void)
 	//cout << "hip angle is" << hip_angle << endl;
 	clear_UI_LCD(2);
 	set_UI_LCD(msg, 2);
+
 //*********************************
     
     
