@@ -11,6 +11,7 @@ Group (Board Code)
 Group (Module Code)
 Group (Estimator)
 Group (FSM_16)
+Group (Controller)
 
 File 1,2,<.\src\LPC32x0.s><LPC32x0.s>
 File 3,1,<.\src\mb_hardware_setup.c><mb_hardware_setup.c>
@@ -34,6 +35,7 @@ File 6,8,<..\..\Finite_State_Machines\FSM_16\hip_fsm.cpp><hip_fsm.cpp>
 File 6,8,<..\..\Finite_State_Machines\FSM_16\leg_fsm.cpp><leg_fsm.cpp>
 File 6,8,<..\..\Finite_State_Machines\FSM_16\mb_fsm.cpp><mb_fsm.cpp>
 File 6,8,<..\..\Finite_State_Machines\FSM_16\steering_fsm.cpp><steering_fsm.cpp>
+File 7,1,<..\..\Controller\control_code.c><control_code.c>
 
 
 Options 1,0,0  // Target 'LPC3250 Int RAM'
