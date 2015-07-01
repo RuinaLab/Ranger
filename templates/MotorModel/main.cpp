@@ -7,11 +7,9 @@
 //============================================================================
 
 #include <iostream>
-#include <cmath>
-
+#include <cmath>  // abs()
 
 using namespace std;
-
 
 class MotorModel {
 public:
