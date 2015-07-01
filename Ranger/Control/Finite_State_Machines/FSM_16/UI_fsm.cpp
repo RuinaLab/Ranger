@@ -13,12 +13,12 @@ void def_UI_fsm(fsm* h_fsm)
 {
 
 // numStates is the number of states in state machine
-int numStates = 5;
+int numStates = 6;
 // numInpts is the number of condition in state machine
 int numInputs = 8;
 
 // construct the fsm
-fsm fsm1(numStates, STATE_UI_calibrate, numInputs);
+fsm fsm1(numStates, STATE_UI_yawen, numInputs);
 
 char* name = (char*) "ui_fsm";
 fsm1.set_name(name);
@@ -28,6 +28,9 @@ fsm1.print_state_transition_matrix();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // associate the states with actions
+
+/***********YW: new state**************/
+fsm1.state_def(STATE_UI_yawen, ACTION_UI_yawen_entry, ACTION_UI_yawen, ACTION_UI_yawen);
 
 fsm1.state_def(STATE_UI_calibrate, ACTION_UI_calibrate_entry, ACTION_UI_calibrate, ACTION_UI_calibrate);
 fsm1.state_def(STATE_UI_standby, ACTION_UI_standby_entry, ACTION_UI_standby, ACTION_UI_standby_exit);

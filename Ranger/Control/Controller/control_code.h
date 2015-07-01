@@ -7,7 +7,7 @@ char int2ascii_(int num);
 
 void clear_UI_LCD_(int quad_num);
 
-void clear_UI_LED_();
+void clear_UI_LED_(void);
 
 void set_UI_LCD_(char* message, int quad_number);
 

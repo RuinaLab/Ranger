@@ -1,13 +1,14 @@
 #include <mb_includes.h>
-//#include "control_code.h"
+#include "control_code.h"
 
 void ctrl_hip_(float Kp, float Kd, float uref, float xref, float vref){
 	//uref = reference current 
 	//xref = reference angle 
 	//vref = reference rate 
+	float command_current;
 	set_io_float(ID_MCH_STIFFNESS, Kp);
 	set_io_float(ID_MCH_DAMPNESS, Kd);
-	float command_current = uref + Kp*xref + Kd*vref; 
+	command_current = uref + Kp*xref + Kd*vref; 
     set_io_float(ID_MCH_COMMAND_CURRENT, command_current);		
 } 
 
@@ -78,7 +79,8 @@ void set_UI_LED_(int led_number, char color){
 }
 
 void control_run(void){
-	//*************yawen***************
+	char msg[4];
+	float hip_angle;
 	//make the hip angle track a curve in time  
 	float Kp = get_io_float(ID_F_TEST4); 
 	float Kd = get_io_float(ID_F_TEST5); 
@@ -88,9 +90,8 @@ void control_run(void){
 	ctrl_hip_(Kp, Kd, uref, xref, vref); 
 
 	//make the LEDs blink according to the value of the hip angle  
-    char msg[4];
-	float hip_angle = get_io_float(ID_MCH_ANGLE);
-						 
+    hip_angle = get_io_float(ID_MCH_ANGLE);
+	clear_UI_LED_();					 
 	if(hip_angle>-0.2){
 		set_UI_LED_(2, 'g');	
 	}

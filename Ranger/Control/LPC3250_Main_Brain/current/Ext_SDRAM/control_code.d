@@ -1,4 +1,4 @@
-.\Ext_SDRAM\control_code.o: ..\..\Controller\control_code.cpp
+.\Ext_SDRAM\control_code.o: ..\..\Controller\control_code.c
 .\Ext_SDRAM\control_code.o: ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mb_includes.h
 .\Ext_SDRAM\control_code.o: C:\Keil\ARM\INC\Philips\LPC325x.H
 .\Ext_SDRAM\control_code.o: ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\lpc3250def.h
@@ -24,3 +24,4 @@
 .\Ext_SDRAM\control_code.o: ..\..\Estimator\mb_estimator.h
 .\Ext_SDRAM\control_code.o: ..\..\Estimator\mb_estimator_execution_time.h
 .\Ext_SDRAM\control_code.o: .\src\mb_local_headers.h
+.\Ext_SDRAM\control_code.o: ..\..\Controller\control_code.h
