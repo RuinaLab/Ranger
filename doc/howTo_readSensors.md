@@ -27,3 +27,6 @@ The contact sensor is actually an optical sensor that measures the deflection of
 - `ID_E_OUTER_ANG_RATE` - Estimate of the absolute rate of the outer legs
 - `ID_E_INNER_ANG_RATE` - Estimate of the absolute rate of the inner legs
 - `ID_E_H_RATE` - Estimate of the rate of change in the relative angle between the inner and outer legs
+
+### Sign Convention:
+- `ID_MCH_ANGLE`- Hip angle, positive when the inner legs are swung forward  
