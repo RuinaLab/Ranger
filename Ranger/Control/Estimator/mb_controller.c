@@ -7,15 +7,9 @@ char int2ascii(int num){
 }
 
 
-/*  Clears the LCD screen
- */
-void clear_UI_LCD(int quad_num){  
-  //clear the specified LCD quad
-  mb_io_set_ul((ID_UI_SET_LCD_QUAD_1 + quad_num - 1), 0x20202020);
-}
-
-
-/*  Wrapper function for UI panel LCD screen. 
+/*  Wrapper function for UI panel LCD screen.  The message should
+ * 	contain an array of four characters, and quad_number should be 
+ *  from the set {1,2,3,4}.
  */
 void set_UI_LCD(char* message, int quad_number){
   //Display message on specified LCD quad
@@ -27,21 +21,47 @@ void set_UI_LCD(char* message, int quad_number){
   message_data |= message[1] & 0xFF;
   message_data <<= 8;
   message_data |= message[0] & 0xFF;
-  mb_io_set_ul((ID_UI_SET_LCD_QUAD_1 + quad_number - 1), message_data);
+  switch (quad_number){
+	  case 1: // Upper left
+	  	set_io_ul(ID_UI_SET_LCD_QUAD_1, message_data);
+	  	break;
+	  case 2: // 
+	  	set_io_ul(ID_UI_SET_LCD_QUAD_2, message_data);
+	  	break;
+	  case 3:
+	  	set_io_ul(ID_UI_SET_LCD_QUAD_3, message_data);
+	  	break;
+	  case 4:
+	  	set_io_ul(ID_UI_SET_LCD_QUAD_4, message_data);
+	  	break;
+  }
+  
 }
 
 
 /*  Turn off all LEDs. 
  */
  void clear_UI_LED(){
-  mb_io_set_ul(ID_UI_SET_LED_1, 0x000000);
-  mb_io_set_ul(ID_UI_SET_LED_2, 0x000000);
-  mb_io_set_ul(ID_UI_SET_LED_3, 0x000000);
-  mb_io_set_ul(ID_UI_SET_LED_4, 0x000000);
-  mb_io_set_ul(ID_UI_SET_LED_5, 0x000000);
-  mb_io_set_ul(ID_UI_SET_LED_6, 0x000000);
+  set_io_ul(ID_UI_SET_LED_1, 0x000000);
+  set_io_ul(ID_UI_SET_LED_2, 0x000000);
+  set_io_ul(ID_UI_SET_LED_3, 0x000000);
+  set_io_ul(ID_UI_SET_LED_4, 0x000000);
+  set_io_ul(ID_UI_SET_LED_5, 0x000000);
+  set_io_ul(ID_UI_SET_LED_6, 0x000000);
 }
 
+	   
+/*  Clears the LCD screen
+ */
+void clear_UI_LCD(int quad_num){  
+  //clear the specified LCD quad
+  char msg[4];
+  int i;
+  for (i=0; i<4; i++){
+  	msg[i] = ' ';
+  }
+  set_UI_LCD( msg, quad_num);
+}
 
 /*  Wrapper function for UI panel LED control. 
  */
@@ -77,7 +97,7 @@ void set_UI_LED(int led_number, char color){
       		val_color = 0x808000;  //set color to cyan      
 			break; 
 	}
-	mb_io_set_ul((ID_UI_SET_LED_1 + led_number - 1), val_color);
+	set_io_ul((ID_UI_SET_LED_1 + led_number - 1), val_color);
 }
 
 
@@ -86,14 +106,59 @@ void set_UI_LED(int led_number, char color){
  */
 void mb_controller_update(void){
 
-// Read the current time on the robot
-int time;  // Store the current robot time;
-time = (int) mb_io_get_float(ID_TIMESTAMP);  //  Reads the time (in ms) since the robot was turned on
+char msg1[4];
+char msg2[4];
+char msg3[4];
+char msg4[4];
+int i;
+int time;
+int color;
+int led_id;
 
-if (time % 500 < 250){
-	set_UI_LED(1,'r');
-} else {
-	set_UI_LED(1,'b');
+
+// Apply values to the messages
+for(i=0; i<4; i++){
+  	msg1[i] = '1';
+	msg2[i] = '2';
+	msg3[i] = '3';
+ 	msg4[i] = '4';
+}
+
+//  Read the time (in ms) since the robot was turned on
+time = (int) mb_io_get_float(ID_TIMESTAMP);  
+time = time / 800;  // integer division!
+color = time % 9;
+led_id = time % 6;
+
+// Test I/O for LCD and LED
+switch (color) {
+	case 0:
+	  	set_UI_LED(led_id,'-');
+		break;
+	case 1:
+	  	set_UI_LED(led_id,'r');
+		break;
+	case 2:
+	  	set_UI_LED(led_id,'g');	 
+		break;
+	case 3:
+	  	set_UI_LED(led_id,'b');
+		break;
+	case 4:
+	  	set_UI_LED(led_id,'p');
+		break;
+	case 5:
+	  	set_UI_LED(led_id,'y');	 
+		break;
+	case 6:
+	  	set_UI_LED(led_id,'o');
+		break;
+	case 7:
+	  	set_UI_LED(led_id,'m');
+		break;
+	case 8:
+	  	set_UI_LED(led_id,'c');
+		break;
 }
 
 } // mb_controller_update()

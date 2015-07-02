@@ -19,7 +19,6 @@ GRPOPT 3,(Board Code),1,0,0
 GRPOPT 4,(Module Code),0,0,0
 GRPOPT 5,(Estimator),1,0,0
 GRPOPT 6,(FSM_16),1,0,0
-GRPOPT 7,(Controller),1,0,0
 
 OPTFFF 1,1,2,0,0,0,0,0,<.\src\LPC32x0.s><LPC32x0.s> 
 OPTFFF 3,2,1,0,0,0,0,0,<.\src\mb_hardware_setup.c><mb_hardware_setup.c> 
@@ -41,12 +40,9 @@ OPTFFF 6,17,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\foot_outer_fsm.cpp><
 OPTFFF 6,18,8,218103808,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\fsm.cpp><fsm.cpp> 
 OPTFFF 6,19,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\hip_fsm.cpp><hip_fsm.cpp> 
 OPTFFF 6,20,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\leg_fsm.cpp><leg_fsm.cpp> 
-OPTFFF 6,21,8,251658240,0,4,4,0,<..\..\Finite_State_Machines\FSM_16\mb_fsm.cpp><mb_fsm.cpp> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,26,0,0,0,26,0,0,0,132,3,0,0,59,1,0,0 }
+OPTFFF 6,21,8,251658242,0,4,4,0,<..\..\Finite_State_Machines\FSM_16\mb_fsm.cpp><mb_fsm.cpp> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,26,0,0,0,26,0,0,0,132,3,0,0,59,1,0,0 }
 OPTFFF 6,22,8,436207616,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\steering_fsm.cpp><steering_fsm.cpp> 
-OPTFFF 7,23,1,234881025,0,0,0,0,<..\..\Controller\control_code.c><control_code.c> 
 
-ExtF <C:\Users\Yawen Wang\Documents\GitHub\Ranger\Ranger\Control\Controller\control_code.h> 1,10,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,0,0,0,0,0,0,0,0,106,3,0,0,33,1,0,0 }
-ExtF <C:\Users\Yawen Wang\Documents\GitHub\Ranger\Robot_Nervous_System\LPC3xxx_Modules\mb_includes.h> 5,26,0,{ 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,52,0,0,0,52,0,0,0,158,3,0,0,85,1,0,0 }
 
 TARGOPT 1, (LPC3250 Int RAM)
  ADSCLK=13000000
