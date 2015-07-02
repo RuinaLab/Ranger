@@ -254,26 +254,26 @@ E_TEST10,0,1,0,dummy for testing
 E_TEST11,0,1,0,dummy for testing
 E_TEST12,0,1,0,dummy for testing
 #ControllerTesting,,,,
-CTRL_TEST_R0,0,1,0,test read from labview
-CTRL_TEST_R1,0,1,0,test read from labview
-CTRL_TEST_R2,0,1,0,test read from labview
-CTRL_TEST_R3,0,1,0,test read from labview
-CTRL_TEST_R4,0,1,0,test read from labview
-CTRL_TEST_R5,0,1,0,test read from labview
-CTRL_TEST_R6,0,1,0,test read from labview
-CTRL_TEST_R7,0,1,0,test read from labview
-CTRL_TEST_R8,0,1,0,test read from labview
-CTRL_TEST_R9,0,1,0,test read from labview
-CTRL_Test_W0,0,0,1,test write to labview
-CTRL_Test_W1,0,0,1,test write to labview
-CTRL_Test_W2,0,0,1,test write to labview
-CTRL_Test_W3,0,0,1,test write to labview
-CTRL_Test_W4,0,0,1,test write to labview
-CTRL_Test_W5,0,0,1,test write to labview
-CTRL_Test_W6,0,0,1,test write to labview
-CTRL_Test_W7,0,0,1,test write to labview
-CTRL_Test_W8,0,0,1,test write to labview
-CTRL_Test_W9,0,0,1,test write to labview
+CTRL_TEST_R0,0,0,1,test read from labview
+CTRL_TEST_R1,0,0,1,test read from labview
+CTRL_TEST_R2,0,0,1,test read from labview
+CTRL_TEST_R3,0,0,1,test read from labview
+CTRL_TEST_R4,0,0,1,test read from labview
+CTRL_TEST_R5,0,0,1,test read from labview
+CTRL_TEST_R6,0,0,1,test read from labview
+CTRL_TEST_R7,0,0,1,test read from labview
+CTRL_TEST_R8,0,0,1,test read from labview
+CTRL_TEST_R9,0,0,1,test read from labview
+CTRL_Test_W0,0,1,0,test write to labview
+CTRL_Test_W1,0,1,0,test write to labview
+CTRL_Test_W2,0,1,0,test write to labview
+CTRL_Test_W3,0,1,0,test write to labview
+CTRL_Test_W4,0,1,0,test write to labview
+CTRL_Test_W5,0,1,0,test write to labview
+CTRL_Test_W6,0,1,0,test write to labview
+CTRL_Test_W7,0,1,0,test write to labview
+CTRL_Test_W8,0,1,0,test write to labview
+CTRL_Test_W9,0,1,0,test write to labview
 #Labview,,,,
 LV_START,,,,
 LV_CH_0,,,,

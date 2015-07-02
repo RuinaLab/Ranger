@@ -243,26 +243,26 @@ typedef enum can_ids{
 	ID_E_TEST10 = 231,	 // 0 1 0 // dummy for testing
 	ID_E_TEST11 = 232,	 // 0 1 0 // dummy for testing
 	ID_E_TEST12 = 233,	 // 0 1 0 // dummy for testing
-	ID_CTRL_TEST_R0 = 234,	 // 0 1 0 // test read from labview
-	ID_CTRL_TEST_R1 = 235,	 // 0 1 0 // test read from labview
-	ID_CTRL_TEST_R2 = 236,	 // 0 1 0 // test read from labview
-	ID_CTRL_TEST_R3 = 237,	 // 0 1 0 // test read from labview
-	ID_CTRL_TEST_R4 = 238,	 // 0 1 0 // test read from labview
-	ID_CTRL_TEST_R5 = 239,	 // 0 1 0 // test read from labview
-	ID_CTRL_TEST_R6 = 240,	 // 0 1 0 // test read from labview
-	ID_CTRL_TEST_R7 = 241,	 // 0 1 0 // test read from labview
-	ID_CTRL_TEST_R8 = 242,	 // 0 1 0 // test read from labview
-	ID_CTRL_TEST_R9 = 243,	 // 0 1 0 // test read from labview
-	ID_CTRL_Test_W0 = 244,	 // 0 0 1 // test write to labview
-	ID_CTRL_Test_W1 = 245,	 // 0 0 1 // test write to labview
-	ID_CTRL_Test_W2 = 246,	 // 0 0 1 // test write to labview
-	ID_CTRL_Test_W3 = 247,	 // 0 0 1 // test write to labview
-	ID_CTRL_Test_W4 = 248,	 // 0 0 1 // test write to labview
-	ID_CTRL_Test_W5 = 249,	 // 0 0 1 // test write to labview
-	ID_CTRL_Test_W6 = 250,	 // 0 0 1 // test write to labview
-	ID_CTRL_Test_W7 = 251,	 // 0 0 1 // test write to labview
-	ID_CTRL_Test_W8 = 252,	 // 0 0 1 // test write to labview
-	ID_CTRL_Test_W9 = 253,	 // 0 0 1 // test write to labview
+	ID_CTRL_TEST_R0 = 234,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R1 = 235,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R2 = 236,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R3 = 237,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R4 = 238,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R5 = 239,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R6 = 240,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R7 = 241,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R8 = 242,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R9 = 243,	 // 0 0 1 // test read from labview
+	ID_CTRL_Test_W0 = 244,	 // 0 1 0 // test write to labview
+	ID_CTRL_Test_W1 = 245,	 // 0 1 0 // test write to labview
+	ID_CTRL_Test_W2 = 246,	 // 0 1 0 // test write to labview
+	ID_CTRL_Test_W3 = 247,	 // 0 1 0 // test write to labview
+	ID_CTRL_Test_W4 = 248,	 // 0 1 0 // test write to labview
+	ID_CTRL_Test_W5 = 249,	 // 0 1 0 // test write to labview
+	ID_CTRL_Test_W6 = 250,	 // 0 1 0 // test write to labview
+	ID_CTRL_Test_W7 = 251,	 // 0 1 0 // test write to labview
+	ID_CTRL_Test_W8 = 252,	 // 0 1 0 // test write to labview
+	ID_CTRL_Test_W9 = 253,	 // 0 1 0 // test write to labview
 	ID_LV_START,	 //    // 
 	ID_LV_CH_0,	 //    // 
 	ID_LV_CH_1,	 //    // 

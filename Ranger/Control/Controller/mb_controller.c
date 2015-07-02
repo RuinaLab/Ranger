@@ -1,13 +1,13 @@
 #include <mb_includes.h> 
 #include <led_lcd_ouput.h>
 
-struct controllerData {
-	wn;	 	// natural frequency of controller (kp = m*wn^2)
-	xi;		// damping ratio of the controller (kd = 2*m*xi*wn)
-	xRef; 	// reference joint angle
-	vRef;  	// reference joint angle rate
-	uRef;	// reference (nominal) torque required to achieve xRef and vRef							  
-};
+//struct controllerData {
+//	float wn;	 	// natural frequency of controller (kp = m*wn^2)
+//	float xi;		// damping ratio of the controller (kd = 2*m*xi*wn)
+//	float xRef; 	// reference joint angle
+//	float vRef;  	// reference joint angle rate
+//	float uRef;	// reference (nominal) torque required to achieve xRef and vRef							  
+//};
 
 /*  This function is the entry-point for all controller stuff. It is called by the scheduler.
  */
