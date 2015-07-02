@@ -764,7 +764,7 @@ if((int)mb_io_get_float(ID_E_SWING_LEG) == 1 )
         
  mb_io_set_float( ID_E_SWING_F_HEIGHT, swing_foot_height);  
  mb_io_set_float( ID_E_ANK2ANK_HT, ank_2_ank_height);  // pranav' is currently using this to do the trigger for pre-pushing the stance foot before HS. This is the simplest of all the height calculations and hence more reliable. 
-////HACK//// -- MPK 7/2/15 -- for testing---     mb_io_set_float( ID_E_TEST10, virtual_swt_spt_height);    
+ mb_io_set_float( ID_E_TEST10, virtual_swt_spt_height);    
  // mb_io_set_float( ID_E_OUTER_ANGLE, material_swt_spt_height); 
 
 }
