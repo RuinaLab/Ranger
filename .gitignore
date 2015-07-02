@@ -29,3 +29,4 @@
 
 # Keil intermediate files:
 **/Ext_SDRAM
+**/*.dep
