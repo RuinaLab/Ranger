@@ -88,8 +88,6 @@ float get_io_ul(unsigned short data_id)
   return mb_io_get_ul(data_id); 
 }
 
-
-
 void set_io_ul(short unsigned int data_id, unsigned long value)
 {
   mb_io_set_ul(data_id, value);
@@ -157,8 +155,8 @@ void mb_setup_software(void){
   //Initialize data display lists
   mb_create_display_data_lists();
   
-  //Initialize finite state machine (controller)
-  mb_fsm_init();
+  //Initialize the controller here:
+  ////TODO////
 
   //Initialize error handling module
   mb_error_init(mb_get_timestamp, BOARD_MB);
