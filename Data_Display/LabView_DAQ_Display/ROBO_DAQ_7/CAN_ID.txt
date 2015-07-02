@@ -1,0 +1,200 @@
+//
+//	
+//  CAN_ID Table for Cornell Ranger Robot
+//
+//	Nicolas Williamson - October 2009
+//
+//
+
+#ifndef __H_CAN_ID__
+#define __H_CAN_ID__ 
+
+typedef enum can_ids{
+
+  // *** CAN IDs *** //
+
+  // All Boards
+  ID_TIMESTAMP = 0, // 0 7 dest_num 
+  
+  // Errors
+  ID_MCH_ERROR = 1, // 0 1 dest_num
+  ID_MCFO_ERROR = 2, // 0 2 dest_num
+  ID_MCFI_ERROR = 3, // 0 3 dest_num
+  ID_MCSO_ERROR = 4, // 0 4 dest_num
+  ID_MCSI_ERROR = 5, // 0 5 dest_num
+  ID_UI_ERROR = 6, // 0 6 dest_num
+  
+  // Hip Motor Controller Board (MCH) Num = 1
+  ID_MCH_MOTOR_VELOCITY = 10, // 0 1 dest_num
+  ID_MCH_MOTOR_CURRENT = 11, // 0 1 dest_num
+  ID_MCH_MOTOR_POSITION = 12, // 0 1 dest_num
+  ID_MCH_MOTOR_TARGET_CURRENT = 13, // 0 0 dest_num
+  ID_MCH_ANGLE = 14, // 0 1 dest_num
+  ID_MCH_BATT_POWER = 15, // 0 1 dest_num
+  
+  // Outer Ankle MC Board (MCFO)
+  ID_MCFO_MOTOR_VELOCITY = 20, // 0 2 dest_num
+  ID_MCFO_MOTOR_CURRENT = 21, // 0 2 dest_num
+  ID_MCFO_MOTOR_POSITION = 22, // 0 2 dest_num
+  ID_MCFO_MOTOR_TARGET_CURRENT = 23, // 0 0 dest_num
+  ID_MCFO_RIGHT_ANKLE_ANGLE = 24, // 0 2 dest_num
+  ID_MCFO_RIGHT_LS = 25, // 0 2 dest_num
+  ID_MCFO_LEFT_LS = 26, // 0 2 dest_num
+  ID_MCFO_RIGHT_HS = 27, // 0 2 dest_num
+  ID_MCFO_LEFT_HS = 28, // 0 2 dest_num
+  ID_MCFO_BATT_POWER = 29, // 0 2 dest_num
+  
+  // Inner Ankle MC Board (MCFI)
+  ID_MCFI_MOTOR_VELOCITY = 30, // 0 3 dest_num
+  ID_MCFI_MOTOR_CURRENT = 31, // 0 3 dest_num
+  ID_MCFI_MOTOR_POSITION = 32, // 0 3 dest_num
+  ID_MCFI_MOTOR_TARGET_CURRENT = 33, // 0 0 dest_num
+  ID_MCFI_MID_ANKLE_ANGLE = 34, // 0 3 dest_num
+  ID_MCFI_RIGHT_LS = 35, // 0 3 dest_num
+  ID_MCFI_LEFT_LS = 36, // 0 3 dest_num
+  ID_MCFI_RIGHT_HS = 37, // 0 3 dest_num
+  ID_MCFI_LEFT_HS = 38, // 0 3 dest_num
+  ID_MCFI_BATT_POWER = 39, // 0 3 dest_num
+  
+  // Outer Steering MC Board (MCSO)
+  ID_MCSO_MOTOR_POSITION = 40, // 0 4 dest_num
+  ID_MCSO_MOTOR_CURRENT = 41, // 0 4 dest_num
+  ID_MCSO_MOTOR_TARGET_CURRENT = 42, // 0 0 dest_num
+  ID_MCSO_LEFT_ANKLE_ANGLE = 43, // 0 4 dest_num
+  ID_MCSO_BATT_POWER = 44, // 0 4 dest_num
+  
+  // User Interface Board (UI)
+  ID_UI_SET_LCD_QUAD_1 = 50, // 0 0 dest_num
+  ID_UI_SET_LCD_QUAD_2 = 51, // 0 0 dest_num
+  ID_UI_SET_LCD_QUAD_3 = 52, // 0 0 dest_num
+  ID_UI_SET_LCD_QUAD_4 = 53, // 0 0 dest_num
+  ID_UI_SET_LED_1 = 54, // 0 0 dest_num
+  ID_UI_SET_LED_2 = 55, // 0 0 dest_num
+  ID_UI_SET_LED_3 = 56, // 0 0 dest_num
+  ID_UI_SET_LED_4 = 57, // 0 0 dest_num
+  ID_UI_SET_LED_5 = 58, // 0 0 dest_num
+  ID_UI_SET_LED_6 = 59, // 0 0 dest_num
+  ID_UI_SET_BUZZER_FREQ = 60, // 0 0 dest_num
+  ID_UI_SET_BUZZER_AMPL = 61, // 0 0 dest_num
+  ID_UI_RADIO_FREQ = 62, // 0 6 dest_num
+  ID_UI_ROLL = 63, // 0 6 dest_num
+  ID_UI_PITCH = 64, // 0 6 dest_num
+  ID_UI_YAW = 65, // 0 6 dest_num
+  ID_UI_ANG_RATE_X = 66, // 0 6 dest_num
+  ID_UI_ANG_RATE_Y = 67, // 0 6 dest_num
+  ID_UI_ANG_RATE_Z = 68, // 0 6 dest_num
+  ID_UI_BUTTONS = 69, // 0 6 dest_num
+ 
+  // Inner Steering MC Board (MCSI)
+  ID_MCSI_MOTOR_POSITION = 70, // 0 5 dest_num
+  ID_MCSI_MOTOR_CURRENT = 71, // 0 5 dest_num
+  ID_MCSI_MOTOR_TARGET_CURRENT = 72, // 0 0 dest_num
+  ID_MCSI_STEER_ANGLE = 73, // 0 5 dest_num
+  ID_MCSI_BATT_POWER = 74, // 0 5 dest_num
+  
+  // Motor Safety: Shutdown and sleep
+  ID_MCH_SHUTDOWN = 80, // 0 0 dest_num
+  ID_MCH_SLEEP = 81, // 0 0 dest_num
+  ID_MCFO_SHUTDOWN = 82, // 0 0 dest_num
+  ID_MCFO_SLEEP = 83, // 0 0 dest_num
+  ID_MCFI_SHUTDOWN = 84, // 0 0 dest_num
+  ID_MCFI_SLEEP = 85, // 0 0 dest_num
+  ID_MCSO_SHUTDOWN = 86, // 0 0 dest_num
+  ID_MCSO_SLEEP = 87, // 0 0 dest_num
+  ID_MCSI_SHUTDOWN = 88, // 0 0 dest_num
+  ID_MCSI_SLEEP = 89, // 0 0 dest_num
+  
+  // Startup Communications
+  ID_MB_READY = 90, // 0 0 dest_num
+  ID_MCH_READY = 91, // 0 1 dest_num
+  ID_MCFO_READY = 92, // 0 2 dest_num
+  ID_MCFI_READY = 93, // 0 3 dest_num
+  ID_MCSO_READY = 94, // 0 4 dest_num
+  ID_MCSI_READY = 95, // 0 5 dest_num
+  ID_UI_READY = 96, // 0 6 dest_num
+  ID_ALL_START = 97, // 0 0 dest_num
+  
+  //Compliant Commands
+  ID_MCH_COMMAND_CURRENT = 100, // 0 0 dest_num
+  ID_MCFO_COMMAND_CURRENT = 101, // 0 0 dest_num
+  ID_MCFI_COMMAND_CURRENT = 102, // 0 0 dest_num
+  ID_MCSO_COMMAND_CURRENT = 103, // 0 0 dest_num
+  ID_MCSI_COMMAND_CURRENT = 104, // 0 0 dest_num
+  ID_MCH_STIFFNESS = 105,// 0 0 dest_num
+  ID_MCFO_STIFFNESS = 106,// 0 0 dest_num
+  ID_MCFI_STIFFNESS = 107,// 0 0 dest_num
+  ID_MCSO_STIFFNESS = 108,// 0 0 dest_num
+  ID_MCSI_STIFFNESS = 109,// 0 0 dest_num
+  ID_MCH_DAMPNESS = 110,// 0 0 dest_num
+  ID_MCFO_DAMPNESS = 111,// 0 0 dest_num
+  ID_MCFI_DAMPNESS = 112,// 0 0 dest_num
+  ID_MCSO_DAMPNESS = 113,// 0 0 dest_num
+  ID_MCSI_DAMPNESS = 114,// 0 0 dest_num
+
+  // Max possible CAN_ID (CID) value
+  //ID_MAX_CAN = 2031,
+
+
+  // *** Non-CAN Control Parameters and Data *** //
+  ID_MB_EXECUTION_TIME = 120,  //0 7 dest_num this gives the time to finish the schedule  
+  
+  //LabView Parameter Channels
+  ID_LV_START,
+  ID_LV_CH_0,
+  ID_LV_CH_1,
+  ID_LV_CH_2,
+  ID_LV_CH_3,
+  ID_LV_CH_4,
+  ID_LV_CH_5,
+  ID_LV_CH_6,
+  ID_LV_CH_7,
+  ID_LV_CH_8,
+  ID_LV_CH_9,
+  ID_LV_CH_10,
+  ID_LV_CH_11,
+  ID_LV_CH_12,
+  ID_LV_CH_13,
+  ID_LV_CH_14,
+  ID_LV_CH_15,
+  ID_LV_CH_16,
+  ID_LV_CH_17,
+  ID_LV_CH_18,
+  ID_LV_CH_19,
+  ID_LV_CH_20,
+  ID_LV_CH_21,
+  ID_LV_CH_22,
+  ID_LV_CH_23,
+  ID_LV_CH_24,
+  ID_LV_CH_25,
+  ID_LV_CH_26,
+  ID_LV_CH_27,
+  ID_LV_CH_28,
+  ID_LV_CH_29,
+  ID_LV_CH_30,
+  ID_LV_CH_31,
+  ID_LV_CH_32,
+  ID_LV_CH_33,
+  ID_LV_CH_34,
+  ID_LV_CH_35,
+  ID_LV_CH_36,
+  ID_LV_CH_37,
+  ID_LV_CH_38,
+  ID_LV_CH_39,
+  ID_LV_CH_40,
+  ID_LV_CH_41,
+  ID_LV_CH_42,
+  ID_LV_CH_43,
+  ID_LV_CH_44,
+  ID_LV_CH_45,
+  ID_LV_CH_46,
+  ID_LV_CH_47,
+
+  ID_LV_VERSION,
+  
+  // Max Defined ID Value (in use)
+  ID_LAST
+
+} CAN_ID;
+
+      
+#endif

@@ -10,6 +10,7 @@ Group (Documentation)
 Group (Board Code)
 Group (Module Code)
 Group (Estimator)
+Group (Controller)
 
 File 1,2,<.\src\LPC32x0.s><LPC32x0.s>
 File 3,1,<.\src\mb_hardware_setup.c><mb_hardware_setup.c>
@@ -23,9 +24,8 @@ File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_bluetooth\mb_b
 File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c><a9_clock.c>
 File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c>
 File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c>
-File 5,1,<..\..\Estimator\mb_estimator.c><mb_estimator.c>
-File 5,1,<..\..\Estimator\mb_estimator_execution_time.c><mb_estimator_execution_time.c>
-File 5,1,<..\..\Estimator\mb_controller.c><mb_controller.c>
+File 6,1,<..\..\Controller\led_lcd_ouput.c><led_lcd_ouput.c>
+File 6,1,<..\..\Controller\mb_controller.c><mb_controller.c>
 
 
 Options 1,0,0  // Target 'LPC3250 Int RAM'
@@ -176,7 +176,7 @@ Options 2,0,0  // Target 'LPC3250 Ext SDRAM (NOR)'
  ADSCMISC ()
  ADSCDEFN ()
  ADSCUDEF ()
- ADSCINCD (.\src;..\..\Ranger_Configuration;..\..\..\..\Robot_Nervous_System;..\..\Finite_State_Machines\FSM_1;..\..\Estimator;..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules)
+ ADSCINCD (.\src;..\..\Ranger_Configuration;..\..\..\..\Robot_Nervous_System;..\..\Estimator;..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules;..\..\Controller)
  ADSASFLG { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSAMISC ()
  ADSADEFN (SIZE_EXT_INFO EMC_NO_INIT RAM_INTVEC REMAP)

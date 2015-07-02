@@ -556,7 +556,7 @@ float StncAnklAngl, SwngAnklAngl,abs_HipAngl, abs_HipAngl_by2, d_aa, d_atcw, d_c
 float complement_alpha, CosAlpha, SinAlpha; // complement_angle = 90 - angle 
 float complement_sigma, CosSigma, SinSigma; 
 float StncLegAbsAngl, SwngLegAbsAngl, StncFootAbsAngl, SwngFootAbsAngl, angle_d_cc; 
-float FI_absang, FO_absang, LI_absang , LO_absang,  swing_foot_height, ank_height, ank_2_ank_height, virtual_swt_spt_height, material_swt_spt_height; 
+float FI_absang, FO_absang, LI_absang , LO_absang,  swing_foot_height, ank_height, ank_2_ank_height, virtual_swt_spt_height; ////Not used:////, material_swt_spt_height; 
 ;
 //float d_stance_foot_roll; 
 // static float  prev_swing_foot_height, swing_foot_velocity=0; time_to_hs ; // I reset the swing foot velocity to 0 at hs, just after the reset integration flag is used.

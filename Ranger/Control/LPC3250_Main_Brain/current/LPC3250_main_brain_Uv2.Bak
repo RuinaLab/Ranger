@@ -10,7 +10,7 @@ Group (Documentation)
 Group (Board Code)
 Group (Module Code)
 Group (Estimator)
-Group (FSM_16)
+Group (Controller)
 
 File 1,2,<.\src\LPC32x0.s><LPC32x0.s>
 File 3,1,<.\src\mb_hardware_setup.c><mb_hardware_setup.c>
@@ -26,14 +26,8 @@ File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_
 File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c>
 File 5,1,<..\..\Estimator\mb_estimator.c><mb_estimator.c>
 File 5,1,<..\..\Estimator\mb_estimator_execution_time.c><mb_estimator_execution_time.c>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\UI_fsm.cpp><UI_fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\foot_inner_fsm.cpp><foot_inner_fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\foot_outer_fsm.cpp><foot_outer_fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\fsm.cpp><fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\hip_fsm.cpp><hip_fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\leg_fsm.cpp><leg_fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\mb_fsm.cpp><mb_fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\steering_fsm.cpp><steering_fsm.cpp>
+File 6,1,<..\..\Controller\led_lcd_ouput.c><led_lcd_ouput.c>
+File 6,1,<..\..\Controller\mb_controller.c><mb_controller.c>
 
 
 Options 1,0,0  // Target 'LPC3250 Int RAM'
@@ -184,7 +178,7 @@ Options 2,0,0  // Target 'LPC3250 Ext SDRAM (NOR)'
  ADSCMISC ()
  ADSCDEFN ()
  ADSCUDEF ()
- ADSCINCD (.\src;..\..\Ranger_Configuration;..\..\..\..\Robot_Nervous_System;..\..\Finite_State_Machines\FSM_1;..\..\Estimator;..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules)
+ ADSCINCD (.\src;..\..\Ranger_Configuration;..\..\..\..\Robot_Nervous_System;..\..\Estimator;..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules;..\..\Controller)
  ADSASFLG { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSAMISC ()
  ADSADEFN (SIZE_EXT_INFO EMC_NO_INIT RAM_INTVEC REMAP)
