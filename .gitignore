@@ -30,3 +30,8 @@
 # Keil intermediate files:
 **/Ext_SDRAM
 **/*.dep
+Ranger/Control/LPC3250_Main_Brain/current/LPC3250_main_brain.Opt
+Ranger/Control/LPC3250_Main_Brain/current/LPC3250_main_brain_Opt.Bak
+
+# LabVIEW test logs:
+**/Test-*.txt
