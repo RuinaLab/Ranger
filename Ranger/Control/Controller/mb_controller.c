@@ -57,56 +57,54 @@ float MotorModel_Current(float torque, float G) {
 }
 
 /* This function calls the low-level hip controller. */
-void controller_hip( struct ControllerData C ) {
+void controller_hip( struct ControllerData * C ) {
 	float uSpring; // expected torque exerted by the hip spring
 	float uControl; // torque due to PD controller
 	float torque;  // feed-forward torque term
 	float current;  // target motor current, based on motor model
 
-	uControl =  C.kp * C.xRef + C.kd * C.vRef; // PD controller
-	uSpring = -param_joint_hip_spring * C.xRef; // equilibrium at zero
-	torque = C.uRef - uSpring + uControl;
+	uControl =  C->kp * C->xRef + C->kd * C->vRef; // PD controller
+	uSpring = -param_joint_hip_spring * C->xRef; // equilibrium at zero
+	torque = C->uRef - uSpring + uControl;
 	current = MotorModel_Current(torque, param_motor_G_hip);
 
 	mb_io_set_float(ID_MCH_COMMAND_CURRENT, current);
-	mb_io_set_float(ID_MCH_STIFFNESS, C.kp);
-	mb_io_set_float(ID_MCH_DAMPNESS, C.kd);
+	mb_io_set_float(ID_MCH_STIFFNESS, C->kp);
+	mb_io_set_float(ID_MCH_DAMPNESS, C->kd);
 }
 
-
-/* This function calls the low-level ankle (outer) controller. */
-void controller_ankleOuter( struct ControllerData C ) {
+/* Computes the current to send to the ankle controller 
+ */
+float getAnkleControllerCurrent( struct ControllerData * C ){
 	float uSpring; // expected torque exerted by the ankle spring
 	float uControl; // PD controller torque terms
 	float torque;  // feed-forward torque term
-	float current;  // target motor current, based on motor model
 
-	uControl = C.kp * C.xRef + C.kd * C.vRef;
-	uSpring = -param_joint_ankle_spring * (C.xRef - param_joint_ankle_ref); 
-	torque = C.uRef - uSpring + uControl;
-	current = MotorModel_Current(torque, param_motor_G_ank);
+	uControl = C->kp * C->xRef + C->kd * C->vRef;
+	uSpring = -param_joint_ankle_spring * (C->xRef - param_joint_ankle_ref); 
+	torque = C->uRef - uSpring + uControl;
+	return MotorModel_Current(torque, param_motor_G_ank);  // Compute expected current
+}
 
+/* This function calls the low-level ankle (outer) controller. 
+ */
+void controller_ankleOuter( struct ControllerData * C ) {
+	float current;
+	current = getAnkleControllerCurrent(C);
 	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, current);
-	mb_io_set_float(ID_MCFO_STIFFNESS, C.kp);
-	mb_io_set_float(ID_MCFO_DAMPNESS, C.kd);
+	mb_io_set_float(ID_MCFO_STIFFNESS, C->kp);
+	mb_io_set_float(ID_MCFO_DAMPNESS, C->kd);
 }
 
 
-/* This function calls the low-level ankle (inner) controller. */
-void controller_ankleInner( struct ControllerData C ) {
-	float uSpring; // expected torque exerted by the ankle spring
-	float uControl; // PD controller torque terms
-	float torque;  // feed-forward torque term
-	float current;  // target motor current, based on motor model
-
-	uControl = C.kp * C.xRef + C.kd * C.vRef;
-	uSpring = -param_joint_ankle_spring * (C.xRef - param_joint_ankle_ref); 
-	torque = C.uRef - uSpring + uControl;
-	current = MotorModel_Current(torque, param_motor_G_ank);
-
+/* This function calls the low-level ankle (inner) controller. 
+ */
+void controller_ankleInner( struct ControllerData * C ) {
+	float current;
+	current = getAnkleControllerCurrent(C);
 	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, current);
-	mb_io_set_float(ID_MCFI_STIFFNESS, C.kp);
-	mb_io_set_float(ID_MCFI_DAMPNESS, C.kd);
+	mb_io_set_float(ID_MCFI_STIFFNESS, C->kp);
+	mb_io_set_float(ID_MCFI_DAMPNESS, C->kd);
 }
 
 
@@ -144,7 +142,7 @@ void controller_ankleInner( struct ControllerData C ) {
 		ctrlHip.xRef = mb_io_get_float(ID_CTRL_TEST_R2);
 		ctrlHip.vRef = mb_io_get_float(ID_CTRL_TEST_R3);
 		ctrlHip.uRef = mb_io_get_float(ID_CTRL_TEST_R4);
-		controller_hip(ctrlHip);
+		controller_hip(&ctrlHip);
 
 	// Run a PD-controller on the outer foot angles:
 		ctrlAnkOut.kp = mb_io_get_float(ID_CTRL_TEST_R5);
@@ -152,7 +150,7 @@ void controller_ankleInner( struct ControllerData C ) {
 		ctrlAnkOut.xRef = mb_io_get_float(ID_CTRL_TEST_R7);
 		ctrlAnkOut.vRef = mb_io_get_float(ID_CTRL_TEST_R8);
 		ctrlAnkOut.uRef = mb_io_get_float(ID_CTRL_TEST_R9);
-		controller_ankleOuter(ctrlAnkOut);
+		controller_ankleOuter(&ctrlAnkOut);
 
 	// Run a PD-controller on the inner foot angles:
 		ctrlAnkInn.kp = mb_io_get_float(ID_CTRL_TEST_R5);
@@ -160,7 +158,7 @@ void controller_ankleInner( struct ControllerData C ) {
 		ctrlAnkInn.xRef = mb_io_get_float(ID_CTRL_TEST_R7);
 		ctrlAnkInn.vRef = mb_io_get_float(ID_CTRL_TEST_R8);
 		ctrlAnkInn.uRef = mb_io_get_float(ID_CTRL_TEST_R9);
-		controller_ankleInner(ctrlAnkInn);
+		controller_ankleInner(&ctrlAnkInn);
  }
 
 
