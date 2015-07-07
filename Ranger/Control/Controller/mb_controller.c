@@ -59,12 +59,16 @@ float MotorModel_Current(float torque, float G) {
 /* This function calls the low-level hip controller. */
 void controller_hip( struct ControllerData C ) {
 	float uSpring; // expected torque exerted by the hip spring
-	float iRef;  //	feed-forward current to match desired torque
-	float iTarget;  // feed-forward current with terms to match reference
+	float uControl; // torque due to PD controller
+	float torque;  // feed-forward torque term
+	float current;  // target motor current, based on motor model
+
+	uControl =  C.kp * C.xRef + C.kd * C.vRef; // PD controller
 	uSpring = -param_joint_hip_spring * C.xRef; // equilibrium at zero
-	iRef = MotorModel_Current(C.uRef - uSpring, param_motor_G_hip);
-	iTarget = iRef + C.kp * C.xRef + C.kd * C.vRef;	// Flip sign convention on ref angle
-	mb_io_set_float(ID_MCH_COMMAND_CURRENT, iTarget);
+	torque = C.uRef - uSpring + uControl;
+	current = MotorModel_Current(torque, param_motor_G_hip);
+
+	mb_io_set_float(ID_MCH_COMMAND_CURRENT, current);
 	mb_io_set_float(ID_MCH_STIFFNESS, C.kp);
 	mb_io_set_float(ID_MCH_DAMPNESS, C.kd);
 }
@@ -72,13 +76,17 @@ void controller_hip( struct ControllerData C ) {
 
 /* This function calls the low-level ankle (outer) controller. */
 void controller_ankleOuter( struct ControllerData C ) {
-	float uSpring; // Expected torque exerted by the ankle springs
-	float iRef;  //	feed-forward current to match desired torque
-	float iTarget;  // feed-forward current with terms to match reference
+	float uSpring; // expected torque exerted by the ankle spring
+	float uControl; // PD controller torque terms
+	float torque;  // feed-forward torque term
+	float current;  // target motor current, based on motor model
+
+	uControl = C.kp * C.xRef + C.kd * C.vRef;
 	uSpring = -param_joint_ankle_spring * (C.xRef - param_joint_ankle_ref); 
-	iRef = MotorModel_Current(C.uRef - uSpring, param_motor_G_ank);
-	iTarget = iRef + C.kp * C.xRef + C.kd * C.vRef;	// Flip sign convention on ref angle
-	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, iTarget);
+	torque = C.uRef - uSpring + uControl;
+	current = MotorModel_Current(torque, param_motor_G_ank);
+
+	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, current);
 	mb_io_set_float(ID_MCFO_STIFFNESS, C.kp);
 	mb_io_set_float(ID_MCFO_DAMPNESS, C.kd);
 }
@@ -86,13 +94,17 @@ void controller_ankleOuter( struct ControllerData C ) {
 
 /* This function calls the low-level ankle (inner) controller. */
 void controller_ankleInner( struct ControllerData C ) {
-	float uSpring; // Expected torque exerted by the ankle springs
-	float iRef;  //	feed-forward current to match desired torque
-	float iTarget;  // feed-forward current with terms to match reference
+	float uSpring; // expected torque exerted by the ankle spring
+	float uControl; // PD controller torque terms
+	float torque;  // feed-forward torque term
+	float current;  // target motor current, based on motor model
+
+	uControl = C.kp * C.xRef + C.kd * C.vRef;
 	uSpring = -param_joint_ankle_spring * (C.xRef - param_joint_ankle_ref); 
-	iRef = MotorModel_Current(C.uRef - uSpring, param_motor_G_ank);
-	iTarget = iRef + C.kp * C.xRef + C.kd * C.vRef;	// Flip sign convention on ref angle
-	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, iTarget);
+	torque = C.uRef - uSpring + uControl;
+	current = MotorModel_Current(torque, param_motor_G_ank);
+
+	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, current);
 	mb_io_set_float(ID_MCFI_STIFFNESS, C.kp);
 	mb_io_set_float(ID_MCFI_DAMPNESS, C.kd);
 }
