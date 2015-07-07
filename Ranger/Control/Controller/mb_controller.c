@@ -14,12 +14,14 @@ static const float param_motor_G_ank = 34.0; // (1) gearbox ratio (66 = hip, 34 
 
 /* joint limits */
 static const float param_joint_ankle_flip = 0.15; // Hard stop at 0.0. Foot flips up to this angle to clear ground.
-static const float param_joint_ankle_hold = 1.65; // Angle such that ankle joint is closest to ground when foot in contact.
 static const float param_joint_ankle_push = 2.0; // Hard stop at 3.0. Foot pushes off to inject energy, this is maximum bound.
 
-/* passive elements in joints */
-static const float param_joint_ankle_spring = 14.0; //(Nm/rad) Spring constant for the ankle spring	(equilibrium: angle = param_joint_ankle_hold)
-static const float param_joint_hip_spring = 7.6; // (Nm/rad) Spring constant for the hip spring	(equilibrium: angle=0)
+/* passive elements in joints. Experimental data stored in:
+ * templates/MotorModel/Test_StaticTorque.m
+ */
+static const float param_joint_ankle_ref = 1.662; // (rad) Foot angle corresponding to zero torque from spring. 
+static const float param_joint_ankle_spring = 0.134; //(Nm/rad) Spring constant for the ankle spring	
+static const float param_joint_hip_spring = 8.045; // (Nm/rad) Spring constant for the hip spring	(equilibrium: angle=0)
 
 enum ControlMode {
 	M0_StandBy,
@@ -73,12 +75,12 @@ void controller_ankleOuter( struct ControllerData C ) {
 	float uSpring; // Expected torque exerted by the ankle springs
 	float iRef;  //	feed-forward current to match desired torque
 	float iTarget;  // feed-forward current with terms to match reference
-	uSpring = -param_joint_ankle_spring * (C.xRef - param_joint_ankle_hold); // equilibrium at "sweet spot"
+	uSpring = -param_joint_ankle_spring * (C.xRef - param_joint_ankle_ref); 
 	iRef = MotorModel_Current(C.uRef - uSpring, param_motor_G_ank);
 	iTarget = iRef + C.kp * C.xRef + C.kd * C.vRef;	// Flip sign convention on ref angle
-	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, 0.0);////HACK, iTarget);
-	mb_io_set_float(ID_MCFO_STIFFNESS, 0.0);////HACK, C.kp);
-	mb_io_set_float(ID_MCFO_DAMPNESS, 0.0);////HACK, C.kd);
+	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, iTarget);
+	mb_io_set_float(ID_MCFO_STIFFNESS, C.kp);
+	mb_io_set_float(ID_MCFO_DAMPNESS, C.kd);
 }
 
 
@@ -87,39 +89,40 @@ void controller_ankleInner( struct ControllerData C ) {
 	float uSpring; // Expected torque exerted by the ankle springs
 	float iRef;  //	feed-forward current to match desired torque
 	float iTarget;  // feed-forward current with terms to match reference
-	uSpring = -param_joint_ankle_spring * (C.xRef - param_joint_ankle_hold); // equilibrium at "sweet spot"
+	uSpring = -param_joint_ankle_spring * (C.xRef - param_joint_ankle_ref); 
 	iRef = MotorModel_Current(C.uRef - uSpring, param_motor_G_ank);
 	iTarget = iRef + C.kp * C.xRef + C.kd * C.vRef;	// Flip sign convention on ref angle
-	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, 0.0);////HACK iTarget);
-	mb_io_set_float(ID_MCFI_STIFFNESS, 0.0);////HACK, C.kp);
-	mb_io_set_float(ID_MCFI_DAMPNESS, 0.0);////HACK, C.kd);
+	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, iTarget);
+	mb_io_set_float(ID_MCFI_STIFFNESS, C.kp);
+	mb_io_set_float(ID_MCFI_DAMPNESS, C.kd);
 }
 
 
-/*  ENTRY-POINT FUNCTION FOR ALL CONTROL CODE */
-void mb_controller_update(void) {
+/* Turns off motors.
+ */
+ void disable_motors(){
 
-	// Enter stand-by mode when robot first boots
-	static enum ControlMode controlMode = M0_StandBy;
+	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, 0.0);
+	mb_io_set_float(ID_MCFI_STIFFNESS, 0.0);
+	mb_io_set_float(ID_MCFI_DAMPNESS, 0.0);
 
-	// Check UI buttons to update control mode
-	if (detect_UI_button_input(1)) controlMode = M1_Active;
-	if (detect_UI_button_input(0)) controlMode = M0_StandBy; // Stand-by always goes last (highest priority)
+	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, 0.0);
+	mb_io_set_float(ID_MCFO_STIFFNESS, 0.0);
+	mb_io_set_float(ID_MCFO_DAMPNESS, 0.0);
 
-	// Run the desired control mode
-	switch (controlMode) {
-	case M0_StandBy:
-		set_UI_LED(5, 'g');
-		break;
-	case M1_Active:
-		set_UI_LED(5, 'b');
-		break;
-	}
+	mb_io_set_float(ID_MCH_COMMAND_CURRENT, 0.0);
+	mb_io_set_float(ID_MCH_STIFFNESS, 0.0);
+	mb_io_set_float(ID_MCH_DAMPNESS, 0.0);
 
-//test_led_lcd();  // Simple test of the LED and LCD outputs
+ }
 
-	/*
-		struct ControllerData ctrlHip;
+
+
+/* Runs a simple test of the motor controllers, connecting the LabView parameter
+ * to the set-points of the hip and ankle controllers.
+ */
+ void test_motor_control() {
+ 		struct ControllerData ctrlHip;
 		struct ControllerData ctrlAnkOut;
 		struct ControllerData ctrlAnkInn;
 
@@ -146,6 +149,29 @@ void mb_controller_update(void) {
 		ctrlAnkInn.vRef = mb_io_get_float(ID_CTRL_TEST_R8);
 		ctrlAnkInn.uRef = mb_io_get_float(ID_CTRL_TEST_R9);
 		controller_ankleInner(ctrlAnkInn);
-	*/
+ }
+
+
+/*  ENTRY-POINT FUNCTION FOR ALL CONTROL CODE */
+void mb_controller_update(void) {
+
+	// Enter stand-by mode when robot first boots
+	static enum ControlMode controlMode = M0_StandBy;
+
+	// Check UI buttons to update control mode
+	if (detect_UI_button_input(1)) controlMode = M1_Active;
+	if (detect_UI_button_input(0)) controlMode = M0_StandBy; // Stand-by always goes last (highest priority)
+
+	// Run the desired control mode
+	switch (controlMode) {
+	case M0_StandBy:
+		set_UI_LED(5, 'g');
+		disable_motors();
+		break;
+	case M1_Active:
+		set_UI_LED(5, 'b');
+		test_motor_control() ;
+		break;
+	}
 
 } // mb_controller_update()

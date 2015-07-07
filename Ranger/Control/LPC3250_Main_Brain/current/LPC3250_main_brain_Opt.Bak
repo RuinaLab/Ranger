@@ -33,7 +33,7 @@ OPTFFF 4,10,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb
 OPTFFF 4,11,1,939524096,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c> 
 OPTFFF 4,12,1,67108864,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c> 
 OPTFFF 6,13,1,486539264,0,0,0,0,<..\..\Controller\led_lcd_ouput.c><led_lcd_ouput.c> 
-OPTFFF 6,14,1,184549378,0,43,69,0,<..\..\Controller\mb_controller.c><mb_controller.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,109,5,0,0,184,1,0,0 }
+OPTFFF 6,14,1,184549378,0,50,69,0,<..\..\Controller\mb_controller.c><mb_controller.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,109,5,0,0,184,1,0,0 }
 
 
 TARGOPT 1, (LPC3250 Int RAM)
