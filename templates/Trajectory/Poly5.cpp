@@ -2,7 +2,8 @@
 //
 
 #include "stdafx.h"
-
+#include <stdio.h>
+#include <stdlib.h>
 #include "TrajData.h"
 #include "Trajectory.h"
 
@@ -15,28 +16,46 @@ int _tmain(int argc, _TCHAR* argv[])
 	fprintf(out, "TestData = [...\n");
 	fclose(out);
 
-	int DATA_row = sizeof(DATA)/sizeof(DATA[0][0])/4;
-	printf("rowDATA = %d\n", DATA_row);
+	int row = sizeof(DATA)/sizeof(DATA[0][0])/4;
+	printf("rowDATA = %d\n", row);
 	
+	poly_coeff *COEFFS = data_to_coeff(DATA, row);
+	/*printf("COEFFS table\n");
+	for(int i=0; i<row-1; i++){
+		printf("%f %f %f %f\n", COEFFS[i].t0, COEFFS[i].t1, COEFFS[i].a0, COEFFS[i].a1);
+	}*/
+
+	out = fopen("poly5test.m", "a");
+
 	float T[] = {0.0, 5.0};
 	float dt = 1.0/100;
-	printf("dt is %f\n", dt);
 	float t = 0.0;
 	float y, yd, ydd;
-	out = fopen("poly5test.m", "a");
+	float phi;
+	poly_coeff c;
 	while(t<=T[1]){
-		input* in = trajInterp(t, DATA, DATA_row);
-		if(in!=NULL){
-			input in_data = *in;
-			poly_coeff c = trajCoeff(in_data.y0, in_data.y1, in_data.yd0, in_data.yd1, in_data.ydd0, in_data.ydd1);
-			//printf("phi in main is %f\n", in_data.phi);
-			y = getY(c, in_data.phi);
-			yd = getYd(c, in_data.phi);
-			ydd = getYdd(c, in_data.phi);
-			fprintf(out, "%f %f %f %f;\n", t, y, yd, ydd);	
+		int index = getIndex(t, COEFFS, row-1); //length of the the COEFFS array is row-1
+		if(index == -1){
+			//input time less than the time interval
+			index = 0;
+			c = COEFFS[index];
+			phi = 0;
+		}else if(index == -2){
+			//input time greater than the time interval
+			index = row-2; 
+			c = COEFFS[index];
+			phi = 1;
 		}else{
-			printf("not found\n");
+			//found the time interval, evaluate the polynomial at time t
+			c = COEFFS[index];
+			phi = (t-c.t0)/(c.t1-c.t0);
 		}
+		
+		y = getY(c, phi);
+		yd = getYd(c, phi);
+		ydd = getYdd(c, phi);
+		fprintf(out, "%f %f %f %f;\n", t, y, yd, ydd);
+		
 		t = t + dt;
 	}
 

@@ -24,9 +24,8 @@ File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_bluetooth\mb_b
 File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c><a9_clock.c>
 File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c>
 File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c>
+File 6,1,<..\..\Controller\led_lcd_ouput.c><led_lcd_ouput.c>
 File 6,1,<..\..\Controller\mb_controller.c><mb_controller.c>
-File 6,1,<..\..\Controller\input_output.c><input_output.c>
-File 6,1,<..\..\Controller\motorControl.c><motorControl.c>
 
 
 Options 1,0,0  // Target 'LPC3250 Int RAM'
