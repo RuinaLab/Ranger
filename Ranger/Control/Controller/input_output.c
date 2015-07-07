@@ -1,7 +1,17 @@
+// input_output.c
+//
+// Functions for doing I/O
+// 		--> LEDs
+// 		--> LCD screen
+// 		--> buttons
+//
+
+
 #include <mb_includes.h> 
-#include <led_lcd_ouput.h>
+#include <input_output.h>
 
 #include <stdbool.h>
+
 
 /*   Convert Int to Char
  */ 
@@ -127,7 +137,7 @@ void set_UI_LED(int led_number, char color){
  * 		LED 6 does not work
  * 		LCD screen has major problems. Not sure why.
  */
-void test_led_lcd(void){
+void test_input_output(void){
 
 char msg1[4];
 char msg2[4];

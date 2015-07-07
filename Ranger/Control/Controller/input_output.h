@@ -1,5 +1,5 @@
-#ifndef __LED_LCD_OUTPUT_H__
-#define __LED_LCD_OUTPUT_H__
+#ifndef __INPUT_OUTPUT_H__
+#define __INPUT_OUTPUT_H__
 				 
 #include <stdbool.h>
 
@@ -12,6 +12,6 @@ void clear_UI_LCD(int);
 void set_UI_LED(int, char); 
 
 // Test function:
-void test_led_lcd(void); 
+void test_input_output(void); 
 
-#endif // __LED_LCD_OUTPUT_H__
+#endif // __INPUT_OUTPUT_H__
