@@ -1,10 +1,20 @@
 #include <mb_includes.h> 
 #include <led_lcd_ouput.h>
 
+#include <stdbool.h>
+
 /*   Convert Int to Char
  */ 
 char int2ascii(int num){
   return (num + '0');  
+}
+
+/* Check if a button on the UI board is being pressed
+ */
+bool detect_UI_button_input(int button_num){	 
+	int buttons;
+	buttons = get_io_ul(ID_UI_BUTTONS);
+  return (buttons & (1<<button_num));
 }
 
 
