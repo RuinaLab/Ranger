@@ -147,3 +147,75 @@ void controller_ankleInner( struct ControllerData * C ) {
 		controller_ankleInner(&ctrlAnkInn);
  }
 
+
+#include "Trajectory.h"
+#include "TrajData.h"
+#include "math.h"
+
+#define DATA TRAJ_DATA_Test0
+
+ /* Runs a simple test of tracing a trajectory
+ */
+ void test_trajectory() {
+ 		struct ControllerData ctrlHip;
+		struct ControllerData ctrlAnkOut;
+		struct ControllerData ctrlAnkInn;
+
+		int row = sizeof(DATA)/sizeof(DATA[0][0])/4;
+		float max_t = DATA[row-1][0];
+		poly_coeff *COEFFS = data_to_coeff(DATA, row);
+		
+		float sys_t = mb_io_get_float(ID_TIMESTAMP)/1000;//converts the system_time from ms to s
+		float y, yd, ydd;
+		float phi;
+		poly_coeff c;
+	
+		float t = fmod(sys_t, max_t);
+		int index = getIndex(t, COEFFS, row-1); //length of the the COEFFS array is row-1
+		if(index == -1){
+			//input time less than the time interval
+			index = 0;
+			c = COEFFS[index];
+			phi = 0;
+		}else if(index == -2){
+			//input time greater than the time interval
+			index = row-2; 
+			c = COEFFS[index];
+			phi = 1;
+		}else{
+			//found the time interval, evaluate the polynomial at time t
+			c = COEFFS[index];
+			phi = (t-c.t0)/(c.t1-c.t0);
+		}
+		
+		y = getY(c, phi);
+		yd = getYd(c, phi);
+		ydd = getYdd(c, phi);
+
+		mb_io_set_float(ID_CTRL_TEST_W0, y);	
+	
+	// Run a PD-controller on the hip angle:
+		ctrlHip.kp = mb_io_get_float(ID_CTRL_TEST_R0);
+		ctrlHip.kd = mb_io_get_float(ID_CTRL_TEST_R1);
+		ctrlHip.xRef = y;
+		ctrlHip.vRef = yd;
+		ctrlHip.uRef = 0.0;
+		controller_hip(&ctrlHip);
+
+	// Run a PD-controller on the outer foot angles:
+		ctrlAnkOut.kp = 0.0;
+		ctrlAnkOut.kd = 0.0;
+		ctrlAnkOut.xRef = 1.0;
+		ctrlAnkOut.vRef = 0.0;
+		ctrlAnkOut.uRef = 0.0;
+		controller_ankleOuter(&ctrlAnkOut);
+
+	// Run a PD-controller on the inner foot angles:
+		ctrlAnkInn.kp = 0.0;
+		ctrlAnkInn.kd = 0.0;
+		ctrlAnkInn.xRef = 1.0;
+		ctrlAnkInn.vRef = 0.0;
+		ctrlAnkInn.uRef = 0.0;
+		controller_ankleInner(&ctrlAnkInn);
+ }
+

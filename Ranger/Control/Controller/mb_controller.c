@@ -34,7 +34,7 @@ void mb_controller_update(void) {
 		break;
 	case M2_TraceCurve:
 		set_UI_LED(5, 'r');
-		//test_trajectory();
+		test_trajectory();
 	}
 
 } // mb_controller_update()

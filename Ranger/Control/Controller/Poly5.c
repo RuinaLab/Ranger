@@ -16,7 +16,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	fclose(out);
 
 	int row = sizeof(DATA)/sizeof(DATA[0][0])/4;
-	printf("rowDATA = %d\n", row);
+	//printf("rowDATA = %d\n", row);
 	
 	poly_coeff *COEFFS = data_to_coeff(DATA, row);
 	/*printf("COEFFS table\n");
