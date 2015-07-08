@@ -15,6 +15,9 @@ poly_coeff* data_to_coeff(const float(*data)[4], int row){
 		COEFFS[i] = (float *)malloc(col*sizeof(float));
 	}*/
 
+	//the size of the coefficients array should be one less than the # of rows in the data array
+	//every two adjacent rows of data output a single set of coefficients 
+	//b/c a polynomial euqation needs to be calculatd for for each time interval in a piece-wise plot
 	poly_coeff *COEFFS = (poly_coeff *) malloc ((row-1)*sizeof(poly_coeff));
 
 	float t0, y0, yd0, ydd0, t1, y1, yd1, ydd1;
@@ -68,7 +71,7 @@ int getIndex(float t, poly_coeff COEFFS[], int length){
 	}
 }
 
-//Computes the coefficients of a 5th order polynomial given the information about 
+//Computes the set of coefficients of a 5th order polynomial given the information about 
 //position/splope/curvature.
 poly_coeff trajCoeff(float y0, float y1, float yd0, float yd1, float ydd0, float ydd1){
 	poly_coeff c;

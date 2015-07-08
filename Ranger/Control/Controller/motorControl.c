@@ -150,9 +150,13 @@ void controller_ankleInner( struct ControllerData * C ) {
 
 #include "Trajectory.h"
 #include "TrajData.h"
-#include "math.h"
+#include "math.h" //for fmod()
+#include "RangerMath.h"	//for Sin()
 
 #define DATA TRAJ_DATA_Test0
+static const float leg_m = 2.5; //4.95
+static const float leg_r = 0.15;
+static const float g = 9.8;
 
  /* Runs a simple test of tracing a trajectory
  */
@@ -160,16 +164,18 @@ void controller_ankleInner( struct ControllerData * C ) {
  		struct ControllerData ctrlHip;
 		struct ControllerData ctrlAnkOut;
 		struct ControllerData ctrlAnkInn;
+		float hip_angle;
+		float torque;
 
+	// Compute the position/slope/curvature of a 5th order polynomial at a given time 
 		int row = sizeof(DATA)/sizeof(DATA[0][0])/4;
 		float max_t = DATA[row-1][0];
 		poly_coeff *COEFFS = data_to_coeff(DATA, row);
 		
 		float sys_t = mb_io_get_float(ID_TIMESTAMP)/1000;//converts the system_time from ms to s
-		float y, yd, ydd;
 		float phi;
 		poly_coeff c;
-	
+		float y, yd, ydd;
 		float t = fmod(sys_t, max_t);
 		int index = getIndex(t, COEFFS, row-1); //length of the the COEFFS array is row-1
 		if(index == -1){
@@ -194,12 +200,16 @@ void controller_ankleInner( struct ControllerData * C ) {
 
 		mb_io_set_float(ID_CTRL_TEST_W0, y);	
 	
+	// Calculate the toque needed to compensate for gravity pull
+		hip_angle = mb_io_get_float(ID_MCH_ANGLE); 
+		torque = leg_m * g * leg_r * Sin(hip_angle); 
+
 	// Run a PD-controller on the hip angle:
 		ctrlHip.kp = mb_io_get_float(ID_CTRL_TEST_R0);
 		ctrlHip.kd = mb_io_get_float(ID_CTRL_TEST_R1);
 		ctrlHip.xRef = y;
 		ctrlHip.vRef = yd;
-		ctrlHip.uRef = 0.0;
+		ctrlHip.uRef = torque;
 		controller_hip(&ctrlHip);
 
 	// Run a PD-controller on the outer foot angles:

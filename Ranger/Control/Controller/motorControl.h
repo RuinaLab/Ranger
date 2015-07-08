@@ -18,5 +18,6 @@ void controller_ankleInner(struct ControllerData *);
 
 void disable_motors(void);
 void test_motor_control(void);
+void test_trajectory(void);
 
 #endif // __MOTORCONTROL_H__
