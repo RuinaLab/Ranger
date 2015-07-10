@@ -30,3 +30,13 @@ The contact sensor is actually an optical sensor that measures the deflection of
 
 ### Sign Convention:
 - `ID_MCH_ANGLE`- Hip angle, positive when the inner legs are swung forward  
+
+### Yawen's Estimator:
+- Added the function mb_estimator_update to the schedule (list of tasks to be executed) in mb_software_setup (which gets called every ...)
+- mb_estimator_update runs a second order Butterworth filter to filter out data for hip angle rate and motor velocity.
+- The second order butterworth filter computes an estimated value at each time stamp based on the current measured value and the measured/estimated values at the past two time stamps. 
+- Although the main brain runs every 2 ms, the time interval between two sampled may not always be exactly 2 ms. Since the smallest count of time is 1, we will
+make the butterworth filter operate at the 1ms sampling time. The missing data is assumed to be the same as the previous data (this is called zero order hold).
+- The set of coefficients used in the butterworth filter equation are calculated according to the ratio of cut_off frequency to half of the sampling frequency (Nyquist frequency). In our case, the sampling frequency is 1 kHz, and the cut_off frequency is set to be 50 Hz, the ratio is calcuated as 50Hz/500Hz=0.1.
+    
+
