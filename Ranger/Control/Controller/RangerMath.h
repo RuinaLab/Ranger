@@ -7,3 +7,4 @@ float Atan(float);
 float Sqrt(float);
 
 #endif // __RANGERMATH_H__
+
