@@ -205,6 +205,8 @@ MB_ROCK_FI_FSM_STATE,0,1,0,rock foot inner fsm state
 MB_ROCK_FO_FSM_STATE,0,1,0,rock foot outer fsm state
 MB_EMPTY_FSM3,0,1,0,Unused FSM ID
 #State Estimator,,,,
+E_MCH_MOTOR_VELOCITY,0,1,0,estimated angular rate (rad/sec) of hip motor
+E_MCH_ANG_RATE,0,1,0,estimated slightly filtered derivative of ID_MCH_ANGLE
 E_INNER_ANG_RATE,0,1,0,inner leg angular rate from estimator (world frame) rad/s; positive if falling forward
 E_OUTER_ANG_RATE ,0,1,0,outer leg angle from estimator (world frame); rad; measured from vertical; positive if leaning forward
 E_INNER_ANGLE,0,1,0,not being used (it's free)
@@ -274,6 +276,27 @@ CTRL_TEST_W6,0,1,0,test write to labview
 CTRL_TEST_W7,0,1,0,test write to labview
 CTRL_TEST_W8,0,1,0,test write to labview
 CTRL_TEST_W9,0,1,0,test write to labview
+#EstimatorTesting,,,,
+EST_TEST_R0,0,0,1,test read from labview
+EST_TEST_R1,0,0,1,test read from labview
+EST_TEST_R2,0,0,1,test read from labview
+EST_TEST_R3,0,0,1,test read from labview
+EST_TEST_R4,0,0,1,test read from labview
+EST_TEST_R5,0,0,1,test read from labview
+EST_TEST_R6,0,0,1,test read from labview
+EST_TEST_R7,0,0,1,test read from labview
+EST_TEST_R8,0,0,1,test read from labview
+EST_TEST_R9,0,0,1,test read from labview
+EST_TEST_W0,0,1,0,test write to labview
+EST_TEST_W1,0,1,0,test write to labview
+EST_TEST_W2,0,1,0,test write to labview
+EST_TEST_W3,0,1,0,test write to labview
+EST_TEST_W4,0,1,0,test write to labview
+EST_TEST_W5,0,1,0,test write to labview
+EST_TEST_W6,0,1,0,test write to labview
+EST_TEST_W7,0,1,0,test write to labview
+EST_TEST_W8,0,1,0,test write to labview
+EST_TEST_W9,0,1,0,test write to labview
 #Labview,,,,
 LV_START,,,,
 LV_CH_0,,,,

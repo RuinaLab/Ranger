@@ -1,24 +1,37 @@
 #ifndef __MB_ESTIMATOR_H__
 #define __MB_ESTIMATOR_H__
 
-// MAIN function
-void mb_estimator_update(void);  // this will be FINALLY CALLED by the main brain and it will do all the estimations
+static struct FilterCoeff FC;
+static struct FilterData FD_hip_rate, FD_hip_motor_rate;
+static int f_init = 0; 
 
-// other functions, many may not be in use any more. 
-void mb_abs_leg_and_ankle_angles_and_swingfootheight(void);
-void mb_time_since_last_HS_and_step_counter (void); // it calculates times since last HS
-void mb_hip_motor_rate_filter (void);
-void mb_hip_rate_filter(void);
-void mb_imu_rate_filter (void); 
-void mb_leg_state_machine_old(void);
-void mb_leg_state_machine_new(void);
-// void mb_hip_rate_from_hip_angle(void);
-void  mb_model_based_estimator(void);
-float greg_sqrt(float xin);   // by greg: INPUT should only be BETWEEN 0 and 2. Doesn't work well when less than .01.... considering I use the sqrt for number less than leg+ankle_length so thats always less than 2 in m.
-float greg_atan(float xin);    // by greg (it uses Quadratic interpolation)
-float greg_cos(float xin);  // by greg (it uses Quadratic interpolation)
-float greg_sin(float xin);  // by greg (it uses Quadratic interpolation)
-float anoop_asin(float xin); // arc sin by anoop using soem degree polynomial. 
-float signum(float x);
+struct FilterCoeff {
+	float a1;
+	float a2;
+	float b0;
+	float b1;
+	float b2;
+};
 
-#endif  //__MB_ESTIMATOR_H__
+struct FilterData {
+	float z0; // Measurement at time k
+	float z1; // Measurement at time k-1
+	float z2; // Measurement at time k-2
+	float y0; // Estimate at time k
+	float y1; // Estimate at time k-1
+	float y2; // Estimate at time k-2
+	unsigned long t0; // time k
+	unsigned long t1; // time k-1
+	unsigned long t2; // time k-2
+};
+
+void mb_estimator_update(void);
+void filter_init(void);
+void filter_hip_rate(void);
+void filter_hip_motor_rate(void) ;
+void setFilterCoeff(struct FilterCoeff*, float);
+void setFilterData(struct FilterData*, float) ;
+float runFilter_new(struct FilterCoeff*, struct FilterData*, float, unsigned long);
+
+#endif  // __MB_ESTIMATOR_H__
+
