@@ -48,8 +48,12 @@ static const float param_hip_joint_inertia = 0.5616; // (kg-m^2) Swing leg momen
 static const float param_ank_motor_const = 0.612;  // (Nm/Amp) Motor Constant, including gear box
 static const float param_ank_spring_const = 0.134;  // (Nm/rad) Ankle spring constant
 static const float param_ank_spring_ref = 1.662;  // (rad) Ankle spring reference angle
-static const float param_ank_joint_inertia = 0.01; // (kg-m^2) Ankle moment of inertia about ankle joint
-
+static const float param_ank_joint_inertia = 0.05;//0.01; // (kg-m^2) Ankle moment of inertia about ankle joint
+//the rise time stays roughly the same for ankle joint intertia in the range of 0.04-0.15 
+//(~2s and matches the matlab simulation which shows a rise time of ~2s in plot)
+//becaus rise time is independent of inertia
+//seems like greater inertia makes the ankle swing faster
+//greater inertia --> greater kp, cp, Ir 	
 
 
 /* This function calls the low-level hip controller. */
@@ -181,8 +185,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 
  int counter = 0; 
 
- /* Runs a simple test of the frequency controllers
- */
+ /* Runs a simple test of the frequency controllers */
  void test_freq_control() {
  		struct ControllerData ctrlHip;
 		struct ControllerData ctrlAnkOut;
@@ -199,9 +202,8 @@ void controller_ankleInner( struct ControllerData * C ) {
 
 
 	// Run a PD-controller on the hip angle:
-		//ctrlHip.kp = .33;
-		//ctrlHip.kd = .86;
-		ctrlHip.wn = hip_wn;
+	// The outer foot should trace a step-function, swing periodically between +/- hipRefAmp
+		/*ctrlHip.wn = hip_wn;
 		ctrlHip.xi = hip_xi;
 		if(counter <= 1000){
 			ctrlHip.xRef = hipRefAmp;
@@ -221,23 +223,34 @@ void controller_ankleInner( struct ControllerData * C ) {
 		mb_io_set_float(ID_CTRL_TEST_W1, ctrlHip.Cd);
 		mb_io_set_float(ID_CTRL_TEST_W2, ctrlHip.kp);
 		mb_io_set_float(ID_CTRL_TEST_W3, ctrlHip.kd);
-				
+		*/
+	
+	// Set up the angle reference, so that outer&inner foot trace a step-function
+	// (swing periodically between 0.5 and 1.5 rad)  			
+		if(counter <= 1000){
+			ctrlAnkInn.xRef = 1.5;
+			ctrlAnkOut.xRef = 1.5;
+		}else if (counter <= 2000){
+			ctrlAnkInn.xRef = 0.5;
+			ctrlAnkOut.xRef = 0.5;
+		}else{
+			counter = 0;
+		}		
+		counter ++;
+					
 	// Run a PD-controller on the outer foot angles:
-		/*ctrlAnkOut.kp = mb_io_get_float(ID_CTRL_TEST_R5);
-		ctrlAnkOut.kd = mb_io_get_float(ID_CTRL_TEST_R6);
-		ctrlAnkOut.xRef = mb_io_get_float(ID_CTRL_TEST_R7);
-		ctrlAnkOut.vRef = mb_io_get_float(ID_CTRL_TEST_R8);
-		ctrlAnkOut.uRef = mb_io_get_float(ID_CTRL_TEST_R9);
+		ctrlAnkOut.wn = 3.5;
+		ctrlAnkOut.xi = 1;
+		ctrlAnkOut.vRef = 0;
+		ctrlAnkOut.uRef = 0;
 		controller_ankleOuter(&ctrlAnkOut);
 
 	// Run a PD-controller on the inner foot angles:
-		ctrlAnkInn.kp = mb_io_get_float(ID_CTRL_TEST_R5);
-		ctrlAnkInn.kd = mb_io_get_float(ID_CTRL_TEST_R6);
-		ctrlAnkInn.xRef = mb_io_get_float(ID_CTRL_TEST_R7);
-		ctrlAnkInn.vRef = mb_io_get_float(ID_CTRL_TEST_R8);
-		ctrlAnkInn.uRef = mb_io_get_float(ID_CTRL_TEST_R9);
+		ctrlAnkInn.wn = 3.5;
+		ctrlAnkInn.xi = 1;
+		ctrlAnkInn.vRef = 0;
+		ctrlAnkInn.uRef = 0;
 		controller_ankleInner(&ctrlAnkInn);
-		*/
  }
 
  /* Runs a simple test of tracing a trajectory
@@ -287,8 +300,6 @@ void controller_ankleInner( struct ControllerData * C ) {
 		torque = leg_m * g * leg_r * Sin(hip_angle); 
 
 	// Run a PD-controller on the hip angle:
-		//ctrlHip.kp = mb_io_get_float(ID_CTRL_TEST_R0);
-		//ctrlHip.kd = mb_io_get_float(ID_CTRL_TEST_R1);
 		ctrlHip.wn = 3.5;
 		ctrlHip.xi = 1;
 		
@@ -298,8 +309,6 @@ void controller_ankleInner( struct ControllerData * C ) {
 		controller_hip(&ctrlHip);
 
 	// Run a PD-controller on the outer foot angles:
-		//ctrlAnkOut.kp = 0.0;
-		//ctrlAnkOut.kd = 0.0;
 	/*	ctrlAnkOut.xRef = 1.0;
 		ctrlAnkOut.vRef = 0.0;
 		ctrlAnkOut.uRef = 0.0;
