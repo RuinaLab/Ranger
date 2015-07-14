@@ -159,5 +159,10 @@ float Sqrt(float xin)  {
 	xdiff1 = xdiff0 - h;
 	return ( ya[klo] + (ya[khi] - ya[klo]) * hinv * xdiff0 + y2a[khi] * xdiff0 * xdiff1 );
 
-}
+}			
+
+//xin should not be an odd multiple of pi/2
+float Tan(float xin){
+	return Sin(xin)/Cos(xin);
+} 
 

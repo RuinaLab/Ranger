@@ -2,6 +2,17 @@
 #include <motorControl.h>
 
 
+#include "Trajectory.h"
+#include "TrajData.h"
+#include "math.h" //for fmod()
+#include "RangerMath.h"	//for Sin()
+
+#define DATA TRAJ_DATA_Test0
+static const float leg_m = 2.5; //4.95
+static const float leg_r = 0.15; //length to the center of mass 
+static const float g = 9.8;
+
+
 /* parameters for the motors in Ranger */
 // static const float param_motor_R = 1.3; // (Ohms) terminal resistance
 // static const float param_motor_Vc = 0.7; // (Volts) contact voltage drop
@@ -17,69 +28,89 @@ static const float param_motor_G_ank = 34.0; // (1) gearbox ratio (66 = hip, 34 
 static const float param_joint_ankle_flip = 0.15; // Hard stop at 0.0. Foot flips up to this angle to clear ground.
 static const float param_joint_ankle_push = 2.0; // Hard stop at 3.0. Foot pushes off to inject energy, this is maximum bound.
 
+/* joint inertias */
+static const float param_joint_inertia_hip = 0.562; // (kg-m^2) inertia of the leg about the hip joint
+
 /* passive elements in joints. Experimental data stored in:
  * templates/MotorModel/Test_StaticTorque.m
  */
-static const float param_joint_ankle_ref = 1.662; // (rad) Foot angle corresponding to zero torque from spring. 
-static const float param_joint_ankle_spring = 0.134; //(Nm/rad) Spring constant for the ankle spring	
-static const float param_joint_hip_spring = 8.045; // (Nm/rad) Spring constant for the hip spring	(equilibrium: angle=0)
+//static const float param_joint_ankle_ref = 1.662; // (rad) Foot angle corresponding to zero torque from spring. 
+//static const float param_joint_ankle_spring = 0.134; //(Nm/rad) Spring constant for the ankle spring	
+//static const float param_joint_hip_spring = 8.045; // (Nm/rad) Spring constant for the hip spring	(equilibrium: angle=0)
 
-/*  MotorModel_Current computes the current that should be required to produce
- * 	the desired torque, given the state of the motor.
- * 	@param torque = desired joint torque
- *
- * --> Neglect friction since, terms are either zero (damping) or not easily
- *     invertable (coulomb friction)
- */
-float MotorModel_Current(float torque, float G) {
-	// Tf = c1*omega + c0*sign(omega) + mu*G*K*abs(I)*sign(omega);	// Frictional torque
-	// T = G*(K*I - Jm*G*alpha) - Tf; // Torque out of gear box:
-	//
-	// --> T = G*K*I + [neglected terms]
-	// --> I = T/(G*K)
 
-	return torque / (G * param_motor_K);
+/* PD controller constants */ 
+static const float param_hip_motor_const = 1.188;  // (Nm/Amp) Motor Constant, including gear box
+static const float param_hip_spring_const = 8.045;  // (Nm/rad) Hip spring constant
+static const float param_hip_spring_ref = 0.00;  // (rad) Hip spring reference angle
+static const float param_hip_joint_inertia = 0.5616; // (kg-m^2) Swing leg moment of inertia about the hip joint
 
-}
+static const float param_ank_motor_const = 0.612;  // (Nm/Amp) Motor Constant, including gear box
+static const float param_ank_spring_const = 0.134;  // (Nm/rad) Ankle spring constant
+static const float param_ank_spring_ref = 1.662;  // (rad) Ankle spring reference angle
+static const float param_ank_joint_inertia = 0.01; // (kg-m^2) Ankle moment of inertia about ankle joint
+
+
 
 /* This function calls the low-level hip controller. */
 void controller_hip( struct ControllerData * C ) {
-	float uSpring; // expected torque exerted by the hip spring
-	float uControl; // torque due to PD controller
-	float torque;  // feed-forward torque term
-	float current;  // target motor current, based on motor model
+  
+	float Ir;  // reference current, passed to the motor controller
 
-	uControl =  C->kp * C->xRef + C->kd * C->vRef; // PD controller
-	uSpring = -param_joint_hip_spring * C->xRef; // equilibrium at zero
-	torque = C->uRef - uSpring + uControl;
-	current = MotorModel_Current(torque, param_motor_G_hip);
+	C->kp = param_hip_joint_inertia * (C->wn) * (C->wn);
+	C->kd = 2.0 * param_hip_joint_inertia * (C->wn) * (C->xi);
 
-	mb_io_set_float(ID_MCH_COMMAND_CURRENT, current);
-	mb_io_set_float(ID_MCH_STIFFNESS, C->kp);
-	mb_io_set_float(ID_MCH_DAMPNESS, C->kd);
+	C->Cp = (C->kp - param_hip_spring_const) / param_hip_motor_const;
+	C->Cd = C->kd / param_hip_motor_const;
+
+	Ir = (
+	         C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef)
+	         - param_hip_spring_const * param_hip_spring_ref
+	     ) / param_hip_motor_const;
+
+	mb_io_set_float(ID_MCH_COMMAND_CURRENT, Ir);
+	mb_io_set_float(ID_MCH_STIFFNESS, C->Cp);
+	mb_io_set_float(ID_MCH_DAMPNESS, C->Cd);
 }
+
+
+
 
 /* Computes the current to send to the ankle controller 
  */
 float getAnkleControllerCurrent( struct ControllerData * C ){
-	float uSpring; // expected torque exerted by the ankle spring
-	float uControl; // PD controller torque terms
-	float torque;  // feed-forward torque term
+	float Cp;  // proportional gain, current, passed to the motor controller
+	float Cd;  // derivative gain, current, passed to the motor controller
+	float Ir;  // reference current, passed to the motor controller
 
-	uControl = C->kp * C->xRef + C->kd * C->vRef;
-	uSpring = -param_joint_ankle_spring * (C->xRef - param_joint_ankle_ref); 
-	torque = C->uRef - uSpring + uControl;
-	return MotorModel_Current(torque, param_motor_G_ank);  // Compute expected current
+	C->kp = param_ank_joint_inertia * (C->wn) * (C->wn);
+	C->kd = 2.0 * param_ank_joint_inertia * (C->wn) * (C->xi);
+
+	C->Cp = (C->kp - param_ank_spring_const) / param_ank_motor_const;
+	C->Cd = C->kd / param_ank_motor_const;
+
+	// Check to make sure ankle joint doesn't go out of bound
+	if(C->xRef > param_joint_ankle_push){
+		C->xRef = param_joint_ankle_push;
+	}else if(C->xRef < param_joint_ankle_flip){
+		C->xRef = param_joint_ankle_flip;
+	}
+
+	Ir = (
+	         C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef)
+	         - param_ank_spring_const * param_ank_spring_ref
+	     ) / param_ank_motor_const;
+	return Ir;
 }
 
 /* This function calls the low-level ankle (outer) controller. 
  */
 void controller_ankleOuter( struct ControllerData * C ) {
 	float current;
-	current = getAnkleControllerCurrent(C);
+	current = getAnkleControllerCurrent(C);	
 	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, current);
-	mb_io_set_float(ID_MCFO_STIFFNESS, C->kp);
-	mb_io_set_float(ID_MCFO_DAMPNESS, C->kd);
+	mb_io_set_float(ID_MCFO_STIFFNESS, C->Cp);
+	mb_io_set_float(ID_MCFO_DAMPNESS, C->Cd);
 }
 
 
@@ -89,8 +120,8 @@ void controller_ankleInner( struct ControllerData * C ) {
 	float current;
 	current = getAnkleControllerCurrent(C);
 	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, current);
-	mb_io_set_float(ID_MCFI_STIFFNESS, C->kp);
-	mb_io_set_float(ID_MCFI_DAMPNESS, C->kd);
+	mb_io_set_float(ID_MCFI_STIFFNESS, C->Cp);
+	mb_io_set_float(ID_MCFI_DAMPNESS, C->Cd);
 }
 
 
@@ -148,15 +179,66 @@ void controller_ankleInner( struct ControllerData * C ) {
  }
 
 
-#include "Trajectory.h"
-#include "TrajData.h"
-#include "math.h" //for fmod()
-#include "RangerMath.h"	//for Sin()
+ int counter = 0; 
 
-#define DATA TRAJ_DATA_Test0
-static const float leg_m = 2.5; //4.95
-static const float leg_r = 0.15;
-static const float g = 9.8;
+ /* Runs a simple test of the frequency controllers
+ */
+ void test_freq_control() {
+ 		struct ControllerData ctrlHip;
+		struct ControllerData ctrlAnkOut;
+		struct ControllerData ctrlAnkInn;
+
+		
+		float hipRefAmp;  // square wave reference amplitude
+		float hip_xi;   // controller damping ratio
+		float hip_wn;   // controller natural frequency
+
+		hipRefAmp = mb_io_get_float(ID_CTRL_TEST_R0);
+ 		hip_xi = mb_io_get_float(ID_CTRL_TEST_R1);
+ 		hip_wn = mb_io_get_float(ID_CTRL_TEST_R2);
+
+
+	// Run a PD-controller on the hip angle:
+		//ctrlHip.kp = .33;
+		//ctrlHip.kd = .86;
+		ctrlHip.wn = hip_wn;
+		ctrlHip.xi = hip_xi;
+		if(counter <= 1000){
+			ctrlHip.xRef = hipRefAmp;
+		}else if (counter <= 2000){
+			ctrlHip.xRef = -hipRefAmp;
+		}else{
+			counter = 0;
+		}
+		
+		ctrlHip.vRef = 0;
+		ctrlHip.uRef = 0;
+
+		counter ++;	
+		controller_hip(&ctrlHip);
+
+	    mb_io_set_float(ID_CTRL_TEST_W0, ctrlHip.Cp);
+		mb_io_set_float(ID_CTRL_TEST_W1, ctrlHip.Cd);
+		mb_io_set_float(ID_CTRL_TEST_W2, ctrlHip.kp);
+		mb_io_set_float(ID_CTRL_TEST_W3, ctrlHip.kd);
+				
+	// Run a PD-controller on the outer foot angles:
+		/*ctrlAnkOut.kp = mb_io_get_float(ID_CTRL_TEST_R5);
+		ctrlAnkOut.kd = mb_io_get_float(ID_CTRL_TEST_R6);
+		ctrlAnkOut.xRef = mb_io_get_float(ID_CTRL_TEST_R7);
+		ctrlAnkOut.vRef = mb_io_get_float(ID_CTRL_TEST_R8);
+		ctrlAnkOut.uRef = mb_io_get_float(ID_CTRL_TEST_R9);
+		controller_ankleOuter(&ctrlAnkOut);
+
+	// Run a PD-controller on the inner foot angles:
+		ctrlAnkInn.kp = mb_io_get_float(ID_CTRL_TEST_R5);
+		ctrlAnkInn.kd = mb_io_get_float(ID_CTRL_TEST_R6);
+		ctrlAnkInn.xRef = mb_io_get_float(ID_CTRL_TEST_R7);
+		ctrlAnkInn.vRef = mb_io_get_float(ID_CTRL_TEST_R8);
+		ctrlAnkInn.uRef = mb_io_get_float(ID_CTRL_TEST_R9);
+		controller_ankleInner(&ctrlAnkInn);
+		*/
+ }
 
  /* Runs a simple test of tracing a trajectory
  */
@@ -205,27 +287,31 @@ static const float g = 9.8;
 		torque = leg_m * g * leg_r * Sin(hip_angle); 
 
 	// Run a PD-controller on the hip angle:
-		ctrlHip.kp = mb_io_get_float(ID_CTRL_TEST_R0);
-		ctrlHip.kd = mb_io_get_float(ID_CTRL_TEST_R1);
+		//ctrlHip.kp = mb_io_get_float(ID_CTRL_TEST_R0);
+		//ctrlHip.kd = mb_io_get_float(ID_CTRL_TEST_R1);
+		ctrlHip.wn = 3.5;
+		ctrlHip.xi = 1;
+		
 		ctrlHip.xRef = y;
 		ctrlHip.vRef = yd;
 		ctrlHip.uRef = torque;
 		controller_hip(&ctrlHip);
 
 	// Run a PD-controller on the outer foot angles:
-		ctrlAnkOut.kp = 0.0;
-		ctrlAnkOut.kd = 0.0;
-		ctrlAnkOut.xRef = 1.0;
+		//ctrlAnkOut.kp = 0.0;
+		//ctrlAnkOut.kd = 0.0;
+	/*	ctrlAnkOut.xRef = 1.0;
 		ctrlAnkOut.vRef = 0.0;
 		ctrlAnkOut.uRef = 0.0;
 		controller_ankleOuter(&ctrlAnkOut);
 
 	// Run a PD-controller on the inner foot angles:
-		ctrlAnkInn.kp = 0.0;
-		ctrlAnkInn.kd = 0.0;
+		//ctrlAnkInn.kp = 0.0;
+		//ctrlAnkInn.kd = 0.0;
 		ctrlAnkInn.xRef = 1.0;
 		ctrlAnkInn.vRef = 0.0;
 		ctrlAnkInn.uRef = 0.0;
 		controller_ankleInner(&ctrlAnkInn);
+		*/
  }
 

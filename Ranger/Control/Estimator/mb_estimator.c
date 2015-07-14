@@ -1,6 +1,7 @@
 #include <mb_includes.h>
 #include <mb_estimator.h>
-#include <math.h>   // tan()
+#include <RangerMath.h>   // tan()
+
 
 #define SQRT_TWO 1.414213562373095
 #define PI 3.141592653589793
@@ -72,7 +73,7 @@ void setFilterCoeff(struct FilterCoeff * FC, float r) {
 	if (r < 0.001) r = 0.001;  // Prevents a divide by zero
 	if (r > 0.999) r = 0.999;  // Cannot exceed Nyquist frequency
 
-	c = tan(0.5 * PI * (1.0 - r));
+	c = Tan(0.5 * PI * (1.0 - r));
 
 	FC->b0 = 1.0 / (1.0 + q * c + c * c);
 	FC->b1 = 2.0 * (FC->b0);

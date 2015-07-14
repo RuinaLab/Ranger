@@ -30,7 +30,8 @@ void mb_controller_update(void) {
 		break;
 	case M1_Active:
 		set_UI_LED(5, 'b');
-		test_motor_control() ;
+		//test_motor_control() ;
+		test_freq_control();
 		break;
 	case M2_TraceCurve:
 		set_UI_LED(5, 'r');
