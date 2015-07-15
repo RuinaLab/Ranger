@@ -12,32 +12,10 @@ static const float leg_m = 2.5; //4.95
 static const float leg_r = 0.15; //length to the center of mass 
 static const float g = 9.8;
 
-
-/* parameters for the motors in Ranger */
-// static const float param_motor_R = 1.3; // (Ohms) terminal resistance
-// static const float param_motor_Vc = 0.7; // (Volts) contact voltage drop
-static const float param_motor_K = 0.018; // (Nm/A) torque constant
-// static const float param_motor_c1 = 0.0; // (Nms/rad) viscous friction
-// static const float param_motor_c0 = 0.01; // (Nm) const friction
-// static const float param_motor_mu = 0.1; // (1) current-dep const friction
-// static const float param_motor_Jm = 1.6e-6; // (kg-m^2) motor inertia
-static const float param_motor_G_hip = 66.0; // (1) gearbox ratio (66 = hip, 34 = ankle)
-static const float param_motor_G_ank = 34.0; // (1) gearbox ratio (66 = hip, 34 = ankle)
-
 /* joint limits */
-static const float param_joint_ankle_flip = 0.15; // Hard stop at 0.0. Foot flips up to this angle to clear ground.
-static const float param_joint_ankle_push = 2.0; // Hard stop at 3.0. Foot pushes off to inject energy, this is maximum bound.
-
-/* joint inertias */
-static const float param_joint_inertia_hip = 0.562; // (kg-m^2) inertia of the leg about the hip joint
-
-/* passive elements in joints. Experimental data stored in:
- * templates/MotorModel/Test_StaticTorque.m
- */
-//static const float param_joint_ankle_ref = 1.662; // (rad) Foot angle corresponding to zero torque from spring. 
-//static const float param_joint_ankle_spring = 0.134; //(Nm/rad) Spring constant for the ankle spring	
-//static const float param_joint_hip_spring = 8.045; // (Nm/rad) Spring constant for the hip spring	(equilibrium: angle=0)
-
+static const float param_joint_ankle_flip = 0.3; // Hard stop at 0.0. Foot flips up to this angle to clear ground.
+static const float param_joint_ankle_push = 2.5; // Hard stop at 3.0. Foot pushes off to inject energy, this is maximum bound.
+static const float param_joint_ankle_hold = 1.662;
 
 /* PD controller constants */ 
 static const float param_hip_motor_const = 1.188;  // (Nm/Amp) Motor Constant, including gear box
@@ -48,7 +26,7 @@ static const float param_hip_joint_inertia = 0.5616; // (kg-m^2) Swing leg momen
 static const float param_ank_motor_const = 0.612;  // (Nm/Amp) Motor Constant, including gear box
 static const float param_ank_spring_const = 0.134;  // (Nm/rad) Ankle spring constant
 static const float param_ank_spring_ref = 1.662;  // (rad) Ankle spring reference angle
-static const float param_ank_joint_inertia = 0.05;//0.01; // (kg-m^2) Ankle moment of inertia about ankle joint
+static const float param_ank_joint_inertia = 0.07;//0.01; // (kg-m^2) Ankle moment of inertia about ankle joint
 //the rise time stays roughly the same for ankle joint intertia in the range of 0.04-0.15 
 //(~2s and matches the matlab simulation which shows a rise time of ~2s in plot)
 //becaus rise time is independent of inertia
@@ -185,6 +163,29 @@ void controller_ankleInner( struct ControllerData * C ) {
 
  int counter = 0; 
 
+ void test_inner_foot() { 
+		struct ControllerData ctrlAnkInn;
+
+	// Set up the angle reference, so that inner foot simulates when it's walking		
+		if(counter <= 2000){
+			ctrlAnkInn.xRef = param_joint_ankle_hold;
+		}else if (counter <= 4000){
+			ctrlAnkInn.xRef = param_joint_ankle_push;
+		}else if (counter <= 6000){
+			ctrlAnkInn.xRef = param_joint_ankle_flip;
+		}else{
+			counter = 0;
+		}		
+		counter ++;
+
+	// Run a PD-controller on the inner foot angles:
+		ctrlAnkInn.wn = mb_io_get_float(ID_CTRL_TEST_R0); //7
+ 		ctrlAnkInn.xi = mb_io_get_float(ID_CTRL_TEST_R1); //0.7
+		ctrlAnkInn.vRef = 0;
+		ctrlAnkInn.uRef = 0;
+		controller_ankleInner(&ctrlAnkInn);
+ }
+
  /* Runs a simple test of the frequency controllers */
  void test_freq_control() {
  		struct ControllerData ctrlHip;
@@ -239,7 +240,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 		counter ++;
 					
 	// Run a PD-controller on the outer foot angles:
-		ctrlAnkOut.wn = 3.5;
+		ctrlAnkOut.wn = 5;
 		ctrlAnkOut.xi = 1;
 		ctrlAnkOut.vRef = 0;
 		ctrlAnkOut.uRef = 0;

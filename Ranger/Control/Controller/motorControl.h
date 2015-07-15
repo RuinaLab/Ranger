@@ -22,6 +22,7 @@ void controller_ankleInner(struct ControllerData *);
 
 void disable_motors(void);
 void test_motor_control(void);
+void test_inner_foot(void);
 
 void test_trajectory(void);
 void test_freq_control(void);
