@@ -13,17 +13,25 @@ void mb_estimator_update(void){
 	}	
  	filter_hip_rate();
 	filter_hip_motor_rate();
+	filter_gyro_rate();
+
+	if(!i_init_ang_rate){
+		intergrater_init_ang_rate();
+	}
+	integrate_ang_rate();
 	return;
 }
 
 void filter_init(void){
 	// Initialize filter coefficients once for the use of all butterworth filters 
-	float cutoff_frequency = 0.01;  // min 0.001 < fc < 0.999 max
+	// 0.005 is a super low cutoff_freq for estimating the gyro_rate
+	float cutoff_frequency = 0.005;  // min 0.001 < fc < 0.999 max
 	setFilterCoeff(&FC, cutoff_frequency);
 
 	// Initialize filter data for each of the filters 
 	setFilterData(&FD_hip_rate, 0.0);
 	setFilterData(&FD_hip_motor_rate, 0.0);
+	setFilterData(&FD_gyro_rate, 0.0);
 
 	f_init = 1;
 	return;
@@ -58,6 +66,22 @@ void filter_hip_motor_rate(void){
 	
 	mb_io_set_float(ID_E_MCH_MOTOR_VELOCITY, est_hip_motor_rate);
 
+	return;
+}
+
+/* Runs a 2nd order butterworth filter on the hip motor velocity */	
+void filter_gyro_rate(void){																																																												  																																																		
+	float read_data;
+	unsigned long read_data_t;
+	float est_gyro_rate;
+	
+	// Run the filter:
+	read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- mb_io_get_float(ID_EST_GYRO_RATE_BIAS));
+	read_data_t = mb_io_get_time(ID_UI_ANG_RATE_X);
+	est_gyro_rate = runFilter_new(&FC, &FD_gyro_rate, read_data, read_data_t);
+	
+	//mb_io_set_float(ID_EST_GYRO_RATE_BIAS, -.00001*est_gyro_rate + .99999*mb_io_get_float(ID_EST_GYRO_RATE_BIAS));
+	mb_io_set_float(ID_EST_TEST_W1, est_gyro_rate);
 	return;
 }
 
@@ -164,4 +188,33 @@ float runFilter_new(struct FilterCoeff * FC, struct FilterData * FD, float z, un
 	    (FC->a2) * (FD->y2);
 
 	return (FD->y0);
+}
+
+// for imu
+//static float gyro_bias = 0;//-0.0092; // -.004 (old value feb 18 2013)
+                               // new imu  //earlier imu 0.0165 ; //  // this is the average imu rate read from can id when the imu is supposed to be at rest.
+                               // hence this value will be subtracted from the can-id to correct for thsi offset. 
+                               // THIS NUMBER SHOUKD BE REGULARLY CHECKED AND UPDATED. it changes with time.
+void intergrater_init_ang_rate(void){
+	ID_ang_rate.currently_read_data = 0;
+	ID_ang_rate.time_of_curr_read_data = 0;
+	ID_ang_rate.prev_read_data = 0;
+	ID_ang_rate.time_of_prev_read_data = 0;
+	ID_ang_rate.current_angle = 0;
+	i_init_ang_rate = 1;
+}
+
+void integrate_ang_rate(void){
+    ID_ang_rate.prev_read_data = ID_ang_rate.currently_read_data;
+	ID_ang_rate.time_of_prev_read_data = ID_ang_rate.time_of_curr_read_data; 
+	
+	ID_ang_rate.currently_read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- mb_io_get_float(ID_EST_GYRO_RATE_BIAS)); // negative sign because of sign convention difference 
+	ID_ang_rate.time_of_curr_read_data = mb_io_get_time(ID_UI_ANG_RATE_X);
+	
+	ID_ang_rate.current_angle = ID_ang_rate.current_angle + ( ID_ang_rate.prev_read_data + ID_ang_rate.currently_read_data)*(ID_ang_rate.time_of_curr_read_data - ID_ang_rate.time_of_prev_read_data)/2000; //divide 1000 to convert time from ms to s 
+	mb_io_set_float(ID_EST_TEST_W0, ID_ang_rate.current_angle);
+	mb_io_set_float(ID_EST_TEST_W1, ID_ang_rate.prev_read_data);
+	mb_io_set_float(ID_EST_TEST_W2, ID_ang_rate.time_of_prev_read_data);
+	mb_io_set_float(ID_EST_TEST_W3, ID_ang_rate.currently_read_data);	
+	mb_io_set_float(ID_EST_TEST_W4, ID_ang_rate.time_of_curr_read_data);	
 }

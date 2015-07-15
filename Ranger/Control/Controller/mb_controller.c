@@ -31,8 +31,8 @@ void mb_controller_update(void) {
 	case M1_Active:
 		set_UI_LED(5, 'b');
 		//test_motor_control() ;
-		//test_freq_control();
-		test_inner_foot();
+		test_freq_control();
+		//test_inner_foot();
 		break;
 	case M2_TraceCurve:
 		set_UI_LED(5, 'r');

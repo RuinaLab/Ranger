@@ -204,7 +204,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 
 	// Run a PD-controller on the hip angle:
 	// The outer foot should trace a step-function, swing periodically between +/- hipRefAmp
-		/*ctrlHip.wn = hip_wn;
+		ctrlHip.wn = hip_wn;
 		ctrlHip.xi = hip_xi;
 		if(counter <= 1000){
 			ctrlHip.xRef = hipRefAmp;
@@ -224,11 +224,11 @@ void controller_ankleInner( struct ControllerData * C ) {
 		mb_io_set_float(ID_CTRL_TEST_W1, ctrlHip.Cd);
 		mb_io_set_float(ID_CTRL_TEST_W2, ctrlHip.kp);
 		mb_io_set_float(ID_CTRL_TEST_W3, ctrlHip.kd);
-		*/
+	
 	
 	// Set up the angle reference, so that outer&inner foot trace a step-function
 	// (swing periodically between 0.5 and 1.5 rad)  			
-		if(counter <= 1000){
+	/*	if(counter <= 1000){
 			ctrlAnkInn.xRef = 1.5;
 			ctrlAnkOut.xRef = 1.5;
 		}else if (counter <= 2000){
@@ -252,6 +252,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 		ctrlAnkInn.vRef = 0;
 		ctrlAnkInn.uRef = 0;
 		controller_ankleInner(&ctrlAnkInn);
+		*/
  }
 
  /* Runs a simple test of tracing a trajectory

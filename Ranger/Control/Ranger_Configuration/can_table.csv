@@ -207,54 +207,27 @@ MB_EMPTY_FSM3,0,1,0,Unused FSM ID
 #State Estimator,,,,
 E_MCH_MOTOR_VELOCITY,0,1,0,estimated angular rate (rad/sec) of hip motor
 E_MCH_ANG_RATE,0,1,0,estimated slightly filtered derivative of ID_MCH_ANGLE
-E_INNER_ANG_RATE,0,1,0,inner leg angular rate from estimator (world frame) rad/s; positive if falling forward
-E_OUTER_ANG_RATE ,0,1,0,outer leg angle from estimator (world frame); rad; measured from vertical; positive if leaning forward
-E_INNER_ANGLE,0,1,0,not being used (it's free)
-E_OUTER_ANGLE,0,1,0,not being used (it's free)
-E_T_AFTER_HS,0,1,0,time in ms since the last Heel strike
-E_LI_ABSANG,0,1,0,inner leg angle from estimator (world frame); rad; measured from vertical; positive if leaning forward
-E_LO_ABSANG,0,1,0,outer leg angle from estimator (world frame); rad; measured from vertical; positive if leaning forward
-E_H_RATE,0,1,0,estimated hip angular rate  (filtered version of ID_MCH_ANG_RATE)
-E_FI_ABSANG,0,1,0,estimated inner foot absolute angle; rad; not measured from vertical; positive if turned forward
-E_FO_ABSANG,0,1,0,estimated outer foot absolute angle; rad; not measured from vertical; positive if turned forward
-E_SWING_F_HEIGHT,0,1,0,estimated swing foot height from level ground
-E_LEG_STATE,0,1,0,estimated swing leg state
-E_MIDSTANCE_LEGRATE,0,1,0,velocity of stance leg when robot is upright
-E_MIDSTANCE_HIPRATE,0,1,0,velocity of hip when robot is upright (positive if robot is walking fwd)
-E_MIDSTANCE_HIPANG,0,1,0,angle of hip when robot is upright (positive if swing leg is in front of stance leg)
-E_MIDSTANCE_TIME,0,1,0,time for midstance measured from heelstrike
-E_STEP_LEGANG,0,1,0,stance leg angle at heelstrike
-E_STEP_LEGRATE,0,1,0,stance leg rate at heelstrike
-E_STEP_HIPANG,0,1,0,hip angle at heelstrike (positive for fwd step)
-E_STEP_TIME,0,1,0,step time
-E_STEP_NO,0,1,0,number of steps since the start (of entering the walk state in the ui_fsm)
-E_TOTAL_DISTANCE,0,1,0,total distance walked since the start in meters
-E_SS0_LEGANG,0,1,0,leg angle at beginning of swing phase
-E_SS0_LEGRATE,0,1,0,leg rate at beginning of swing phase
-E_H_MOTOR_RATE,0,1,0,hip motor rate; filtered version of ID_MCH_MOTOR_VELOCITY
-E_EXEC_TIME,0,1,0,time taken by estimator to run
-E_INT_LO_ABSANG_RESET,0,1,0,outer foot reset at hs
-E_TIME_TO_HS,0,1,0,estimated time for next hs to happen (not tested/functioning)
-E_SLOPE,0,1,0,estimated ground slope (not tested/ functioning)
-E_SWING_LEG,0,1,0,0 = outer leg is in swing; 1 = inner leg is in swing
-E_F_PP_MISSED,0,1,0,0 for outer and 1 for inner prepush missed
-E_F_PP2HS_TIME,0,1,0,prepush to heelstrike time
-E_F_PP_TIME,0,1,0,prepush time in ms
-E_F_AP_TIME,0,1,0,afterpush time in ms
-E_H_PS_TIME,0,1,0,pre-swing time in ms
-E_H_AM_TIME,0,1,0,pre-swing time in ms
-E_ANK2ANK_HT,0,1,0,height of swing ankle with respect to the stance ankle (meters)
-E_DBL_STANCE,0,1,0,estimation of double/single stance state: 1 = in double stance; 0 = in single stance
-E_TEST3,0,1,0,dummy for testing
-E_TEST4,0,1,0,dummy for testing
-E_TEST5,0,1,0,dummy for testing
-E_TEST6,0,1,0,dummy for testing
-E_TEST7,0,1,0,dummy for testing
-E_TEST8,0,1,0,dummy for testing
-E_TEST9,0,1,0,dummy for testing
-E_TEST10,0,1,0,dummy for testing
-E_TEST11,0,1,0,dummy for testing
-E_TEST12,0,1,0,dummy for testing
+EST_GYRO_RATE_BIAS,-0.0097,1,0,estimated bias for the rate gyro - based on experiment on ___DATE____
+EST_TEST_R0,0,0,1,test read from labview
+EST_TEST_R1,0,0,1,test read from labview
+EST_TEST_R2,0,0,1,test read from labview
+EST_TEST_R3,0,0,1,test read from labview
+EST_TEST_R4,0,0,1,test read from labview
+EST_TEST_R5,0,0,1,test read from labview
+EST_TEST_R6,0,0,1,test read from labview
+EST_TEST_R7,0,0,1,test read from labview
+EST_TEST_R8,0,0,1,test read from labview
+EST_TEST_R9,0,0,1,test read from labview
+EST_TEST_W0,0,1,0,test write to labview
+EST_TEST_W1,0,1,0,test write to labview
+EST_TEST_W2,0,1,0,test write to labview
+EST_TEST_W3,0,1,0,test write to labview
+EST_TEST_W4,0,1,0,test write to labview
+EST_TEST_W5,0,1,0,test write to labview
+EST_TEST_W6,0,1,0,test write to labview
+EST_TEST_W7,0,1,0,test write to labview
+EST_TEST_W8,0,1,0,test write to labview
+EST_TEST_W9,0,1,0,test write to labview
 #ControllerTesting,,,,
 CTRL_TEST_R0,0,0,1,test read from labview
 CTRL_TEST_R1,0,0,1,test read from labview
@@ -276,27 +249,6 @@ CTRL_TEST_W6,0,1,0,test write to labview
 CTRL_TEST_W7,0,1,0,test write to labview
 CTRL_TEST_W8,0,1,0,test write to labview
 CTRL_TEST_W9,0,1,0,test write to labview
-#EstimatorTesting,,,,
-EST_TEST_R0,0,0,1,test read from labview
-EST_TEST_R1,0,0,1,test read from labview
-EST_TEST_R2,0,0,1,test read from labview
-EST_TEST_R3,0,0,1,test read from labview
-EST_TEST_R4,0,0,1,test read from labview
-EST_TEST_R5,0,0,1,test read from labview
-EST_TEST_R6,0,0,1,test read from labview
-EST_TEST_R7,0,0,1,test read from labview
-EST_TEST_R8,0,0,1,test read from labview
-EST_TEST_R9,0,0,1,test read from labview
-EST_TEST_W0,0,1,0,test write to labview
-EST_TEST_W1,0,1,0,test write to labview
-EST_TEST_W2,0,1,0,test write to labview
-EST_TEST_W3,0,1,0,test write to labview
-EST_TEST_W4,0,1,0,test write to labview
-EST_TEST_W5,0,1,0,test write to labview
-EST_TEST_W6,0,1,0,test write to labview
-EST_TEST_W7,0,1,0,test write to labview
-EST_TEST_W8,0,1,0,test write to labview
-EST_TEST_W9,0,1,0,test write to labview
 #Labview,,,,
 LV_START,,,,
 LV_CH_0,,,,
