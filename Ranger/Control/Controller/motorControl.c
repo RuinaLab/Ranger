@@ -7,6 +7,8 @@
 #include "math.h" //for fmod()
 #include "RangerMath.h"	//for Sin()
 
+
+#define PI 3.1415926
 #define DATA TRAJ_DATA_Test0
 static const float leg_m = 2.5; //4.95
 static const float leg_r = 0.15; //length to the center of mass 
@@ -160,6 +162,35 @@ void controller_ankleInner( struct ControllerData * C ) {
 		controller_ankleInner(&ctrlAnkInn);
  }
 
+ void test_sign(void){
+		struct ControllerData ctrlHip;
+		struct ControllerData ctrlAnkOut;
+		struct ControllerData ctrlAnkInn;
+
+	// Run a PD-controller on the hip angle:
+		ctrlHip.kp = 0;
+		ctrlHip.kd = 0;
+		ctrlHip.xRef = 0;
+		ctrlHip.vRef = 0;
+		ctrlHip.uRef = mb_io_get_float(ID_CTRL_TEST_R0);
+		controller_hip(&ctrlHip);
+
+	// Run a PD-controller on the outer foot angles:
+		ctrlAnkOut.kp = 0;
+		ctrlAnkOut.kd = 0;
+		ctrlAnkOut.xRef = 0;
+		ctrlAnkOut.vRef = 0;
+		ctrlAnkOut.uRef = mb_io_get_float(ID_CTRL_TEST_R1);
+		controller_ankleOuter(&ctrlAnkOut);
+
+	// Run a PD-controller on the inner foot angles:
+		ctrlAnkInn.kp = 0;
+		ctrlAnkInn.kd = 0;
+		ctrlAnkInn.xRef = 0;
+		ctrlAnkInn.vRef = 0;
+		ctrlAnkInn.uRef = mb_io_get_float(ID_CTRL_TEST_R2);
+		controller_ankleInner(&ctrlAnkInn); 
+ }
 
  int counter = 0; 
 
@@ -193,7 +224,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 		struct ControllerData ctrlAnkInn;
 
 		
-		float hipRefAmp;  // square wave reference amplitude
+	/*	float hipRefAmp;  // square wave reference amplitude
 		float hip_xi;   // controller damping ratio
 		float hip_wn;   // controller natural frequency
 
@@ -224,11 +255,11 @@ void controller_ankleInner( struct ControllerData * C ) {
 		mb_io_set_float(ID_CTRL_TEST_W1, ctrlHip.Cd);
 		mb_io_set_float(ID_CTRL_TEST_W2, ctrlHip.kp);
 		mb_io_set_float(ID_CTRL_TEST_W3, ctrlHip.kd);
-	
+	*/
 	
 	// Set up the angle reference, so that outer&inner foot trace a step-function
 	// (swing periodically between 0.5 and 1.5 rad)  			
-	/*	if(counter <= 1000){
+		if(counter <= 1000){
 			ctrlAnkInn.xRef = 1.5;
 			ctrlAnkOut.xRef = 1.5;
 		}else if (counter <= 2000){
@@ -240,28 +271,28 @@ void controller_ankleInner( struct ControllerData * C ) {
 		counter ++;
 					
 	// Run a PD-controller on the outer foot angles:
-		ctrlAnkOut.wn = 5;
+		ctrlAnkOut.wn = 7;
 		ctrlAnkOut.xi = 1;
 		ctrlAnkOut.vRef = 0;
 		ctrlAnkOut.uRef = 0;
 		controller_ankleOuter(&ctrlAnkOut);
 
 	// Run a PD-controller on the inner foot angles:
-		ctrlAnkInn.wn = 3.5;
+		ctrlAnkInn.wn = 7;
 		ctrlAnkInn.xi = 1;
 		ctrlAnkInn.vRef = 0;
 		ctrlAnkInn.uRef = 0;
 		controller_ankleInner(&ctrlAnkInn);
-		*/
+		
  }
 
- /* Runs a simple test of tracing a trajectory
+ /* Runs a simple test that makes the inner leg traces a sin wave
  */
  void test_trajectory() {
  		struct ControllerData ctrlHip;
 		struct ControllerData ctrlAnkOut;
 		struct ControllerData ctrlAnkInn;
-		float hip_angle;
+		float in_angle, out_angle;
 		float torque;
 
 	// Compute the position/slope/curvature of a 5th order polynomial at a given time 
@@ -298,8 +329,8 @@ void controller_ankleInner( struct ControllerData * C ) {
 		mb_io_set_float(ID_CTRL_TEST_W0, y);	
 	
 	// Calculate the toque needed to compensate for gravity pull
-		hip_angle = mb_io_get_float(ID_MCH_ANGLE); 
-		torque = leg_m * g * leg_r * Sin(hip_angle); 
+		in_angle = mb_io_get_float(ID_MCH_ANGLE); 
+		torque = leg_m * g * leg_r * Sin(in_angle); 
 
 	// Run a PD-controller on the hip angle:
 		ctrlHip.wn = 3.5;
@@ -310,19 +341,28 @@ void controller_ankleInner( struct ControllerData * C ) {
 		ctrlHip.uRef = torque;
 		controller_hip(&ctrlHip);
 
-	// Run a PD-controller on the outer foot angles:
-	/*	ctrlAnkOut.xRef = 1.0;
+		out_angle = ID_ang_rate.current_angle;
+
+	// Run a PD-controller on the outer foot angles: make the feet stay flat wrt the ground
+		ctrlAnkOut.wn = 10;
+		ctrlAnkOut.xi = 1;
+		ctrlAnkOut.xRef = PI/2 - out_angle;
 		ctrlAnkOut.vRef = 0.0;
 		ctrlAnkOut.uRef = 0.0;
 		controller_ankleOuter(&ctrlAnkOut);
-
+	
 	// Run a PD-controller on the inner foot angles:
-		//ctrlAnkInn.kp = 0.0;
-		//ctrlAnkInn.kd = 0.0;
-		ctrlAnkInn.xRef = 1.0;
+		ctrlAnkInn.wn = 10;
+		ctrlAnkInn.xi = 1;
+		if(in_angle >= 0){
+			ctrlAnkInn.xRef = PI/2 + (in_angle - out_angle); 
+		}else{
+			ctrlAnkInn.xRef = PI/2 + (in_angle + out_angle);
+		}	
 		ctrlAnkInn.vRef = 0.0;
 		ctrlAnkInn.uRef = 0.0;
 		controller_ankleInner(&ctrlAnkInn);
-		*/
  }
+
+ 
 

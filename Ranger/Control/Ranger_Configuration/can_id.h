@@ -197,7 +197,7 @@ typedef enum can_ids{
 	ID_MB_EMPTY_FSM3 = 185,	 // 0 1 0 // Unused FSM ID
 	ID_E_MCH_MOTOR_VELOCITY = 186,	 // 0 1 0 // estimated angular rate (rad/sec) of hip motor
 	ID_E_MCH_ANG_RATE = 187,	 // 0 1 0 // estimated slightly filtered derivative of ID_MCH_ANGLE
-	ID_EST_GYRO_RATE_BIAS = 188,	 // -0.0097 1 0 // estimated bias for the rate gyro - based on experiment on ___DATE____
+	ID_EST_GYRO_RATE_BIAS = 188,	 // -0.0097 1 0 // estimated bias for the rate gyro - based on experiment on 7/15/2015; the default value does not pass to labview because this parameter writes to labview
 	ID_EST_TEST_R0 = 189,	 // 0 0 1 // test read from labview
 	ID_EST_TEST_R1 = 190,	 // 0 0 1 // test read from labview
 	ID_EST_TEST_R2 = 191,	 // 0 0 1 // test read from labview

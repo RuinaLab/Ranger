@@ -5,19 +5,24 @@
 
 #define SQRT_TWO 1.414213562373095
 #define PI 3.141592653589793
+#define DEFAULT_GYRO_BIAS -0.0097 //estimated bias for the rate gyro - based on experiment on 7/15/2015
+//default value in the can_table.cvs only works when the parameter is read from labview to the robot (0 to 1)	
 
 /* This will be CALLED by the main brain and it will do all the estimations */
 void mb_estimator_update(void){
-	if(!f_init){
+	if(!init){
 		filter_init();
-	}	
- 	filter_hip_rate();
-	filter_hip_motor_rate();
-	filter_gyro_rate();
-
-	if(!i_init_ang_rate){
 		intergrater_init_ang_rate();
+		init = 1;
 	}
+	
+	//run filter on hip_rate 	
+ 	filter_hip_rate();
+	//run filter on hip_motor_rate
+	filter_hip_motor_rate();
+	//run filter on gyro_rate
+	//filter_gyro_rate(); //does not work!! The integrated angle always attenuates to zero
+
 	integrate_ang_rate();
 	return;
 }
@@ -25,15 +30,15 @@ void mb_estimator_update(void){
 void filter_init(void){
 	// Initialize filter coefficients once for the use of all butterworth filters 
 	// 0.005 is a super low cutoff_freq for estimating the gyro_rate
-	float cutoff_frequency = 0.005;  // min 0.001 < fc < 0.999 max
+	float cutoff_frequency = 0.1;//0.0005;
+	  
 	setFilterCoeff(&FC, cutoff_frequency);
 
 	// Initialize filter data for each of the filters 
 	setFilterData(&FD_hip_rate, 0.0);
 	setFilterData(&FD_hip_motor_rate, 0.0);
-	setFilterData(&FD_gyro_rate, 0.0);
+	setFilterData(&FD_gyro_rate, DEFAULT_GYRO_BIAS);
 
-	f_init = 1;
 	return;
 }
 
@@ -69,19 +74,19 @@ void filter_hip_motor_rate(void){
 	return;
 }
 
-/* Runs a 2nd order butterworth filter on the hip motor velocity */	
+/* Runs a 2nd order butterworth filter on the gyro rate */	
 void filter_gyro_rate(void){																																																												  																																																		
 	float read_data;
 	unsigned long read_data_t;
 	float est_gyro_rate;
 	
 	// Run the filter:
-	read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- mb_io_get_float(ID_EST_GYRO_RATE_BIAS));
+	read_data = mb_io_get_float(ID_UI_ANG_RATE_X/*- mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/);
 	read_data_t = mb_io_get_time(ID_UI_ANG_RATE_X);
 	est_gyro_rate = runFilter_new(&FC, &FD_gyro_rate, read_data, read_data_t);
 	
-	//mb_io_set_float(ID_EST_GYRO_RATE_BIAS, -.00001*est_gyro_rate + .99999*mb_io_get_float(ID_EST_GYRO_RATE_BIAS));
-	mb_io_set_float(ID_EST_TEST_W1, est_gyro_rate);
+	mb_io_set_float(ID_EST_GYRO_RATE_BIAS, est_gyro_rate);
+	mb_io_set_float(ID_EST_TEST_W0, est_gyro_rate);
 	return;
 }
 
@@ -94,8 +99,8 @@ void setFilterCoeff(struct FilterCoeff * FC, float r) {
 	static float q = SQRT_TWO;
 	static float c;
 	
-	if (r < 0.001) r = 0.001;  // Prevents a divide by zero
-	if (r > 0.999) r = 0.999;  // Cannot exceed Nyquist frequency
+	if (r < 0.0001) r = 0.0001;  // Prevents a divide by zero
+	if (r > 0.9999) r = 0.9999;  // Cannot exceed Nyquist frequency
 
 	c = Tan(0.5 * PI * (1.0 - r));
 
@@ -118,9 +123,7 @@ void setFilterData(struct FilterData * FD, float z) {
 	FD->y0 = z;
 	FD->y1 = z;
 	FD->y2 = z;
-	FD->t0 = 0;
-	FD->t1 = 0;
-	FD->t2 = 0;
+	FD->t0 = mb_io_get_float(ID_TIMESTAMP);
 }
 
 /* Updates the Butterworth filter based on new sensor data
@@ -133,41 +136,34 @@ float runFilter_new(struct FilterCoeff * FC, struct FilterData * FD, float z, un
 	//t = current time stamp
 	//FD->to = previous time stamp
 	unsigned long t_diff = t - (FD->t0);
-	int counter = 0;
-	mb_io_set_float(ID_EST_TEST_W0, (float)t_diff);
-	mb_io_set_float(ID_EST_TEST_W1, (float)t);
-	mb_io_set_float(ID_EST_TEST_W2, (float)(FD->t0));
-
-	while(t_diff>1){
-		mb_io_set_float(ID_EST_TEST_W0, (float)t_diff);
-		// Error if this while loop has been iterated more than 4 times		
-		if(counter > 4){
-		 	// raise error
-		}
-
-		// Update sensor history:
-		FD->z2 = FD->z1;
-		FD->z1 = FD->z0;
-		//FD->z0;	 //keep the previous measured value
-		// Update estimate history:
-		FD->y2 = FD->y1;
-		FD->y1 = FD->y0;
-		// Update time history;
-		FD->t2 = FD->t1;
-		FD->t1 = FD->t0;
-		FD->t0 = FD->t0 + 1; //increment the time
-		// Compute new estimate:
-		FD->y0 =
-		    (FC->b0) * (FD->z0) +
-		    (FC->b1) * (FD->z1) +
-		    (FC->b2) * (FD->z2) -
-		    (FC->a1) * (FD->y1) -
-		    (FC->a2) * (FD->y2);	
-		t_diff = t - (FD->t0); //t_diff - 1
-		counter ++; 
+	int count;
+	for(count = 0; count <= 4; count++){
+		if(t_diff > 1){
+			// Update sensor history:
+			FD->z2 = FD->z1;
+			FD->z1 = FD->z0;
+			//FD->z0;	 //keep the previous measured value
+			// Update estimate history:
+			FD->y2 = FD->y1;
+			FD->y1 = FD->y0;
+			// Update time history;
+			FD->t0 = FD->t0 + 1; //increment the time
+			// Compute new estimate:
+			FD->y0 =
+			    (FC->b0) * (FD->z0) +
+			    (FC->b1) * (FD->z1) +
+			    (FC->b2) * (FD->z2) -
+			    (FC->a1) * (FD->y1) -
+			    (FC->a2) * (FD->y2);	
+			t_diff = t - (FD->t0); //t_diff - 1
+		} 
+	}
+	
+	if(t_diff > 1){
+		// Error if the time difference b/t current and previous time stamp was greater than 4 ms 
 	}
 
-	//Else: time difference is less than 1ms -> base case for the recursion
+	// Time difference now is 1ms -> update everything once
 	// Update sensor history:
 	FD->z2 = FD->z1;
 	FD->z1 = FD->z0;
@@ -176,8 +172,6 @@ float runFilter_new(struct FilterCoeff * FC, struct FilterData * FD, float z, un
 	FD->y2 = FD->y1;
 	FD->y1 = FD->y0;
 	// Update time history;
-	FD->t2 = FD->t1;
-	FD->t1 = FD->t0;
 	FD->t0 = t;
 	// Compute new estimate:
 	FD->y0 =
@@ -201,20 +195,20 @@ void intergrater_init_ang_rate(void){
 	ID_ang_rate.prev_read_data = 0;
 	ID_ang_rate.time_of_prev_read_data = 0;
 	ID_ang_rate.current_angle = 0;
-	i_init_ang_rate = 1;
 }
 
 void integrate_ang_rate(void){
     ID_ang_rate.prev_read_data = ID_ang_rate.currently_read_data;
 	ID_ang_rate.time_of_prev_read_data = ID_ang_rate.time_of_curr_read_data; 
 	
-	ID_ang_rate.currently_read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- mb_io_get_float(ID_EST_GYRO_RATE_BIAS)); // negative sign because of sign convention difference 
+	ID_ang_rate.currently_read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- DEFAULT_GYRO_BIAS/*mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/); // negative sign because of sign convention difference 
 	ID_ang_rate.time_of_curr_read_data = mb_io_get_time(ID_UI_ANG_RATE_X);
 	
 	ID_ang_rate.current_angle = ID_ang_rate.current_angle + ( ID_ang_rate.prev_read_data + ID_ang_rate.currently_read_data)*(ID_ang_rate.time_of_curr_read_data - ID_ang_rate.time_of_prev_read_data)/2000; //divide 1000 to convert time from ms to s 
-	mb_io_set_float(ID_EST_TEST_W0, ID_ang_rate.current_angle);
-	mb_io_set_float(ID_EST_TEST_W1, ID_ang_rate.prev_read_data);
+	mb_io_set_float(ID_EST_TEST_W1, ID_ang_rate.current_angle);
+/*	mb_io_set_float(ID_EST_TEST_W1, ID_ang_rate.prev_read_data);
 	mb_io_set_float(ID_EST_TEST_W2, ID_ang_rate.time_of_prev_read_data);
 	mb_io_set_float(ID_EST_TEST_W3, ID_ang_rate.currently_read_data);	
 	mb_io_set_float(ID_EST_TEST_W4, ID_ang_rate.time_of_curr_read_data);	
+	*/
 }

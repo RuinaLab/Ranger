@@ -207,7 +207,7 @@ MB_EMPTY_FSM3,0,1,0,Unused FSM ID
 #State Estimator,,,,
 E_MCH_MOTOR_VELOCITY,0,1,0,estimated angular rate (rad/sec) of hip motor
 E_MCH_ANG_RATE,0,1,0,estimated slightly filtered derivative of ID_MCH_ANGLE
-EST_GYRO_RATE_BIAS,-0.0097,1,0,estimated bias for the rate gyro - based on experiment on ___DATE____
+EST_GYRO_RATE_BIAS,-0.0097,1,0,estimated bias for the rate gyro - based on experiment on 7/15/2015; the default value does not pass to labview because this parameter writes to labview
 EST_TEST_R0,0,0,1,test read from labview
 EST_TEST_R1,0,0,1,test read from labview
 EST_TEST_R2,0,0,1,test read from labview
