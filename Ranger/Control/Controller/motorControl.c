@@ -162,6 +162,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 		controller_ankleInner(&ctrlAnkInn);
  }
 
+/* Helps figure out sign convention for the motors. */
  void test_sign(void){
 		struct ControllerData ctrlHip;
 		struct ControllerData ctrlAnkOut;
@@ -194,7 +195,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 
  int counter = 0; 
 
- void test_inner_foot() { 
+ void test_inner_foot(void) { 
 		struct ControllerData ctrlAnkInn;
 
 	// Set up the angle reference, so that inner foot simulates when it's walking		
@@ -218,7 +219,7 @@ void controller_ankleInner( struct ControllerData * C ) {
  }
 
  /* Runs a simple test of the frequency controllers */
- void test_freq_control() {
+ void test_freq_control(void) {
  		struct ControllerData ctrlHip;
 		struct ControllerData ctrlAnkOut;
 		struct ControllerData ctrlAnkInn;
@@ -286,9 +287,10 @@ void controller_ankleInner( struct ControllerData * C ) {
 		
  }
 
- /* Runs a simple test that makes the inner leg traces a sin wave
- */
- void test_trajectory() {
+ /* Runs a simple test that makes the inner leg traces a sin wave 
+  *	while making both inner and outer feet stay flat
+  */
+ void test_trajectory(void) {
  		struct ControllerData ctrlHip;
 		struct ControllerData ctrlAnkOut;
 		struct ControllerData ctrlAnkInn;
@@ -324,9 +326,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 		
 		y = getY(c, phi);
 		yd = getYd(c, phi);
-		ydd = getYdd(c, phi);
-
-		mb_io_set_float(ID_CTRL_TEST_W0, y);	
+		ydd = getYdd(c, phi);	
 	
 	// Calculate the toque needed to compensate for gravity pull
 		in_angle = mb_io_get_float(ID_MCH_ANGLE); 
@@ -334,34 +334,53 @@ void controller_ankleInner( struct ControllerData * C ) {
 
 	// Run a PD-controller on the hip angle:
 		ctrlHip.wn = 3.5;
-		ctrlHip.xi = 1;
+		ctrlHip.xi = 0.8;
 		
 		ctrlHip.xRef = y;
+		//mb_io_set_float(ID_CTRL_TEST_W0, ctrlHip.xRef);
 		ctrlHip.vRef = yd;
 		ctrlHip.uRef = torque;
 		controller_hip(&ctrlHip);
 
-		out_angle = ID_ang_rate.current_angle;
+		out_angle = get_abs_angle();
+		//mb_io_set_float(ID_EST_TEST_W1, out_angle);
 
 	// Run a PD-controller on the outer foot angles: make the feet stay flat wrt the ground
-		ctrlAnkOut.wn = 10;
-		ctrlAnkOut.xi = 1;
+		ctrlAnkOut.wn = 7;
+		ctrlAnkOut.xi = 0.8;
 		ctrlAnkOut.xRef = PI/2 - out_angle;
 		ctrlAnkOut.vRef = 0.0;
 		ctrlAnkOut.uRef = 0.0;
 		controller_ankleOuter(&ctrlAnkOut);
+
 	
-	// Run a PD-controller on the inner foot angles:
-		ctrlAnkInn.wn = 10;
-		ctrlAnkInn.xi = 1;
-		if(in_angle >= 0){
-			ctrlAnkInn.xRef = PI/2 + (in_angle - out_angle); 
-		}else{
-			ctrlAnkInn.xRef = PI/2 + (in_angle + out_angle);
-		}	
+	// Run a PD-controller on the inner foot angles: make the feet stay flat wrt the ground
+		ctrlAnkInn.wn = 7;
+		ctrlAnkInn.xi = 0.8;
+		ctrlAnkInn.xRef = PI/2 + (in_angle - out_angle); 	
 		ctrlAnkInn.vRef = 0.0;
 		ctrlAnkInn.uRef = 0.0;
 		controller_ankleInner(&ctrlAnkInn);
+ }
+
+ /* A test that makes the inner leg track a sin wave generated using Sin function from RangerMath*/ 
+ void track_sin(void){
+ 	 	struct ControllerData ctrlHip;
+		float sys_t = mb_io_get_float(ID_TIMESTAMP)/1000;//converts the system_time from ms to s
+		float t = fmod(sys_t, 2*PI);
+
+	// Run a PD-controller on the hip angle:
+		ctrlHip.wn = 3.5;
+		ctrlHip.xi = 0.8;
+				
+		if(t > PI){
+		 	t = -2*PI + t;
+		}
+		ctrlHip.xRef = Sin(t)/4;
+		mb_io_set_float(ID_CTRL_TEST_W0, ctrlHip.xRef);
+		ctrlHip.vRef = Cos(t)/4;
+		ctrlHip.uRef = 0.0;
+		controller_hip(&ctrlHip);
  }
 
  

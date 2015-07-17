@@ -191,7 +191,7 @@ float runFilter_new(struct FilterCoeff * FC, struct FilterData * FD, float z, un
                                // THIS NUMBER SHOUKD BE REGULARLY CHECKED AND UPDATED. it changes with time.
 void intergrater_init_ang_rate(void){
 	ID_ang_rate.currently_read_data = 0;
-	ID_ang_rate.time_of_curr_read_data = 0;
+	ID_ang_rate.time_of_curr_read_data = mb_io_get_float(ID_TIMESTAMP);
 	ID_ang_rate.prev_read_data = 0;
 	ID_ang_rate.time_of_prev_read_data = 0;
 	ID_ang_rate.current_angle = 0;
@@ -205,10 +205,16 @@ void integrate_ang_rate(void){
 	ID_ang_rate.time_of_curr_read_data = mb_io_get_time(ID_UI_ANG_RATE_X);
 	
 	ID_ang_rate.current_angle = ID_ang_rate.current_angle + ( ID_ang_rate.prev_read_data + ID_ang_rate.currently_read_data)*(ID_ang_rate.time_of_curr_read_data - ID_ang_rate.time_of_prev_read_data)/2000; //divide 1000 to convert time from ms to s 
-	mb_io_set_float(ID_EST_TEST_W1, ID_ang_rate.current_angle);
-/*	mb_io_set_float(ID_EST_TEST_W1, ID_ang_rate.prev_read_data);
-	mb_io_set_float(ID_EST_TEST_W2, ID_ang_rate.time_of_prev_read_data);
-	mb_io_set_float(ID_EST_TEST_W3, ID_ang_rate.currently_read_data);	
-	mb_io_set_float(ID_EST_TEST_W4, ID_ang_rate.time_of_curr_read_data);	
-	*/
+}
+
+/* Sets the angle integrated over gyro rate to zero */
+void calibrate(void){
+	intergrater_init_ang_rate();
+}
+
+/* Returns the angle integrated over gyro rate.
+ * (The static variable in mb_estimator.h cannot be accessed by other c-files.) 
+ */
+float get_abs_angle(void){
+	return ID_ang_rate.current_angle;
 }

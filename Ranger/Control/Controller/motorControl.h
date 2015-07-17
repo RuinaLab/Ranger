@@ -26,6 +26,6 @@ void test_inner_foot(void);
 
 void test_trajectory(void);
 void test_freq_control(void);
-
+void track_sin(void);
 
 #endif // __MOTORCONTROL_H__
