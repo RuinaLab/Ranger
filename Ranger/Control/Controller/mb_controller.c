@@ -8,6 +8,7 @@ enum ControlMode {
 	M0_StandBy,
 	M1_Active,
 	M2_TraceCurve,
+	M3_FlipFeet,
 	M5_Calibrate,
 };
 
@@ -19,10 +20,11 @@ void mb_controller_update(void) {
 	static enum ControlMode controlMode = M0_StandBy;
 
 	// Check UI buttons to update control mode
-	if (detect_UI_button_input(5)) controlMode = M5_Calibrate;
-	if (detect_UI_button_input(2)) controlMode = M2_TraceCurve;
+	if (detect_UI_button_input(3)) controlMode = M3_FlipFeet; 	// 4th button flip feet up
+	if (detect_UI_button_input(0)) controlMode = M5_Calibrate;	 // 1st button calibrates
+	if (detect_UI_button_input(4)) controlMode = M2_TraceCurve;	 // 5th button moves Ranger
 	if (detect_UI_button_input(1)) controlMode = M1_Active;
-	if (detect_UI_button_input(0)) controlMode = M0_StandBy; // Stand-by always goes last (highest priority)
+	if (detect_UI_button_input(5)) controlMode = M0_StandBy; // 6th button Stand-by, always goes last (highest priority)
 
 	// Run the desired control mode
 	switch (controlMode) {
@@ -39,8 +41,13 @@ void mb_controller_update(void) {
 		break;
 	case M2_TraceCurve:
 		set_UI_LED(5, 'r');
-		test_trajectory();
+		//test_trajectory();
 		//track_sin();
+		double_stance();
+		break;
+	case M3_FlipFeet:
+		set_UI_LED(5, 'p');
+		foot_flip();
 		break;
 	case M5_Calibrate:
 		set_UI_LED(5, 'y');

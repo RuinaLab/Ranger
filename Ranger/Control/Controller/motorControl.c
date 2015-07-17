@@ -8,7 +8,7 @@
 #include "RangerMath.h"	//for Sin()
 
 
-#define PI 3.1415926
+#define PI 3.141592653589793
 #define DATA TRAJ_DATA_Test0
 static const float leg_m = 2.5; //4.95
 static const float leg_r = 0.15; //length to the center of mass 
@@ -195,6 +195,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 
  int counter = 0; 
 
+ /* Makes the inner foot periodically tracks hold/push/flip. */
  void test_inner_foot(void) { 
 		struct ControllerData ctrlAnkInn;
 
@@ -329,7 +330,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 		ydd = getYdd(c, phi);	
 	
 	// Calculate the toque needed to compensate for gravity pull
-		in_angle = mb_io_get_float(ID_MCH_ANGLE); 
+		in_angle = mb_io_get_float(ID_MCH_ANGLE);  // gets the hip angle (angle b/t inner&outer legs; pos when inner leg is in front)
 		torque = leg_m * g * leg_r * Sin(in_angle); 
 
 	// Run a PD-controller on the hip angle:
@@ -342,13 +343,10 @@ void controller_ankleInner( struct ControllerData * C ) {
 		ctrlHip.uRef = torque;
 		controller_hip(&ctrlHip);
 
-		out_angle = get_abs_angle();
-		//mb_io_set_float(ID_EST_TEST_W1, out_angle);
-
 	// Run a PD-controller on the outer foot angles: make the feet stay flat wrt the ground
 		ctrlAnkOut.wn = 7;
 		ctrlAnkOut.xi = 0.8;
-		ctrlAnkOut.xRef = PI/2 - out_angle;
+		ctrlAnkOut.xRef = get_abs_outer_ankle_angle();
 		ctrlAnkOut.vRef = 0.0;
 		ctrlAnkOut.uRef = 0.0;
 		controller_ankleOuter(&ctrlAnkOut);
@@ -357,7 +355,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 	// Run a PD-controller on the inner foot angles: make the feet stay flat wrt the ground
 		ctrlAnkInn.wn = 7;
 		ctrlAnkInn.xi = 0.8;
-		ctrlAnkInn.xRef = PI/2 + (in_angle - out_angle); 	
+		ctrlAnkInn.xRef = get_abs_inner_ankle_angle(); 	
 		ctrlAnkInn.vRef = 0.0;
 		ctrlAnkInn.uRef = 0.0;
 		controller_ankleInner(&ctrlAnkInn);
@@ -383,5 +381,94 @@ void controller_ankleInner( struct ControllerData * C ) {
 		controller_hip(&ctrlHip);
  }
 
- 
+ /* Make sthe robot stand in double stance, the hip motor adjusts the inner leg according to the absolute angle
+  * calculated from gyro rate. 
+  * Inner feet always flipped all the way up; outer feet stay flat relative to the ground. 
+  */
+ void double_stance(void){
+ 		struct ControllerData ctrlHip;
+		struct ControllerData ctrlAnkOut;
+		struct ControllerData ctrlAnkInn;
+		float out_angle, in_angle, torque; 		
 
+		out_angle = get_abs_angle();
+		mb_io_set_float(ID_EST_TEST_W1, out_angle);	 
+
+	// Run a PD-controller on the hip angle:
+		ctrlHip.wn = 3.5;
+		ctrlHip.xi = 0.8;
+		
+		ctrlHip.xRef = 2*out_angle;
+		ctrlHip.vRef = 0.0;
+		
+	// Calculate the toque needed to compensate for gravity pull
+		in_angle = mb_io_get_float(ID_MCH_ANGLE);  // gets the hip angle (angle b/t inner&outer legs; pos when inner leg is in front)
+		torque = leg_m * g * leg_r * Sin(in_angle);
+		//ctrlHip.uRef = 0.0;
+		controller_hip(&ctrlHip);
+
+	// Run a PD-controller on the outer foot angles: make the feet stay flat wrt the ground
+		ctrlAnkOut.wn = 7;
+		ctrlAnkOut.xi = 0.8;
+		
+		if(out_angle >= 0){
+			//outer leg is in the back, inner leg is in front 
+			ctrlAnkOut.xRef = get_abs_outer_ankle_angle(); 
+			ctrlAnkInn.xRef = get_abs_inner_ankle_angle() + 0.15; // add offset to outer ankle angle
+		}else{
+			//outer leg is in front, inner leg is in the back 
+			ctrlAnkOut.xRef = get_abs_outer_ankle_angle() + 0.15;
+			ctrlAnkInn.xRef = get_abs_inner_ankle_angle(); // add offset to inner ankle angle
+		}
+		
+		ctrlAnkOut.vRef = 0.0;
+		ctrlAnkOut.uRef = 0.0;
+		controller_ankleOuter(&ctrlAnkOut);
+
+	
+	// Run a PD-controller on the inner foot angles: make the inner feet always flip up
+		ctrlAnkInn.wn = 7;
+		ctrlAnkInn.xi = 0.8;
+ 	
+		ctrlAnkInn.vRef = 0.0;
+		ctrlAnkInn.uRef = 0.0;
+		controller_ankleInner(&ctrlAnkInn);
+ } 
+
+
+ void foot_flip(void){
+ 		struct ControllerData ctrlAnkOut;
+		struct ControllerData ctrlAnkInn;
+
+	// Run a PD-controller on the outer foot angles: make the feet stay flat wrt the ground
+		ctrlAnkOut.wn = 7;
+		ctrlAnkOut.xi = 0.8;
+		ctrlAnkOut.xRef = param_joint_ankle_flip;
+		ctrlAnkOut.vRef = 0.0;
+		ctrlAnkOut.uRef = 0.0;
+		controller_ankleOuter(&ctrlAnkOut);
+
+	
+	// Run a PD-controller on the inner foot angles: make the feet stay flat wrt the ground
+		ctrlAnkInn.wn = 7;
+		ctrlAnkInn.xi = 0.8;
+		ctrlAnkInn.xRef = param_joint_ankle_flip; 	
+		ctrlAnkInn.vRef = 0.0;
+		ctrlAnkInn.uRef = 0.0;
+		controller_ankleInner(&ctrlAnkInn);
+ }
+
+ /* Returns the absolute angle that makes the outer foot stay flat wrt ground. */
+ float get_abs_inner_ankle_angle(void){
+  		float out_angle;
+		out_angle = get_abs_angle();  // gets the absolute angle (of the outer leg) wrt ground; pos when outer leg is forward 
+		return (PI/2 - out_angle + 0.15); //adds an offset of 0.15 rad to make the feet more stable
+ }
+
+ /* Returns the absolute angle that makes the inner foot stay flat wrt ground. */
+ float get_abs_outer_ankle_angle(void){
+ 		float in_angle, out_angle;
+		out_angle = get_abs_angle();  // gets the absolute angle (of the outer leg) wrt ground; pos when outer leg is forward  
+		in_angle = mb_io_get_float(ID_MCH_ANGLE);  // gets the hip angle (angle b/t inner&outer legs; pos when inner leg is in front)
+		return (PI/2 + (in_angle - out_angle) + 0.15); //adds an offset of 0.15 rad	to make the fee more stable
+ }

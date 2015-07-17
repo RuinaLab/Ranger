@@ -15,13 +15,12 @@ void mb_estimator_update(void){
 		intergrater_init_ang_rate();
 		init = 1;
 	}
-	
-	//run filter on hip_rate 	
- 	filter_hip_rate();
-	//run filter on hip_motor_rate
-	filter_hip_motor_rate();
-	//run filter on gyro_rate
-	//filter_gyro_rate(); //does not work!! The integrated angle always attenuates to zero
+	 	
+ 	filter_hip_rate();	//run filter on hip_rate
+	filter_hip_motor_rate();	//run filter on hip_motor_rate	
+	filter_foot_sensor();	//run filter on foot sensors
+
+	//filter_gyro_rate(); //run filter on gyro_rate-->does not work!! The integrated angle always attenuates to zero
 
 	integrate_ang_rate();
 	return;
@@ -30,14 +29,22 @@ void mb_estimator_update(void){
 void filter_init(void){
 	// Initialize filter coefficients once for the use of all butterworth filters 
 	// 0.005 is a super low cutoff_freq for estimating the gyro_rate
-	float cutoff_frequency = 0.1;//0.0005;
+	float cutoff_freq_hip = 0.1;
+	float cutoff_freq_gyro = 0.0005; //0.0005;
+	float cutoff_freq_foot = 0.0005;
 	  
-	setFilterCoeff(&FC, cutoff_frequency);
+	setFilterCoeff(&FC_hip, cutoff_freq_hip);
+	setFilterCoeff(&FC_gyro, cutoff_freq_gyro);
+	setFilterCoeff(&FC_foot, cutoff_freq_foot);
 
 	// Initialize filter data for each of the filters 
 	setFilterData(&FD_hip_rate, 0.0);
 	setFilterData(&FD_hip_motor_rate, 0.0);
 	setFilterData(&FD_gyro_rate, DEFAULT_GYRO_BIAS);
+	setFilterData(&FD_in_l, 0.0); //initialize to 0 or ~300 (foot in air)
+	setFilterData(&FD_in_r, 0.0); 
+	setFilterData(&FD_out_l, 0.0); 
+	setFilterData(&FD_out_r, 0.0); 
 
 	return;
 }
@@ -51,7 +58,7 @@ void filter_hip_rate(void){
 	// Run the filter:
 	read_data = mb_io_get_float(ID_MCH_ANG_RATE);
 	read_data_t = mb_io_get_time(ID_MCH_ANG_RATE);
-	est_hip_rate = runFilter_new(&FC, &FD_hip_rate, read_data, read_data_t);
+	est_hip_rate = runFilter_new(&FC_hip, &FD_hip_rate, read_data, read_data_t);
 	
 	mb_io_set_float(ID_E_MCH_ANG_RATE, est_hip_rate);	
 
@@ -67,10 +74,41 @@ void filter_hip_motor_rate(void){
 	// Run the filter:
 	read_data = mb_io_get_float(ID_MCH_MOTOR_VELOCITY);
 	read_data_t = mb_io_get_time(ID_MCH_MOTOR_VELOCITY);
-	est_hip_motor_rate = runFilter_new(&FC, &FD_hip_motor_rate, read_data, read_data_t);
+	est_hip_motor_rate = runFilter_new(&FC_hip, &FD_hip_motor_rate, read_data, read_data_t);
 	
 	mb_io_set_float(ID_E_MCH_MOTOR_VELOCITY, est_hip_motor_rate);
 
+	return;
+}
+
+/* Runs a 2nd order butterworth filter on the 4 foot sensors */	
+void filter_foot_sensor(void){																																																												  																																																	
+	float read_data_in_l, read_data_in_r, read_data_out_l, read_data_out_r;
+	unsigned long read_data_in_l_t, read_data_in_r_t, read_data_out_l_t, read_data_out_r_t;
+	float est_in_l, est_in_r, est_out_l, est_out_r;
+	
+	// Run the filter:
+	read_data_in_l = mb_io_get_float(ID_MCFI_LEFT_HEEL_SENSE);
+	read_data_in_l_t = mb_io_get_time(ID_MCFI_LEFT_HEEL_SENSE);
+	est_in_l = runFilter_new(&FC_foot, &FD_in_l, read_data_in_l, read_data_in_l_t);	
+	mb_io_set_float(ID_E_MCFI_LEFT_HEEL_SENSE, est_in_l);
+
+
+	read_data_in_r = mb_io_get_float(ID_MCFI_RIGHT_HEEL_SENSE);
+	read_data_in_r_t = mb_io_get_time(ID_MCFI_RIGHT_HEEL_SENSE);
+	est_in_r = runFilter_new(&FC_foot, &FD_in_r, read_data_in_r, read_data_in_r_t);	
+	mb_io_set_float(ID_E_MCFI_RIGHT_HEEL_SENSE, est_in_r);
+		
+	read_data_out_l = mb_io_get_float(ID_MCFO_LEFT_HEEL_SENSE);
+	read_data_out_l_t = mb_io_get_time(ID_MCFO_LEFT_HEEL_SENSE);
+	est_out_l = runFilter_new(&FC_foot, &FD_out_l, read_data_out_l, read_data_out_l_t);	
+	mb_io_set_float(ID_E_MCFO_LEFT_HEEL_SENSE, est_out_l);
+
+	read_data_out_r = mb_io_get_float(ID_MCFO_RIGHT_HEEL_SENSE);
+	read_data_out_r_t = mb_io_get_time(ID_MCFO_RIGHT_HEEL_SENSE);
+	est_out_r = runFilter_new(&FC_foot, &FD_out_r, read_data_out_r, read_data_out_r_t);	
+	mb_io_set_float(ID_E_MCFO_RIGHT_HEEL_SENSE, est_out_r);	
+	
 	return;
 }
 
@@ -83,7 +121,7 @@ void filter_gyro_rate(void){
 	// Run the filter:
 	read_data = mb_io_get_float(ID_UI_ANG_RATE_X/*- mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/);
 	read_data_t = mb_io_get_time(ID_UI_ANG_RATE_X);
-	est_gyro_rate = runFilter_new(&FC, &FD_gyro_rate, read_data, read_data_t);
+	est_gyro_rate = runFilter_new(&FC_gyro, &FD_gyro_rate, read_data, read_data_t);
 	
 	mb_io_set_float(ID_EST_GYRO_RATE_BIAS, est_gyro_rate);
 	mb_io_set_float(ID_EST_TEST_W0, est_gyro_rate);
@@ -207,7 +245,7 @@ void integrate_ang_rate(void){
 	ID_ang_rate.current_angle = ID_ang_rate.current_angle + ( ID_ang_rate.prev_read_data + ID_ang_rate.currently_read_data)*(ID_ang_rate.time_of_curr_read_data - ID_ang_rate.time_of_prev_read_data)/2000; //divide 1000 to convert time from ms to s 
 }
 
-/* Sets the angle integrated over gyro rate to zero */
+/* Calibration: sets the angle integrated over gyro rate to zero */
 void calibrate(void){
 	intergrater_init_ang_rate();
 }
