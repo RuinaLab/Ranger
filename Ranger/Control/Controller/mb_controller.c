@@ -30,20 +30,23 @@ void mb_controller_update(void) {
 	switch (controlMode) {
 	case M0_StandBy:
 		set_UI_LED(5, 'g');
+		setPush();
 		disable_motors();
 		break;
 	case M1_Active:
 		set_UI_LED(5, 'b');
 		//test_motor_control() ;
-		test_freq_control();
+		//test_freq_control();
 		//test_inner_foot();
 		//test_sign();
+		step();
 		break;
 	case M2_TraceCurve:
 		set_UI_LED(5, 'r');
 		//test_trajectory();
 		//track_sin();
 		double_stance();
+		check_30();
 		break;
 	case M3_FlipFeet:
 		set_UI_LED(5, 'p');

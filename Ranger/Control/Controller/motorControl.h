@@ -33,4 +33,8 @@ void foot_flip(void);
 float get_abs_inner_ankle_angle(void);
 float get_abs_outer_ankle_angle(void);
 
+void check_30(void);
+void step(void);
+void setPush(void);
+
 #endif // __MOTORCONTROL_H__

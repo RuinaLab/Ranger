@@ -47,6 +47,7 @@ void filter_gyro_rate(void);
 void test_sign(void);
 void calibrate(void);
 float get_abs_angle(void);
+void foot_on_ground(void);
 
 #endif  // __MB_ESTIMATOR_H__
 

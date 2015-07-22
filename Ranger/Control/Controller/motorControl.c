@@ -7,6 +7,20 @@
 #include "math.h" //for fmod()
 #include "RangerMath.h"	//for Sin()
 
+#define thirty 0.52
+enum StepProgress {
+	Push,
+	Stride,
+	Land,
+	PostLand,
+	OutPush,
+	OutStride,
+	OutLand,
+	OutPostLand
+};
+
+int count_step = 0;
+static enum StepProgress stepProgress = Push;
 
 #define PI 3.141592653589793
 #define DATA TRAJ_DATA_Test0
@@ -392,7 +406,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 		float out_angle, in_angle, torque; 		
 
 		out_angle = get_abs_angle();
-		mb_io_set_float(ID_EST_TEST_W1, out_angle);	 
+		//mb_io_set_float(ID_EST_TEST_W1, out_angle);	 
 
 	// Run a PD-controller on the hip angle:
 		ctrlHip.wn = 3.5;
@@ -404,7 +418,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 	// Calculate the toque needed to compensate for gravity pull
 		in_angle = mb_io_get_float(ID_MCH_ANGLE);  // gets the hip angle (angle b/t inner&outer legs; pos when inner leg is in front)
 		torque = leg_m * g * leg_r * Sin(in_angle);
-		//ctrlHip.uRef = 0.0;
+		//ctrlHip.uRef = torque; // adding this torque makes the motor shuts off more frequently
 		controller_hip(&ctrlHip);
 
 	// Run a PD-controller on the outer foot angles: make the feet stay flat wrt the ground
@@ -471,4 +485,196 @@ void controller_ankleInner( struct ControllerData * C ) {
 		out_angle = get_abs_angle();  // gets the absolute angle (of the outer leg) wrt ground; pos when outer leg is forward  
 		in_angle = mb_io_get_float(ID_MCH_ANGLE);  // gets the hip angle (angle b/t inner&outer legs; pos when inner leg is in front)
 		return (PI/2 + (in_angle - out_angle) + 0.15); //adds an offset of 0.15 rad	to make the fee more stable
+ } 
+
+#define offset	0.087 //5 dgrees
+
+ /* Check if the angle b/t two legs is 30+/-5 degrees, inner leg is in the back. 
+  *	Turn the 3rd LED red if the angle is in this range. 
+  */
+ void check_30(void){
+ 		float in_angle, out_angle;
+		float target = thirty/2; //check for 15 degrees now!
+		out_angle = get_abs_angle();
+		in_angle = mb_io_get_float(ID_MCH_ANGLE);
+ 		if(out_angle>=(-target-offset) && out_angle<=(-target+offset) && in_angle>=(-target-offset) && in_angle<=(-target+offset)){
+			set_UI_LED(3, 'r');			
+		}else{
+			set_io_ul(ID_UI_SET_LED_3, 0x000000);
+		}
+		return;
+ }
+
+
+ /*	Makes the robot move forward one step. */
+ void step(void){
+	   	struct ControllerData ctrlHip;
+		struct ControllerData ctrlAnkOut;
+		struct ControllerData ctrlAnkInn;
+		
+		float out_angle, in_angle, torque, feetInn_angle; 		
+		feetInn_angle = mb_io_get_float(ID_MCFI_MID_ANKLE_ANGLE);
+
+
+		out_angle = get_abs_angle();
+	// Run a PD-controller on the hip angle:
+		ctrlHip.wn = 3.5;
+		ctrlHip.xi = 0.8;
+		ctrlHip.vRef = 0.0;	   	
+		
+	// Calculate the toque needed to compensate for gravity pull
+		in_angle = mb_io_get_float(ID_MCH_ANGLE);  // gets the hip angle (angle b/t inner&outer legs; pos when inner leg is in front)
+		torque = leg_m * g * leg_r * Sin(in_angle);
+
+	
+	// Run a PD-controller on the outer foot angles: make the feet stay flat wrt the ground
+		ctrlAnkOut.wn = 7;
+		ctrlAnkOut.xi = 0.8;
+		ctrlAnkOut.vRef = 0.0;
+		ctrlAnkOut.uRef = 0.0;
+
+	
+	// Run a PD-controller on the inner foot angles: make the inner feet always flip up
+		ctrlAnkInn.wn = 7;
+		ctrlAnkInn.xi = 0.8;
+		ctrlAnkInn.vRef = 0.0;
+		ctrlAnkInn.uRef = 0.0;
+
+		switch (stepProgress) {
+		case Push:
+			if(out_angle >= 0){
+				//outer leg is in the back, inner leg is in front 
+				ctrlAnkOut.xRef = get_abs_outer_ankle_angle(); 
+			}else{
+				//outer leg is in front, inner leg is in the back 
+				ctrlAnkOut.xRef = get_abs_outer_ankle_angle() + 0.15;
+			}
+			
+			ctrlHip.xRef = 0;	
+			ctrlAnkInn.xRef = param_joint_ankle_push; //push down the inner feet 
+			count_step ++;
+		   	mb_io_set_float(ID_CTRL_TEST_W0, (float)count_step);
+			if((count_step>=400) && (feetInn_angle>1.9)){
+				stepProgress = Stride;
+				count_step = 0;
+			} 
+			set_UI_LED(4, 'g');
+			break;
+		case Stride:
+			if(out_angle >= 0){
+				//outer leg is in the back, inner leg is in front 
+				ctrlAnkOut.xRef = get_abs_outer_ankle_angle(); 
+			}else{
+				//outer leg is in front, inner leg is in the back 
+				ctrlAnkOut.xRef = get_abs_outer_ankle_angle() + 0.15;
+			}
+			
+			ctrlHip.xRef = thirty/2;
+			ctrlAnkInn.xRef = param_joint_ankle_flip; //flip up the inner feet 
+			set_UI_LED(4, 'r');
+			if(in_angle > (thirty/6)){
+				stepProgress = Land;
+			}
+			break;
+		case Land:
+			if(out_angle >= 0){
+				//outer leg is in the back, inner leg is in front 
+				ctrlAnkOut.xRef = get_abs_outer_ankle_angle(); 
+			}else{
+				//outer leg is in front, inner leg is in the back 
+				ctrlAnkOut.xRef = get_abs_outer_ankle_angle() + 0.15;
+			}
+			
+			set_UI_LED(4, 'b');
+			ctrlAnkInn.xRef = param_joint_ankle_push;
+			ctrlHip.xRef = thirty/2;
+			count_step ++;
+			if(count_step>=200){
+				stepProgress = PostLand;
+				count_step = 0;
+			}
+			break;
+		case PostLand:
+			if(out_angle >= 0){
+				//outer leg is in the back, inner leg is in front 
+				ctrlAnkOut.xRef = get_abs_outer_ankle_angle(); 
+			}else{
+				//outer leg is in front, inner leg is in the back 
+				ctrlAnkOut.xRef = get_abs_outer_ankle_angle() + 0.15;
+			}
+			
+			set_UI_LED(4, 'y');
+			if(out_angle >= 0){
+				//outer leg is in the back, inner leg is in front 
+				ctrlAnkInn.xRef = get_abs_inner_ankle_angle() + 0.15; // add offset to outer ankle angle
+			}else{
+				//outer leg is in front, inner leg is in the back 
+				ctrlAnkInn.xRef = get_abs_inner_ankle_angle(); // add offset to inner ankle angle
+			}	
+			ctrlHip.xRef = thirty/2;
+			stepProgress = OutStride;			
+			break;
+		//case OutPush:
+		//	break;
+		case OutStride:
+			if(out_angle >= 0){
+				//outer leg is in the back, inner leg is in front 
+				ctrlAnkInn.xRef = get_abs_inner_ankle_angle() + 0.15; // add offset to outer ankle angle
+			}else{
+				//outer leg is in front, inner leg is in the back 
+				ctrlAnkInn.xRef = get_abs_inner_ankle_angle(); // add offset to inner ankle angle
+			}
+
+			ctrlAnkOut.xRef	= param_joint_ankle_flip;
+			if(in_angle < (-thirty/6)){
+				stepProgress = OutLand;
+			}
+			break;
+		case OutLand:
+			if(out_angle >= 0){
+				//outer leg is in the back, inner leg is in front 
+				ctrlAnkInn.xRef = get_abs_inner_ankle_angle() + 0.15; // add offset to outer ankle angle
+			}else{
+				//outer leg is in front, inner leg is in the back 
+				ctrlAnkInn.xRef = get_abs_inner_ankle_angle(); // add offset to inner ankle angle
+			}
+			
+			ctrlAnkOut.xRef = param_joint_ankle_push;
+			ctrlHip.xRef = -thirty/2;
+			count_step ++;
+			if(count_step>=200){
+				stepProgress = OutPostLand;
+				count_step = 0;
+			}
+			break;
+		case OutPostLand:
+			if(out_angle >= 0){
+				//outer leg is in the back, inner leg is in front 
+				ctrlAnkOut.xRef = get_abs_outer_ankle_angle(); 
+			}else{
+				//outer leg is in front, inner leg is in the back 
+				ctrlAnkOut.xRef = get_abs_outer_ankle_angle() + 0.15;
+			}
+			
+			set_UI_LED(4, 'y');
+			if(out_angle >= 0){
+				//outer leg is in the back, inner leg is in front 
+				ctrlAnkInn.xRef = get_abs_inner_ankle_angle() + 0.15; // add offset to outer ankle angle
+			}else{
+				//outer leg is in front, inner leg is in the back 
+				ctrlAnkInn.xRef = get_abs_inner_ankle_angle(); // add offset to inner ankle angle
+			}	
+			ctrlHip.xRef = -thirty/2;
+			break;	 			
+		}  
+		 
+		controller_hip(&ctrlHip);
+		controller_ankleInner(&ctrlAnkInn);
+		controller_ankleOuter(&ctrlAnkOut);
+ }
+
+
+ void setPush(void){
+ 		stepProgress = Push;
+		count_step = 0;
  }

@@ -8,8 +8,15 @@
 #define DEFAULT_GYRO_BIAS -0.0097 //estimated bias for the rate gyro - based on experiment on 7/15/2015
 //default value in the can_table.cvs only works when the parameter is read from labview to the robot (0 to 1)	
 
+#define in_feet_threshold 7000
+#define out_feet_threshold 7000
+int in_feet_count = 0;
+int out_feet_count = 0;
+
+
 /* This will be CALLED by the main brain and it will do all the estimations */
 void mb_estimator_update(void){
+	clear_UI_LED();
 	if(!init){
 		filter_init();
 		intergrater_init_ang_rate();
@@ -19,7 +26,12 @@ void mb_estimator_update(void){
  	filter_hip_rate();	//run filter on hip_rate
 	filter_hip_motor_rate();	//run filter on hip_motor_rate	
 	filter_foot_sensor();	//run filter on foot sensors
-
+	foot_on_ground();
+	
+	
+	mb_io_set_float(ID_EST_TEST_W2, in_feet_count);
+	mb_io_set_float(ID_EST_TEST_W3, out_feet_count);
+	
 	//filter_gyro_rate(); //run filter on gyro_rate-->does not work!! The integrated angle always attenuates to zero
 
 	integrate_ang_rate();
@@ -81,6 +93,20 @@ void filter_hip_motor_rate(void){
 	return;
 }
 
+void foot_on_ground(void){
+	if(in_feet_count > 10){
+		set_UI_LED(1, 'g');
+		in_feet_count = 0; 
+	}
+
+	if(out_feet_count > 10){
+		set_UI_LED(2, 'g');
+		out_feet_count = 0;
+	}
+
+	return;
+}
+
 /* Runs a 2nd order butterworth filter on the 4 foot sensors */	
 void filter_foot_sensor(void){																																																												  																																																	
 	float read_data_in_l, read_data_in_r, read_data_out_l, read_data_out_r;
@@ -93,11 +119,15 @@ void filter_foot_sensor(void){
 	est_in_l = runFilter_new(&FC_foot, &FD_in_l, read_data_in_l, read_data_in_l_t);	
 	mb_io_set_float(ID_E_MCFI_LEFT_HEEL_SENSE, est_in_l);
 
-
 	read_data_in_r = mb_io_get_float(ID_MCFI_RIGHT_HEEL_SENSE);
 	read_data_in_r_t = mb_io_get_time(ID_MCFI_RIGHT_HEEL_SENSE);
 	est_in_r = runFilter_new(&FC_foot, &FD_in_r, read_data_in_r, read_data_in_r_t);	
 	mb_io_set_float(ID_E_MCFI_RIGHT_HEEL_SENSE, est_in_r);
+
+	// Increment the counter if inner feet's combined reading is greater than threshold value
+	if( (read_data_in_l + read_data_in_r) >  in_feet_threshold){
+		in_feet_count ++; 
+	}
 		
 	read_data_out_l = mb_io_get_float(ID_MCFO_LEFT_HEEL_SENSE);
 	read_data_out_l_t = mb_io_get_time(ID_MCFO_LEFT_HEEL_SENSE);
@@ -109,6 +139,11 @@ void filter_foot_sensor(void){
 	est_out_r = runFilter_new(&FC_foot, &FD_out_r, read_data_out_r, read_data_out_r_t);	
 	mb_io_set_float(ID_E_MCFO_RIGHT_HEEL_SENSE, est_out_r);	
 	
+	// Increment the counter if outer feet's combined reading is greater than threshold value
+	if( (read_data_out_l + read_data_out_r) >  out_feet_threshold){
+		out_feet_count ++; 
+	}
+
 	return;
 }
 
