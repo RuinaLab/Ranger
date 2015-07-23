@@ -12,7 +12,7 @@
 #define out_feet_threshold 7000
 int in_feet_count = 0;
 int out_feet_count = 0;
-
+int count_gyro = 0;
 
 /* This will be CALLED by the main brain and it will do all the estimations */
 void mb_estimator_update(void){
@@ -28,12 +28,11 @@ void mb_estimator_update(void){
 	filter_foot_sensor();	//run filter on foot sensors
 	foot_on_ground();
 	
-	
-	mb_io_set_float(ID_EST_TEST_W2, in_feet_count);
-	mb_io_set_float(ID_EST_TEST_W3, out_feet_count);
-	
-	//filter_gyro_rate(); //run filter on gyro_rate-->does not work!! The integrated angle always attenuates to zero
-
+	count_gyro = 0;
+	if(count_gyro = 1000){
+		filter_gyro_rate(); //run filter on gyro_rate-->does not work!! The integrated angle always attenuates to zero
+		count_gyro = 0;
+	}
 	integrate_ang_rate();
 	return;
 }
@@ -42,7 +41,7 @@ void filter_init(void){
 	// Initialize filter coefficients once for the use of all butterworth filters 
 	// 0.005 is a super low cutoff_freq for estimating the gyro_rate
 	float cutoff_freq_hip = 0.1;
-	float cutoff_freq_gyro = 0.0005; //0.0005;
+	float cutoff_freq_gyro = 0.005; //0.0005;
 	float cutoff_freq_foot = 0.0005;
 	  
 	setFilterCoeff(&FC_hip, cutoff_freq_hip);
@@ -154,12 +153,11 @@ void filter_gyro_rate(void){
 	float est_gyro_rate;
 	
 	// Run the filter:
-	read_data = mb_io_get_float(ID_UI_ANG_RATE_X/*- mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/);
+	read_data = mb_io_get_float(ID_UI_ANG_RATE_X) /*- mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/;
 	read_data_t = mb_io_get_time(ID_UI_ANG_RATE_X);
 	est_gyro_rate = runFilter_new(&FC_gyro, &FD_gyro_rate, read_data, read_data_t);
 	
 	mb_io_set_float(ID_EST_GYRO_RATE_BIAS, est_gyro_rate);
-	mb_io_set_float(ID_EST_TEST_W0, est_gyro_rate);
 	return;
 }
 
@@ -274,10 +272,11 @@ void integrate_ang_rate(void){
     ID_ang_rate.prev_read_data = ID_ang_rate.currently_read_data;
 	ID_ang_rate.time_of_prev_read_data = ID_ang_rate.time_of_curr_read_data; 
 	
-	ID_ang_rate.currently_read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- DEFAULT_GYRO_BIAS/*mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/); // negative sign because of sign convention difference 
+	ID_ang_rate.currently_read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- /*DEFAULT_GYRO_BIAS*/mb_io_get_float(ID_EST_GYRO_RATE_BIAS)); // negative sign because of sign convention difference 
 	ID_ang_rate.time_of_curr_read_data = mb_io_get_time(ID_UI_ANG_RATE_X);
 	
 	ID_ang_rate.current_angle = ID_ang_rate.current_angle + ( ID_ang_rate.prev_read_data + ID_ang_rate.currently_read_data)*(ID_ang_rate.time_of_curr_read_data - ID_ang_rate.time_of_prev_read_data)/2000; //divide 1000 to convert time from ms to s 
+	mb_io_set_float(ID_EST_TEST_W1, ID_ang_rate.current_angle);
 }
 
 /* Calibration: sets the angle integrated over gyro rate to zero */
@@ -286,8 +285,10 @@ void calibrate(void){
 }
 
 /* Returns the angle integrated over gyro rate.
+ * This is the absolute angle (of the outer leg) wrt ground; pos when outer leg is in forward
  * (The static variable in mb_estimator.h cannot be accessed by other c-files.) 
  */
-float get_abs_angle(void){
+float get_out_angle(void){
+	//mb_io_set_float(ID_EST_TEST_W0, ID_ang_rate.current_angle);
 	return ID_ang_rate.current_angle;
 }

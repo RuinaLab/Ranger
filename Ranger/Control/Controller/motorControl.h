@@ -30,8 +30,9 @@ void test_freq_control(void);
 void track_sin(void);
 void double_stance(void);
 void foot_flip(void);
-float get_abs_inner_ankle_angle(void);
-float get_abs_outer_ankle_angle(void);
+float FO_abs_angle(void);
+float FI_abs_angle(void);
+float get_in_angle(void);
 
 void check_30(void);
 void step(void);
