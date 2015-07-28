@@ -14,10 +14,6 @@ enum StepProgress {
 	Stride,
 	Land,
 	PostLand,
-	OutPush,
-	OutStride,
-	OutLand,
-	OutPostLand
 };
 
 int count_step = 0;
@@ -562,21 +558,23 @@ void controller_ankleInner( struct ControllerData * C ) {
 			break;
 		case Push:
 			set_UI_LED(4, 'g'); //turns green LED on
-			//
+			// swing inner leg forward
 			ctrlHip.xRef = thirty;
-			// 1. outer feet stay flat on the ground
+			// Tried 1. outer feet stay flat on the ground
 			//ctrlAnkOut.xRef = FO_abs_angle();
-			// 2. also push down outer feet
+			// Tried 2. also push down outer feet
 			//ctrlAnkOut.xRef = param_joint_ankle_push;//FO_abs_angle() + 1;//0.7;
-			// 3. rock the outer feet
+			// Working 3. rock the outer feet
 			if( count_step%800 <= 400){
 				 ctrlAnkOut.xRef = param_joint_ankle_push/1;
 			}else{
 				 ctrlAnkOut.xRef = param_joint_ankle_push/1.3;
 			}
+			// push down inner feet
 			ctrlAnkInn.xRef = param_joint_ankle_push; 			
 			count_step ++;
 			
+			// switch to next state if the inner feet are pushed down far enough & outer feet are pushing down
 			if(feetInn_angle>1.9 && count_step%800 > 200 && count_step%800 < 400){
 				stepProgress = Stride;
 				count_step = 0;
@@ -584,15 +582,14 @@ void controller_ankleInner( struct ControllerData * C ) {
 			break;
 		case Stride:
 			set_UI_LED(4, 'r');	//turns red LED on
-			//
+			// swing inner leg forward
 			ctrlHip.xRef = thirty*1.2;
-			// outer feet stay flat on the ground
-			//ctrlAnkOut.xRef = FO_abs_angle();
-			// outer feet flip up a little bit
+			// outer feet flip up a little bit to prevent falling forward
 			ctrlAnkOut.xRef = FO_abs_angle() - 0.5;
-			// flip up the inner feet 
+			// flip the inner feet all the way up 
 			ctrlAnkInn.xRef = param_joint_ankle_flip;  
 			
+			// switch to next state if the inner leg is in front of outer leg
 			if(in_angle > (thirty/5)){
 				stepProgress = Land;
 			}
@@ -603,7 +600,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 			ctrlHip.xRef = thirty*1.2;
 			// outer feet stay flat on the ground
 			ctrlAnkOut.xRef = FO_abs_angle();
-			// push down the inner feet
+			// push down the inner feet	to prevent falling forward
 			ctrlAnkInn.xRef = param_joint_ankle_push;
 			
 			count_step ++;
@@ -619,42 +616,8 @@ void controller_ankleInner( struct ControllerData * C ) {
 			// both outer&inner feet stay flat on the ground
 			ctrlAnkOut.xRef = FO_abs_angle();
 			ctrlAnkInn.xRef = FI_abs_angle();
-
-			//stepProgress = OutStride;			
-			break;
-		//case OutPush:
-		//	break;
-		case OutStride:
-			// flip up outer feet
-			ctrlAnkOut.xRef	= param_joint_ankle_flip;
-			// inner feet stay flat on the ground
-			ctrlAnkInn.xRef = FI_abs_angle();
-			
-			if(in_angle < (-thirty/6)){
-				stepProgress = OutLand;
-			}
-			break;
-		case OutLand:
-			ctrlHip.xRef = -thirty/2;
-			// push down outer feet
-			ctrlAnkOut.xRef	= param_joint_ankle_push;
-			// inner feet stay flat on the ground
-			ctrlAnkInn.xRef = FI_abs_angle();
-
-			count_step ++;
-			if(count_step>=200){
-				stepProgress = OutPostLand;
-				count_step = 0;
-			}
-			break;
-		case OutPostLand:
-			set_UI_LED(4, 'y');	//turns LED yellow
-			ctrlHip.xRef = -thirty/2;
-			// both outer&inner feet stay flat on the ground
-			ctrlAnkOut.xRef = FO_abs_angle();
-			ctrlAnkInn.xRef = FI_abs_angle();
-
-			break;	 			
+		
+			break; 			
 		}  
 		
 		// run the PD controllers 
@@ -663,6 +626,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 		controller_ankleOuter(&ctrlAnkOut);
  }
 
+ // initialize the FSM for walking
  void setPush(void){
  		stepProgress = PrePush;
 		count_step = 0;
