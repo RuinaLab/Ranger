@@ -28,11 +28,11 @@ void mb_estimator_update(void){
 	filter_foot_sensor();	//run filter on foot sensors
 	foot_on_ground();
 	
-	count_gyro = 0;
+	/*count_gyro = 0;
 	if(count_gyro = 1000){
 		filter_gyro_rate(); //run filter on gyro_rate-->does not work!! The integrated angle always attenuates to zero
 		count_gyro = 0;
-	}
+	} */
 	integrate_ang_rate();
 	return;
 }
@@ -272,7 +272,7 @@ void integrate_ang_rate(void){
     ID_ang_rate.prev_read_data = ID_ang_rate.currently_read_data;
 	ID_ang_rate.time_of_prev_read_data = ID_ang_rate.time_of_curr_read_data; 
 	
-	ID_ang_rate.currently_read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- /*DEFAULT_GYRO_BIAS*/mb_io_get_float(ID_EST_GYRO_RATE_BIAS)); // negative sign because of sign convention difference 
+	ID_ang_rate.currently_read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- DEFAULT_GYRO_BIAS/*mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/); // negative sign because of sign convention difference 
 	ID_ang_rate.time_of_curr_read_data = mb_io_get_time(ID_UI_ANG_RATE_X);
 	
 	ID_ang_rate.current_angle = ID_ang_rate.current_angle + ( ID_ang_rate.prev_read_data + ID_ang_rate.currently_read_data)*(ID_ang_rate.time_of_curr_read_data - ID_ang_rate.time_of_prev_read_data)/2000; //divide 1000 to convert time from ms to s 

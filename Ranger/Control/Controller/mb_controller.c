@@ -3,6 +3,7 @@
 #include <motorControl.h>
 #include <TrajData.h>
 #include <Trajectory.h>
+#include <fsm.h>
 
 enum ControlMode {
 	M0_StandBy,
