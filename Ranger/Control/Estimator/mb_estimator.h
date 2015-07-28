@@ -46,8 +46,12 @@ void integrate_ang_rate(void);
 void filter_gyro_rate(void);
 void test_sign(void);
 void calibrate(void);
+int FI_on_ground(void);
+int FO_on_ground(void);
 float get_out_angle(void);
-void foot_on_ground(void);
+float get_out_angle_abs(void);
+float get_out_ang_rate(void);
+float get_in_ang_rate(void);
 
 #endif  // __MB_ESTIMATOR_H__
 

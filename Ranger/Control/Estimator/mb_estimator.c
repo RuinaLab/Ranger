@@ -26,7 +26,8 @@ void mb_estimator_update(void){
  	filter_hip_rate();	//run filter on hip_rate
 	filter_hip_motor_rate();	//run filter on hip_motor_rate	
 	filter_foot_sensor();	//run filter on foot sensors
-	foot_on_ground();
+	FI_on_ground();
+	FO_on_ground();
 	
 	/*count_gyro = 0;
 	if(count_gyro = 1000){
@@ -92,18 +93,22 @@ void filter_hip_motor_rate(void){
 	return;
 }
 
-void foot_on_ground(void){
+/* Returns 1 if inner feet are on the ground. */
+int FI_on_ground(void){
 	if(in_feet_count > 10){
-		set_UI_LED(1, 'g');
-		in_feet_count = 0; 
+		set_UI_LED(1, 'g'); 
+		return 1;
 	}
+	return 0;
+}
 
+/* Returns 1 if outer feet are on the ground. */
+int FO_on_ground(void){
 	if(out_feet_count > 10){
 		set_UI_LED(2, 'g');
-		out_feet_count = 0;
+		return 1;
 	}
-
-	return;
+	return 0;
 }
 
 /* Runs a 2nd order butterworth filter on the 4 foot sensors */	
@@ -126,6 +131,8 @@ void filter_foot_sensor(void){
 	// Increment the counter if inner feet's combined reading is greater than threshold value
 	if( (read_data_in_l + read_data_in_r) >  in_feet_threshold){
 		in_feet_count ++; 
+	}else{
+		in_feet_count = 0;
 	}
 		
 	read_data_out_l = mb_io_get_float(ID_MCFO_LEFT_HEEL_SENSE);
@@ -141,6 +148,8 @@ void filter_foot_sensor(void){
 	// Increment the counter if outer feet's combined reading is greater than threshold value
 	if( (read_data_out_l + read_data_out_r) >  out_feet_threshold){
 		out_feet_count ++; 
+	}else{
+		out_feet_count = 0;
 	}
 
 	return;
@@ -284,11 +293,27 @@ void calibrate(void){
 	intergrater_init_ang_rate();
 }
 
-/* Returns the angle integrated over gyro rate.
+/* Returns "qr" the angle integrated over gyro rate.
  * This is the absolute angle (of the outer leg) wrt ground; pos when outer leg is in forward
  * (The static variable in mb_estimator.h cannot be accessed by other c-files.) 
  */
 float get_out_angle(void){
 	//mb_io_set_float(ID_EST_TEST_W0, ID_ang_rate.current_angle);
 	return ID_ang_rate.current_angle;
+}
+
+/* Returns "th0" the absolute outer leg angle. */
+float get_out_angle_abs(void){
+	//th0 = -qr
+	return -get_out_angle();
+}
+
+/* Returns the gyro rate for the outer leg. */
+float get_out_ang_rate(void){
+	return -(mb_io_get_float(ID_UI_ANG_RATE_X)- DEFAULT_GYRO_BIAS);
+}
+
+/* Returns angular rate of the hip angle. */
+float get_in_ang_rate(void){
+	
 }
