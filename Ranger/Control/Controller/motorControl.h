@@ -22,10 +22,20 @@ void controller_ankleInner(struct ControllerData *);
 
 void disable_motors(void);
 void test_motor_control(void);
+void test_sign(void);
 void test_inner_foot(void);
 
 void test_trajectory(void);
 void test_freq_control(void);
 void track_sin(void);
+void double_stance(void);
+void foot_flip(void);
+float FO_abs_angle(void);
+float FI_abs_angle(void);
+float get_in_angle(void);
+
+void check_30(void);
+void step(void);
+void setPush(void);
 
 #endif // __MOTORCONTROL_H__

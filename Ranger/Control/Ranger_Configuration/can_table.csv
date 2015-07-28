@@ -207,6 +207,10 @@ MB_EMPTY_FSM3,0,1,0,Unused FSM ID
 #State Estimator,,,,
 E_MCH_MOTOR_VELOCITY,0,1,0,estimated angular rate (rad/sec) of hip motor
 E_MCH_ANG_RATE,0,1,0,estimated slightly filtered derivative of ID_MCH_ANGLE
+E_MCFI_LEFT_HEEL_SENSE,0,1,0,estimated value for the sensor on the inner left foot  
+E_MCFI_RIGHT_HEEL_SENSE,0,1,0,estimated value for the sensor on the inner right foot  
+E_MCFO_LEFT_HEEL_SENSE,0,1,0,estimated value for the sensor on the outer left foot  
+E_MCFO_RIGHT_HEEL_SENSE,0,1,0,estimated value for the sensor on the outer right foot  
 EST_GYRO_RATE_BIAS,-0.0097,1,0,estimated bias for the rate gyro - based on experiment on 7/15/2015; the default value does not pass to labview because this parameter writes to labview
 EST_TEST_R0,0,0,1,test read from labview
 EST_TEST_R1,0,0,1,test read from labview
