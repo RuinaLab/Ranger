@@ -19,7 +19,7 @@ void mb_estimator_update(void){
 	clear_UI_LED();
 	if(!init){
 		filter_init();
-		intergrater_init_ang_rate();
+		int_init_ang_rate();
 		init = 1;
 	}
 	 	
@@ -34,7 +34,7 @@ void mb_estimator_update(void){
 		filter_gyro_rate(); //run filter on gyro_rate-->does not work!! The integrated angle always attenuates to zero
 		count_gyro = 0;
 	} */
-	integrate_ang_rate();
+	int_ang_rate();
 	return;
 }
 
@@ -269,7 +269,7 @@ float runFilter_new(struct FilterCoeff * FC, struct FilterData * FD, float z, un
                                // new imu  //earlier imu 0.0165 ; //  // this is the average imu rate read from can id when the imu is supposed to be at rest.
                                // hence this value will be subtracted from the can-id to correct for thsi offset. 
                                // THIS NUMBER SHOUKD BE REGULARLY CHECKED AND UPDATED. it changes with time.
-void intergrater_init_ang_rate(void){
+void int_init_ang_rate(void){
 	ID_ang_rate.currently_read_data = 0;
 	ID_ang_rate.time_of_curr_read_data = mb_io_get_float(ID_TIMESTAMP);
 	ID_ang_rate.prev_read_data = 0;
@@ -277,7 +277,7 @@ void intergrater_init_ang_rate(void){
 	ID_ang_rate.current_angle = 0;
 }
 
-void integrate_ang_rate(void){
+void int_ang_rate(void){
     ID_ang_rate.prev_read_data = ID_ang_rate.currently_read_data;
 	ID_ang_rate.time_of_prev_read_data = ID_ang_rate.time_of_curr_read_data; 
 	
@@ -288,9 +288,10 @@ void integrate_ang_rate(void){
 	mb_io_set_float(ID_EST_TEST_W1, ID_ang_rate.current_angle);
 }
 
+
 /* Calibration: sets the angle integrated over gyro rate to zero */
 void calibrate(void){
-	intergrater_init_ang_rate();
+	int_init_ang_rate();
 }
 
 /* Returns "qr" the angle integrated over gyro rate.
@@ -298,14 +299,7 @@ void calibrate(void){
  * (The static variable in mb_estimator.h cannot be accessed by other c-files.) 
  */
 float get_out_angle(void){
-	//mb_io_set_float(ID_EST_TEST_W0, ID_ang_rate.current_angle);
 	return ID_ang_rate.current_angle;
-}
-
-/* Returns "th0" the absolute outer leg angle. */
-float get_out_angle_abs(void){
-	//th0 = -qr
-	return -get_out_angle();
 }
 
 /* Returns the gyro rate for the outer leg. */
@@ -313,7 +307,12 @@ float get_out_ang_rate(void){
 	return -(mb_io_get_float(ID_UI_ANG_RATE_X)- DEFAULT_GYRO_BIAS);
 }
 
+/* gets "qh" the hip angle (angle b/t inner&outer legs; pos when inner leg is in front) */
+float get_in_angle(void){
+ 	return mb_io_get_float(ID_MCH_ANGLE);  
+}
+
 /* Returns angular rate of the hip angle. */
 float get_in_ang_rate(void){
-	
+	return mb_io_get_float(ID_E_MCH_ANG_RATE); //the estimated hip angle rate
 }

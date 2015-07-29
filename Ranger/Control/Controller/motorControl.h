@@ -43,8 +43,6 @@ float FO_flat_angle(void);
 float FO_flat_rate(void);
 float FI_flat_angle(void);
 float FI_flat_rate(void);
-float get_in_angle(void);
-float get_in_angle_abs(void);
 
 void check_30(void);
 void step(void);

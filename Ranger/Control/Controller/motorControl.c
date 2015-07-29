@@ -1,13 +1,12 @@
 #include <mb_includes.h> 
 #include <motorControl.h>
 
-
 #include "Trajectory.h"
 #include "TrajData.h"
 #include "math.h" //for fmod()
 #include "RangerMath.h"	//for Sin()
+#include "fsm.h"
 
-#define thirty 0.52
 enum StepProgress {
 	PrePush,
 	Push,
@@ -16,12 +15,13 @@ enum StepProgress {
 	PostLand,
 };
 
-int count_step = 0;
-int count_rock = 0;
+static int count_step = 0;
+static int count_rock = 0;
 static enum StepProgress stepProgress = Push;
 
 #define PI 3.141592653589793
 #define DATA TRAJ_DATA_Test0
+#define thirty 0.52
 
 float leg_m = 2.5;
 float leg_r = 0.15;
@@ -52,8 +52,8 @@ void controller_hip( struct ControllerData * C ) {
   
 	float Ir;  // reference current, passed to the motor controller
 
-	//C->kp = param_hip_joint_inertia * (C->wn) * (C->wn);
-	//C->kd = 2.0 * param_hip_joint_inertia * (C->wn) * (C->xi);
+	C->kp = param_hip_joint_inertia * (C->wn) * (C->wn);
+	C->kd = 2.0 * param_hip_joint_inertia * (C->wn) * (C->xi);
 
 	C->Cp = (C->kp - param_hip_spring_const) / param_hip_motor_const;
 	C->Cd = C->kd / param_hip_motor_const;
@@ -74,8 +74,8 @@ void controller_hip( struct ControllerData * C ) {
 /* Computes the current to send to the ankle controller 
  */
 float getAnkleControllerCurrent( struct ControllerData * C ){
-	float Cp;  // proportional gain, current, passed to the motor controller
-	float Cd;  // derivative gain, current, passed to the motor controller
+	//float Cp;  // proportional gain, current, passed to the motor controller
+	//float Cd;  // derivative gain, current, passed to the motor controller
 	float Ir;  // reference current, passed to the motor controller
 
 	//C->kp = param_ank_joint_inertia * (C->wn) * (C->wn);
@@ -90,6 +90,8 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
 	}else if(C->xRef < param_joint_ankle_flip){
 		C->xRef = param_joint_ankle_flip;
 	}
+
+	mb_io_set_float(ID_CTRL_TEST_W0, C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef));
 
 	Ir = (
 	         C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef)
@@ -204,7 +206,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 		controller_ankleInner(&ctrlAnkInn); 
  }
 
- int counter = 0; 
+ static int counter = 0; 
 
  /* Makes the inner foot periodically tracks hold/push/flip. */
  void test_inner_foot(void) { 
@@ -398,8 +400,8 @@ void controller_ankleInner( struct ControllerData * C ) {
   */
  void double_stance(void){
  		struct ControllerData ctrlHip;
-		struct ControllerData ctrlAnkOut;
-		struct ControllerData ctrlAnkInn;
+		//struct ControllerData ctrlAnkOut;
+		//struct ControllerData ctrlAnkInn;
 		float out_angle, in_angle, torque; 			 
 
 		out_angle = get_out_angle();
@@ -411,27 +413,35 @@ void controller_ankleInner( struct ControllerData * C ) {
 		ctrlHip.vRef = 0.0;
 		
 	// Calculate the toque needed to compensate for gravity pull
-		in_angle = get_in_angle();  // gets the hip angle (angle b/t inner&outer legs; pos when inner leg is in front)
-		torque = leg_m * g * leg_r * Sin(in_angle);
+		//in_angle = get_in_angle();  // gets the hip angle (angle b/t inner&outer legs; pos when inner leg is in front)
+		//torque = leg_m * g * leg_r * Sin(in_angle);
 		//ctrlHip.uRef = torque; // adding this torque makes the motor shuts off more frequently
 		controller_hip(&ctrlHip);
 
+	// Call function implemented in fsm.c to set the feet flat on ground --> works!
+		test_foot();
+
 	// Run a PD-controller on the outer foot angles: make the feet stay flat wrt the ground
-		ctrlAnkOut.wn = 7;
-		ctrlAnkOut.xi = 0.8;
+		//ctrlAnkOut.wn = 7;
+		//ctrlAnkOut.xi = 0.8;
+		/*ctrlAnkOut.kp = 3.5;
+		ctrlAnkOut.kd = 0.8;  
 		ctrlAnkOut.xRef = FO_flat_angle();
 		ctrlAnkOut.vRef = 0.0;
 		ctrlAnkOut.uRef = 0.0;
 		controller_ankleOuter(&ctrlAnkOut);
-
+		 */
 	
 	// Run a PD-controller on the inner foot angles: make the inner feet always flip up
-		ctrlAnkInn.wn = 7;
-		ctrlAnkInn.xi = 0.8;
- 		ctrlAnkInn.xRef = FI_flat_angle();
+		//ctrlAnkInn.wn = 7;
+		//ctrlAnkInn.xi = 0.8;
+ 		/*ctrlAnkInn.kp =	3.5;
+		ctrlAnkInn.kd = 0.8;
+		ctrlAnkInn.xRef = FI_flat_angle();
 		ctrlAnkInn.vRef = 0.0;
 		ctrlAnkInn.uRef = 0.0;
 		controller_ankleInner(&ctrlAnkInn);
+		*/
  } 
 
  /* Flip all feet up. */
@@ -453,18 +463,6 @@ void controller_ankleInner( struct ControllerData * C ) {
 		ctrlAnkInn.vRef = 0.0;
 		ctrlAnkInn.uRef = 0.0;
 		controller_ankleInner(&ctrlAnkInn);
- }
-
-
- /* gets "qh" the hip angle (angle b/t inner&outer legs; pos when inner leg is in front) */
- float get_in_angle(void){
- 		return mb_io_get_float(ID_MCH_ANGLE);  
- }
-
- /* Returns "th1" the absolute inner leg angle. */
- float get_in_angle_abs(void){
- 		//th1 = qh - qr
-		return mb_io_get_float(ID_MCH_ANGLE) - get_out_angle(); 
  }
 
  /* Returns the relative angle that makes the outer foot stay flat wrt ground. */

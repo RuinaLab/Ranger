@@ -10,6 +10,7 @@ enum ControlMode {
 	M1_Active,
 	M2_TraceCurve,
 	M3_FlipFeet,
+	M4_FSM,
 	M5_Calibrate,
 };
 
@@ -25,6 +26,7 @@ void mb_controller_update(void) {
 	if (detect_UI_button_input(0)) controlMode = M5_Calibrate;	 // 1st button calibrates
 	if (detect_UI_button_input(4)) controlMode = M2_TraceCurve;	 // 5th button moves Ranger
 	if (detect_UI_button_input(1)) controlMode = M1_Active;
+	if (detect_UI_button_input(2)) controlMode = M4_FSM;
 	if (detect_UI_button_input(5)) controlMode = M0_StandBy; // 6th button Stand-by, always goes last (highest priority)
 
 	// Run the desired control mode
@@ -52,6 +54,10 @@ void mb_controller_update(void) {
 	case M3_FlipFeet:
 		set_UI_LED(5, 'p');
 		foot_flip();
+		break;
+	case M4_FSM:
+		set_UI_LED(5, 'c');
+		test_foot();
 		break;
 	case M5_Calibrate:
 		set_UI_LED(5, 'y');
