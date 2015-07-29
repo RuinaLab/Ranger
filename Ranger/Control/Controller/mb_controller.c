@@ -8,7 +8,8 @@
 enum ControlMode {
 	M0_StandBy,
 	M1_Active,
-	M2_TraceCurve,
+	M2_AnkleTest,
+	M4_TraceCurve,
 	M3_FlipFeet,
 	M5_Calibrate,
 };
@@ -23,8 +24,9 @@ void mb_controller_update(void) {
 	// Check UI buttons to update control mode
 	if (detect_UI_button_input(3)) controlMode = M3_FlipFeet; 	// 4th button flip feet up
 	if (detect_UI_button_input(0)) controlMode = M5_Calibrate;	 // 1st button calibrates
-	if (detect_UI_button_input(4)) controlMode = M2_TraceCurve;	 // 5th button moves Ranger
+	if (detect_UI_button_input(4)) controlMode = M4_TraceCurve;	 // 5th button moves Ranger
 	if (detect_UI_button_input(1)) controlMode = M1_Active;
+	if (detect_UI_button_input(2)) controlMode = M2_AnkleTest; // Connects ankle controller to labview
 	if (detect_UI_button_input(5)) controlMode = M0_StandBy; // 6th button Stand-by, always goes last (highest priority)
 
 	// Run the desired control mode
@@ -42,7 +44,11 @@ void mb_controller_update(void) {
 		//test_sign();
 		step();
 		break;
-	case M2_TraceCurve:
+	case M2_AnkleTest:
+		set_UI_LED(2, 'o');	   
+		test_ankle_motor_model();
+		break;
+	case M4_TraceCurve:
 		set_UI_LED(5, 'r');
 		//test_trajectory();
 		//track_sin();
