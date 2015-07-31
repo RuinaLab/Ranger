@@ -115,6 +115,11 @@ int main( int argc, const char ** argv ) {
 	fprintf(out,"plot(TestSqrt(:,1),sqrt(TestSqrt(:,1)),'k.')\n\n");
 
 
+	/* Test of the Fmod() function */
+	printf("Fmod(5.1,3.0) = %4.4f, expected: 2.1\n",Fmod(5.1, 3.0));
+	printf("Fmod(-5.1,3.0) = %4.4f, expected: -2.1\n",Fmod(-5.1, 3.0));
+	printf("Fmod(5.1,-3.0) = %4.4f, expected: 2.1\n",Fmod(5.1, 3.0));
+	printf("Fmod(-5.1,-3.0) = %4.4f, expected: -2.1\n",Fmod(-5.1, -3.0));
 
 	fclose(out);
 	return 0;
