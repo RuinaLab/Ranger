@@ -26,6 +26,7 @@ void mb_estimator_update(void){
  	filter_hip_rate();	//run filter on hip_rate
 	filter_hip_motor_rate();	//run filter on hip_motor_rate	
 	filter_foot_sensor();	//run filter on foot sensors
+	filter_foot_data();	//run filter on ankle angles & angular rates
 	FI_on_ground();
 	FO_on_ground();
 	
@@ -44,10 +45,12 @@ void filter_init(void){
 	float cutoff_freq_hip = 0.1;
 	float cutoff_freq_gyro = 0.005; //0.0005;
 	float cutoff_freq_foot = 0.0005;
+	float cutoff_freq_ankle = 0.1;
 	  
 	setFilterCoeff(&FC_hip, cutoff_freq_hip);
 	setFilterCoeff(&FC_gyro, cutoff_freq_gyro);
 	setFilterCoeff(&FC_foot, cutoff_freq_foot);
+	setFilterCoeff(&FC_ankle, cutoff_freq_ankle);
 
 	// Initialize filter data for each of the filters 
 	setFilterData(&FD_hip_rate, 0.0);
@@ -57,6 +60,10 @@ void filter_init(void){
 	setFilterData(&FD_in_r, 0.0); 
 	setFilterData(&FD_out_l, 0.0); 
 	setFilterData(&FD_out_r, 0.0); 
+	setFilterData(&FD_FI_angle, 0.0);
+	setFilterData(&FD_FI_ang_rate, 0.0);
+	setFilterData(&FD_FO_angle, 0.0);
+	setFilterData(&FD_FO_ang_rate, 0.0); 
 
 	return;
 }
@@ -90,6 +97,33 @@ void filter_hip_motor_rate(void){
 	
 	mb_io_set_float(ID_E_MCH_MOTOR_VELOCITY, est_hip_motor_rate);
 
+	return;
+}
+
+
+void filter_foot_data(void){
+	float read_data_FI_a, read_data_FI_r, read_data_FO_a, read_data_FO_r;
+	unsigned long read_data_t_FI_a, read_data_t_FI_r, read_data_t_FO_a, read_data_t_FO_r;
+	float est_FI_a, est_FI_r, est_FO_a, est_FO_r;
+
+	read_data_FI_a = mb_io_get_float(ID_MCFI_MID_ANKLE_ANGLE);
+	read_data_t_FI_a = mb_io_get_time(ID_MCFI_MID_ANKLE_ANGLE);
+	read_data_FI_r = mb_io_get_float(ID_MCFI_ANKLE_RATE);
+	read_data_t_FI_r = mb_io_get_time(ID_MCFI_ANKLE_RATE);
+	read_data_FO_a = mb_io_get_float(ID_MCFO_RIGHT_ANKLE_ANGLE);
+	read_data_t_FO_a = mb_io_get_time(ID_MCFO_RIGHT_ANKLE_ANGLE);
+	read_data_FO_r = mb_io_get_float(ID_MCFO_RIGHT_ANKLE_RATE);
+	read_data_t_FO_r = mb_io_get_time(ID_MCFO_RIGHT_ANKLE_RATE);
+
+	est_FI_a = runFilter_new(&FC_ankle, &FD_FI_angle, read_data_FI_a, read_data_t_FI_a);
+	est_FI_r = runFilter_new(&FC_ankle, &FD_FI_ang_rate, read_data_FI_r, read_data_t_FI_r);
+	est_FO_a = runFilter_new(&FC_ankle, &FD_FO_angle, read_data_FO_a, read_data_t_FO_a);
+	est_FO_r = runFilter_new(&FC_ankle, &FD_FO_ang_rate, read_data_FO_r, read_data_t_FO_r);
+
+	mb_io_set_float(ID_E_MCFI_MID_ANKLE_ANGLE, est_FI_a);
+	mb_io_set_float(ID_E_MCFI_ANKLE_RATE, est_FI_r);
+	mb_io_set_float(ID_E_MCFO_RIGHT_ANKLE_ANGLE, est_FO_a);
+	mb_io_set_float(ID_E_MCFO_RIGHT_ANKLE_RATE, est_FO_r);
 	return;
 }
 

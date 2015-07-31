@@ -1,9 +1,10 @@
 #ifndef __MB_ESTIMATOR_H__
 #define __MB_ESTIMATOR_H__
 
-static struct FilterCoeff FC_hip, FC_gyro, FC_foot;
+static struct FilterCoeff FC_hip, FC_gyro, FC_foot, FC_ankle;
 static struct FilterData FD_hip_rate, FD_hip_motor_rate, FD_gyro_rate;
 static struct FilterData FD_in_r, FD_in_l, FD_out_r, FD_out_l; // Filter data for foot sensors  
+static struct FilterData FD_FI_angle, FD_FI_ang_rate, FD_FO_angle, FD_FO_ang_rate; // Filter data for foot angles & angular rate
 static struct IntData ID_ang_rate;	 // integrator data for gyro rate
 static int init = 0;
 
@@ -38,13 +39,13 @@ void filter_init(void);
 void filter_hip_rate(void);
 void filter_hip_motor_rate(void);
 void filter_foot_sensor(void);
+void filter_foot_data(void);
 void setFilterCoeff(struct FilterCoeff*, float);
 void setFilterData(struct FilterData*, float) ;
 float runFilter_new(struct FilterCoeff*, struct FilterData*, float, unsigned long);
 void int_init_ang_rate(void);
 void int_ang_rate(void);
-void diff_init_hip_angle(void);
-void diff_hip_rate(void);
+
 
 void filter_gyro_rate(void);
 void test_sign(void);

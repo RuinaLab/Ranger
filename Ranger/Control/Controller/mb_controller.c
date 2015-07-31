@@ -33,7 +33,9 @@ void mb_controller_update(void) {
 	switch (controlMode) {
 	case M0_StandBy:
 		set_UI_LED(5, 'g');
-		setPush();
+		//setPush(); //calls this for the step function in motorController
+		fsm_init();	//calls this for the FSM
+		test_init(); //calls this for the test FSM
 		disable_motors();
 		break;
 	case M1_Active:
@@ -42,7 +44,7 @@ void mb_controller_update(void) {
 		//test_freq_control();
 		//test_inner_foot();
 		//test_sign();
-		step();
+		//step();
 		break;
 	case M2_TraceCurve:
 		set_UI_LED(5, 'r');
@@ -53,11 +55,14 @@ void mb_controller_update(void) {
 		break;
 	case M3_FlipFeet:
 		set_UI_LED(5, 'p');
-		foot_flip();
+		//foot_flip();
+		test_foot();
 		break;
 	case M4_FSM:
 		set_UI_LED(5, 'c');
-		test_foot();
+		//test_foot();
+		fsm_run();
+		//test_out_swing();
 		break;
 	case M5_Calibrate:
 		set_UI_LED(5, 'y');

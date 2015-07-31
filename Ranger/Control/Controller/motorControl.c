@@ -52,20 +52,81 @@ void controller_hip( struct ControllerData * C ) {
   
 	float Ir;  // reference current, passed to the motor controller
 
-	C->kp = param_hip_joint_inertia * (C->wn) * (C->wn);
-	C->kd = 2.0 * param_hip_joint_inertia * (C->wn) * (C->xi);
+	//C->kp = param_hip_joint_inertia * (C->wn) * (C->wn);
+	//C->kd = 2.0 * param_hip_joint_inertia * (C->wn) * (C->xi);
 
-	C->Cp = (C->kp - param_hip_spring_const) / param_hip_motor_const;
+	/*C->Cp = (C->kp - param_hip_spring_const) / param_hip_motor_const;
 	C->Cd = C->kd / param_hip_motor_const;
 
 	Ir = (
 	         C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef)
 	         - param_hip_spring_const * param_hip_spring_ref
 	     ) / param_hip_motor_const;
+	*/
+
+	float x = get_in_angle();
+	float v	= get_in_ang_rate();
+	Ir = RangerHipControl(C, x, v);
 
 	mb_io_set_float(ID_MCH_COMMAND_CURRENT, Ir);
 	mb_io_set_float(ID_MCH_STIFFNESS, C->Cp);
 	mb_io_set_float(ID_MCH_DAMPNESS, C->Cd);
+}
+
+#define uMAX_ANK 4
+#define uMAX_HIP 8  //2*uMAX_ANK
+
+/* Computes the current for hip using saturation*/
+float RangerHipControl(struct ControllerData * C, float x, float v){
+	float ir;
+	float uMax = uMAX_HIP;
+	float uRaw = C->uRef + C->kp*(C->xRef-x) + C->kd*(C->vRef-v);
+	float uSmooth = uMax*tanh(uRaw/uMax);
+	float S = 1 - tanh(uRaw/uMax) * tanh(uRaw/uMax);
+	float Ux = S*C->kp;
+	float Uv = S*C->kd;
+	float uLin = uSmooth + Ux*x + Uv*v;  
+	
+	float uStar = uLin -  param_hip_spring_const * param_hip_spring_ref; //float uStar = uLin - kSpring*xSpring;
+	float kpStar = Ux - param_hip_spring_const;	//float kpStar = Ux - kSpring;
+	float kdStar = Uv; //float kdStar = Uv; 
+	
+	C->Cp = kpStar / param_hip_motor_const; 	//float cp = kpStar/kMotor;
+	C->Cd = kdStar / param_hip_motor_const; 	//float cd = kdStar/kMotor;
+	ir = uStar / param_hip_motor_const;	//float ir = uStar/kMotor;
+	
+	/*mb_io_set_float(ID_CTRL_TEST_W2, C->Cp);
+	mb_io_set_float(ID_CTRL_TEST_W3, C->Cd);
+	mb_io_set_float(ID_CTRL_TEST_W4, ir);
+	*/
+	return ir;
+}
+
+
+/* Computes the current for ankle using saturation*/
+float RangerAnkleControl(struct ControllerData * C, float x, float v){
+	float ir;
+	float uMax = uMAX_ANK;
+	float uRaw = C->uRef + C->kp*(C->xRef-x) + C->kd*(C->vRef-v);
+	float uSmooth = uMax*tanh(uRaw/uMax);
+	float S = 1 - tanh(uRaw/uMax) * tanh(uRaw/uMax);
+	float Ux = S*C->kp;
+	float Uv = S*C->kd;
+	float uLin = uSmooth + Ux*x + Uv*v;  
+	
+	float uStar = uLin -  param_ank_spring_const * param_ank_spring_ref; //float uStar = uLin - kSpring*xSpring;
+	float kpStar = Ux - param_ank_spring_const;	//float kpStar = Ux - kSpring;
+	float kdStar = Uv; //float kdStar = Uv; 
+	
+	C->Cp = kpStar / param_ank_motor_const; 	//float cp = kpStar/kMotor;
+	C->Cd = kdStar / param_ank_motor_const; 	//float cd = kdStar/kMotor;
+	ir = uStar / param_ank_motor_const;	//float ir = uStar/kMotor;
+	
+	/*mb_io_set_float(ID_CTRL_TEST_W2, C->Cp);
+	mb_io_set_float(ID_CTRL_TEST_W3, C->Cd);
+	mb_io_set_float(ID_CTRL_TEST_W4, ir);
+	*/
+	return ir;
 }
 
 
@@ -100,11 +161,18 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
 	return Ir;
 }
 
+
+
+
 /* This function calls the low-level ankle (outer) controller. 
  */
 void controller_ankleOuter( struct ControllerData * C ) {
 	float current;
-	current = getAnkleControllerCurrent(C);	
+	//current = getAnkleControllerCurrent(C);
+	float x = mb_io_get_float(ID_E_MCFO_RIGHT_ANKLE_ANGLE);
+	float v = mb_io_get_float(ID_E_MCFO_RIGHT_ANKLE_RATE);	
+	current = RangerAnkleControl(C, x, v);
+
 	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, current);
 	mb_io_set_float(ID_MCFO_STIFFNESS, C->Cp);
 	mb_io_set_float(ID_MCFO_DAMPNESS, C->Cd);
@@ -115,7 +183,11 @@ void controller_ankleOuter( struct ControllerData * C ) {
  */
 void controller_ankleInner( struct ControllerData * C ) {
 	float current;
-	current = getAnkleControllerCurrent(C);
+	//current = getAnkleControllerCurrent(C);
+	float x = mb_io_get_float(ID_E_MCFI_MID_ANKLE_ANGLE);
+	float v	= mb_io_get_float(ID_E_MCFI_ANKLE_RATE);
+	current = RangerAnkleControl(C, x, v);
+
 	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, current);
 	mb_io_set_float(ID_MCFI_STIFFNESS, C->Cp);
 	mb_io_set_float(ID_MCFI_DAMPNESS, C->Cd);
@@ -407,8 +479,11 @@ void controller_ankleInner( struct ControllerData * C ) {
 		out_angle = get_out_angle();
 	
 	// Run a PD-controller on the hip angle:
-		ctrlHip.wn = 3.5;
+		ctrlHip.kp = 6.9;
+		ctrlHip.kd = 3.1;
+		/*ctrlHip.wn = 3.5;
 		ctrlHip.xi = 0.8;
+		*/
 		ctrlHip.xRef = 2*out_angle;
 		ctrlHip.vRef = 0.0;
 		

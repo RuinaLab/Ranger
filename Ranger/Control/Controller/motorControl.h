@@ -28,6 +28,8 @@ void controller_hip(struct ControllerData *);
 float getAnkleControllerCurrent( struct ControllerData *);
 void controller_ankleOuter(struct ControllerData *);
 void controller_ankleInner(struct ControllerData *);
+float RangerAnkleControl(struct ControllerData * C, float x, float v);
+float RangerHipControl(struct ControllerData * C, float x, float v);
 
 void disable_motors(void);
 void test_motor_control(void);
