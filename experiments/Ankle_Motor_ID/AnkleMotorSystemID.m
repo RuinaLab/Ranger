@@ -11,6 +11,24 @@
 % - Data was logged for both ankles.
 %
 
+
+error('This code does not work. See comments below.')
+%%%% NOTES
+%
+% I'm not getting very good results from this data analysis. I think
+% that the problem is that all of my input tests were step functions, and
+% also that my model-fitting is based on acceleration matching from
+% numerical differentiation. 
+%
+% Perhaps I would have better luck if I tried again, but used some sort of
+% sine wave trajectory tracking, not step functions. This should produce
+% more usable data, although it remains to be seen if this method is
+% actually good for this type of system identification.
+%
+%%%%
+
+
+
 % Read data from the log file
 DATA = dlmread('DataLog.txt','\t');
 ID = DATA(:,1);
@@ -77,16 +95,16 @@ t0 = max([min(u0(:,1)),min(u1(:,1)),min(q0(:,1)),min(q1(:,1))]);
 tF = min([max(u0(:,1)),max(u1(:,1)),max(q0(:,1)),max(q1(:,1))]);
 dt = mean([diff(u0(:,1));diff(u1(:,1));diff(q0(:,1));diff(q1(:,1))]);
 DT = dt/4; %Oversample to catch more peaks.
-t = (t0:DT:tF)';
+T = (t0:DT:tF)';
 
 % Linear interpolate to a uniform grid:
-U0 = interp1(u0(:,1), u0(:,2), t);
-U1 = interp1(u1(:,1), u1(:,2), t);
-Q0 = interp1(q0(:,1), q0(:,2), t);
-Q1 = interp1(q1(:,1), q1(:,2), t);
+U0 = interp1(u0(:,1), u0(:,2), T);
+U1 = interp1(u1(:,1), u1(:,2), T);
+Q0 = interp1(q0(:,1), q0(:,2), T);
+Q1 = interp1(q1(:,1), q1(:,2), T);
 
 % Create a butterworth smoothing filter
-freqCutoff = 15;  %Filter cut-off frequency
+freqCutoff = 0.5*(1/dt);  %Filter cut-off frequency
 freqSample = 1/DT;  %Interpolated data sample frequency
 wn = freqCutoff/(0.5*freqSample);
 [B, A] = butter(4,wn);
@@ -98,20 +116,11 @@ Q0 = filtfilt(B, A, Q0);
 Q1 = filtfilt(B, A, Q1);
 
 %% Numerical differentiation to find the rate based on smoothed angle
-centerDiff = @(x)( 0.5*diff(x(2:end)) + 0.5*diff(x(1:(end-1))) );
-centerVal = @(t)( t(2:(end-1)) );
 
-T = centerVal(centerVal(t));
-U0 = centerVal(centerVal(U0));
-U1 = centerVal(centerVal(U1));
-dQ0 = DT*centerDiff(Q0);
-dQ1 = DT*centerDiff(Q1);
-ddQ0 = DT*centerDiff(dQ0);
-ddQ1 = DT*centerDiff(dQ1);
-Q0 = centerVal(centerVal(Q0));
-Q1 = centerVal(centerVal(Q1));
-dQ0 = centerVal(dQ0);
-dQ1 = centerVal(dQ1);
+dQ0 = diffCenter(Q0,DT);
+dQ1 = diffCenter(Q1,DT);
+ddQ0 = diffCenter(dQ0,DT);
+ddQ1 = diffCenter(dQ1,DT);
 
 
 %% Sample the data at twice the smoothing cutoff frequency:
@@ -129,12 +138,14 @@ q0 = interp1(T,Q0,t,'pchip');
 q1 = interp1(T,Q1,t,'pchip');
 dq0 = interp1(T,dQ0,t,'pchip');
 dq1 = interp1(T,dQ1,t,'pchip');
+ddq0 = interp1(T,ddQ0,t,'pchip');
+ddq1 = interp1(T,ddQ1,t,'pchip');
 
 
 %% Plot the nice smooth data for analysis
 figure(2); clf;
 
-subplot(3,1,1); hold on;
+subplot(4,1,1); hold on;
 plot(t,u0)
 plot(t,u1)
 legend('outer','inner')
@@ -142,21 +153,57 @@ title('Ankle Motor Processed Data')
 xlabel('time (sec)')
 ylabel('current (amp)')
 
-subplot(3,1,2); hold on;
+subplot(4,1,2); hold on;
 plot(t,q0)
 plot(t,q1)
 legend('outer','inner')
 xlabel('time (sec)')
 ylabel('angle (rad)')
 
-subplot(3,1,3); hold on;
+subplot(4,1,3); hold on;
 plot(t,dq0)
 plot(t,dq1)
 legend('outer','inner')
 xlabel('time (sec)')
 ylabel('rate (rad/s)')
 
+subplot(4,1,4); hold on;
+plot(t,ddq0)
+plot(t,ddq1)
+legend('outer','inner')
+xlabel('time (sec)')
+ylabel('accle (rad/s)')
+
 %% Run non-linear least squares to fit a motor model:
 
-MotorModel = fitMotorModel(t,u0,q0,dq0,ddq0,u1,q1,dq1,ddq1);
+[MotorModel0, Info0] = fitAnkleMotorModel(u0,q0,dq0,ddq0);
+[MotorModel1, Info1] = fitAnkleMotorModel(u1,q1,dq1,ddq1);
+
+ddq0_model = Info0.ddqModel;
+ddq1_model = Info1.ddqModel;
+
+figure(3); clf;
+
+subplot(2,1,1); hold on;
+plot(t,ddq0)
+plot(t,ddq0_model);
+legend('data','model');
+title('Model Fit, Outer Feet');
+xlabel('time (sec)')
+ylabel('accel (rad/sec^2)')
+
+subplot(2,1,2); hold on;
+plot(t,ddq1)
+plot(t,ddq1_model);
+legend('data','model');
+title('Model Fit, Inner Feet');
+xlabel('time (sec)')
+ylabel('accel (rad/sec^2)')
+
+
+
+
+
+
+
 
