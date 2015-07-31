@@ -78,6 +78,25 @@ int main( int argc, const char ** argv ) {
 	fprintf(out,"plot(TestAtan(:,1),atan(TestAtan(:,1)),'k.')\n\n");
 
 
+
+	/* Test of the Tanh() function */
+	xLow = -5.0;
+	xUpp = 5.0;
+	x = xLow;
+	n = 800;
+	dt = (xUpp-xLow)/(n-1);
+	fprintf(out,"TestTanh = [...\n");
+	for (i=0; i<n; i++){
+		y = Tanh(x);
+		fprintf(out,"%6.6f %6.6f;\n", x, y);
+		x = x + dt;
+	}
+	fprintf(out,"];\n");
+	fprintf(out,"figure(5); clf; hold on;\n");
+	fprintf(out,"plot(TestTanh(:,1),TestTanh(:,2),'ko')\n");
+	fprintf(out,"plot(TestTanh(:,1),tanh(TestTanh(:,1)),'k.')\n\n");
+
+
 	/* Test of the Sqrt() function */
 	xLow = -0.1;
 	xUpp = 2.5;
