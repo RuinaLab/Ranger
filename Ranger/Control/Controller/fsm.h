@@ -10,6 +10,9 @@ void hip_track_rel(struct ControllerData * ctrlData, float qh_ref, float dqh_ref
 void hip_scissor_track(struct ControllerData * ctrlData, float c0, float c1, float KP, float KD);
 void out_ank_track_abs(struct ControllerData * ctrlData, float phi0_ref, float dphi0_ref, float u_ref, float KP, float KD);
 void inn_ank_track_abs(struct ControllerData * ctrlData, float phi1_ref, float dphi1_ref, float u_ref, float KP, float KD);
+void hip_scissor_track_outer(struct ControllerData * ctrlData, float offset, float rate, float KP, float KD);
+void hip_scissor_track_inner(struct ControllerData * ctrlData, float offset, float rate, float KP, float KD);
+
 
 void test_foot(void);
 void test_out_swing(void);

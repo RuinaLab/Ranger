@@ -13,20 +13,22 @@ enum States {
 };
 
 #define PI 3.141592653589793
-#define ANK_FAST_KP 3.5//50
-#define ANK_FAST_KD 0.8//3 
-#define ANK_SLOW_KP 3.5//30
-#define ANK_SLOW_KD 0.8//15 
-#define HIP_KP 6.9//40
-#define HIP_KD 3.1//10
+#define ANK_FAST_KP 3//3.5//50
+#define ANK_FAST_KD 0.7//0.8//3 
+#define ANK_SLOW_KP 3//3.5//30
+#define ANK_SLOW_KD 0.7//0.8//15 
+#define HIP_KP 3 //6.9//40
+#define HIP_KD 2.9 //3.1//10
 #define HIP_SCISSOR_GAIN 1.5
 #define HIP_REF_HOLD 0.3 //relative angle for hip  17.2 degrees
-#define ANK_REF_HOLD 0.0 //absolute angles for ankle
-#define ANK_REF_PUSH -0.6
+#define ANK_REF_HOLD -0.05 //absolute angles for ankle
+#define ANK_REF_PUSH -0.8
 #define ANK_REF_FLIP 1.5
 #define uMAX_ANK 4
 #define uMAX_HIP 8  //2*uMAX_ANK
 
+#define SCISSOR_OFFSET 0.1
+#define	SCISSOR_RATE 1.3
 
 static float th_ref = 0.0;
 static enum States current_state = OUT_SWING; 
@@ -78,9 +80,7 @@ void fsm_run(void){
 		// flip up inner feet
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, ANK_FAST_KP, ANK_FAST_KD);
 		// adjust hip angle, outer on ground
-		c0 = HIP_SCISSOR_GAIN;
-		c1 = 1.0;
-		hip_scissor_track(&ctrlHip, c0, c1, HIP_KP, HIP_KD);
+		hip_scissor_track_outer(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE,HIP_KP, HIP_KD);
 		break;
 
 	case OUT_PUSH:	/*land inner leg*/
@@ -100,9 +100,7 @@ void fsm_run(void){
 		// hold inner feet
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, ANK_SLOW_KP, ANK_SLOW_KD);
 		// adjust hip angle
-		c0 = 1.0;
-		c1 = HIP_SCISSOR_GAIN;
-		hip_scissor_track(&ctrlHip, c0, c1, HIP_KP, HIP_KD);
+		hip_scissor_track_inner(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE,HIP_KP, HIP_KD);
 		break;
 
 	case INN_PUSH:	/*land outer leg*/
@@ -142,7 +140,7 @@ void fsm_run(void){
 
 /* Updates current state of the FSM. */
 void fsm_update(void){
-	float trans_angle = 0.5*HIP_REF_HOLD - 0.05;
+	float trans_angle = 0.1;//0.5*HIP_REF_HOLD - 0.05;
 
 	switch(current_state){
 	case OUT_SWING:	/*swing inner leg*/
@@ -218,16 +216,39 @@ void hip_scissor_track(struct ControllerData * ctrlData, float c0, float c1, flo
 	return;
 }
 
+void hip_scissor_track_outer(struct ControllerData * ctrlData, float offset, float rate, float KP, float KD){
+	float th1Ref = offset - rate * th0;
+	float dth1Ref = -rate*dth0; 
+	
+	ctrlData->xRef = th1Ref - th0;
+	ctrlData->vRef = dth1Ref - dth0; 
+	ctrlData->uRef = 0.0;
+	//ctrlData->uRef = hip_gravity_compensation();
+	ctrlData->kp = KP;
+	ctrlData->kd = KD;
+}
+
+void hip_scissor_track_inner(struct ControllerData * ctrlData, float offset, float rate, float KP, float KD){
+	float th0Ref = offset - rate * th1;
+	float dth0Ref = -rate*dth1; 
+	
+	ctrlData->xRef = th1 - th0Ref;
+	ctrlData->vRef = dth1 - dth0Ref;
+	ctrlData->uRef = 0.0;
+	//ctrlData->uRef = hip_gravity_compensation();
+ 	ctrlData->kp = KP;
+	ctrlData->kd = KD;
+}
 
 /* Computes the outer ankle controller set-points to track the desired absolute angle and rate. */
 void out_ank_track_abs(struct ControllerData * ctrlData, float phi0_ref, float dphi0_ref, float u_ref, float KP, float KD){
 	//convert absolute to relative
 	//q0 = pi/2 - phi0 + th0
 	//th0 = -qr
-	ctrlData->xRef = PI/2 - phi0_ref - qr +0.15;
-	if(th0 < 0){
+	ctrlData->xRef = PI/2 - phi0_ref - qr + 0.25;//+0.15;
+	/*if(th0 < 0){
 		ctrlData->xRef += 0.3;	//outer leg in the back, add more offset
-	}
+	} */
 	ctrlData->vRef = -dphi0_ref - dqr;
 	ctrlData->uRef = u_ref;
 
@@ -242,10 +263,10 @@ void inn_ank_track_abs(struct ControllerData * ctrlData, float phi1_ref, float d
 	//convert absolute to relative
 	//q1 = pi/2 - phi1 + th1 
 	//th1 = qh - qr
-	ctrlData->xRef = PI/2 - phi1_ref + qh - qr +0.15;
-	if(th1 < 0){
+	ctrlData->xRef = PI/2 - phi1_ref + qh - qr +0.25;//+0.15;
+	/*if(th1 < 0){
 		ctrlData->xRef += 0.3;	//inner leg in the back, add more offset
-	}
+	} */
 	ctrlData->vRef = -dphi1_ref + dqh - dqr;
 	ctrlData->uRef = u_ref;
 
@@ -289,7 +310,7 @@ void test_out_swing(void){
 	struct ControllerData ctrlAnkOut;
 	struct ControllerData ctrlAnkInn;
 	float c0, c1;
-	float trans_angle = 0.5*HIP_REF_HOLD-0.3;
+	float trans_angle = 0.08;//0.5*HIP_REF_HOLD-0.3;
 
 	angles_update();
 
@@ -301,9 +322,7 @@ void test_out_swing(void){
 		// flip up inner feet
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, ANK_FAST_KP, ANK_FAST_KD);
 		// adjust hip angle, outer on ground
-		c0 = HIP_SCISSOR_GAIN;
-		c1 = 1.0;
-		hip_scissor_track(&ctrlHip, c0, c1, HIP_KP, HIP_KD);
+		hip_scissor_track_outer(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE, HIP_KP, HIP_KD);
 		
 		mb_io_set_float(ID_CTRL_TEST_W2, th0);
 	    mb_io_set_float(ID_CTRL_TEST_W3, dth0);
