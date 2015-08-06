@@ -237,6 +237,14 @@ EST_TEST_W7,0,1,0,test write to labview
 EST_TEST_W8,0,1,0,test write to labview
 EST_TEST_W9,0,1,0,test write to labview
 #ControllerTesting,,,,
+CTRL_HIP_KP,3,0,1,
+CTRL_HIP_KD,2,0,1,
+CTRL_ANK_FLIP_KP,3,0,1,
+CTRL_ANK_FLIP_KD,0.5,0,1,
+CTRL_ANK_PUSH_KP,3,0,1,
+CTRL_ANK_PUSH_KD,0.5,0,1,
+CTRL_ANK_HOLD_KP,3,0,1,
+CTRL_ANK_HOLD_KD,2.5,0,1,
 CTRL_TEST_R0,0,0,1,test read from labview
 CTRL_TEST_R1,0,0,1,test read from labview
 CTRL_TEST_R2,0,0,1,test read from labview

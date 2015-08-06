@@ -61,8 +61,8 @@ void mb_controller_update(void) {
 	case M4_FSM:
 		set_UI_LED(5, 'c');
 		//test_foot();
-		fsm_run();
-		//test_out_swing();
+		//fsm_run();
+		test_fsm();
 		break;
 	case M5_Calibrate:
 		set_UI_LED(5, 'y');
