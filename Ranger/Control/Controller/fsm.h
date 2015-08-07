@@ -15,7 +15,9 @@ void hip_scissor_track_inner(struct ControllerData * ctrlData, float offset, flo
 
 
 void test_foot(void);
+void test_hip(void);
 void test_fsm(void);
+void test_fsm_hip(void);
 void test_init(void);
 
 #endif  // __FSM_H__

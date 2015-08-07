@@ -36,6 +36,8 @@ void mb_estimator_update(void){
 		count_gyro = 0;
 	} */
 	int_ang_rate();
+
+	mb_io_set_float(ID_EST_GYRO_ANGLE, ID_ang_rate.current_angle);
 	return;
 }
 

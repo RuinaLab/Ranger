@@ -206,6 +206,10 @@ void fsm_update(void){
 	default: /*state doesn't exist*/
 		break;
 	}
+
+	if(!FI_on_ground() && !FO_on_ground()){
+		current_state = FLIGHT;
+	}
 }
 
  
@@ -228,7 +232,8 @@ float hip_gravity_compensation(void){
 void hip_track_rel(struct ControllerData * ctrlData, float qh_ref, float dqh_ref, float KP, float KD){
 	ctrlData->xRef = qh_ref;
 	ctrlData->vRef = dqh_ref;
-	ctrlData->uRef = hip_gravity_compensation();
+	//ctrlData->uRef = hip_gravity_compensation();
+	ctrlData->uRef = 0.0;
 
 	ctrlData->kp = KP;
 	ctrlData->kd = KD;
@@ -317,12 +322,19 @@ void test_foot(void){
 
 	//hold inner & outer feet
 	out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_SLOW_KP, ANK_SLOW_KD);
-	inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, ANK_SLOW_KP, ANK_SLOW_KD);
+	inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, ANK_SLOW_KP, ANK_SLOW_KD);
 	
 	controller_ankleInner(&ctrlAnkInn);
 	controller_ankleOuter(&ctrlAnkOut);
 
 	return;
+}
+
+/* Tests the hip relative tracking function. */
+void test_hip(void){
+	struct ControllerData ctrlHip;
+	hip_track_rel(&ctrlHip, 0.3, 0.0, 6, 3);
+	controller_hip(&ctrlHip);
 }
 
 
@@ -331,12 +343,141 @@ enum testStates {
 	two,
 	three,
 	four,
+	five,
+	six,
 };
 
 static enum testStates test_state = one; 
+int count = 0;
 
 void test_init(void){
 	test_state = one;
+	count = 0;
+}
+
+void test_fsm_hip(void){
+	struct ControllerData ctrlHip;
+	struct ControllerData ctrlAnkOut;
+	struct ControllerData ctrlAnkInn;
+	float trans_angle = 0.12;//0.5*HIP_REF_HOLD-0.3;
+
+		
+	float PUSH_KP = 7;
+	float PUSH_KD = 1;
+	float HOLD_KP = 4;
+	float HOLD_KD = 0.5;
+	float FLIP_KP =	3;
+	float FLIP_KD = 0.5;
+	float H_KP = 6;
+	float H_KD = 3; 
+
+	ANK_FLIP_KP = mb_io_get_float(ID_CTRL_ANK_FLIP_KP);
+	ANK_FLIP_KD = mb_io_get_float(ID_CTRL_ANK_FLIP_KD);
+	ANK_PUSH_KP = mb_io_get_float(ID_CTRL_ANK_PUSH_KP);
+	ANK_PUSH_KD = mb_io_get_float(ID_CTRL_ANK_PUSH_KD);
+	ANK_HOLD_KP =  mb_io_get_float(ID_CTRL_ANK_HOLD_KP);
+	ANK_HOLD_KD =  mb_io_get_float(ID_CTRL_ANK_HOLD_KD);
+	HIP_KP = mb_io_get_float(ID_CTRL_HIP_KP);
+	HIP_KD= mb_io_get_float(ID_CTRL_HIP_KD);
+
+	angles_update();
+	mb_io_set_float(ID_CTRL_TEST_W0, th0);
+	
+	switch(test_state){
+	case one:  //swing innner leg 
+		mb_io_set_float(ID_CTRL_TEST_W1, 10);
+		// hold outer feet
+		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, HOLD_KP, HOLD_KD);
+		// flip up inner feet
+		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, FLIP_KP, FLIP_KD);
+		// adjust hip
+		hip_scissor_track_outer(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE, H_KP, H_KD); //high KP and KD for hip here
+
+		count++;
+		if(th0<-0.12 && count>1000){ //inner leg in front, outer leg in the back 
+			// push the inner feet earlier
+			test_state = three;
+			count = 0;	
+		}
+		break;
+/*	case two: //land inner feet and stand 
+		mb_io_set_float(ID_CTRL_TEST_W1, 20);
+		// hold all feet
+		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, HOLD_KP, HOLD_KD);
+		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, PUSH_KP, PUSH_KD); 
+		hip_track_rel(&ctrlHip, 0.3, 0.0, H_KP, H_KD);
+		
+		count++;
+		if(count>1000){
+			test_state = three;
+			count = 0;
+		}	
+		break;
+*/
+	case three: //push off outer feet 
+		mb_io_set_float(ID_CTRL_TEST_W1, 30);
+		// push down outer feet
+	    out_ank_track_abs(&ctrlAnkOut, ANK_REF_PUSH, 0.0, 0.0, PUSH_KP, PUSH_KD);
+		// hold inner feet
+	 	inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, HOLD_KP, HOLD_KD);
+		// decrease the angle between two legs
+	    hip_track_rel(&ctrlHip, 0.3, 0.0, H_KP, H_KD);
+		
+		count++;
+		if(q0>2.2 && count>1000){ //outer ankle angle
+			test_state = four;
+			count = 0;
+		}		
+		break;
+	case four: //swing outer leg
+		mb_io_set_float(ID_CTRL_TEST_W1, 40);
+		// flip up outer feet 
+		out_ank_track_abs(&ctrlAnkOut, ANK_REF_FLIP, 0.0, 0.0, FLIP_KP, FLIP_KD);
+		// hold inner feet
+		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, HOLD_KP, HOLD_KD);
+		// adjust hip angle
+		hip_scissor_track_inner(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE,HIP_KP, HIP_KD);
+		
+		count++;
+		if(th0>0.12 && count>1000){ //outer leg in front, inner leg in the back 
+			test_state = six;	
+			count = 0;
+		}
+		break;
+/*	case five: //land outer leg and stand
+		mb_io_set_float(ID_CTRL_TEST_W1, 50);
+		// push down to hold outer feet
+		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, PUSH_KP, PUSH_KD);
+		// hold inner feet
+	 	inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, HOLD_KP, HOLD_KD);
+		// hold hip angle
+		hip_track_rel(&ctrlHip, -0.3, 0.0, H_KP, H_KD);
+		
+		count++;
+		if(count>1000){
+			test_state = six;
+			count = 0;
+		}
+		break;
+ */
+	case six:
+		mb_io_set_float(ID_CTRL_TEST_W1, 60);
+		//push down inner feet and hold outer feet
+		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, HOLD_KP, HOLD_KD);
+		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_PUSH, 0.0, 0.0, PUSH_KP, PUSH_KD);
+		hip_track_rel(&ctrlHip, -0.3, 0.0, H_KP, H_KD);
+
+		count++;
+		if(q1>2.2 && count>1000){ //inner ankle angle
+			test_state = one;
+			count = 0;
+		}	
+		break;
+	}
+
+	controller_hip(&ctrlHip);
+	controller_ankleInner(&ctrlAnkInn);
+	controller_ankleOuter(&ctrlAnkOut);
 }
 
 void test_fsm(void){
@@ -345,22 +486,21 @@ void test_fsm(void){
 	float trans_angle = 0.08;//0.5*HIP_REF_HOLD-0.3;
 
 	ANK_FLIP_KP = mb_io_get_float(ID_CTRL_ANK_FLIP_KP);
-	 ANK_FLIP_KD = mb_io_get_float(ID_CTRL_ANK_FLIP_KD);
-	 ANK_PUSH_KP = mb_io_get_float(ID_CTRL_ANK_PUSH_KP);
-	 ANK_PUSH_KD = mb_io_get_float(ID_CTRL_ANK_PUSH_KD);
-	 ANK_HOLD_KP =  mb_io_get_float(ID_CTRL_ANK_HOLD_KD);
-	 ANK_HOLD_KD =  mb_io_get_float(ID_CTRL_ANK_HOLD_KD);
-	 HIP_KP = mb_io_get_float(ID_CTRL_HIP_KP);
-	 HIP_KD= mb_io_get_float(ID_CTRL_HIP_KD);
+	ANK_FLIP_KD = mb_io_get_float(ID_CTRL_ANK_FLIP_KD);
+	ANK_PUSH_KP = mb_io_get_float(ID_CTRL_ANK_PUSH_KP);
+	ANK_PUSH_KD = mb_io_get_float(ID_CTRL_ANK_PUSH_KD);
+	ANK_HOLD_KP =  mb_io_get_float(ID_CTRL_ANK_HOLD_KP);
+	ANK_HOLD_KD =  mb_io_get_float(ID_CTRL_ANK_HOLD_KD);
+	HIP_KP = mb_io_get_float(ID_CTRL_HIP_KP);
+	HIP_KD= mb_io_get_float(ID_CTRL_HIP_KD);
 
 	angles_update();
-	mb_io_set_float(ID_CTRL_TEST_W2, th0);
 
 	switch(test_state){
-	case one:
+	case one: //OUT_SWING
 		mb_io_set_float(ID_CTRL_TEST_W1, 1);
 		// hold outer feet
-		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, 3, 0.5);//ANK_HOLD_KP, ANK_HOLD_KD);
+		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
 		// flip up inner feet
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
 
@@ -368,7 +508,7 @@ void test_fsm(void){
 			test_state = two;	
 		}
 		break;
-	case two:		
+	case two: //OUT_PUSH		
 		mb_io_set_float(ID_CTRL_TEST_W1, 2);		
 		// push down outer feet
 	    out_ank_track_abs(&ctrlAnkOut, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
@@ -378,7 +518,7 @@ void test_fsm(void){
 		 	test_state = three;
 		}
 		break;
-	case three:
+	case three: //INN_SWING
 		mb_io_set_float(ID_CTRL_TEST_W1, 3);		
 		// flip up outer feet 
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
@@ -388,7 +528,7 @@ void test_fsm(void){
 			test_state = four;
 		}
 		break; 
-	case four:
+	case four: //INN_PUSH
 		mb_io_set_float(ID_CTRL_TEST_W1, 4);
 		// hold outer feet
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);

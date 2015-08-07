@@ -50,8 +50,10 @@ void mb_controller_update(void) {
 		set_UI_LED(5, 'r');
 		//test_trajectory();
 		//track_sin();
-		double_stance();
-		check_30();
+		//double_stance();
+		//check_30();
+		test_fsm_hip();
+		//test_hip();
 		break;
 	case M3_FlipFeet:
 		set_UI_LED(5, 'p');
@@ -62,7 +64,8 @@ void mb_controller_update(void) {
 		set_UI_LED(5, 'c');
 		//test_foot();
 		//fsm_run();
-		test_fsm();
+		//test_fsm();
+		
 		break;
 	case M5_Calibrate:
 		set_UI_LED(5, 'y');
