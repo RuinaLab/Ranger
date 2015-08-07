@@ -19,5 +19,6 @@ void test_hip(void);
 void test_fsm(void);
 void test_fsm_hip(void);
 void test_init(void);
+void param_update(void);
 
 #endif  // __FSM_H__

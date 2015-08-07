@@ -36,6 +36,7 @@ void mb_controller_update(void) {
 		//setPush(); //calls this for the step function in motorController
 		fsm_init();	//calls this for the FSM
 		test_init(); //calls this for the test FSM
+		param_update(); //read parameters from LABVIEW for FSM
 		disable_motors();
 		break;
 	case M1_Active:
@@ -64,8 +65,7 @@ void mb_controller_update(void) {
 		set_UI_LED(5, 'c');
 		//test_foot();
 		//fsm_run();
-		//test_fsm();
-		
+		//test_fsm();		
 		break;
 	case M5_Calibrate:
 		set_UI_LED(5, 'y');
