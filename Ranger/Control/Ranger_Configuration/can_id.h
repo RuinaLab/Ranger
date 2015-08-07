@@ -227,7 +227,7 @@ typedef enum can_ids{
 	ID_EST_TEST_W7 = 215,	 // 0 1 0 // test write to labview
 	ID_EST_TEST_W8 = 216,	 // 0 1 0 // test write to labview
 	ID_EST_TEST_W9 = 217,	 // 0 1 0 // test write to labview
-	ID_CTRL_HIP_KP = 218,	 // 3 0 1 // 
+	ID_CTRL_HIP_KP = 218,	 // 6 0 1 // 
 	ID_CTRL_HIP_KD = 219,	 // 2 0 1 // 
 	ID_CTRL_ANK_FLIP_KP = 220,	 // 3 0 1 // 
 	ID_CTRL_ANK_FLIP_KD = 221,	 // 0.5 0 1 // 
@@ -235,8 +235,8 @@ typedef enum can_ids{
 	ID_CTRL_ANK_PUSH_KD = 223,	 // 0.5 0 1 // 
 	ID_CTRL_ANK_HOLD_KP = 224,	 // 3 0 1 // 
 	ID_CTRL_ANK_HOLD_KD = 225,	 // 0.5 0 1 // 
-	ID_CTRL_HIP_REF_HOLD = 226,	 // 0.3 0 1 // 
-	ID_CTRL_HIP_TRANS_ANGLE = 227,	 // 0.12 0 1 // 
+	ID_CTRL_HIP_REF_HOLD = 226,	 // 0.2 0 1 // 
+	ID_CTRL_HIP_TRANS_ANGLE = 227,	 // 0.08 0 1 // 
 	ID_CTRL_ANK_REF_PUSH = 228,	 // -0.8 0 1 // 
 	ID_CTRL_ANK_REF_HOLD = 229,	 // -0.05 0 1 // 
 	ID_CTRL_ANK_REF_FLIP = 230,	 // 1.5 0 1 // 
