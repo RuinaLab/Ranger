@@ -19,21 +19,25 @@ void mb_estimator_update(void){
 	clear_UI_LED();
 	if(!init){
 		filter_init();
-		intergrater_init_ang_rate();
+		int_init_ang_rate();
 		init = 1;
 	}
 	 	
  	filter_hip_rate();	//run filter on hip_rate
 	filter_hip_motor_rate();	//run filter on hip_motor_rate	
 	filter_foot_sensor();	//run filter on foot sensors
-	foot_on_ground();
+	filter_foot_data();	//run filter on ankle angles & angular rates
+	FI_on_ground();
+	FO_on_ground();
 	
 	/*count_gyro = 0;
 	if(count_gyro = 1000){
 		filter_gyro_rate(); //run filter on gyro_rate-->does not work!! The integrated angle always attenuates to zero
 		count_gyro = 0;
 	} */
-	integrate_ang_rate();
+	int_ang_rate();
+
+	mb_io_set_float(ID_EST_GYRO_ANGLE, ID_ang_rate.current_angle);
 	return;
 }
 
@@ -43,10 +47,12 @@ void filter_init(void){
 	float cutoff_freq_hip = 0.1;
 	float cutoff_freq_gyro = 0.005; //0.0005;
 	float cutoff_freq_foot = 0.0005;
+	float cutoff_freq_ankle = 0.1;
 	  
 	setFilterCoeff(&FC_hip, cutoff_freq_hip);
 	setFilterCoeff(&FC_gyro, cutoff_freq_gyro);
 	setFilterCoeff(&FC_foot, cutoff_freq_foot);
+	setFilterCoeff(&FC_ankle, cutoff_freq_ankle);
 
 	// Initialize filter data for each of the filters 
 	setFilterData(&FD_hip_rate, 0.0);
@@ -56,6 +62,10 @@ void filter_init(void){
 	setFilterData(&FD_in_r, 0.0); 
 	setFilterData(&FD_out_l, 0.0); 
 	setFilterData(&FD_out_r, 0.0); 
+	setFilterData(&FD_FI_angle, 0.0);
+	setFilterData(&FD_FI_ang_rate, 0.0);
+	setFilterData(&FD_FO_angle, 0.0);
+	setFilterData(&FD_FO_ang_rate, 0.0); 
 
 	return;
 }
@@ -92,18 +102,49 @@ void filter_hip_motor_rate(void){
 	return;
 }
 
-void foot_on_ground(void){
-	if(in_feet_count > 10){
-		set_UI_LED(1, 'g');
-		in_feet_count = 0; 
-	}
 
+void filter_foot_data(void){
+	float read_data_FI_a, read_data_FI_r, read_data_FO_a, read_data_FO_r;
+	unsigned long read_data_t_FI_a, read_data_t_FI_r, read_data_t_FO_a, read_data_t_FO_r;
+	float est_FI_a, est_FI_r, est_FO_a, est_FO_r;
+
+	read_data_FI_a = mb_io_get_float(ID_MCFI_MID_ANKLE_ANGLE);
+	read_data_t_FI_a = mb_io_get_time(ID_MCFI_MID_ANKLE_ANGLE);
+	read_data_FI_r = mb_io_get_float(ID_MCFI_ANKLE_RATE);
+	read_data_t_FI_r = mb_io_get_time(ID_MCFI_ANKLE_RATE);
+	read_data_FO_a = mb_io_get_float(ID_MCFO_RIGHT_ANKLE_ANGLE);
+	read_data_t_FO_a = mb_io_get_time(ID_MCFO_RIGHT_ANKLE_ANGLE);
+	read_data_FO_r = mb_io_get_float(ID_MCFO_RIGHT_ANKLE_RATE);
+	read_data_t_FO_r = mb_io_get_time(ID_MCFO_RIGHT_ANKLE_RATE);
+
+	est_FI_a = runFilter_new(&FC_ankle, &FD_FI_angle, read_data_FI_a, read_data_t_FI_a);
+	est_FI_r = runFilter_new(&FC_ankle, &FD_FI_ang_rate, read_data_FI_r, read_data_t_FI_r);
+	est_FO_a = runFilter_new(&FC_ankle, &FD_FO_angle, read_data_FO_a, read_data_t_FO_a);
+	est_FO_r = runFilter_new(&FC_ankle, &FD_FO_ang_rate, read_data_FO_r, read_data_t_FO_r);
+
+	mb_io_set_float(ID_E_MCFI_MID_ANKLE_ANGLE, est_FI_a);
+	mb_io_set_float(ID_E_MCFI_ANKLE_RATE, est_FI_r);
+	mb_io_set_float(ID_E_MCFO_RIGHT_ANKLE_ANGLE, est_FO_a);
+	mb_io_set_float(ID_E_MCFO_RIGHT_ANKLE_RATE, est_FO_r);
+	return;
+}
+
+/* Returns 1 if inner feet are on the ground. */
+int FI_on_ground(void){
+	if(in_feet_count > 10){
+		set_UI_LED(1, 'g'); 
+		return 1;
+	}
+	return 0;
+}
+
+/* Returns 1 if outer feet are on the ground. */
+int FO_on_ground(void){
 	if(out_feet_count > 10){
 		set_UI_LED(2, 'g');
-		out_feet_count = 0;
+		return 1;
 	}
-
-	return;
+	return 0;
 }
 
 /* Runs a 2nd order butterworth filter on the 4 foot sensors */	
@@ -126,6 +167,8 @@ void filter_foot_sensor(void){
 	// Increment the counter if inner feet's combined reading is greater than threshold value
 	if( (read_data_in_l + read_data_in_r) >  in_feet_threshold){
 		in_feet_count ++; 
+	}else{
+		in_feet_count = 0;
 	}
 		
 	read_data_out_l = mb_io_get_float(ID_MCFO_LEFT_HEEL_SENSE);
@@ -141,6 +184,8 @@ void filter_foot_sensor(void){
 	// Increment the counter if outer feet's combined reading is greater than threshold value
 	if( (read_data_out_l + read_data_out_r) >  out_feet_threshold){
 		out_feet_count ++; 
+	}else{
+		out_feet_count = 0;
 	}
 
 	return;
@@ -260,7 +305,7 @@ float runFilter_new(struct FilterCoeff * FC, struct FilterData * FD, float z, un
                                // new imu  //earlier imu 0.0165 ; //  // this is the average imu rate read from can id when the imu is supposed to be at rest.
                                // hence this value will be subtracted from the can-id to correct for thsi offset. 
                                // THIS NUMBER SHOUKD BE REGULARLY CHECKED AND UPDATED. it changes with time.
-void intergrater_init_ang_rate(void){
+void int_init_ang_rate(void){
 	ID_ang_rate.currently_read_data = 0;
 	ID_ang_rate.time_of_curr_read_data = mb_io_get_float(ID_TIMESTAMP);
 	ID_ang_rate.prev_read_data = 0;
@@ -268,7 +313,7 @@ void intergrater_init_ang_rate(void){
 	ID_ang_rate.current_angle = 0;
 }
 
-void integrate_ang_rate(void){
+void int_ang_rate(void){
     ID_ang_rate.prev_read_data = ID_ang_rate.currently_read_data;
 	ID_ang_rate.time_of_prev_read_data = ID_ang_rate.time_of_curr_read_data; 
 	
@@ -279,16 +324,31 @@ void integrate_ang_rate(void){
 	mb_io_set_float(ID_EST_TEST_W1, ID_ang_rate.current_angle);
 }
 
+
 /* Calibration: sets the angle integrated over gyro rate to zero */
 void calibrate(void){
-	intergrater_init_ang_rate();
+	int_init_ang_rate();
 }
 
-/* Returns the angle integrated over gyro rate.
+/* Returns "qr" the angle integrated over gyro rate.
  * This is the absolute angle (of the outer leg) wrt ground; pos when outer leg is in forward
  * (The static variable in mb_estimator.h cannot be accessed by other c-files.) 
  */
 float get_out_angle(void){
-	//mb_io_set_float(ID_EST_TEST_W0, ID_ang_rate.current_angle);
 	return ID_ang_rate.current_angle;
+}
+
+/* Returns the gyro rate for the outer leg. */
+float get_out_ang_rate(void){
+	return -(mb_io_get_float(ID_UI_ANG_RATE_X)- DEFAULT_GYRO_BIAS);
+}
+
+/* gets "qh" the hip angle (angle b/t inner&outer legs; pos when inner leg is in front) */
+float get_in_angle(void){
+ 	return mb_io_get_float(ID_MCH_ANGLE);  
+}
+
+/* Returns angular rate of the hip angle. */
+float get_in_ang_rate(void){
+	return mb_io_get_float(ID_E_MCH_ANG_RATE); //the estimated hip angle rate
 }

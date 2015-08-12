@@ -1,13 +1,12 @@
 #include <mb_includes.h> 
 #include <motorControl.h>
 
-
 #include "Trajectory.h"
 #include "TrajData.h"
 #include "math.h" //for fmod()
 #include "RangerMath.h"	//for Sin()
+#include "fsm.h"
 
-#define thirty 0.52
 enum StepProgress {
 	PrePush,
 	Push,
@@ -16,20 +15,20 @@ enum StepProgress {
 	PostLand,
 };
 
-int count_step = 0;
-int count_rock = 0;
+static int count_step = 0;
+static int count_rock = 0;
 static enum StepProgress stepProgress = Push;
 
 #define PI 3.141592653589793
 #define DATA TRAJ_DATA_Test0
-static const float leg_m = 2.5; //4.95
-static const float leg_r = 0.15; //length to the center of mass 
-static const float g = 9.8;
+#define thirty 0.52
 
-/* joint limits */
-static const float param_joint_ankle_flip = 0.3; // Hard stop at 0.0. Foot flips up to this angle to clear ground.
-static const float param_joint_ankle_push = 2.5; // Hard stop at 3.0. Foot pushes off to inject energy, this is maximum bound.
-static const float param_joint_ankle_hold = 1.662;
+float leg_m = 2.5;
+float leg_r = 0.15;
+float g = 9.8;
+float param_joint_ankle_flip = 0.3;
+float param_joint_ankle_push = 2.5;
+float param_joint_ankle_hold = 1.662;
 
 /* PD controller constants */ 
 static const float param_hip_motor_const = 1.188;  // (Nm/Amp) Motor Constant, including gear box
@@ -53,20 +52,81 @@ void controller_hip( struct ControllerData * C ) {
   
 	float Ir;  // reference current, passed to the motor controller
 
-	C->kp = param_hip_joint_inertia * (C->wn) * (C->wn);
-	C->kd = 2.0 * param_hip_joint_inertia * (C->wn) * (C->xi);
+	//C->kp = param_hip_joint_inertia * (C->wn) * (C->wn);
+	//C->kd = 2.0 * param_hip_joint_inertia * (C->wn) * (C->xi);
 
-	C->Cp = (C->kp - param_hip_spring_const) / param_hip_motor_const;
+	/*C->Cp = (C->kp - param_hip_spring_const) / param_hip_motor_const;
 	C->Cd = C->kd / param_hip_motor_const;
 
 	Ir = (
 	         C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef)
 	         - param_hip_spring_const * param_hip_spring_ref
 	     ) / param_hip_motor_const;
+	*/
+
+	float x = get_in_angle();
+	float v	= get_in_ang_rate();
+	Ir = RangerHipControl(C, x, v);
 
 	mb_io_set_float(ID_MCH_COMMAND_CURRENT, Ir);
 	mb_io_set_float(ID_MCH_STIFFNESS, C->Cp);
 	mb_io_set_float(ID_MCH_DAMPNESS, C->Cd);
+}
+
+#define uMAX_ANK 4
+#define uMAX_HIP 8  //2*uMAX_ANK
+
+/* Computes the current for hip using saturation*/
+float RangerHipControl(struct ControllerData * C, float x, float v){
+	float ir;
+	float uMax = uMAX_HIP;
+	float uRaw = C->uRef + C->kp*(C->xRef-x) + C->kd*(C->vRef-v);
+	float uSmooth = uMax*tanh(uRaw/uMax);
+	float S = 1 - tanh(uRaw/uMax) * tanh(uRaw/uMax);
+	float Ux = S*C->kp;
+	float Uv = S*C->kd;
+	float uLin = uSmooth + Ux*x + Uv*v;  
+	
+	float uStar = uLin -  param_hip_spring_const * param_hip_spring_ref; //float uStar = uLin - kSpring*xSpring;
+	float kpStar = Ux - param_hip_spring_const;	//float kpStar = Ux - kSpring;
+	float kdStar = Uv; //float kdStar = Uv; 
+	
+	C->Cp = kpStar / param_hip_motor_const; 	//float cp = kpStar/kMotor;
+	C->Cd = kdStar / param_hip_motor_const; 	//float cd = kdStar/kMotor;
+	ir = uStar / param_hip_motor_const;	//float ir = uStar/kMotor;
+	
+	/*mb_io_set_float(ID_CTRL_TEST_W2, C->Cp);
+	mb_io_set_float(ID_CTRL_TEST_W3, C->Cd);
+	mb_io_set_float(ID_CTRL_TEST_W4, ir);
+	*/
+	return ir;
+}
+
+
+/* Computes the current for ankle using saturation*/
+float RangerAnkleControl(struct ControllerData * C, float x, float v){
+	float ir;
+	float uMax = uMAX_ANK;
+	float uRaw = C->uRef + C->kp*(C->xRef-x) + C->kd*(C->vRef-v);
+	float uSmooth = uMax*tanh(uRaw/uMax);
+	float S = 1 - tanh(uRaw/uMax) * tanh(uRaw/uMax);
+	float Ux = S*C->kp;
+	float Uv = S*C->kd;
+	float uLin = uSmooth + Ux*x + Uv*v;  
+	
+	float uStar = uLin -  param_ank_spring_const * param_ank_spring_ref; //float uStar = uLin - kSpring*xSpring;
+	float kpStar = Ux - param_ank_spring_const;	//float kpStar = Ux - kSpring;
+	float kdStar = Uv; //float kdStar = Uv; 
+	
+	C->Cp = kpStar / param_ank_motor_const; 	//float cp = kpStar/kMotor;
+	C->Cd = kdStar / param_ank_motor_const; 	//float cd = kdStar/kMotor;
+	ir = uStar / param_ank_motor_const;	//float ir = uStar/kMotor;
+	
+	/*mb_io_set_float(ID_CTRL_TEST_W2, C->Cp);
+	mb_io_set_float(ID_CTRL_TEST_W3, C->Cd);
+	mb_io_set_float(ID_CTRL_TEST_W4, ir);
+	*/
+	return ir;
 }
 
 
@@ -75,12 +135,12 @@ void controller_hip( struct ControllerData * C ) {
 /* Computes the current to send to the ankle controller 
  */
 float getAnkleControllerCurrent( struct ControllerData * C ){
-	float Cp;  // proportional gain, current, passed to the motor controller
-	float Cd;  // derivative gain, current, passed to the motor controller
+	//float Cp;  // proportional gain, current, passed to the motor controller
+	//float Cd;  // derivative gain, current, passed to the motor controller
 	float Ir;  // reference current, passed to the motor controller
 
-	C->kp = param_ank_joint_inertia * (C->wn) * (C->wn);
-	C->kd = 2.0 * param_ank_joint_inertia * (C->wn) * (C->xi);
+	//C->kp = param_ank_joint_inertia * (C->wn) * (C->wn);
+	//C->kd = 2.0 * param_ank_joint_inertia * (C->wn) * (C->xi);
 
 	C->Cp = (C->kp - param_ank_spring_const) / param_ank_motor_const;
 	C->Cd = C->kd / param_ank_motor_const;
@@ -92,6 +152,8 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
 		C->xRef = param_joint_ankle_flip;
 	}
 
+	mb_io_set_float(ID_CTRL_TEST_W0, C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef));
+
 	Ir = (
 	         C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef)
 	         - param_ank_spring_const * param_ank_spring_ref
@@ -99,11 +161,18 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
 	return Ir;
 }
 
+
+
+
 /* This function calls the low-level ankle (outer) controller. 
  */
 void controller_ankleOuter( struct ControllerData * C ) {
 	float current;
-	current = getAnkleControllerCurrent(C);	
+	//current = getAnkleControllerCurrent(C);
+	float x = mb_io_get_float(ID_E_MCFO_RIGHT_ANKLE_ANGLE);
+	float v = mb_io_get_float(ID_E_MCFO_RIGHT_ANKLE_RATE);	
+	current = RangerAnkleControl(C, x, v);
+
 	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, current);
 	mb_io_set_float(ID_MCFO_STIFFNESS, C->Cp);
 	mb_io_set_float(ID_MCFO_DAMPNESS, C->Cd);
@@ -114,7 +183,11 @@ void controller_ankleOuter( struct ControllerData * C ) {
  */
 void controller_ankleInner( struct ControllerData * C ) {
 	float current;
-	current = getAnkleControllerCurrent(C);
+	//current = getAnkleControllerCurrent(C);
+	float x = mb_io_get_float(ID_E_MCFI_MID_ANKLE_ANGLE);
+	float v	= mb_io_get_float(ID_E_MCFI_ANKLE_RATE);
+	current = RangerAnkleControl(C, x, v);
+
 	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, current);
 	mb_io_set_float(ID_MCFI_STIFFNESS, C->Cp);
 	mb_io_set_float(ID_MCFI_DAMPNESS, C->Cd);
@@ -205,7 +278,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 		controller_ankleInner(&ctrlAnkInn); 
  }
 
- int counter = 0; 
+ static int counter = 0; 
 
  /* Makes the inner foot periodically tracks hold/push/flip. */
  void test_inner_foot(void) { 
@@ -365,7 +438,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 	// Run a PD-controller on the outer foot angles: make the feet stay flat wrt the ground
 		ctrlAnkOut.wn = 7;
 		ctrlAnkOut.xi = 0.8;
-		ctrlAnkOut.xRef = FO_abs_angle();
+		ctrlAnkOut.xRef = FO_flat_angle();
 		ctrlAnkOut.vRef = 0.0;
 		ctrlAnkOut.uRef = 0.0;
 		controller_ankleOuter(&ctrlAnkOut);
@@ -374,7 +447,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 	// Run a PD-controller on the inner foot angles: make the feet stay flat wrt the ground
 		ctrlAnkInn.wn = 7;
 		ctrlAnkInn.xi = 0.8;
-		ctrlAnkInn.xRef = FI_abs_angle(); 	
+		ctrlAnkInn.xRef = FI_flat_angle(); 	
 		ctrlAnkInn.vRef = 0.0;
 		ctrlAnkInn.uRef = 0.0;
 		controller_ankleInner(&ctrlAnkInn);
@@ -406,44 +479,51 @@ void controller_ankleInner( struct ControllerData * C ) {
   */
  void double_stance(void){
  		struct ControllerData ctrlHip;
-		struct ControllerData ctrlAnkOut;
-		struct ControllerData ctrlAnkInn;
+		//struct ControllerData ctrlAnkOut;
+		//struct ControllerData ctrlAnkInn;
 		float out_angle, in_angle, torque; 			 
 
 		out_angle = get_out_angle();
 	
 	// Run a PD-controller on the hip angle:
-		ctrlHip.wn = 3.5;
+		ctrlHip.kp = 6.9;
+		ctrlHip.kd = 3.1;
+		/*ctrlHip.wn = 3.5;
 		ctrlHip.xi = 0.8;
+		*/
 		ctrlHip.xRef = 2*out_angle;
 		ctrlHip.vRef = 0.0;
 		
 	// Calculate the toque needed to compensate for gravity pull
-		in_angle = get_in_angle();  // gets the hip angle (angle b/t inner&outer legs; pos when inner leg is in front)
-		torque = leg_m * g * leg_r * Sin(in_angle);
+		//in_angle = get_in_angle();  // gets the hip angle (angle b/t inner&outer legs; pos when inner leg is in front)
+		//torque = leg_m * g * leg_r * Sin(in_angle);
 		//ctrlHip.uRef = torque; // adding this torque makes the motor shuts off more frequently
 		controller_hip(&ctrlHip);
 
-	/***************************************************/
-		mb_io_set_float(ID_CTRL_TEST_W0, out_angle);
-		mb_io_set_float(ID_CTRL_TEST_W1, in_angle);
-	/***************************************************/
+	// Call function implemented in fsm.c to set the feet flat on ground --> works!
+		//test_foot();
+
 	// Run a PD-controller on the outer foot angles: make the feet stay flat wrt the ground
-		ctrlAnkOut.wn = 7;
-		ctrlAnkOut.xi = 0.8;
-		ctrlAnkOut.xRef = FO_abs_angle();
+		//ctrlAnkOut.wn = 7;
+		//ctrlAnkOut.xi = 0.8;
+		/*ctrlAnkOut.kp = 3.5;
+		ctrlAnkOut.kd = 0.8;  
+		ctrlAnkOut.xRef = FO_flat_angle();
 		ctrlAnkOut.vRef = 0.0;
 		ctrlAnkOut.uRef = 0.0;
 		controller_ankleOuter(&ctrlAnkOut);
-
+		 */
 	
 	// Run a PD-controller on the inner foot angles: make the inner feet always flip up
-		ctrlAnkInn.wn = 7;
-		ctrlAnkInn.xi = 0.8;
- 		ctrlAnkInn.xRef = FI_abs_angle();
+		//ctrlAnkInn.wn = 7;
+		//ctrlAnkInn.xi = 0.8;
+ 		/*ctrlAnkInn.kp =	3.5;
+		ctrlAnkInn.kd = 0.8;
+		ctrlAnkInn.xRef = FI_flat_angle();
 		ctrlAnkInn.vRef = 0.0;
 		ctrlAnkInn.uRef = 0.0;
 		controller_ankleInner(&ctrlAnkInn);
+		*/
  } 
 
  /* Flip all feet up. */
@@ -467,17 +547,10 @@ void controller_ankleInner( struct ControllerData * C ) {
 		controller_ankleInner(&ctrlAnkInn);
  }
 
-
- /* gets the hip angle (angle b/t inner&outer legs; pos when inner leg is in front) */
- float get_in_angle(void){
- 		return mb_io_get_float(ID_MCH_ANGLE);  
- }
-
- /* Returns the absolute angle that makes the outer foot stay flat wrt ground. */
- float FO_abs_angle(void){
-  		float in_angle, out_angle, FO_angle;
+ /* Returns the relative angle that makes the outer foot stay flat wrt ground. */
+ float FO_flat_angle(void){
+  		float out_angle, FO_angle;
 		out_angle = get_out_angle();  // gets the absolute angle (of the outer leg) wrt ground; pos when outer leg is forward  
-		in_angle = get_in_angle();
 		
 		FO_angle = (PI/2 - out_angle + 0.2); //adds an offset of 0.15 rad to make the feet more stable 
 
@@ -489,8 +562,13 @@ void controller_ankleInner( struct ControllerData * C ) {
 		return FO_angle;
  }
 
- /* Returns the absolute angle that makes the inner foot stay flat wrt ground. */
- float FI_abs_angle(void){
+ /* Returns FO_angle_rate = -out_angle_rate = -gyro_rate */
+ float FO_flat_rate(void){
+ 		return -get_out_ang_rate();
+ }
+
+ /* Returns the relative angle that makes the inner foot stay flat wrt ground. */
+ float FI_flat_angle(void){
  		float in_angle, out_angle, FI_angle;
 		out_angle = get_out_angle();  // gets the absolute angle (of the outer leg) wrt ground; pos when outer leg is forward  
 		in_angle = get_in_angle();
@@ -503,6 +581,12 @@ void controller_ankleInner( struct ControllerData * C ) {
 		} 		
 		return FI_angle;	
  } 
+
+ /* Returns FI_angle_rate = -out_angle_rate + in_angle_rate = -gyro_rate + differentiate_hip_angle */
+ float FI_flat_rate(void){
+ 		return -get_out_ang_rate() + get_in_ang_rate();	
+ }
+
 
  /* Check if the angle b/t two legs is 30+/-5 degrees, inner leg is in the back. 
   *	Turn the 3rd LED red if the angle is in this range. 
@@ -520,7 +604,6 @@ void controller_ankleInner( struct ControllerData * C ) {
 		}
 		return;
  }
-
 
  /*	Makes the robot move forward one step. */
  void step(void){
@@ -567,9 +650,9 @@ void controller_ankleInner( struct ControllerData * C ) {
 			// swing inner leg forward
 			ctrlHip.xRef = thirty;
 			// Tried 1. outer feet stay flat on the ground
-			//ctrlAnkOut.xRef = FO_abs_angle();
+			//ctrlAnkOut.xRef = FO_flat_angle();
 			// Tried 2. also push down outer feet
-			//ctrlAnkOut.xRef = param_joint_ankle_push;//FO_abs_angle() + 1;//0.7;
+			//ctrlAnkOut.xRef = param_joint_ankle_push;//FO_flat_angle() + 1;//0.7;
 			// Working 3. rock the outer feet
 			if( count_step%800 <= 400){
 				 ctrlAnkOut.xRef = param_joint_ankle_push/1;
@@ -591,7 +674,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 			// swing inner leg forward
 			ctrlHip.xRef = thirty*1.2;
 			// outer feet flip up a little bit to prevent falling forward
-			ctrlAnkOut.xRef = FO_abs_angle() - 0.5;
+			ctrlAnkOut.xRef = FO_flat_angle() - 0.5;
 			// flip the inner feet all the way up 
 			ctrlAnkInn.xRef = param_joint_ankle_flip;  
 			
@@ -605,7 +688,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 			//
 			ctrlHip.xRef = thirty*1.2;
 			// outer feet stay flat on the ground
-			ctrlAnkOut.xRef = FO_abs_angle();
+			ctrlAnkOut.xRef = FO_flat_angle();
 			// push down the inner feet	to prevent falling forward
 			ctrlAnkInn.xRef = param_joint_ankle_push;
 			
@@ -620,8 +703,8 @@ void controller_ankleInner( struct ControllerData * C ) {
 			//	
 			ctrlHip.xRef = thirty*1.2;
 			// both outer&inner feet stay flat on the ground
-			ctrlAnkOut.xRef = FO_abs_angle();
-			ctrlAnkInn.xRef = FI_abs_angle();
+			ctrlAnkOut.xRef = FO_flat_angle();
+			ctrlAnkInn.xRef = FI_flat_angle();
 		
 			break; 			
 		}  
@@ -638,3 +721,4 @@ void controller_ankleInner( struct ControllerData * C ) {
 		count_step = 0;
 		count_rock = 0;
  }
+

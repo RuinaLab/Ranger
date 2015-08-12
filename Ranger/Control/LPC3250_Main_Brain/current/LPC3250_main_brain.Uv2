@@ -32,6 +32,8 @@ File 6,5,<..\..\Controller\TrajData.h><TrajData.h>
 File 6,5,<..\..\Controller\Trajectory.h><Trajectory.h>
 File 6,1,<..\..\Controller\motorControl.c><motorControl.c>
 File 6,1,<..\..\Controller\RangerMath.c><RangerMath.c>
+File 6,1,<..\..\Controller\fsm.c><fsm.c>
+File 6,1,<..\..\Controller\unit_test.c><unit_test.c>
 
 
 Options 1,0,0  // Target 'LPC3250 Int RAM'

@@ -4,14 +4,13 @@
 #include <TrajData.h>
 #include <Trajectory.h>
 #include <fsm.h>
+#include <unit_test.h>
 
 enum ControlMode {
-	M0_StandBy,
-	M1_Active,
-	M2_AnkleTest,
-	M4_TraceCurve,
-	M3_FlipFeet,
-	M5_Calibrate,
+	M0_Calibrate,
+	M3_UnitTest,
+	M4_FSM,
+	M5_StandBy,
 };
 
 
@@ -19,47 +18,42 @@ enum ControlMode {
 void mb_controller_update(void) {
 
 	// Enter stand-by mode when robot first boots
-	static enum ControlMode controlMode = M0_StandBy;
+	static enum ControlMode controlMode = M5_StandBy;
 
 	// Check UI buttons to update control mode
-	if (detect_UI_button_input(3)) controlMode = M3_FlipFeet; 	// 4th button flip feet up
-	if (detect_UI_button_input(0)) controlMode = M5_Calibrate;	 // 1st button calibrates
-	if (detect_UI_button_input(4)) controlMode = M4_TraceCurve;	 // 5th button moves Ranger
-	if (detect_UI_button_input(1)) controlMode = M1_Active;
-	if (detect_UI_button_input(2)) controlMode = M2_AnkleTest; // Connects ankle controller to labview
-	if (detect_UI_button_input(5)) controlMode = M0_StandBy; // 6th button Stand-by, always goes last (highest priority)
+	if (detect_UI_button_input(3)) controlMode = M3_UnitTest; 	// 4th button flip feet up
+	if (detect_UI_button_input(0)) controlMode = M0_Calibrate;	 // 1st button calibrates
+	if (detect_UI_button_input(4)) controlMode = M4_FSM;	 // 5th button moves Ranger
+	if (detect_UI_button_input(5)) controlMode = M5_StandBy; // 6th button Stand-by, always goes last (highest priority)
 
 	// Run the desired control mode
 	switch (controlMode) {
-	case M0_StandBy:
+	case M5_StandBy:
 		set_UI_LED(5, 'g');
-		setPush();
+		//setPush(); //calls this for the step function in motorController
+		fsm_init();	//calls this for the FSM
+		test_init(); //calls this for the test FSM
+		param_update(); //read parameters from LABVIEW for FSM
 		disable_motors();
 		break;
-	case M1_Active:
-		set_UI_LED(5, 'b');
-		//test_motor_control() ;
-		//test_freq_control();
-		//test_inner_foot();
-		//test_sign();
-		step();
-		break;
-	case M2_AnkleTest:
-		set_UI_LED(2, 'o');	   
-		test_ankle_motor_model();
-		break;
-	case M4_TraceCurve:
+	case M4_FSM:
 		set_UI_LED(5, 'r');
 		//test_trajectory();
 		//track_sin();
-		double_stance();
-		check_30();
+		//double_stance();
+		//check_30();
+		//test_hip();
+		test_fsm_hip();	 
+		//test_foot();
+		//fsm_run();
+		//test_fsm();
 		break;
-	case M3_FlipFeet:
+	case M3_UnitTest:
 		set_UI_LED(5, 'p');
-		foot_flip();
+		//foot_flip();
+		hold_feet();
 		break;
-	case M5_Calibrate:
+	case M0_Calibrate:
 		set_UI_LED(5, 'y');
 		calibrate();
 		break;
