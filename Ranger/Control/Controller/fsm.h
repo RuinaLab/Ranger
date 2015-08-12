@@ -13,8 +13,6 @@ void inn_ank_track_abs(struct ControllerData * ctrlData, float phi1_ref, float d
 void hip_scissor_track_outer(struct ControllerData * ctrlData, float offset, float rate, float KP, float KD);
 void hip_scissor_track_inner(struct ControllerData * ctrlData, float offset, float rate, float KP, float KD);
 
-
-void test_foot(void);
 void test_hip(void);
 void test_fsm(void);
 void test_fsm_hip(void);

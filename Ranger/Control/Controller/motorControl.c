@@ -494,7 +494,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 		controller_hip(&ctrlHip);
 
 	// Call function implemented in fsm.c to set the feet flat on ground --> works!
-		test_foot();
+		//test_foot();
 
 	// Run a PD-controller on the outer foot angles: make the feet stay flat wrt the ground
 		//ctrlAnkOut.wn = 7;

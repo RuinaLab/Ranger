@@ -231,9 +231,9 @@ typedef enum can_ids{
 	ID_CTRL_HIP_KD = 219,	 // 2 0 1 // 
 	ID_CTRL_ANK_FLIP_KP = 220,	 // 3 0 1 // 
 	ID_CTRL_ANK_FLIP_KD = 221,	 // 0.5 0 1 // 
-	ID_CTRL_ANK_PUSH_KP = 222,	 // 3 0 1 // 
-	ID_CTRL_ANK_PUSH_KD = 223,	 // 0.5 0 1 // 
-	ID_CTRL_ANK_HOLD_KP = 224,	 // 3 0 1 // 
+	ID_CTRL_ANK_PUSH_KP = 222,	 // 7 0 1 // 
+	ID_CTRL_ANK_PUSH_KD = 223,	 // 2 0 1 // 
+	ID_CTRL_ANK_HOLD_KP = 224,	 // 4 0 1 // 
 	ID_CTRL_ANK_HOLD_KD = 225,	 // 0.5 0 1 // 
 	ID_CTRL_HIP_REF_HOLD = 226,	 // 0.2 0 1 // 
 	ID_CTRL_HIP_TRANS_ANGLE = 227,	 // 0.08 0 1 // 
