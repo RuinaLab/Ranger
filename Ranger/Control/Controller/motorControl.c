@@ -336,49 +336,6 @@ void controller_ankleInner( struct ControllerData * C ) {
 		
  }
 
- /* Generates data for fitting a motor model */
- void test_ankle_motor_model(void) {
- 		struct ControllerData ctrlHip;
-		struct ControllerData ctrlAnkOut;
-		struct ControllerData ctrlAnkInn;
-
-		// Open loop tracking test (random values between 0.2 and 2.0)
-		float refAngle[60] = {1.735,  1.320,  0.832,  1.124,  0.923,  0.337,  0.632,  0.422,  0.531,  0.632,  0.951,  0.289,  1.825,  1.901,  1.084,  1.081,  0.808,  1.820,  0.865,  0.400,  1.604,  0.902,  0.635,  0.927,  0.374,  0.438,  1.896,  1.921,  1.235,  0.308,  0.623,  0.836,  1.678,  0.228,  0.277,  0.504,  1.368,  1.517,  1.366,  1.012,  1.185,  0.733,  1.540,  0.540,  1.436,  0.530,  0.863,  1.326,  1.604,  0.346,  1.873,  1.596,  1.076,  0.985,  1.004,  0.751,  1.115,  1.119,  1.672,  1.631};  		
-
-		// Update value with a period of:
-		float updatePeriod = 750.0;   // in milliseconds
-
-		// Select the correct reference angle
-		float time = mb_io_get_float(ID_TIMESTAMP);
-		int nPeriods = (int) (time/updatePeriod);
-		int index = nPeriods % 60;
-
-		// Run a PD-controller on the inner foot angles:
-		ctrlAnkOut.wn = 8.0;
-		ctrlAnkOut.xi = 0.7;
-		ctrlAnkOut.xRef = refAngle[index];
-		ctrlAnkOut.vRef = 0.0;
-		ctrlAnkOut.uRef = 0.0;
-		controller_ankleOuter(&ctrlAnkOut);	
-
-		// Run a PD-controller on the inner foot angles:
-		ctrlAnkInn.wn = 8.0;
-		ctrlAnkInn.xi = 0.7;
-		ctrlAnkInn.xRef = refAngle[index];
-		ctrlAnkInn.vRef = 0.0;
-		ctrlAnkInn.uRef = 0.0;
-		controller_ankleInner(&ctrlAnkInn);
-	
-		// Run a PD-controller on the inner foot angles:
-		ctrlHip.wn = 0.0;
-		ctrlHip.xi = 0.0;
-		ctrlHip.xRef = 0.0;
-		ctrlHip.vRef = 0.0;
-		ctrlHip.uRef = 0.0;
-		controller_hip(&ctrlHip);
-	
- }
-
 
  /* Runs a simple test that makes the inner leg traces a sin wave 
   *	while making both inner and outer feet stay flat

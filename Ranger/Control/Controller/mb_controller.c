@@ -50,8 +50,9 @@ void mb_controller_update(void) {
 		break;
 	case M3_UnitTest:
 		set_UI_LED(5, 'p');
+		ankle_motor_test();
 		//foot_flip();
-		hold_feet();
+		//hold_feet();
 		break;
 	case M0_Calibrate:
 		set_UI_LED(5, 'y');

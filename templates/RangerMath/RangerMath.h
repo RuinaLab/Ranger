@@ -3,6 +3,7 @@
 
 float Sin(float);
 float Cos(float);
+float Tan(float);
 float Atan(float);
 float Tanh(float);
 float Sqrt(float);
