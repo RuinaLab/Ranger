@@ -32,12 +32,15 @@ OPTFFF 4,9,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_
 OPTFFF 4,10,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c><a9_clock.c> 
 OPTFFF 4,11,1,939524096,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c> 
 OPTFFF 4,12,1,67108864,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c> 
+
 OPTFFF 5,13,1,587202560,0,0,0,0,<..\..\Estimator\mb_estimator.c><mb_estimator.c> 
 OPTFFF 6,14,1,0,0,27,27,0,<..\..\Controller\mb_controller.c><mb_controller.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,98,5,0,0,184,1,0,0 }
+
 OPTFFF 6,15,1,553648128,0,0,0,0,<..\..\Controller\input_output.c><input_output.c> 
 OPTFFF 6,16,1,0,0,0,0,0,<..\..\Controller\Trajectory.c><Trajectory.c> 
 OPTFFF 6,17,5,452984832,0,0,0,0,<..\..\Controller\TrajData.h><TrajData.h> 
 OPTFFF 6,18,5,0,0,0,0,0,<..\..\Controller\Trajectory.h><Trajectory.h> 
+
 OPTFFF 6,19,1,436207617,0,253,253,0,<..\..\Controller\motorControl.c><motorControl.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,92,3,0,0,7,1,0,0 }
 OPTFFF 6,20,1,1140850689,0,0,0,0,<..\..\Controller\RangerMath.c><RangerMath.c> 
 OPTFFF 6,21,1,486539264,0,0,0,0,<..\..\Controller\fsm.c><fsm.c> 
@@ -96,36 +99,27 @@ TARGOPT 2, (LPC3250 Ext SDRAM (NOR))
   OPTBB 9,0,151,0,0,0,0,0,0,0,<motorControl.c>()()
   OPTBB 10,0,69,0,0,0,0,0,0,0,<fsm.c>()()
   OPTBB 11,0,276,0,0,0,0,0,0,0,<fsm.c>()()
-  OPTBB 12,0,423,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 13,0,4,0,0,0,0,0,0,0,<fsm.c>()()
-  OPTBB 14,0,582,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 15,0,30,0,0,0,0,0,0,0,<mb_estimator.c>()()
-  OPTBB 16,0,489,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 17,0,510,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 18,0,504,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 19,0,551,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 20,0,497,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 21,0,387,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 22,0,85,0,0,0,0,0,0,0,<mb_estimator.c>()()
-  OPTBB 23,0,183,0,0,0,0,0,0,0,<mb_estimator.c>()()
-  OPTBB 24,0,179,0,0,0,0,0,0,0,<mb_estimator.c>()()
-  OPTBB 25,0,167,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 26,0,106,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 27,0,94,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 28,0,119,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 29,0,239,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 30,0,103,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 31,0,9,0,0,0,0,0,0,0,<motorControl.h>()()
-  OPTBB 32,0,9,0,0,0,0,0,0,0,<motorControl.h>()()
-  OPTBB 33,0,20,0,0,0,0,0,0,0,<mb_software_setup.c>()()
-  OPTBB 34,0,158,0,0,0,0,0,0,0,<motorControl.c>()()
-  OPTBB 35,0,4,0,0,0,0,0,0,0,<Trajectory.c>()()
-  OPTBB 36,0,17,0,0,0,0,0,0,0,<Poly5.c>()()
-  OPTBB 37,0,89,0,0,0,0,0,0,0,<mb_fsm.cpp>()()
-  OPTBB 38,0,88,0,0,0,0,0,0,0,<mb_fsm.cpp>()()
-  OPTBB 39,0,16,0,0,0,0,0,0,0,<control_code.cpp>()()
-  OPTBB 40,0,14,0,0,0,0,0,0,0,<control_code.cpp>()()
-  OPTBB 41,0,141,0,0,0,0,0,0,0,<mb_software_setup.c>()()
+  OPTBB 12,0,4,0,0,0,0,0,0,0,<fsm.c>()()
+  OPTBB 13,0,30,0,0,0,0,0,0,0,<mb_estimator.c>()()
+  OPTBB 14,0,85,0,0,0,0,0,0,0,<mb_estimator.c>()()
+  OPTBB 15,0,183,0,0,0,0,0,0,0,<mb_estimator.c>()()
+  OPTBB 16,0,179,0,0,0,0,0,0,0,<mb_estimator.c>()()
+  OPTBB 17,0,167,0,0,0,0,0,0,0,<motorControl.c>()()
+  OPTBB 18,0,106,0,0,0,0,0,0,0,<motorControl.c>()()
+  OPTBB 19,0,94,0,0,0,0,0,0,0,<motorControl.c>()()
+  OPTBB 20,0,119,0,0,0,0,0,0,0,<motorControl.c>()()
+  OPTBB 21,0,103,0,0,0,0,0,0,0,<motorControl.c>()()
+  OPTBB 22,0,9,0,0,0,0,0,0,0,<motorControl.h>()()
+  OPTBB 23,0,9,0,0,0,0,0,0,0,<motorControl.h>()()
+  OPTBB 24,0,20,0,0,0,0,0,0,0,<mb_software_setup.c>()()
+  OPTBB 25,0,158,0,0,0,0,0,0,0,<motorControl.c>()()
+  OPTBB 26,0,4,0,0,0,0,0,0,0,<Trajectory.c>()()
+  OPTBB 27,0,17,0,0,0,0,0,0,0,<Poly5.c>()()
+  OPTBB 28,0,89,0,0,0,0,0,0,0,<mb_fsm.cpp>()()
+  OPTBB 29,0,88,0,0,0,0,0,0,0,<mb_fsm.cpp>()()
+  OPTBB 30,0,16,0,0,0,0,0,0,0,<control_code.cpp>()()
+  OPTBB 31,0,14,0,0,0,0,0,0,0,<control_code.cpp>()()
+  OPTBB 32,0,141,0,0,0,0,0,0,0,<mb_software_setup.c>()()
   OPTWA 0,1,(a9_dn_ssp_tx_buffer)
   OPTWA 1,1,(a9_dn_ssp_tx_index1)
   OPTWA 2,1,(a9_dn_ssp_tx_index2)
