@@ -41,6 +41,7 @@ void mb_controller_update(void) {
 		//test_trajectory();
 		//track_sin();
 		//double_stance();
+		//check_30();
 		//test_hip();
 		test_fsm_hip();	 
 		//test_foot();
@@ -49,9 +50,12 @@ void mb_controller_update(void) {
 		break;
 	case M3_UnitTest:
 		set_UI_LED(5, 'p');
-		//ankle_motor_test();
+		//foot_flip();
+		//hold_feet();
 		//motors_off();
-		hold_feet();
+		//ankle_motor_test();
+		test_feet();
+		//test_hip();
 		break;
 	case M0_Calibrate:
 		set_UI_LED(5, 'y');

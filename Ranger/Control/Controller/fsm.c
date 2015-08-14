@@ -288,12 +288,15 @@ void hip_scissor_track_inner(struct ControllerData * ctrlData, float offset, flo
 	ctrlData->kd = KD;
 }
 
+#define ZERO_POS_INN 1.75
+#define ZERO_POS_OUT 1.8
+
 /* Computes the outer ankle controller set-points to track the desired absolute angle and rate. */
 void out_ank_track_abs(struct ControllerData * ctrlData, float phi0_ref, float dphi0_ref, float u_ref, float KP, float KD){
 	//convert absolute to relative
 	//q0 = pi/2 - phi0 + th0
 	//th0 = -qr
-	ctrlData->xRef = PI/2 - phi0_ref - qr; //+ 0.25;//+0.15;
+	ctrlData->xRef = ZERO_POS_OUT - phi0_ref - qr; //+ 0.25;//+0.15;
 	ctrlData->vRef = -dphi0_ref - dqr;
 	ctrlData->uRef = u_ref;
 
@@ -308,7 +311,7 @@ void inn_ank_track_abs(struct ControllerData * ctrlData, float phi1_ref, float d
 	//convert absolute to relative
 	//q1 = pi/2 - phi1 + th1 
 	//th1 = qh - qr
-	ctrlData->xRef = PI/2 - phi1_ref + qh - qr; //+0.25;//+0.15;
+	ctrlData->xRef = ZERO_POS_INN - phi1_ref + qh - qr; //+0.25;//+0.15;
 	ctrlData->vRef = -dphi1_ref + dqh - dqr;
 	ctrlData->uRef = u_ref;
 
@@ -316,13 +319,6 @@ void inn_ank_track_abs(struct ControllerData * ctrlData, float phi1_ref, float d
 	ctrlData->kd = KD;
 	return;
 }			   
-
-/* Tests the hip relative tracking function. */
-void test_hip(void){
-	struct ControllerData ctrlHip;
-	hip_track_rel(&ctrlHip, 0.3, 0.0, 6, 3);
-	controller_hip(&ctrlHip);
-}
 
 
 enum testStates {

@@ -1,10 +1,12 @@
 #include <mb_includes.h> 
 #include <motorControl.h>
-
-
 #include "fsm.h"
 
+static int saturation = 0;
 
+float leg_m = 2.5;
+float leg_r = 0.15;
+float g = 9.8;
 float param_joint_ankle_flip = 0.3;
 float param_joint_ankle_push = 2.5;
 float param_joint_ankle_hold = 1.662;
@@ -26,29 +28,29 @@ static const float param_ank_joint_inertia = 0.07;//0.01; // (kg-m^2) Ankle mome
 //greater inertia --> greater kp, cp, Ir 	
 
 
-/* This function calls the low-level hip controller. */
+/* This function calls the low-level hip controller. 
+ * The following fields of the input struct need to be set before calling this function:
+ * {uRef, xRef, vRef, kp, kd} 
+ */
 void controller_hip( struct ControllerData * C ) {
   
 	float Ir;  // reference current, passed to the motor controller
 
-	//C->kp = param_hip_joint_inertia * (C->wn) * (C->wn);
-	//C->kd = 2.0 * param_hip_joint_inertia * (C->wn) * (C->xi);
+	if(!saturation){
+		//calcuates the reference current, Cp, Cd without saturation
+		C->Cp = (C->kp - param_hip_spring_const) / param_hip_motor_const;
+		C->Cd = C->kd / param_hip_motor_const;
+		Ir = (
+		         C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef)
+		         - param_hip_spring_const * param_hip_spring_ref
+		     ) / param_hip_motor_const;
+	}else{
+		//calcuates the reference current using saturation
+		float x = get_in_angle();
+		float v	= get_in_ang_rate();
+		Ir = RangerHipControl(C, x, v);
+	}
 
-	// Compute cp,cd,Ir without saturation
-	/*C->Cp = (C->kp - param_hip_spring_const) / param_hip_motor_const;
-	C->Cd = C->kd / param_hip_motor_const;
-
-	Ir = (
-	         C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef)
-	         - param_hip_spring_const * param_hip_spring_ref
-	     ) / param_hip_motor_const;
-	*/
-
-	// Compute cp,cd,Ir with saturation
-	float x = get_in_angle();
-	float v	= get_in_ang_rate();
-	Ir = RangerHipControl(C, x, v);
-	
 	mb_io_set_float(ID_MCH_COMMAND_CURRENT, Ir);
 	mb_io_set_float(ID_MCH_STIFFNESS, C->Cp);
 	mb_io_set_float(ID_MCH_DAMPNESS, C->Cd);
@@ -57,7 +59,13 @@ void controller_hip( struct ControllerData * C ) {
 #define uMAX_ANK 4
 #define uMAX_HIP 8  //2*uMAX_ANK
 
-/* Computes the current for hip using saturation*/
+
+/* Computes the current for hip using saturation
+ * The following fields of the input struct need to be set before calling this function:
+ * {uRef, xRef, vRef, kp, kd} 
+ * The following filds of the input struct are being set in the function:
+ * {Cp, Cd}
+ */
 float RangerHipControl(struct ControllerData * C, float x, float v){
 	float ir;
 	float uMax = uMAX_HIP;
@@ -81,14 +89,20 @@ float RangerHipControl(struct ControllerData * C, float x, float v){
 
 
 /* This function calls the low-level ankle (outer) controller. 
+ * The following fields of the input struct need to be set before calling this function:
+ * {uRef, xRef, vRef, kp, kd} 
  */
 void controller_ankleOuter( struct ControllerData * C ) {
 	float current;
-	float x = mb_io_get_float(ID_E_MCFO_RIGHT_ANKLE_ANGLE);
-	float v = mb_io_get_float(ID_E_MCFO_RIGHT_ANKLE_RATE);
-	//calls RangerAnkleControl function to get the current for the outer ankle	
-	current = RangerAnkleControl(C, x, v);	   
-
+	if(!saturation){
+		//Calcuates the reference current, Cp, Cd without saturation
+		current = getAnkleControllerCurrent(C);
+	}else{
+		//Calcuates the reference current, Cp, Cd using saturation
+		float x = mb_io_get_float(ID_E_MCFO_RIGHT_ANKLE_ANGLE);
+		float v = mb_io_get_float(ID_E_MCFO_RIGHT_ANKLE_RATE);	
+		current = RangerAnkleControl(C, x, v);
+	}
 	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, current);
 	mb_io_set_float(ID_MCFO_STIFFNESS, C->Cp);
 	mb_io_set_float(ID_MCFO_DAMPNESS, C->Cd);
@@ -96,21 +110,30 @@ void controller_ankleOuter( struct ControllerData * C ) {
 
 
 /* This function calls the low-level ankle (inner) controller. 
+ * The following fields of the input struct need to be set before calling this function:
+ * {uRef, xRef, vRef, kp, kd}
  */
 void controller_ankleInner( struct ControllerData * C ) {
 	float current;
-	float x = mb_io_get_float(ID_E_MCFI_MID_ANKLE_ANGLE);
-	float v	= mb_io_get_float(ID_E_MCFI_ANKLE_RATE);
-	//calls RangerAnkleControl function to get the current for the inner ankle	
-	current = RangerAnkleControl(C, x, v);
-
+	if(!saturation){
+		current = getAnkleControllerCurrent(C);
+	}else{
+		float x = mb_io_get_float(ID_E_MCFI_MID_ANKLE_ANGLE);
+		float v	= mb_io_get_float(ID_E_MCFI_ANKLE_RATE);
+		current = RangerAnkleControl(C, x, v);
+	}
 	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, current);
 	mb_io_set_float(ID_MCFI_STIFFNESS, C->Cp);
 	mb_io_set_float(ID_MCFI_DAMPNESS, C->Cd);
 }
 
 
-/* Computes the current for ankle using saturation */
+/* Computes the current for ankle using saturation
+ * The following fields of the input struct need to be set before calling this function:
+ * {uRef, xRef, vRef, kp, kd} 
+ * The following filds of the input struct are being set in the function:
+ * {Cp, Cd}
+ */
 float RangerAnkleControl(struct ControllerData * C, float x, float v){
 	float ir;
 	float uMax = uMAX_ANK;
@@ -128,18 +151,19 @@ float RangerAnkleControl(struct ControllerData * C, float x, float v){
 	C->Cp = kpStar / param_ank_motor_const; 	//float cp = kpStar/kMotor;
 	C->Cd = kdStar / param_ank_motor_const; 	//float cd = kdStar/kMotor;
 	ir = uStar / param_ank_motor_const;	//float ir = uStar/kMotor;
-
+	
 	return ir;
 }
 
-/* Computes the current to send to the ankle controller without saturation */
-float getAnkleControllerCurrent( struct ControllerData * C ){
-	//float Cp;  // proportional gain, current, passed to the motor controller
-	//float Cd;  // derivative gain, current, passed to the motor controller
-	float Ir;  // reference current, passed to the motor controller
 
-	//C->kp = param_ank_joint_inertia * (C->wn) * (C->wn);
-	//C->kd = 2.0 * param_ank_joint_inertia * (C->wn) * (C->xi);
+/* Computes the current to send to the ankle controller without saturation 
+ * The following fields of the input struct need to be set before calling this function:
+ * {uRef, xRef, vRef, kp, kd} 
+ * The following filds of the input struct are being set in the function:
+ * {Cp, Cd} 
+ */
+float getAnkleControllerCurrent( struct ControllerData * C ){
+	float Ir;  // reference current, passed to the motor controller
 
 	C->Cp = (C->kp - param_ank_spring_const) / param_ank_motor_const;
 	C->Cd = C->kd / param_ank_motor_const;
@@ -161,6 +185,7 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
 }
 
 
+
 /* Turns off motors.
  */
  void disable_motors(){
@@ -178,6 +203,7 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
 	mb_io_set_float(ID_MCH_DAMPNESS, 0.0);
 
  }
+
 
 
 /* Runs a simple test of the motor controllers, connecting the LabView parameter
@@ -212,3 +238,7 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
 		ctrlAnkInn.uRef = mb_io_get_float(ID_CTRL_TEST_R9);
 		controller_ankleInner(&ctrlAnkInn);
  }
+
+
+
+
