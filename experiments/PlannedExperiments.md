@@ -17,4 +17,4 @@ There is a good model for the ankle-joint motor and transmission, which gives th
 - Use the motor model to find the torque expected at the joint
 - Use least squares to fit:  (or something like it)
 		M*ddq + C*dq + K*(q-qRef) = torque
-		
+

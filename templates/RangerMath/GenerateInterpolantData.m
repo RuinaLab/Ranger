@@ -55,7 +55,7 @@ function writeQuadData(fid, X,Y, name)
 
 fprintf(fid,['// Data for quadratic interpolation of ' name '\n']);
 
-CountBreakLine = 12;   %Start new line after this many array items.
+CountBreakLine = 50;   %Start new line after this many array items.
 
 fprintf(fid,'static float X[] = {');
 for i=1:length(X)
@@ -74,7 +74,7 @@ for i=1:length(Y)
     if i==1
         fprintf(fid, '%12.12f',Y(i)); 
     elseif mod(i,CountBreakLine)==0
-        fprintf(fid, ', \n                       %12.12f',X(i)); 
+        fprintf(fid, ', \n                       %12.12f',Y(i)); 
     else
         fprintf(fid, ', %12.12f',Y(i)); 
     end

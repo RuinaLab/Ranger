@@ -25,10 +25,10 @@ int main( int argc, const char ** argv ) {
 
 
 	/* Test of the Sin() function */
-	xLow = -1.0;
-	xUpp = 10.0;
+	xLow = 0.0;
+	xUpp = 20.0;
 	x = xLow;
-	n = 200;
+	n = 1000;
 	dt = (xUpp-xLow)/(n-1);
 	fprintf(out,"TestSin = [...\n");
 	for (i=0; i<n; i++){
@@ -43,10 +43,10 @@ int main( int argc, const char ** argv ) {
 
 
 	/* Test of the Cos() function */
-	xLow = -1.0;
-	xUpp = 10.0;
+	xLow = 0.0;
+	xUpp = 20.0;
 	x = xLow;
-	n = 200;
+	n = 1000;
 	dt = (xUpp-xLow)/(n-1);
 	fprintf(out,"TestCos = [...\n");
 	for (i=0; i<n; i++){
