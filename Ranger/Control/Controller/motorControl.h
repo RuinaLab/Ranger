@@ -1,6 +1,8 @@
 #ifndef __MOTORCONTROL_H__
 #define __MOTORCONTROL_H__
 
+
+#define PI 3.141592653589793
 /*static*/ extern float leg_m;// = 2.5; //4.95 mass of the inner leg
 /*static const*/extern float leg_r;// = 0.15; //length to the center of mass of inner leg
 /*static const*/extern float g;// = 9.8;
@@ -33,21 +35,5 @@ float RangerHipControl(struct ControllerData * C, float x, float v);
 
 void disable_motors(void);
 void test_motor_control(void);
-void test_sign(void);
-void test_inner_foot(void);
-
-void test_trajectory(void);
-void test_freq_control(void);
-void track_sin(void);
-void double_stance(void);
-void foot_flip(void);
-float FO_flat_angle(void);
-float FO_flat_rate(void);
-float FI_flat_angle(void);
-float FI_flat_rate(void);
-
-void check_30(void);
-void step(void);
-void setPush(void);
 
 #endif // __MOTORCONTROL_H__
