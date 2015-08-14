@@ -1,5 +1,9 @@
 
 void hold_feet(void);
+void ankle_motor_test(void);
+void test_ankle_motor_model(void);
+void motors_off(void);
+
 
 void test_inner_foot(void);
 void test_trajectory(void);

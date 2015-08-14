@@ -34,6 +34,7 @@ void controller_hip( struct ControllerData * C ) {
 	//C->kp = param_hip_joint_inertia * (C->wn) * (C->wn);
 	//C->kd = 2.0 * param_hip_joint_inertia * (C->wn) * (C->xi);
 
+	// Compute cp,cd,Ir without saturation
 	/*C->Cp = (C->kp - param_hip_spring_const) / param_hip_motor_const;
 	C->Cd = C->kd / param_hip_motor_const;
 
@@ -43,10 +44,11 @@ void controller_hip( struct ControllerData * C ) {
 	     ) / param_hip_motor_const;
 	*/
 
+	// Compute cp,cd,Ir with saturation
 	float x = get_in_angle();
 	float v	= get_in_ang_rate();
 	Ir = RangerHipControl(C, x, v);
-
+	
 	mb_io_set_float(ID_MCH_COMMAND_CURRENT, Ir);
 	mb_io_set_float(ID_MCH_STIFFNESS, C->Cp);
 	mb_io_set_float(ID_MCH_DAMPNESS, C->Cd);
@@ -74,29 +76,6 @@ float RangerHipControl(struct ControllerData * C, float x, float v){
 	C->Cd = kdStar / param_hip_motor_const; 	//float cd = kdStar/kMotor;
 	ir = uStar / param_hip_motor_const;	//float ir = uStar/kMotor;
 	
-	return ir;
-}
-
-
-/* Computes the current for ankle using saturation */
-float RangerAnkleControl(struct ControllerData * C, float x, float v){
-	float ir;
-	float uMax = uMAX_ANK;
-	float uRaw = C->uRef + C->kp*(C->xRef-x) + C->kd*(C->vRef-v);
-	float uSmooth = uMax*tanh(uRaw/uMax);
-	float S = 1 - tanh(uRaw/uMax) * tanh(uRaw/uMax);
-	float Ux = S*C->kp;
-	float Uv = S*C->kd;
-	float uLin = uSmooth + Ux*x + Uv*v;  
-	
-	float uStar = uLin -  param_ank_spring_const * param_ank_spring_ref; //float uStar = uLin - kSpring*xSpring;
-	float kpStar = Ux - param_ank_spring_const;	//float kpStar = Ux - kSpring;
-	float kdStar = Uv; //float kdStar = Uv; 
-	
-	C->Cp = kpStar / param_ank_motor_const; 	//float cp = kpStar/kMotor;
-	C->Cd = kdStar / param_ank_motor_const; 	//float cd = kdStar/kMotor;
-	ir = uStar / param_ank_motor_const;	//float ir = uStar/kMotor;
-
 	return ir;
 }
 
@@ -130,6 +109,28 @@ void controller_ankleInner( struct ControllerData * C ) {
 	mb_io_set_float(ID_MCFI_DAMPNESS, C->Cd);
 }
 
+
+/* Computes the current for ankle using saturation */
+float RangerAnkleControl(struct ControllerData * C, float x, float v){
+	float ir;
+	float uMax = uMAX_ANK;
+	float uRaw = C->uRef + C->kp*(C->xRef-x) + C->kd*(C->vRef-v);
+	float uSmooth = uMax*tanh(uRaw/uMax);
+	float S = 1 - tanh(uRaw/uMax) * tanh(uRaw/uMax);
+	float Ux = S*C->kp;
+	float Uv = S*C->kd;
+	float uLin = uSmooth + Ux*x + Uv*v;  
+	
+	float uStar = uLin -  param_ank_spring_const * param_ank_spring_ref; //float uStar = uLin - kSpring*xSpring;
+	float kpStar = Ux - param_ank_spring_const;	//float kpStar = Ux - kSpring;
+	float kdStar = Uv; //float kdStar = Uv; 
+	
+	C->Cp = kpStar / param_ank_motor_const; 	//float cp = kpStar/kMotor;
+	C->Cd = kdStar / param_ank_motor_const; 	//float cd = kdStar/kMotor;
+	ir = uStar / param_ank_motor_const;	//float ir = uStar/kMotor;
+
+	return ir;
+}
 
 /* Computes the current to send to the ankle controller without saturation */
 float getAnkleControllerCurrent( struct ControllerData * C ){

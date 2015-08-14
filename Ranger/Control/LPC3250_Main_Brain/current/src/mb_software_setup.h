@@ -2,8 +2,8 @@
 #define __MB_SW_SETUP_H__
 
 //#define DEBUG
-#define BT_HSU1_SERIAL_PORT //Data collection via serial port (comment line below)
-//#define BT_HSU2_BLUETOOTH //Data collection via blue-tooth (comment earlier line)
+//#define BT_HSU1_SERIAL_PORT //Data collection via serial port (comment line below)
+#define BT_HSU2_BLUETOOTH //Data collection via blue-tooth (comment earlier line)
 
 typedef enum software_interrupt_designator
 {

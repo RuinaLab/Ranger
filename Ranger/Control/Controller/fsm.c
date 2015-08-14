@@ -53,7 +53,6 @@ float ANK_REF_FLIP;// 1.5
 void angles_update(void){
 	 // set relative angles/angular rates
 	qr = get_out_angle();	//angle integrated from rate gyro	
-	mb_io_set_float(ID_CTRL_TEST_W4, qr);
 	qh = get_in_angle();	//hip angle
 	dqr = get_out_ang_rate();
 	dqh = get_in_ang_rate();
@@ -242,8 +241,6 @@ float hip_gravity_compensation(void){
 /* Computes the controller set-points for tracking a RELATIVE angle in the hip.*/
 void hip_track_rel(struct ControllerData * ctrlData, float qh_ref, float dqh_ref, float KP, float KD){
 	ctrlData->xRef = qh_ref;
-	mb_io_set_float(ID_CTRL_TEST_W2, qh_ref);
-	
 	ctrlData->vRef = dqh_ref;
 	//ctrlData->uRef = hip_gravity_compensation();
 	ctrlData->uRef = 0.0;
@@ -272,8 +269,6 @@ void hip_scissor_track_outer(struct ControllerData * ctrlData, float offset, flo
 	float dth1Ref = -rate*dth0; 
 	
 	ctrlData->xRef = th1Ref - th0;
-	mb_io_set_float(ID_CTRL_TEST_W2, th1Ref - th0);
-	
 	ctrlData->vRef = dth1Ref - dth0; 
 	//ctrlData->uRef = 0.0;
 	ctrlData->uRef = hip_gravity_compensation();
@@ -286,8 +281,6 @@ void hip_scissor_track_inner(struct ControllerData * ctrlData, float offset, flo
 	float dth0Ref = -rate*dth1; 
 	
 	ctrlData->xRef = th1 - th0Ref;
-	mb_io_set_float(ID_CTRL_TEST_W2, th1 - th0Ref);
-	
 	ctrlData->vRef = dth1 - dth0Ref;
 	//ctrlData->uRef = 0.0;
 	ctrlData->uRef = hip_gravity_compensation();
@@ -301,9 +294,6 @@ void out_ank_track_abs(struct ControllerData * ctrlData, float phi0_ref, float d
 	//q0 = pi/2 - phi0 + th0
 	//th0 = -qr
 	ctrlData->xRef = PI/2 - phi0_ref - qr; //+ 0.25;//+0.15;
-
-	mb_io_set_float(ID_CTRL_TEST_W3, PI/2 - phi0_ref - qr);
-
 	ctrlData->vRef = -dphi0_ref - dqr;
 	ctrlData->uRef = u_ref;
 
@@ -319,9 +309,6 @@ void inn_ank_track_abs(struct ControllerData * ctrlData, float phi1_ref, float d
 	//q1 = pi/2 - phi1 + th1 
 	//th1 = qh - qr
 	ctrlData->xRef = PI/2 - phi1_ref + qh - qr; //+0.25;//+0.15;
-
-	mb_io_set_float(ID_CTRL_TEST_W4, PI/2 - phi1_ref + qh - qr);
-
 	ctrlData->vRef = -dphi1_ref + dqh - dqr;
 	ctrlData->uRef = u_ref;
 

@@ -18,9 +18,9 @@ void hold_feet(void){
 // Select the correct reference angle
 		float time = mb_io_get_float(ID_TIMESTAMP);
 
-	float hold = mb_io_get_float(ID_CTRL_ANK_REF_HOLD);
-	float hold_kp = mb_io_get_float(ID_CTRL_ANK_HOLD_KP);
-	float hold_kd = mb_io_get_float(ID_CTRL_ANK_HOLD_KD);
+	float hold = mb_io_get_float(ID_CTRL_ANK_REF_HOLD);	  //=-0.05
+	float hold_kp = 4;
+	float hold_kd = 0.5;
 	 
 	//update all the angle parameters
 	angles_update();	 
@@ -29,7 +29,7 @@ void hold_feet(void){
 	out_ank_track_abs(&ctrlAnkOut, hold, 0.0, 0.0, hold_kp, hold_kd);
 	// hold inner feet
 	inn_ank_track_abs(&ctrlAnkInn, hold, 0.0, 0.0, hold_kp, hold_kd);
-	hip_track_rel(&ctrlHip, 0.0, 0.0, mb_io_get_float(ID_CTRL_HIP_KP), mb_io_get_float(ID_CTRL_HIP_KD));
+	hip_track_rel(&ctrlHip, 0.0, 0.0, 6, 2);
 
 	controller_ankleInner(&ctrlAnkInn);
 	controller_ankleOuter(&ctrlAnkOut);
@@ -54,9 +54,9 @@ void ankle_motor_test(void){
 	float qUpp = 1.9;  // Maximum ankle angle
 	float qLow = 0.1;  // minimum ankle angle					   
 
-	float time = mb_io_get_float(ID_TIMESTAMP);
+	float time = 0.001 * mb_io_get_float(ID_TIMESTAMP);
 	
-	float PI = 3.14159265359;
+	//float PI = 3.14159265359;
 
 	float period;  // period for reference function
 	float arg;  // input for trig functions
@@ -65,19 +65,18 @@ void ankle_motor_test(void){
 	float kp;   // proportional gaint
 	float kd;   // derivative gain		
 
-	//period = mb_io_get_float(ID_CTRL_TEST_R2);
-	period = 1.0;  // HACK - communications not working?
+	period = mb_io_get_float(ID_CTRL_TEST_R2);
 
 	arg = 2*PI*time/period;
 	xRef = 0.5*(qLow + qUpp) + 0.5*(qUpp-qLow)*Sin(arg);
 	vRef = (PI/period)*Cos(arg);
 
 	mb_io_set_float(ID_CTRL_TEST_W0,xRef);
+	mb_io_set_float(ID_CTRL_TEST_W1,vRef);
 
-//	kp = mb_io_get_float(ID_CTRL_TEST_R0); 
-//	kd = mb_io_get_float(ID_CTRL_TEST_R1);
-	kp = 4.0;	    //// HACK - communications not working on robot ?
-	kd = 1.;
+	kp = mb_io_get_float(ID_CTRL_TEST_R0); 
+	kd = mb_io_get_float(ID_CTRL_TEST_R1);
+
 
 		// Run a PD-controller on the outer foot angles:
 		ctrlAnkOut.kp = kp;
@@ -93,11 +92,11 @@ void ankle_motor_test(void){
 		ctrlAnkInn.xRef = xRef;
 		ctrlAnkInn.vRef = vRef;
 		ctrlAnkInn.uRef = 0.0;
-		controller_ankleInner(&ctrlAnkInn);
+		//controller_ankleInner(&ctrlAnkInn);
 	
 		// Disable the hip:
-		ctrlHip.wn = 0.0;
-		ctrlHip.xi = 0.0;
+		ctrlHip.kp = 0.0;
+		ctrlHip.kd = 0.0;
 		ctrlHip.xRef = 0.0;
 		ctrlHip.vRef = 0.0;
 		ctrlHip.uRef = 0.0;
@@ -105,8 +104,40 @@ void ankle_motor_test(void){
 	
 }
 
+/* Turns all motors off at high level by setting KP=0 and KD=0 */
+void motors_off(void){
+	struct ControllerData ctrlHip;
+	struct ControllerData ctrlAnkOut;
+	struct ControllerData ctrlAnkInn;
 
-		 /* Generates data for fitting a motor model */
+	// Run a PD-controller on the outer foot angles:
+	ctrlAnkOut.kp = 0.0;
+	ctrlAnkOut.kd = 0.0;
+	ctrlAnkOut.xRef = 0.0;
+	ctrlAnkOut.vRef = 0.0;
+	ctrlAnkOut.uRef = 0.0;
+	controller_ankleOuter(&ctrlAnkOut);	
+
+	// Run a PD-controller on the inner foot angles:
+	ctrlAnkInn.kp = 0.0;
+	ctrlAnkInn.kd = 0.0;
+	ctrlAnkInn.xRef = 0.0;
+	ctrlAnkInn.vRef = 0.0;
+	ctrlAnkInn.uRef = 0.0;
+	controller_ankleInner(&ctrlAnkInn);
+
+	// Disable the hip:
+	ctrlHip.kp = 0.0;
+	ctrlHip.kd = 0.0;
+	ctrlHip.xRef = 0.0;
+	ctrlHip.vRef = 0.0;
+	ctrlHip.uRef = 0.0;
+	//controller_hip(&ctrlHip);
+
+}
+
+
+/* Generates data for fitting a motor model */
  void test_ankle_motor_model(void) {
  		struct ControllerData ctrlHip;
 		struct ControllerData ctrlAnkOut;
@@ -301,7 +332,6 @@ float g = 9.8;
 		 	t = -2*PI + t;
 		}
 		ctrlHip.xRef = Sin(t)/4;
-		mb_io_set_float(ID_CTRL_TEST_W0, ctrlHip.xRef);
 		ctrlHip.vRef = Cos(t)/4;
 		ctrlHip.uRef = 0.0;
 		controller_hip(&ctrlHip);
