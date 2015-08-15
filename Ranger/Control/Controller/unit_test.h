@@ -1,7 +1,9 @@
-
 void test_feet(void);
-void motors_off(void);
+void test_hip(void);
+
+void hip_motor_test(void);
 void ankle_motor_test(void);
+void motors_off(void);
 
 void test_sign(void);
 void test_inner_foot(void);

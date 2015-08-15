@@ -21,6 +21,8 @@ struct ControllerData {
 /*static const*/extern float param_joint_ankle_push;// = 2.5; // Hard stop at 3.0. Foot pushes off to inject energy, this is maximum bound.
 /*static const*/extern float param_joint_ankle_hold;// = 1.662;
 
+extern float qr, qh, dqr, dqh, q0, q1, dq0, dq1; //relative
+extern float th0, th1, dth0, dth1; //absolute 
 
 float MotorModel_Current(float, float);
 void controller_hip(struct ControllerData *);
@@ -32,6 +34,14 @@ float RangerHipControl(struct ControllerData * C, float x, float v);
 
 void disable_motors(void);
 void test_motor_control(void);
+
+float hip_gravity_compensation(void);
+void hip_track_rel(struct ControllerData * ctrlData, float qh_ref, float dqh_ref, float KP, float KD);
+void out_ank_track_abs(struct ControllerData * ctrlData, float phi0_ref, float dphi0_ref, float u_ref, float KP, float KD);
+void inn_ank_track_abs(struct ControllerData * ctrlData, float phi1_ref, float dphi1_ref, float u_ref, float KP, float KD);
+void hip_scissor_track_outer(struct ControllerData * ctrlData, float offset, float rate, float KP, float KD);
+void hip_scissor_track_inner(struct ControllerData * ctrlData, float offset, float rate, float KP, float KD);
+void angles_update(void);
 
 
 #endif // __MOTORCONTROL_H__

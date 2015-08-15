@@ -53,8 +53,9 @@ void mb_controller_update(void) {
 		//foot_flip();
 		//hold_feet();
 		//motors_off();
-		//ankle_motor_test();
-		test_feet();
+		ankle_motor_test();
+		//test_feet();
+		//hip_motor_test();
 		//test_hip();
 		break;
 	case M0_Calibrate:

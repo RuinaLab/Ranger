@@ -11,6 +11,7 @@ There are two ways to communicate with the robot while it is running. The first 
 0. open the labview data acquisition program: `RoboDAQ7.vi`
 0. Check that you have the right serial port (guess and check)
 0. Set the Baud Rate to be 921600
+0. Set the flow control to 0
 0. Run the labview program and it should work!
 
 ## Blue Tooth:
@@ -23,4 +24,5 @@ There are two ways to communicate with the robot while it is running. The first 
 0. open the labview data acquisition program: `RoboDAQ7.vi`
 0. Check that you have the right serial port (guess and check)
 0. Set the Baud Rate to be 460800
+0. Set the flow control to 2
 0. Run the labview program and it should work!

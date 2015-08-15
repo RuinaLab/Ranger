@@ -1,8 +1,7 @@
 #include <mb_includes.h> 
 #include <motorControl.h>
 #include <fsm.h>
-#include <rangermath.h>
-#include <math.h> //for tanh
+#include <RangerMath.h>
 
 enum States {
 	OUT_SWING,
@@ -30,8 +29,7 @@ enum States {
 
 static float th_ref = 0.0;
 static enum States current_state = OUT_SWING; 
-static float qr, qh, dqr, dqh, q0, q1, dq0, dq1; //relative
-static float th0, th1, dth0, dth1; //absolute 
+
 
 float ANK_FLIP_KP;
 float ANK_FLIP_KD;
@@ -48,25 +46,6 @@ float ANK_REF_HOLD;// -0.05 //absolute angles for ankle
 float ANK_REF_PUSH;// -0.8
 float ANK_REF_FLIP;// 1.5
 
-
-/* Updates the global absolute/relative angles in Ranger. */
-void angles_update(void){
-	 // set relative angles/angular rates
-	qr = get_out_angle();	//angle integrated from rate gyro	
-	qh = get_in_angle();	//hip angle
-	dqr = get_out_ang_rate();
-	dqh = get_in_ang_rate();
-	q0 = mb_io_get_float(ID_E_MCFO_RIGHT_ANKLE_ANGLE);
-	q1 = mb_io_get_float(ID_E_MCFI_MID_ANKLE_ANGLE);
-	dq0 = mb_io_get_float(ID_E_MCFO_RIGHT_ANKLE_RATE);
-	dq1 = mb_io_get_float(ID_E_MCFI_ANKLE_RATE);
-
-	// set absolute angles
-	th0 = -qr;		//angle of outer leg
-	th1 = qh - qr;	//angle of inner leg 
-	dth0 = -dqr; 
-	dth1 = dqh - dqr;
-}
 
 /* Read values for parameters from Labview. */
 void param_update(void){
@@ -220,106 +199,11 @@ void fsm_update(void){
 	if(!FI_on_ground() && !FO_on_ground()){
 		current_state = FLIGHT;
 	}
-}
-
- 
-/* Returns the torque needed to compensate for gravity pull on the legs. */
-float hip_gravity_compensation(void){
-	float u = leg_m * g * leg_r;
-	
-	if(FI_on_ground() && !FO_on_ground()){
-		//track outer, only inner feet on ground
-		return u * Sin(th1); 
-	}else if(!FI_on_ground() && FO_on_ground()){
-		//track inner, only outer feet on ground 	
-		return -u * Sin(th0);	
-	}
-	return 0.0;
-}
-
-
-/* Computes the controller set-points for tracking a RELATIVE angle in the hip.*/
-void hip_track_rel(struct ControllerData * ctrlData, float qh_ref, float dqh_ref, float KP, float KD){
-	ctrlData->xRef = qh_ref;
-	ctrlData->vRef = dqh_ref;
-	//ctrlData->uRef = hip_gravity_compensation();
-	ctrlData->uRef = 0.0;
-
-	ctrlData->kp = KP;
-	ctrlData->kd = KD;
-	return;
-}
-
-
-/* Make Ranger track a double stance. */
-void hip_scissor_track(struct ControllerData * ctrlData, float c0, float c1, float KP, float KD){
-	//use this equation: th_ref = c0*(-qr) + c1*(qh-qr)
-	ctrlData->xRef = (th_ref + qr*(c0+c1)) / c1;
-	ctrlData->vRef = dqr*(c0+c1)/c1;
-	//ctrlData->uRef = 0.0;
-	ctrlData->uRef = hip_gravity_compensation();
-
-	ctrlData->kp = KP;
-	ctrlData->kd = KD;
-	return;
-}
-
-void hip_scissor_track_outer(struct ControllerData * ctrlData, float offset, float rate, float KP, float KD){
-	float th1Ref = offset - rate * th0;
-	float dth1Ref = -rate*dth0; 
-	
-	ctrlData->xRef = th1Ref - th0;
-	ctrlData->vRef = dth1Ref - dth0; 
-	//ctrlData->uRef = 0.0;
-	ctrlData->uRef = hip_gravity_compensation();
-	ctrlData->kp = KP;
-	ctrlData->kd = KD;
-}
-
-void hip_scissor_track_inner(struct ControllerData * ctrlData, float offset, float rate, float KP, float KD){
-	float th0Ref = offset - rate * th1;
-	float dth0Ref = -rate*dth1; 
-	
-	ctrlData->xRef = th1 - th0Ref;
-	ctrlData->vRef = dth1 - dth0Ref;
-	//ctrlData->uRef = 0.0;
-	ctrlData->uRef = hip_gravity_compensation();
- 	ctrlData->kp = KP;
-	ctrlData->kd = KD;
-}
-
-#define ZERO_POS_INN 1.75
-#define ZERO_POS_OUT 1.8
-
-/* Computes the outer ankle controller set-points to track the desired absolute angle and rate. */
-void out_ank_track_abs(struct ControllerData * ctrlData, float phi0_ref, float dphi0_ref, float u_ref, float KP, float KD){
-	//convert absolute to relative
-	//q0 = pi/2 - phi0 + th0
-	//th0 = -qr
-	ctrlData->xRef = ZERO_POS_OUT - phi0_ref - qr; //+ 0.25;//+0.15;
-	ctrlData->vRef = -dphi0_ref - dqr;
-	ctrlData->uRef = u_ref;
-
-	ctrlData->kp = KP;
-	ctrlData->kd = KD;
-	return;
-}
-
-
-/* Computes the inner ankle controller set-points to track the desired absolute angle and rate. */
-void inn_ank_track_abs(struct ControllerData * ctrlData, float phi1_ref, float dphi1_ref, float u_ref, float KP, float KD){
-	//convert absolute to relative
-	//q1 = pi/2 - phi1 + th1 
-	//th1 = qh - qr
-	ctrlData->xRef = ZERO_POS_INN - phi1_ref + qh - qr; //+0.25;//+0.15;
-	ctrlData->vRef = -dphi1_ref + dqh - dqr;
-	ctrlData->uRef = u_ref;
-
-	ctrlData->kp = KP;
-	ctrlData->kd = KD;
-	return;
 }			   
 
+/*******************************************************/
+/***************FSM TEST FUNCTIONS**********************/
+/*******************************************************/
 
 enum testStates {
 	one,
@@ -427,7 +311,7 @@ void test_fsm_hip(void){
 		break;
 	}
 
-	//controller_hip(&ctrlHip);
+	controller_hip(&ctrlHip);
 	controller_ankleInner(&ctrlAnkInn);
 	controller_ankleOuter(&ctrlAnkOut);
 }
