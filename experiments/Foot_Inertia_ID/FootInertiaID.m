@@ -54,6 +54,16 @@ xlabel('time (sec)')
 ylabel('current (amps)')
 
 
+
+
+
+frequencyAnalysis(dqm);
+
+
+
+
+
+
 % % 
 % % %% Uniformly sample the data for filtering
 % % 

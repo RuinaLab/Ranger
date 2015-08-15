@@ -1,0 +1,6 @@
+function frequencyAnalysis(channel)
+
+
+
+
+end
