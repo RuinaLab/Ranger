@@ -295,8 +295,8 @@ void hip_track_rel(struct ControllerData * ctrlData, float qh_ref, float dqh_ref
 	ctrlData->xRef = qh_ref;
 	mb_io_set_float(ID_CTRL_TEST_W2, ctrlData->xRef);
 	ctrlData->vRef = dqh_ref;
-	ctrlData->uRef = hip_gravity_compensation();
-	//ctrlData->uRef = 0.0;
+	//ctrlData->uRef = hip_gravity_compensation();
+	ctrlData->uRef = 0.0;
 
 	ctrlData->kp = KP;
 	ctrlData->kd = KD;
@@ -315,8 +315,8 @@ void hip_scissor_track_outer(struct ControllerData * ctrlData, float offset, flo
 	ctrlData->xRef = th1Ref - th0;
 	mb_io_set_float(ID_CTRL_TEST_W2, ctrlData->xRef);
 	ctrlData->vRef = dth1Ref - dth0; 
-	//ctrlData->uRef = 0.0;
-	ctrlData->uRef = hip_gravity_compensation();
+	ctrlData->uRef = 0.0;
+	//ctrlData->uRef = hip_gravity_compensation();
 	ctrlData->kp = KP;
 	ctrlData->kd = KD;
 }
@@ -332,8 +332,8 @@ void hip_scissor_track_inner(struct ControllerData * ctrlData, float offset, flo
 	ctrlData->xRef = th1 - th0Ref;
 	mb_io_set_float(ID_CTRL_TEST_W2, ctrlData->xRef);
 	ctrlData->vRef = dth1 - dth0Ref;
-	//ctrlData->uRef = 0.0;
-	ctrlData->uRef = hip_gravity_compensation();
+	ctrlData->uRef = 0.0;
+	//ctrlData->uRef = hip_gravity_compensation();
  	ctrlData->kp = KP;
 	ctrlData->kd = KD;
 }

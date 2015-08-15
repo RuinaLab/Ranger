@@ -51,16 +51,15 @@ float ANK_REF_FLIP;// 1.5
 void param_update(void){
 	HIP_REF_HOLD = mb_io_get_float(ID_CTRL_HIP_REF_HOLD);
 	HIP_REF_TRANS_ANGLE = mb_io_get_float(ID_CTRL_HIP_TRANS_ANGLE);
-	ANK_REF_HOLD = mb_io_get_float(ID_CTRL_ANK_REF_HOLD) - 0.25;
-	ANK_REF_PUSH = mb_io_get_float(ID_CTRL_ANK_REF_PUSH) - 0.25;
-	ANK_REF_FLIP = mb_io_get_float(ID_CTRL_ANK_REF_FLIP) - 0.25;
+	ANK_REF_HOLD = mb_io_get_float(ID_CTRL_ANK_REF_HOLD); //- 0.25;
+	ANK_REF_PUSH = mb_io_get_float(ID_CTRL_ANK_REF_PUSH); //- 0.25;
+	ANK_REF_FLIP = mb_io_get_float(ID_CTRL_ANK_REF_FLIP); //- 0.25;
 }
 
 /* Sets the initial state of the FSM. */
 void fsm_init(void){
 	current_state = OUT_SWING;
 }
-
 
 /* Runs current state the FSM is in. */
 void fsm_run(void){
@@ -216,25 +215,26 @@ enum testStates {
 
 static enum testStates test_state = one; 
 int count = 0;
-int first_step = 1;
 
+/* Initializes the test FSM. */
 void test_init(void){
 	test_state = one;
-	first_step = 1;
 	count = 0;
 }
 
-void test_fsm_hip(void){
+/* Makes Ranger walk with simpler transition conditions.
+ * Parameters:
+ *	- ID_CTRL_TEST_W1 = current state of the FSM		
+ */
+void test_fsm(void){
 	struct ControllerData ctrlHip;
 	struct ControllerData ctrlAnkOut;
 	struct ControllerData ctrlAnkInn;
 		
-/*	float PUSH_KP = 7;
-	float PUSH_KD = 2;
-	float HOLD_KP = 4;
-	float HOLD_KD = 0.5;
-	float FLIP_KP =	3;
-	float FLIP_KD = 0.5; */
+/*	KP&KD values that work:
+  	hip: kp=27 kd=3.8 or kp=16 kd=3
+	ank: kp=7 kd=1
+*/
 
 	ANK_FLIP_KP = mb_io_get_float(ID_CTRL_ANK_FLIP_KP);
 	ANK_FLIP_KD = mb_io_get_float(ID_CTRL_ANK_FLIP_KD);
@@ -254,23 +254,12 @@ void test_fsm_hip(void){
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
 		// flip up inner feet
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
-		
-		/*if(first_step){
-			// adjust hip
-			hip_scissor_track_outer(&ctrlHip, 0, 1.5, HIP_KP, HIP_KD); //high KP and KD for hip here
-	
-			if(th0<-0.15){ //inner leg in front, outer leg in the back 
-				test_state = two;
-				first_step = 0;
-			}
-		}else{ */
-			// adjust hip
-			hip_scissor_track_outer(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE, HIP_KP, HIP_KD); //high KP and KD for hip here
-	
-			if(th0<-HIP_REF_TRANS_ANGLE){ //inner leg in front, outer leg in the back 
-				test_state = two;
-			}
-		/*}*/
+		// adjust hip
+		hip_scissor_track_outer(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE, HIP_KP, HIP_KD); 
+
+		if(th0<-HIP_REF_TRANS_ANGLE){ //inner leg in front, outer leg in the back 
+			test_state = two;
+		}
 		break;
 	case two: //push off outer feet 
 		mb_io_set_float(ID_CTRL_TEST_W1, 30);
@@ -281,7 +270,7 @@ void test_fsm_hip(void){
 		// decrease the angle between two legs
 	    hip_track_rel(&ctrlHip, HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
 		
-		if(q0>1.9 ){ //outer ankle angle
+		if(q0>1.9){ //outer ankle angle
 			test_state = three;
 		}		
 		break;
@@ -305,7 +294,7 @@ void test_fsm_hip(void){
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
 		hip_track_rel(&ctrlHip, -HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
 
-		if(q1>1.9 ){ //inner ankle angle
+		if(q1>1.9){ //inner ankle angle
 			test_state = one;
 		}	
 		break;
@@ -316,10 +305,15 @@ void test_fsm_hip(void){
 	controller_ankleOuter(&ctrlAnkOut);
 }
 
-void test_fsm(void){
+
+/* Simulates how ankles move when Ranger walks. 
+ * Parameters:
+ *	- ID_CTRL_TEST_W1 = current state of the FSM		
+ */
+void test_fsm_ank(void){
 	struct ControllerData ctrlAnkOut;
 	struct ControllerData ctrlAnkInn;
-	float trans_angle = 0.08;//0.5*HIP_REF_HOLD-0.3;
+	float trans_angle = 0.08;
 
 	ANK_FLIP_KP = mb_io_get_float(ID_CTRL_ANK_FLIP_KP);
 	ANK_FLIP_KD = mb_io_get_float(ID_CTRL_ANK_FLIP_KD);

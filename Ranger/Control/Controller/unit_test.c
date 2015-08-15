@@ -9,6 +9,50 @@
 #define PI 3.141592653589793				   
 #define DATA TRAJ_DATA_Test0
 
+
+void test_gravity_compensation(void){
+
+}
+
+void test_spring_compensation(void){
+
+}
+
+/* Test hip controller with outer feet on ground and inner feet flipped up. 
+ * Parameters:
+ *   - ID_CTRL_TEST_W1 = reference hip angle
+ */
+void test_hip(void){
+	struct ControllerData ctrlHip;
+	struct ControllerData ctrlAnkOut;
+	struct ControllerData ctrlAnkInn;
+	float hip_kp = mb_io_get_float(ID_CTRL_HIP_KP);	  //16, 27
+	float hip_kd = mb_io_get_float(ID_CTRL_HIP_KD);	  //3, 3.8
+	float ank_kp = 7;
+	float ank_kd = 1;
+	float scissor_offset = 0.1;
+	float scissor_rate = 1.3;
+	float ank_hold = mb_io_get_float(ID_CTRL_ANK_REF_HOLD); 
+	float ank_push = mb_io_get_float(ID_CTRL_ANK_REF_PUSH);
+	float ank_flip = mb_io_get_float(ID_CTRL_ANK_REF_FLIP); 
+	float hip_track = mb_io_get_float(ID_CTRL_TEST_R0);
+
+	angles_update();
+	
+	out_ank_track_abs(&ctrlAnkOut, ank_hold, 0.0, 0.0, ank_kp, ank_kd);
+	inn_ank_track_abs(&ctrlAnkInn, ank_flip, 0.0, 0.0, ank_kp, ank_kd);
+	// tests hip scissor tracking function
+	hip_scissor_track_outer(&ctrlHip, scissor_offset, scissor_rate, hip_kp, hip_kd); 
+	// tests hip relative angle tracking function
+	//mb_io_set_float(ID_CTRL_TEST_W1, hip_track);
+	//hip_track_rel(&ctrlHip, hip_track, 0.0, hip_kp, hip_kd);	
+
+	controller_hip(&ctrlHip);
+	controller_ankleInner(&ctrlAnkInn);
+	controller_ankleOuter(&ctrlAnkOut);
+} 
+
+
 /* Make the feet track an absolute angle while making the hip angle track a zero angle.
  * Parameters:
  *   - ID_CTRL_TEST_W1 = absolute outer ankle angle
@@ -35,20 +79,6 @@ void test_feet(void){
 	inn_ank_track_abs(&ctrlAnkInn, ank_track, 0.0, 0.0, ank_kp, ank_kd);
 	hip_track_rel(&ctrlHip, hip_track, 0.0, hip_kp, hip_kd);
 	
-	//lower-level 
-	/*ctrlAnkOut.kp = ank_kp;
-	ctrlAnkOut.kd = ank_kd;
-	ctrlAnkOut.xRef = ZERO_POS_OUT;
-	ctrlAnkOut.vRef = 0.0;
-	ctrlAnkOut.uRef = 0.0;
-
-	ctrlAnkInn.kp = ank_kp;
-	ctrlAnkInn.kd = ank_kd;
-	ctrlAnkInn.xRef = ZERO_POS_INN;
-	ctrlAnkInn.vRef = 0.0;
-	ctrlAnkInn.uRef = 0.0;
-	*/
-
 	ph0 = ZERO_POS_OUT - qr -q0; 
 	ph1 = ZERO_POS_INN + qh - qr - q1;	   
 	//mb_io_set_float(ID_CTRL_TEST_W1, ph0); //absolute outer ankle angle
@@ -60,41 +90,7 @@ void test_feet(void){
 	controller_hip(&ctrlHip);
 }
 
-/* Makes the hip track a relative angle.
- * Parameters:
- *   - ID_CTRL_TEST_W1 = reference hip angle
- */
-void test_hip(void){
-	struct ControllerData ctrlHip;
-	struct ControllerData ctrlAnkOut;
 
-	float ank_track = 0.0;
-	float ank_kp = 7;
-	float ank_kd = 1;
-
-	float hip_kp = 28;
-	float hip_kd = 4;
-	float hip_track = mb_io_get_float(ID_CTRL_TEST_R0);
-	//mb_io_set_float(ID_CTRL_TEST_W1, hip_track);
-
-	//update all the angle parameters
-	angles_update();	 
-
-	//call function in fsm.c
-	hip_track_rel(&ctrlHip, hip_track, 0.0, hip_kp, hip_kd);	
-	out_ank_track_abs(&ctrlAnkOut, ank_track, 0.0, 0.0, ank_kp, ank_kd);
-
-	//call lower-level controller
-	/*ctrlHip.kp = hip_kp;
-	ctrlHip.kd = hip_kd;
-	ctrlHip.xRef = hip_track;
-	ctrlHip.vRef = 0;
-	//ctrlHip.uRef = 0.0;
-	ctrlHip.uRef = hip_gravity_compensation();
-	 */
-	controller_ankleOuter(&ctrlAnkOut);
-	controller_hip(&ctrlHip);
-}
 
 /* Robot Hanging in the air
  * Hip motor tracks Sine-curve reference

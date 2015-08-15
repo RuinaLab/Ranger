@@ -1,3 +1,6 @@
+void test_gravity_compensation(void);
+void test_spring_compensation(void);
+
 void test_feet(void);
 void test_hip(void);
 
