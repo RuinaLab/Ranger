@@ -159,7 +159,7 @@ void ankle_motor_test(void){
 	float kp;   // proportional gaint
 	float kd;   // derivative gain		
 
-	period = 2;//mb_io_get_float(ID_CTRL_TEST_R2);
+	period = mb_io_get_float(ID_CTRL_TEST_R2);
 
 	arg = 2*PI*time/period;
 	xRef = 0.5*(qLow + qUpp) + 0.5*(qUpp-qLow)*Sin(arg);

@@ -8,7 +8,7 @@
 %
 
 
-dataFileName = 'Data1.txt';
+dataFileName = 'Data6.txt';
 
 % Read data from the log file
 channelList = [65,87,62,63,61,248,249];
@@ -54,133 +54,40 @@ xlabel('time (sec)')
 ylabel('current (amps)')
 
 
+%% Fit a function to the motor angle, and then differentiate
+
+qm = fitSineCurve(qm);
+
+u = fitSineCurve(u);
+
+subplot(3,1,3); hold on;
+plot(qm.time, u.fun(qm.time),'g','LineWidth',1);
+
+
+%% Fit a joint inertia:
+
+Km = 0.612;  %Nm/amp;  Motor constant for ankles (including gear box)
+
+torque = Km*u.data;
+accel = qm.ddFun(u.time);
+inertia = torque./accel;
+
+% NOTES:
+% 
+% Note sure if this is right or not. Might need a better method. The
+% inertia is not at all consistent throughout the trial, suggesting that
+% there is something else going on, or that we really need to get better
+% current data, which the robot doesn't really produce.
+%
+% At the very least, this should be run through the full motor model, and
+% then fit using optimization. The various nonlinear effects in the motor
+% probably play an important role.
+%
+% The median value for inertia is actually pretty close to that of the
+% motor's rotor inertia in the paper, although I still want to investigate
+% where the gearbox comes into play there.
+%
 
 
 
-frequencyAnalysis(dqm);
 
-
-
-
-
-
-% % 
-% % %% Uniformly sample the data for filtering
-% % 
-% % % Find the maximum viable time window:
-% % t0 = max([min(u0(:,1)),min(u1(:,1)),min(q0(:,1)),min(q1(:,1))]);
-% % tF = min([max(u0(:,1)),max(u1(:,1)),max(q0(:,1)),max(q1(:,1))]);
-% % dt = mean([diff(u0(:,1));diff(u1(:,1));diff(q0(:,1));diff(q1(:,1))]);
-% % DT = dt/4; %Oversample to catch more peaks.
-% % T = (t0:DT:tF)';
-% % 
-% % % Linear interpolate to a uniform grid:
-% % U0 = interp1(u0(:,1), u0(:,2), T);
-% % U1 = interp1(u1(:,1), u1(:,2), T);
-% % Q0 = interp1(q0(:,1), q0(:,2), T);
-% % Q1 = interp1(q1(:,1), q1(:,2), T);
-% % 
-% % % Create a butterworth smoothing filter
-% % freqCutoff = 0.5*(1/dt);  %Filter cut-off frequency
-% % freqSample = 1/DT;  %Interpolated data sample frequency
-% % wn = freqCutoff/(0.5*freqSample);
-% % [B, A] = butter(4,wn);
-% % 
-% % % Smooth the data:
-% % U0 = filtfilt(B, A, U0);
-% % U1 = filtfilt(B, A, U1);
-% % Q0 = filtfilt(B, A, Q0);
-% % Q1 = filtfilt(B, A, Q1);
-% % 
-% % %% Numerical differentiation to find the rate based on smoothed angle
-% % 
-% % dQ0 = diffCenter(Q0,DT);
-% % dQ1 = diffCenter(Q1,DT);
-% % ddQ0 = diffCenter(dQ0,DT);
-% % ddQ1 = diffCenter(dQ1,DT);
-% % 
-% % 
-% % %% Sample the data at twice the smoothing cutoff frequency:
-% % 
-% % InputPeriod = 0.75*60;   %Full period of the random motor commands
-% % t0 = mean(T) - 0.5*InputPeriod;
-% % tF = t0 + InputPeriod;
-% % dt = 1/(2*freqCutoff);
-% % 
-% % t = (t0:dt:tF)';
-% % 
-% % u0 = interp1(T,U0,t,'pchip');
-% % u1 = interp1(T,U1,t,'pchip');
-% % q0 = interp1(T,Q0,t,'pchip');
-% % q1 = interp1(T,Q1,t,'pchip');
-% % dq0 = interp1(T,dQ0,t,'pchip');
-% % dq1 = interp1(T,dQ1,t,'pchip');
-% % ddq0 = interp1(T,ddQ0,t,'pchip');
-% % ddq1 = interp1(T,ddQ1,t,'pchip');
-% % 
-% % 
-% % %% Plot the nice smooth data for analysis
-% % figure(2); clf;
-% % 
-% % subplot(4,1,1); hold on;
-% % plot(t,u0)
-% % plot(t,u1)
-% % legend('outer','inner')
-% % title('Ankle Motor Processed data')
-% % xlabel('time (sec)')
-% % ylabel('current (amp)')
-% % 
-% % subplot(4,1,2); hold on;
-% % plot(t,q0)
-% % plot(t,q1)
-% % legend('outer','inner')
-% % xlabel('time (sec)')
-% % ylabel('angle (rad)')
-% % 
-% % subplot(4,1,3); hold on;
-% % plot(t,dq0)
-% % plot(t,dq1)
-% % legend('outer','inner')
-% % xlabel('time (sec)')
-% % ylabel('rate (rad/s)')
-% % 
-% % subplot(4,1,4); hold on;
-% % plot(t,ddq0)
-% % plot(t,ddq1)
-% % legend('outer','inner')
-% % xlabel('time (sec)')
-% % ylabel('accle (rad/s)')
-% % 
-% % %% Run non-linear least squares to fit a motor model:
-% % 
-% % [MotorModel0, Info0] = fitAnkleMotorModel(u0,q0,dq0,ddq0);
-% % [MotorModel1, Info1] = fitAnkleMotorModel(u1,q1,dq1,ddq1);
-% % 
-% % ddq0_model = Info0.ddqModel;
-% % ddq1_model = Info1.ddqModel;
-% % 
-% % figure(3); clf;
-% % 
-% % subplot(2,1,1); hold on;
-% % plot(t,ddq0)
-% % plot(t,ddq0_model);
-% % legend('data','model');
-% % title('Model Fit, Outer Feet');
-% % xlabel('time (sec)')
-% % ylabel('accel (rad/sec^2)')
-% % 
-% % subplot(2,1,2); hold on;
-% % plot(t,ddq1)
-% % plot(t,ddq1_model);
-% % legend('data','model');
-% % title('Model Fit, Inner Feet');
-% % xlabel('time (sec)')
-% % ylabel('accel (rad/sec^2)')
-% % 
-% % 
-% % 
-% % 
-% % 
-% % 
-% % 
-% % 
