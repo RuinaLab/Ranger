@@ -47,7 +47,12 @@ d = zSoln(4);
 channel.fun = @(t)( a + b*sin(c*t + d) );
 channel.dFun = @(t)( b*c*cos(c*t + d) );
 channel.ddFun = @(t)( -b*c*c*sin(c*t + d) );
-channel.coeff = [a,b,c,d];
+
+channel.fit.offset = a;
+channel.fit.amplitude = b;
+channel.fit.frequency = c/(2*pi);
+channel.fit.period = 1/channel.fit.frequency;
+channel.fit.phase = wrapTo2Pi(d);
 
 end
 
