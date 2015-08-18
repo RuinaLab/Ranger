@@ -92,7 +92,7 @@ void fsm_run(void){
 		hip_scissor_track_outer(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE,HIP_KP, HIP_KD);
 		break;
 
-	case OUT_PUSH:	/*land inner leg*/
+	case OUT_PUSH:	/*land inner leg*/					   
 		mb_io_set_float(ID_CTRL_TEST_W1, 1);
 		// push down outer feet
 	    out_ank_track_abs(&ctrlAnkOut, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
@@ -210,7 +210,6 @@ enum testStates {
 	three,
 	four,
 	five,
-	six,
 };
 
 static enum testStates test_state = one; 
@@ -246,6 +245,11 @@ void test_fsm(void){
 	HIP_KD= mb_io_get_float(ID_CTRL_HIP_KD);
 
 	angles_update();
+
+	// Enters flight state if all feet are off ground 
+	if(!FI_on_ground() && !FO_on_ground()){
+		test_state = five;
+	}
 
 	switch(test_state){
 	case one:  //swing innner leg 
@@ -283,11 +287,11 @@ void test_fsm(void){
 		// adjust hip angle
 		hip_scissor_track_inner(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE, HIP_KP, HIP_KD);
 		
-		if(th0>HIP_REF_TRANS_ANGLE-0.01){ //outer leg in front, inner leg in the back 
+		if(th0>HIP_REF_TRANS_ANGLE){ //outer leg in front, inner leg in the back 
 			test_state = four;	
 		}
 		break;
-	case four:
+	case four: //push off inner feet
 		mb_io_set_float(ID_CTRL_TEST_W1, 60);
 		//push down inner feet and hold outer feet
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
@@ -297,6 +301,9 @@ void test_fsm(void){
 		if(q1>1.9){ //inner ankle angle
 			test_state = one;
 		}	
+		break;
+	case five: //flight mode
+		disable_motors();
 		break;
 	}
 

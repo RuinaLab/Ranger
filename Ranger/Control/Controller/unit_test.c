@@ -9,9 +9,77 @@
 #define PI 3.141592653589793				   
 #define DATA TRAJ_DATA_Test0
 
+static float hip_kp, hip_kd, scissor_offset, scissor_rate, ank_kp, ank_kd, ank_hold, ank_push, ank_flip;
 
+/* Updates parameters read from LABVIEW. */
+void param_update_test(void){
+	hip_kp = mb_io_get_float(ID_CTRL_HIP_KP);	  //16, 27
+	hip_kd = mb_io_get_float(ID_CTRL_HIP_KD);	  //3, 3.8
+	scissor_offset = 0.1;
+	scissor_rate = 1.3;
+	
+	ank_kp = 7;
+	ank_kd = 1;
+	ank_hold = mb_io_get_float(ID_CTRL_ANK_REF_HOLD); 
+	ank_push = mb_io_get_float(ID_CTRL_ANK_REF_PUSH);
+	ank_flip = mb_io_get_float(ID_CTRL_ANK_REF_FLIP); 
+}
+
+/* Tests gravity compensation with PD controller turned off (one leg on ground, one leg in air).
+ * Parameters:
+ *   - ID_CTRL_TEST_R0 = reference hip angle
+ * Expected behavior: 
+ * 	 - gravity compensation should be able hold the legs at the reference angle 
+ *	 -(may need to manually move the leg to the reference angle first due to friction)	
+ */
 void test_gravity_compensation(void){
+	struct ControllerData ctrlHip;
+	struct ControllerData ctrlAnkOut;
+	struct ControllerData ctrlAnkInn;
+	float on_ground = 0; // 0=outer leg on ground, 1=inner leg on ground
 
+	float th1_test = mb_io_get_float(ID_CTRL_TEST_R0);
+	float th0_test = mb_io_get_float(ID_CTRL_TEST_R0);
+
+	float leg_m = 2.5;
+	float leg_r = 0.15;
+	float g = 9.8;
+	float u = leg_m * g * leg_r;
+
+   	//calculate gravity compensation 
+	if(FI_on_ground() && !FO_on_ground()){
+		//only inner feet on ground
+		u = -u * Sin(th0_test); 
+	}else if(!FI_on_ground() && FO_on_ground()){
+		//only outer feet on ground 	
+		u =  u * Sin(th1_test);	
+	}else{
+		u = 0;
+	}
+
+	angles_update();
+	param_update_test();
+	
+	//sets correct ankle angles 	
+	if(on_ground == 0){
+		out_ank_track_abs(&ctrlAnkOut, ank_hold, 0.0, 0.0, ank_kp, ank_kd);
+		inn_ank_track_abs(&ctrlAnkInn, ank_flip, 0.0, 0.0, ank_kp, ank_kd);
+	}else{
+		out_ank_track_abs(&ctrlAnkOut, ank_flip, 0.0, 0.0, ank_kp, ank_kd);
+		inn_ank_track_abs(&ctrlAnkInn, ank_hold, 0.0, 0.0, ank_kp, ank_kd);	
+	}
+
+	//turns off pd controller, only include gravity compensation
+	ctrlHip.kp = 0.0;
+	ctrlHip.kd = 0.0;
+	ctrlHip.xRef = 0.0;
+	ctrlHip.vRef = 0.0;
+	ctrlHip.uRef = u;	
+
+	//run controllers
+	controller_ankleInner(&ctrlAnkInn);
+	controller_ankleOuter(&ctrlAnkOut);
+	controller_hip(&ctrlHip);
 }
 
 void test_spring_compensation(void){
@@ -22,22 +90,15 @@ void test_spring_compensation(void){
  * Parameters:
  *   - ID_CTRL_TEST_W1 = reference hip angle
  */
-void test_hip(void){
+void test_hip_outer(void){
 	struct ControllerData ctrlHip;
 	struct ControllerData ctrlAnkOut;
 	struct ControllerData ctrlAnkInn;
-	float hip_kp = mb_io_get_float(ID_CTRL_HIP_KP);	  //16, 27
-	float hip_kd = mb_io_get_float(ID_CTRL_HIP_KD);	  //3, 3.8
-	float ank_kp = 7;
-	float ank_kd = 1;
-	float scissor_offset = 0.1;
-	float scissor_rate = 1.3;
-	float ank_hold = mb_io_get_float(ID_CTRL_ANK_REF_HOLD); 
-	float ank_push = mb_io_get_float(ID_CTRL_ANK_REF_PUSH);
-	float ank_flip = mb_io_get_float(ID_CTRL_ANK_REF_FLIP); 
+
 	float hip_track = mb_io_get_float(ID_CTRL_TEST_R0);
 
 	angles_update();
+	param_update_test();
 	
 	out_ank_track_abs(&ctrlAnkOut, ank_hold, 0.0, 0.0, ank_kp, ank_kd);
 	inn_ank_track_abs(&ctrlAnkInn, ank_flip, 0.0, 0.0, ank_kp, ank_kd);
@@ -53,6 +114,32 @@ void test_hip(void){
 } 
 
 
+/* Inner leg standing, swing outer leg */
+void test_hip_inner(void){
+	struct ControllerData ctrlHip;
+	struct ControllerData ctrlAnkOut;
+	struct ControllerData ctrlAnkInn;
+
+	float hip_track = mb_io_get_float(ID_CTRL_TEST_R0);
+
+	angles_update();
+	param_update_test();
+	
+	out_ank_track_abs(&ctrlAnkOut, ank_flip, 0.0, 0.0, ank_kp, ank_kd);
+	inn_ank_track_abs(&ctrlAnkInn, ank_hold, 0.0, 0.0, ank_kp, ank_kd);
+	// tests inner hip scissor tracking function
+	hip_scissor_track_inner(&ctrlHip, scissor_offset, scissor_rate, hip_kp, hip_kd); 
+	//simple_scissor_track_inner(&ctrlHip, hip_kp, hip_kd);
+	// tests hip relative angle tracking function
+	//mb_io_set_float(ID_CTRL_TEST_W1, hip_track);
+	//hip_track_rel(&ctrlHip, hip_track, 0.0, hip_kp, hip_kd);	
+
+	controller_hip(&ctrlHip);
+	controller_ankleInner(&ctrlAnkInn);
+	controller_ankleOuter(&ctrlAnkOut);
+}
+
+
 /* Make the feet track an absolute angle while making the hip angle track a zero angle.
  * Parameters:
  *   - ID_CTRL_TEST_W1 = absolute outer ankle angle
@@ -64,19 +151,17 @@ void test_feet(void){
 	struct ControllerData ctrlAnkOut;
 	struct ControllerData ctrlAnkInn;
 	float ank_track = 0.0;
-	float ank_kp = 7;
-	float ank_kd = 1;
+	
 	float hip_track = 0.0;
-	float hip_kp = 6;
-	float hip_kd = 2;
 	float ph0, ph1;
 
 	//update all the angle parameters
-	angles_update();	 
+	angles_update();
+	param_update_test();	 
 
 	//calls higher level function to set the struct fields
-	out_ank_track_abs(&ctrlAnkOut, ank_track, 0.0, 0.0, ank_kp, ank_kd);
-	inn_ank_track_abs(&ctrlAnkInn, ank_track, 0.0, 0.0, ank_kp, ank_kd);
+	out_ank_track_abs(&ctrlAnkOut, ank_hold, 0.0, 0.0, ank_kp, ank_kd);
+	inn_ank_track_abs(&ctrlAnkInn, ank_hold, 0.0, 0.0, ank_kp, ank_kd);
 	hip_track_rel(&ctrlHip, hip_track, 0.0, hip_kp, hip_kd);
 	
 	ph0 = ZERO_POS_OUT - qr -q0; 
@@ -92,11 +177,13 @@ void test_feet(void){
 
 
 
-/* Robot Hanging in the air
+/* Robot inner leg standing, swings outer leg
  * Hip motor tracks Sine-curve reference
  */
 void hip_motor_test(void){
 	struct ControllerData ctrlHip;
+	struct ControllerData ctrlAnkOut;
+	struct ControllerData ctrlAnkInn;
 	float qUpp = 0.2;  // Maximum ankle angle
 	float qLow = -0.2;  // minimum ankle angle					   
 
@@ -108,7 +195,7 @@ void hip_motor_test(void){
 	float vRef;  // reference angle rate
 	float kp;   // proportional gaint
 	float kd;   // derivative gain		
-
+	
 	period = 2;
 
 	arg = 2*PI*time/period;
@@ -120,8 +207,8 @@ void hip_motor_test(void){
 	//mb_io_set_float(ID_CTRL_TEST_W8,vRef);
 
 	//kp=28, kd=4, give good tracking for the ankles 
-	kp = 27; //mb_io_get_float(ID_CTRL_TEST_R0); 
-	kd = 3.8; //mb_io_get_float(ID_CTRL_TEST_R1);
+	kp = 16; //mb_io_get_float(ID_CTRL_TEST_R0); 
+	kd = 3; //mb_io_get_float(ID_CTRL_TEST_R1);
 
 	ctrlHip.kp = kp;
 	ctrlHip.kd = kd;
@@ -129,7 +216,28 @@ void hip_motor_test(void){
 	ctrlHip.vRef = vRef;
 	//ctrlHip.uRef = 0.0;
 	ctrlHip.uRef = hip_gravity_compensation();	//does not help much
+	
+	angles_update();
+	param_update_test();
+	out_ank_track_abs(&ctrlAnkOut, ank_flip, 0.0, 0.0, ank_kp, ank_kd);
+	inn_ank_track_abs(&ctrlAnkInn, ank_hold, 0.0, 0.0, ank_kp, ank_kd);
+	
+	controller_ankleInner(&ctrlAnkInn);
+	controller_ankleOuter(&ctrlAnkOut);
 	controller_hip(&ctrlHip);
+}
+
+/* Simpler implementation of hip scissor tracking. */
+void simple_scissor_track_inner(struct ControllerData * ctrlData, float KP, float KD){ 
+	float th0Ref = -2 * th1;
+	float dth0Ref = 0.0; //-2 * dth1; 
+	
+	ctrlData->xRef = th1 - th0Ref;
+	ctrlData->vRef = 0.0; //dth1 - dth0Ref;
+	ctrlData->uRef = 0.0;
+	//ctrlData->uRef = hip_gravity_compensation();
+ 	ctrlData->kp = KP;
+	ctrlData->kd = KD;	
 }
 
 /* Robot Hanging in the air

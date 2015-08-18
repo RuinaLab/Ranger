@@ -23,10 +23,12 @@ void mb_estimator_update(void){
 		init = 1;
 	}
 	 	
- 	filter_hip_rate();	//run filter on hip_rate
+ 	filter_hip_rate();	//run filter on hip_rate; this estimated hip_rate is less noisy than differenciating from hip angle
+	//filter_hip_ang();	//run filter on hip_angle then differentiate it to estimate the hip_rate 
 	filter_hip_motor_rate();	//run filter on hip_motor_rate	
 	filter_foot_sensor();	//run filter on foot sensors
 	filter_foot_data();	//run filter on ankle angles & angular rates
+	filter_gyro_rate();
 	FI_on_ground();
 	FO_on_ground();
 	
@@ -41,23 +43,29 @@ void mb_estimator_update(void){
 	return;
 }
 
+
+/* Initializes all the butterworth filters used. */
 void filter_init(void){
-	// Initialize filter coefficients once for the use of all butterworth filters 
-	// 0.005 is a super low cutoff_freq for estimating the gyro_rate
-	float cutoff_freq_hip = 0.1;
-	float cutoff_freq_gyro = 0.005; //0.0005;
+	// Sets the cut_off ratio = cut_off_freq/(sampling_freq/2) where sampling_freq = 1kHz 
+	// For angular rates, cut_off_freq = 15Hz; a higher cutoff_freq(50Hz) generated lots of noise when the the hip scissor tracking function is ran
+	float cutoff_freq_hip_rate = 0.03; 
+	float cutoff_freq_gyro = 0.03; 
 	float cutoff_freq_foot = 0.0005;
 	float cutoff_freq_ankle = 0.1;
-	  
-	setFilterCoeff(&FC_hip, cutoff_freq_hip);
+	float cutoff_freq_hip_ang = 0.1;
+
+	// Initialize filter coefficients for each of the filters   
+	setFilterCoeff(&FC_hip, cutoff_freq_hip_rate);
 	setFilterCoeff(&FC_gyro, cutoff_freq_gyro);
 	setFilterCoeff(&FC_foot, cutoff_freq_foot);
 	setFilterCoeff(&FC_ankle, cutoff_freq_ankle);
+	setFilterCoeff(&FC_hip_ang, cutoff_freq_hip_ang);
 
 	// Initialize filter data for each of the filters 
+	setFilterData(&FD_hip_ang, 0.0);
 	setFilterData(&FD_hip_rate, 0.0);
 	setFilterData(&FD_hip_motor_rate, 0.0);
-	setFilterData(&FD_gyro_rate, DEFAULT_GYRO_BIAS);
+	setFilterData(&FD_gyro_rate, 0.0);
 	setFilterData(&FD_in_l, 0.0); //initialize to 0 or ~300 (foot in air)
 	setFilterData(&FD_in_r, 0.0); 
 	setFilterData(&FD_out_l, 0.0); 
@@ -70,7 +78,31 @@ void filter_init(void){
 	return;
 }
 
-/* Runs a 2nd order butterworth filter on the hip angle rate */
+
+/* Runs a 2nd order butterworth filter on the hip angle.
+ * Sets the estimated hip angular rate (this estimation is MORE NOISY than directly filtering the hip angular rate). 
+ * The measured hip angle is fairly accurate, 
+ * this filtering is done to get data point for every ms for calculating the hip angular rate (by differentiating). 
+ */
+void filter_hip_ang(void){
+	float read_data;
+	unsigned long read_data_t;
+	float est_hip_ang;
+
+	// Run the filter:
+	read_data = mb_io_get_float(ID_MCH_ANGLE);
+	read_data_t = mb_io_get_time(ID_MCH_ANGLE);
+	est_hip_ang = runFilter_new(&FC_hip_ang, &FD_hip_ang, read_data, read_data_t);
+		
+	mb_io_set_float(ID_E_MCH_ANG_RATE, FD_hip_ang.d0);	
+
+	return;
+}
+
+
+/* Runs a 2nd order butterworth filter on the hip angular rate. 
+ * Sets the estimated hip angular rate. 
+ */
 void filter_hip_rate(void){	
 	float read_data;
 	unsigned long read_data_t;
@@ -86,7 +118,7 @@ void filter_hip_rate(void){
 	return;																																																																   
 }
 
-/* Runs a 2nd order butterworth filter on the hip motor velocity */	
+/* Runs a 2nd order butterworth filter on the hip motor velocity. */	
 void filter_hip_motor_rate(void){																																																												  																																																		
 	float read_data;
 	unsigned long read_data_t;
@@ -102,7 +134,7 @@ void filter_hip_motor_rate(void){
 	return;
 }
 
-
+/* Runs a 2nd order butterworth filter on the inner/outer feet angles/rates. */	
 void filter_foot_data(void){
 	float read_data_FI_a, read_data_FI_r, read_data_FO_a, read_data_FO_r;
 	unsigned long read_data_t_FI_a, read_data_t_FI_r, read_data_t_FO_a, read_data_t_FO_r;
@@ -197,19 +229,27 @@ void filter_gyro_rate(void){
 	unsigned long read_data_t;
 	float est_gyro_rate;
 	
-	// Run the filter:
-	read_data = mb_io_get_float(ID_UI_ANG_RATE_X) /*- mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/;
+	//Run the filter just for hip scissor tracking function
+	read_data = mb_io_get_float(ID_UI_ANG_RATE_X);
 	read_data_t = mb_io_get_time(ID_UI_ANG_RATE_X);
+	est_gyro_rate = runFilter_new(&FC_gyro, &FD_gyro_rate, read_data, read_data_t);
+	mb_io_set_float(ID_E_UI_ANG_RATE_X, est_gyro_rate);
+
+	// Run the filter:
+	//read_data = mb_io_get_float(ID_UI_ANG_RATE_X) /*- mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/;
+	/*read_data_t = mb_io_get_time(ID_UI_ANG_RATE_X);
 	est_gyro_rate = runFilter_new(&FC_gyro, &FD_gyro_rate, read_data, read_data_t);
 	
 	mb_io_set_float(ID_EST_GYRO_RATE_BIAS, est_gyro_rate);
+	*/
+
 	return;
 }
 
 
 /* Computes the coefficients for a second-order low-pass butterworth filter
  * @param r = ratio of cut-off frequncy to half of the sample frequency.
- * valid domain:  0.01 < r < 0.99   (coerced if out of bounds)
+ * valid domain:  0.0001 < r < 0.9999   (coerced if out of bounds)
  */
 void setFilterCoeff(struct FilterCoeff * FC, float r) {
 	static float q = SQRT_TWO;
@@ -230,8 +270,7 @@ void setFilterCoeff(struct FilterCoeff * FC, float r) {
 }
 
 
-/* Initializes the filter to a single value
- */
+/* Initializes the filter to a single value. */
 void setFilterData(struct FilterData * FD, float z) {
 	FD->z0 = z;
 	FD->z1 = z;
@@ -240,6 +279,7 @@ void setFilterData(struct FilterData * FD, float z) {
 	FD->y1 = z;
 	FD->y2 = z;
 	FD->t0 = mb_io_get_float(ID_TIMESTAMP);
+	FD->d0 = z;
 }
 
 /* Updates the Butterworth filter based on new sensor data
@@ -297,6 +337,10 @@ float runFilter_new(struct FilterCoeff * FC, struct FilterData * FD, float z, un
 	    (FC->a1) * (FD->y1) -
 	    (FC->a2) * (FD->y2);
 
+	// Compute & update the derivative at current time stamp
+	// unit = rad/s
+	FD->d0 = (FD->y2 - 4*FD->y1 + 3*FD->y0)/2 * 1000;
+
 	return (FD->y0);
 }
 
@@ -305,6 +349,7 @@ float runFilter_new(struct FilterCoeff * FC, struct FilterData * FD, float z, un
                                // new imu  //earlier imu 0.0165 ; //  // this is the average imu rate read from can id when the imu is supposed to be at rest.
                                // hence this value will be subtracted from the can-id to correct for thsi offset. 
                                // THIS NUMBER SHOUKD BE REGULARLY CHECKED AND UPDATED. it changes with time.
+/* Initializes the integrator for integrating the gyro rate. */
 void int_init_ang_rate(void){
 	ID_ang_rate.currently_read_data = 0;
 	ID_ang_rate.time_of_curr_read_data = mb_io_get_float(ID_TIMESTAMP);
@@ -313,6 +358,7 @@ void int_init_ang_rate(void){
 	ID_ang_rate.current_angle = 0;
 }
 
+/* Runs the integrator for integrating the gyro rate. */
 void int_ang_rate(void){
     ID_ang_rate.prev_read_data = ID_ang_rate.currently_read_data;
 	ID_ang_rate.time_of_prev_read_data = ID_ang_rate.time_of_curr_read_data; 
@@ -321,7 +367,6 @@ void int_ang_rate(void){
 	ID_ang_rate.time_of_curr_read_data = mb_io_get_time(ID_UI_ANG_RATE_X);
 	
 	ID_ang_rate.current_angle = ID_ang_rate.current_angle + ( ID_ang_rate.prev_read_data + ID_ang_rate.currently_read_data)*(ID_ang_rate.time_of_curr_read_data - ID_ang_rate.time_of_prev_read_data)/2000; //divide 1000 to convert time from ms to s 
-	mb_io_set_float(ID_EST_TEST_W1, ID_ang_rate.current_angle);
 }
 
 
@@ -338,9 +383,9 @@ float get_out_angle(void){
 	return ID_ang_rate.current_angle;
 }
 
-/* Returns the gyro rate for the outer leg. */
+/* Returns "dqr" the gyro rate (filtered) for the outer leg. */
 float get_out_ang_rate(void){
-	return -(mb_io_get_float(ID_UI_ANG_RATE_X)- DEFAULT_GYRO_BIAS);
+	return -(mb_io_get_float(ID_E_UI_ANG_RATE_X)- DEFAULT_GYRO_BIAS);
 }
 
 /* gets "qh" the hip angle (angle b/t inner&outer legs; pos when inner leg is in front) */
@@ -348,7 +393,7 @@ float get_in_angle(void){
  	return mb_io_get_float(ID_MCH_ANGLE);  
 }
 
-/* Returns angular rate of the hip angle. */
+/* Returns "dqh" angular rate of the hip angle (filtered). */
 float get_in_ang_rate(void){
 	return mb_io_get_float(ID_E_MCH_ANG_RATE); //the estimated hip angle rate
 }

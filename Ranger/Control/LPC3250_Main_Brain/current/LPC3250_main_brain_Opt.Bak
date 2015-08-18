@@ -32,21 +32,17 @@ OPTFFF 4,9,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_
 OPTFFF 4,10,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c><a9_clock.c> 
 OPTFFF 4,11,1,939524096,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c> 
 OPTFFF 4,12,1,67108864,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c> 
-
 OPTFFF 5,13,1,587202560,0,0,0,0,<..\..\Estimator\mb_estimator.c><mb_estimator.c> 
 OPTFFF 6,14,1,0,0,27,27,0,<..\..\Controller\mb_controller.c><mb_controller.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,98,5,0,0,184,1,0,0 }
-
 OPTFFF 6,15,1,553648128,0,0,0,0,<..\..\Controller\input_output.c><input_output.c> 
 OPTFFF 6,16,1,0,0,0,0,0,<..\..\Controller\Trajectory.c><Trajectory.c> 
 OPTFFF 6,17,5,452984832,0,0,0,0,<..\..\Controller\TrajData.h><TrajData.h> 
 OPTFFF 6,18,5,0,0,0,0,0,<..\..\Controller\Trajectory.h><Trajectory.h> 
-
-OPTFFF 6,19,1,436207617,0,253,253,0,<..\..\Controller\motorControl.c><motorControl.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,92,3,0,0,7,1,0,0 }
+OPTFFF 6,19,1,436207617,0,214,214,0,<..\..\Controller\motorControl.c><motorControl.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,92,3,0,0,7,1,0,0 }
 OPTFFF 6,20,1,1140850689,0,0,0,0,<..\..\Controller\RangerMath.c><RangerMath.c> 
 OPTFFF 6,21,1,486539264,0,0,0,0,<..\..\Controller\fsm.c><fsm.c> 
-OPTFFF 6,22,1,167772163,0,41,65,0,<..\..\Controller\unit_test.c><unit_test.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,104,0,0,0,104,0,0,0,137,3,0,0,168,1,0,0 }
+OPTFFF 6,22,1,167772163,0,52,65,0,<..\..\Controller\unit_test.c><unit_test.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,104,0,0,0,104,0,0,0,137,3,0,0,168,1,0,0 }
 
-ExtF <C:\Users\Matt\Git\RangerCode\Ranger\Control\Controller\motorControl.h> 17,17,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,100,0,0,0,100,0,0,0,213,5,0,0,32,2,0,0 }
 
 TARGOPT 1, (LPC3250 Int RAM)
  ADSCLK=13000000

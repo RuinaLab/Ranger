@@ -211,6 +211,7 @@ E_MCFI_LEFT_HEEL_SENSE,0,1,0,estimated value for the sensor on the inner left fo
 E_MCFI_RIGHT_HEEL_SENSE,0,1,0,estimated value for the sensor on the inner right foot  
 E_MCFO_LEFT_HEEL_SENSE,0,1,0,estimated value for the sensor on the outer left foot  
 E_MCFO_RIGHT_HEEL_SENSE,0,1,0,estimated value for the sensor on the outer right foot  
+E_UI_ANG_RATE_X,0,1,0,estimated value for gyro rate
 EST_GYRO_RATE_BIAS,-0.0097,1,0,estimated bias for the rate gyro - based on experiment on 7/15/2015; the default value does not pass to labview because this parameter writes to labview
 EST_GYRO_ANGLE,0,1,0,estimated angle integrated from the rate gyro
 E_MCFO_RIGHT_ANKLE_ANGLE,0,1,0,estimated value for outer ankle angle
@@ -238,8 +239,8 @@ EST_TEST_W7,0,1,0,test write to labview
 EST_TEST_W8,0,1,0,test write to labview
 EST_TEST_W9,0,1,0,test write to labview
 #ControllerTesting,,,,
-CTRL_HIP_KP,27,0,1,
-CTRL_HIP_KD,4.8,0,1,
+CTRL_HIP_KP,16,0,1,
+CTRL_HIP_KD,3,0,1,
 CTRL_ANK_FLIP_KP,7,0,1,
 CTRL_ANK_FLIP_KD,1,0,1,
 CTRL_ANK_PUSH_KP,7,0,1,

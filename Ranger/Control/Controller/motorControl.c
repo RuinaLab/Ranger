@@ -70,8 +70,7 @@ void controller_hip( struct ControllerData * C ) {
 		         - param_hip_spring_const * param_hip_spring_ref
 		     ) / param_hip_motor_const;
 		gravity_fraction =  C->uRef/( C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef) - param_hip_spring_const * param_hip_spring_ref);
-	   	mb_io_set_float(ID_CTRL_TEST_W6, C->uRef);
-		mb_io_set_float(ID_CTRL_TEST_W7, gravity_fraction);
+
 	}else{
 		//calcuates the reference current using saturation
 		float x = get_in_angle();
@@ -276,12 +275,15 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
 float hip_gravity_compensation(void){
 	float u = leg_m * g * leg_r;
 	
+	//mb_io_set_float(ID_CTRL_TEST_W8, th0);
+	//mb_io_set_float(ID_CTRL_TEST_W9, -u * Sin(th0));
+
 	if(FI_on_ground() && !FO_on_ground()){
 		//track outer, only inner feet on ground
-		return u * Sin(th1); 
+		return -u * Sin(th0); 
 	}else if(!FI_on_ground() && FO_on_ground()){
 		//track inner, only outer feet on ground 	
-		return -u * Sin(th0);	
+		return  u * Sin(th1);	
 	}
 	return 0.0;
 }
@@ -293,10 +295,9 @@ float hip_gravity_compensation(void){
  */
 void hip_track_rel(struct ControllerData * ctrlData, float qh_ref, float dqh_ref, float KP, float KD){
 	ctrlData->xRef = qh_ref;
-	mb_io_set_float(ID_CTRL_TEST_W2, ctrlData->xRef);
 	ctrlData->vRef = dqh_ref;
-	//ctrlData->uRef = hip_gravity_compensation();
-	ctrlData->uRef = 0.0;
+	ctrlData->uRef = hip_gravity_compensation();
+	//ctrlData->uRef = 0.0;
 
 	ctrlData->kp = KP;
 	ctrlData->kd = KD;
@@ -313,10 +314,9 @@ void hip_scissor_track_outer(struct ControllerData * ctrlData, float offset, flo
 	float dth1Ref = -rate*dth0; 
 	
 	ctrlData->xRef = th1Ref - th0;
-	mb_io_set_float(ID_CTRL_TEST_W2, ctrlData->xRef);
 	ctrlData->vRef = dth1Ref - dth0; 
-	ctrlData->uRef = 0.0;
-	//ctrlData->uRef = hip_gravity_compensation();
+	//ctrlData->uRef = 0.0;
+	ctrlData->uRef = hip_gravity_compensation();
 	ctrlData->kp = KP;
 	ctrlData->kd = KD;
 }
@@ -330,10 +330,12 @@ void hip_scissor_track_inner(struct ControllerData * ctrlData, float offset, flo
 	float dth0Ref = -rate*dth1; 
 	
 	ctrlData->xRef = th1 - th0Ref;
-	mb_io_set_float(ID_CTRL_TEST_W2, ctrlData->xRef);
+	//mb_io_set_float(ID_CTRL_TEST_W8, ctrlData->xRef);
+
 	ctrlData->vRef = dth1 - dth0Ref;
-	ctrlData->uRef = 0.0;
-	//ctrlData->uRef = hip_gravity_compensation();
+	//mb_io_set_float(ID_CTRL_TEST_W9, ctrlData->vRef);
+	//ctrlData->uRef = 0.0;
+	ctrlData->uRef = hip_gravity_compensation();
  	ctrlData->kp = KP;
 	ctrlData->kd = KD;
 }
