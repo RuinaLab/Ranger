@@ -134,11 +134,10 @@ void hip_motor_test(void){
 
 /* Robot Hanging in the air
  * Hip motor off
- * Ankle motors track Sine-curve reference
+ * Ankle motors track Sin(Sin(t)) reference (with useful paramters)
  * Parameters:
- *   - ID_CTRL_TEST_R0 = kp
- *	 - ID_CTRL_TEST_R1 = kd
- *   - ID_CTRL_TEST_R2 = Sine curve period
+ *  // - ID_CTRL_TEST_R0 = kp
+ *	// - ID_CTRL_TEST_R1 = kd
  *   - ID_CTRL_TEST_W7 = reference angle
  *	 - ID_CTRL_TEST_W8 = reference angular rate
  */
@@ -146,6 +145,10 @@ void ankle_motor_test(void){
 	struct ControllerData ctrlHip;
 	struct ControllerData ctrlAnkOut;
 	struct ControllerData ctrlAnkInn;
+
+	float pUpp = 2.0;  // Maximum period in sweep
+	float pLow = 1.0;  // Minimum period in sweep
+	float periodPeriod = 30.0;  // %period over which to sweep the tracking period
 
 	float qUpp = 1.9;  // Maximum ankle angle
 	float qLow = 0.2;  // minimum ankle angle					   
@@ -159,20 +162,22 @@ void ankle_motor_test(void){
 	float kp;   // proportional gaint
 	float kd;   // derivative gain		
 
-	period = mb_io_get_float(ID_CTRL_TEST_R2);
+	period = 0.5*(pLow + pUpp) + 0.5*(pUpp-pLow)*Sin(2*PI*time/periodPeriod);
+	mb_io_set_float(ID_CTRL_TEST_W3,period);
 
-	arg = 2*PI*time/period;
+	arg = 2.0*PI*time/period;  
 	xRef = 0.5*(qLow + qUpp) + 0.5*(qUpp-qLow)*Sin(arg);
 
+	// assume that period is ~ constant for derivatives
 	vRef = (qUpp-qLow)*(PI/period)*Cos(arg);
 
-	//mb_io_set_float(ID_CTRL_TEST_W9,xRef);
-	//mb_io_set_float(ID_CTRL_TEST_W8,vRef);
+
+	mb_io_set_float(ID_CTRL_TEST_W9,xRef);
+	mb_io_set_float(ID_CTRL_TEST_W8,vRef);
 
 	//kp=7, kd=1, give good tracking for the ankles 
-	kp = 7; //= mb_io_get_float(ID_CTRL_TEST_R0); 
-	kd = 1; //= mb_io_get_float(ID_CTRL_TEST_R1);
-
+	kp = 7.0; //= mb_io_get_float(ID_CTRL_TEST_R0); 
+	kd = 1.0; //= mb_io_get_float(ID_CTRL_TEST_R1);
 
 	// Run a PD-controller on the outer foot angles:
 	ctrlAnkOut.kp = kp;
