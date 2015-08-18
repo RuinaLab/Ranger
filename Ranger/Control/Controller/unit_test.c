@@ -82,7 +82,51 @@ void test_gravity_compensation(void){
 	controller_hip(&ctrlHip);
 }
 
-void test_spring_compensation(void){
+/* This function is used for doing system ID for the ankle
+ * motors. Assume that the robot is hanging in the air. 
+ * This function sends current commands to the inner ankle motors.
+ *
+ */
+void test_ankle_current_control(void){
+
+	struct ControllerData ctrlHip;
+	struct ControllerData ctrlAnkOut;
+	struct ControllerData ctrlAnkInn;
+
+	float iLow = -0.15;  // minimum ankle current
+	float iUpp = 0.15;  // Maximum ankle current					   		
+	
+	float current;  // = mb_io_get_float(ID_CTRL_TEST_R0);  //  Nominal current
+	float frequency = mb_io_get_float(ID_CTRL_TEST_R1);  //  Input frequency
+
+	float time = 0.001 * mb_io_get_float(ID_TIMESTAMP);
+
+	float period;  // period for reference function
+	float arg;  // input for trig functions
+	float xRef;  // reference ankle angle
+	float vRef;  // reference angle rate
+	float kp;   // proportional gaint
+	float kd;   // derivative gain		
+
+	arg = 2.0*PI*time*frequency;  
+	current = 0.5*(iLow + iUpp) + 0.5*(iUpp-iLow)*Sin(arg);
+
+	mb_io_set_float(ID_CTRL_TEST_W0,current);  // check that the sine function is working
+
+	// Direct current control over the inner feet:
+	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, current);
+	mb_io_set_float(ID_MCFI_STIFFNESS, 0.0);
+	mb_io_set_float(ID_MCFI_DAMPNESS, 0.0);
+
+	// Do nothing with the outer ankles or hip:
+
+	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, 0.0);
+	mb_io_set_float(ID_MCFO_STIFFNESS, 0.0);
+	mb_io_set_float(ID_MCFO_DAMPNESS, 0.0);
+
+	mb_io_set_float(ID_MCH_COMMAND_CURRENT, 0.0);
+	mb_io_set_float(ID_MCH_STIFFNESS, 0.0);
+	mb_io_set_float(ID_MCH_DAMPNESS, 0.0);
 
 }
 

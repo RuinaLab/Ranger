@@ -56,12 +56,13 @@ void mb_controller_update(void) {
 		//motors_off();
 		//ankle_motor_test();
 		//test_feet();
-		test_gravity_compensation();
+		//test_gravity_compensation();
 		//hip_motor_test();
 		//test_hip_outer();
 		//test_hip_inner();
 		//test_gravity_compensation();
 		//test_spring_compensation();
+		test_ankle_current_control();
 		break;
 	case M0_Calibrate:
 		set_UI_LED(5, 'y');
