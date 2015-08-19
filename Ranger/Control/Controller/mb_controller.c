@@ -54,7 +54,7 @@ void mb_controller_update(void) {
 		//foot_flip();
 		//hold_feet();
 		//motors_off();
-		//ankle_motor_test();
+		ankle_motor_test();
 		//test_feet();
 		//test_gravity_compensation();
 		//hip_motor_test();
@@ -62,7 +62,7 @@ void mb_controller_update(void) {
 		//test_hip_inner();
 		//test_gravity_compensation();
 		//test_spring_compensation();
-		test_ankle_current_control();
+		//test_ankle_current_control();
 		break;
 	case M0_Calibrate:
 		set_UI_LED(5, 'y');

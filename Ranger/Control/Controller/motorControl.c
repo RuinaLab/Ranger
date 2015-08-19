@@ -22,8 +22,8 @@ static const float param_hip_spring_ref = 0.00;  // (rad) Hip spring reference a
 static const float param_hip_joint_inertia = 0.5616; // (kg-m^2) Swing leg moment of inertia about the hip joint
 
 static const float param_ank_motor_const = 0.612;  // (Nm/Amp) Motor Constant, including gear box
-static const float param_ank_spring_const = 0.134;  // (Nm/rad) Ankle spring constant
-static const float param_ank_spring_ref = 1.662;  // (rad) Ankle spring reference angle
+static const float param_ank_spring_const = 0.0;   ////HACK////  0.134;  // (Nm/rad) Ankle spring constant
+static const float param_ank_spring_ref = 0.0; //// HACK //// 1.662;  // (rad) Ankle spring reference angle
 static const float param_ank_joint_inertia = 0.07;//0.01; // (kg-m^2) Ankle moment of inertia about ankle joint
 //the rise time stays roughly the same for ankle joint intertia in the range of 0.04-0.15 
 //(~2s and matches the matlab simulation which shows a rise time of ~2s in plot)
@@ -209,7 +209,7 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
 		C->xRef = param_joint_ankle_flip;
 	}
 
-	mb_io_set_float(ID_CTRL_TEST_W0, C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef));
+	//mb_io_set_float(ID_CTRL_TEST_W0, C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef));
 
 	Ir = (
 	         C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef)
@@ -236,39 +236,6 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
 
  }
 
-
-/* Runs a simple test of the motor controllers, connecting the LabView parameter
- * to the set-points of the hip and ankle controllers.
- */
- void test_motor_control() {
- 		struct ControllerData ctrlHip;
-		struct ControllerData ctrlAnkOut;
-		struct ControllerData ctrlAnkInn;
-
-	// Run a PD-controller on the hip angle:
-		ctrlHip.kp = mb_io_get_float(ID_CTRL_TEST_R0);
-		ctrlHip.kd = mb_io_get_float(ID_CTRL_TEST_R1);
-		ctrlHip.xRef = mb_io_get_float(ID_CTRL_TEST_R2);
-		ctrlHip.vRef = mb_io_get_float(ID_CTRL_TEST_R3);
-		ctrlHip.uRef = mb_io_get_float(ID_CTRL_TEST_R4);
-		controller_hip(&ctrlHip);
-
-	// Run a PD-controller on the outer foot angles:
-		ctrlAnkOut.kp = mb_io_get_float(ID_CTRL_TEST_R5);
-		ctrlAnkOut.kd = mb_io_get_float(ID_CTRL_TEST_R6);
-		ctrlAnkOut.xRef = mb_io_get_float(ID_CTRL_TEST_R7);
-		ctrlAnkOut.vRef = mb_io_get_float(ID_CTRL_TEST_R8);
-		ctrlAnkOut.uRef = mb_io_get_float(ID_CTRL_TEST_R9);
-		controller_ankleOuter(&ctrlAnkOut);
-
-	// Run a PD-controller on the inner foot angles:
-		ctrlAnkInn.kp = mb_io_get_float(ID_CTRL_TEST_R5);
-		ctrlAnkInn.kd = mb_io_get_float(ID_CTRL_TEST_R6);
-		ctrlAnkInn.xRef = mb_io_get_float(ID_CTRL_TEST_R7);
-		ctrlAnkInn.vRef = mb_io_get_float(ID_CTRL_TEST_R8);
-		ctrlAnkInn.uRef = mb_io_get_float(ID_CTRL_TEST_R9);
-		controller_ankleInner(&ctrlAnkInn);
- }
 
 
  /* Returns the torque needed to compensate for gravity pull on the legs. */

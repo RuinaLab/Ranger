@@ -1,0 +1,18 @@
+Results of foot flip experiments:
+
+I set the robot up so that it was hanging from the ceiling, and had the ankle joints track a sinusoidal reference that went from flip-up to push-off and then back. I collected data for the current sent to the motors as well as the angle of the ankle joint and the motor. Here are my findings:
+
+1) For foot flip (foot is in the air), the series spring is negligible - the ankle tracks the motor as well as the robots sensors can measure.
+
+2) Slow ankle reference tracking. I found that there are two dominant forces: The first is from the parallel spring, and the second is from coulomb friction. These two effects are about the same size.
+
+3) Fast ankle reference tracking. Here the parallel spring still shows up, but its effect is dominated by viscous friction in the joint, as well as coulomb friction whenever the foot slows down at the peaks of the sine wave.
+
+4) The robot seems to do a reasonable job of tracking the ankle references with a simple pd controller, adding in spring compensation seems to have a negligible effect in the ankles.
+
+Swing Foot Model:   (Good when moving fast)
+M*ddq + C*dq + K*(q-Q0) = I 
+M = 0.0037
+C = 0.2191
+K = 1.0844
+Q0 = 2.1139
