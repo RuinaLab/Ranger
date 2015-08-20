@@ -54,8 +54,8 @@ void mb_controller_update(void) {
 		//foot_flip();
 		//hold_feet();
 		//motors_off();
-		ankle_motor_test();
-		//test_feet();
+		//ankle_motor_test();
+		test_feet();
 		//test_gravity_compensation();
 		//hip_motor_test();
 		//test_hip_outer();

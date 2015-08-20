@@ -25,6 +25,7 @@ void param_update_test(void){
 	ank_flip = mb_io_get_float(ID_CTRL_ANK_REF_FLIP); 
 }
 
+
 /* Tests gravity compensation with PD controller turned off (one leg on ground, one leg in air).
  * Parameters:
  *   - ID_CTRL_TEST_R0 = reference hip angle
@@ -216,7 +217,7 @@ void test_feet(void){
 
 	controller_ankleInner(&ctrlAnkInn);
 	controller_ankleOuter(&ctrlAnkOut);
-	controller_hip(&ctrlHip);
+	//controller_hip(&ctrlHip);
 }
 
 

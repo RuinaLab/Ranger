@@ -30,7 +30,8 @@ extern float th0, th1, dth0, dth1; //absolute
 
 float MotorModel_Current(float, float);
 void controller_hip(struct ControllerData *);
-float getAnkleControllerCurrent( struct ControllerData *);
+float getAnkleControllerCurrentInn( struct ControllerData *);
+float getAnkleControllerCurrentOut( struct ControllerData *);
 void controller_ankleOuter(struct ControllerData *);
 void controller_ankleInner(struct ControllerData *);
 float RangerAnkleControl(struct ControllerData * C, float x, float v);

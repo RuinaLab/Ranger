@@ -13,12 +13,12 @@ enum States {
 };
 
 #define PI 3.141592653589793
-#define ANK_FAST_KP 3//3.5//50
-#define ANK_FAST_KD 0.5//0.8//3 
-#define ANK_SLOW_KP 3//3.5//30
-#define ANK_SLOW_KD 2.5//0.8//15 
-/*#define HIP_KP 3 //6.9//40
-#define HIP_KD 2.9 //3.1//10
+#define ANK_FAST_KP 50
+#define ANK_FAST_KD 3 
+#define ANK_SLOW_KP 30
+#define ANK_SLOW_KD 15 
+/*#define HIP_KP 40
+#define HIP_KD 10
 */
 #define HIP_SCISSOR_GAIN 1.5
 #define uMAX_ANK 4
@@ -213,12 +213,12 @@ enum testStates {
 };
 
 static enum testStates test_state = one; 
-int count = 0;
+int setup = 1;
 
 /* Initializes the test FSM. */
 void test_init(void){
 	test_state = one;
-	count = 0;
+	setup = 1;
 }
 
 /* Makes Ranger walk with simpler transition conditions.
@@ -247,13 +247,13 @@ void test_fsm(void){
 	angles_update();
 
 	// Enters flight state if all feet are off ground 
-	if(!FI_on_ground() && !FO_on_ground()){
+/*	if(!setup && !FI_on_ground() && !FO_on_ground()){
 		test_state = five;
-	}
-
+	} 
+  */
 	switch(test_state){
 	case one:  //swing innner leg 
-		mb_io_set_float(ID_CTRL_TEST_W1, 10);
+		mb_io_set_float(ID_CTRL_TEST_W1, 1);
 		// hold outer feet
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
 		// flip up inner feet
@@ -263,10 +263,11 @@ void test_fsm(void){
 
 		if(th0<-HIP_REF_TRANS_ANGLE){ //inner leg in front, outer leg in the back 
 			test_state = two;
-		}
+		} 
 		break;
 	case two: //push off outer feet 
-		mb_io_set_float(ID_CTRL_TEST_W1, 30);
+		setup = 0;
+		mb_io_set_float(ID_CTRL_TEST_W1, 2);
 		// push down outer feet
 	    out_ank_track_abs(&ctrlAnkOut, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
 		// hold inner feet
@@ -274,12 +275,12 @@ void test_fsm(void){
 		// decrease the angle between two legs
 	    hip_track_rel(&ctrlHip, HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
 		
-		if(q0>1.9){ //outer ankle angle
+		if(FI_on_ground()){ //outer ankle angle
 			test_state = three;
 		}		
 		break;
 	case three: //swing outer leg
-		mb_io_set_float(ID_CTRL_TEST_W1, 40);
+		mb_io_set_float(ID_CTRL_TEST_W1, 3);
 		// flip up outer feet 
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
 		// hold inner feet
@@ -292,17 +293,18 @@ void test_fsm(void){
 		}
 		break;
 	case four: //push off inner feet
-		mb_io_set_float(ID_CTRL_TEST_W1, 60);
+		mb_io_set_float(ID_CTRL_TEST_W1, 4);
 		//push down inner feet and hold outer feet
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
 		hip_track_rel(&ctrlHip, -HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
 
-		if(q1>1.9){ //inner ankle angle
+		if(FO_on_ground()){ //inner ankle angle
 			test_state = one;
 		}	
 		break;
 	case five: //flight mode
+	 	mb_io_set_float(ID_CTRL_TEST_W1, 5);
 		disable_motors();
 		break;
 	}
