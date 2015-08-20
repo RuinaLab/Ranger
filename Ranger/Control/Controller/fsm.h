@@ -9,5 +9,6 @@ void test_fsm_ank(void);
 void test_fsm(void);
 void test_init(void);
 void param_update(void);
+void correct_gyro_angle(void);
 
 #endif  // __FSM_H__

@@ -25,6 +25,70 @@ void param_update_test(void){
 	ank_flip = mb_io_get_float(ID_CTRL_ANK_REF_FLIP); 
 }
 
+enum testStates {
+	INIT,
+	IN,
+	OUT,
+};
+
+static enum testStates test_state = INIT; 
+
+void test_gyro_angle_init(void){
+	test_state = INIT;
+}
+/* Unit test function for gyro angle correction.
+ * Put Ranger in double stance, updates the gyro angle using the gyro angle calculated from geometry 
+ * every time only one set of its feet are on ground. 
+ * Expected results:
+ * 		gyro angle becomes more accurate when Ranger is rocked back and forth   
+ */
+void test_gyro_angle(void){
+	struct ControllerData ctrlHip;
+	struct ControllerData ctrlAnkOut;
+	struct ControllerData ctrlAnkInn;
+	float hip_track = 0.2;
+
+	angles_update();
+	param_update_test();
+	
+	out_ank_track_abs(&ctrlAnkOut, ank_hold, 0.0, 0.0, ank_kp, ank_kd);
+	inn_ank_track_abs(&ctrlAnkInn, ank_hold, 0.0, 0.0, ank_kp, ank_kd);
+	hip_track_rel(&ctrlHip, hip_track, 0.0, hip_kp, hip_kd);	
+
+	switch(test_state){
+		case INIT:
+			mb_io_set_float(ID_CTRL_TEST_W1, 1);
+			if(FO_on_ground() && !FI_on_ground()){
+				correct_gyro_angle();
+				test_state = OUT;							
+			}
+			if(FI_on_ground() && !FO_on_ground()){
+				correct_gyro_angle();
+				test_state = IN;
+			}
+			break;
+		case IN:
+			mb_io_set_float(ID_CTRL_TEST_W1, 2);
+			if(FO_on_ground() && !FI_on_ground()){
+				correct_gyro_angle();
+				test_state = OUT;
+			}	
+			break;
+		case OUT:
+			mb_io_set_float(ID_CTRL_TEST_W1, 3);
+			if(FI_on_ground() && !FO_on_ground()){
+				correct_gyro_angle();
+				test_state = IN;
+			}
+			break;
+	}
+
+	//run controllers
+	controller_ankleInner(&ctrlAnkInn);
+	controller_ankleOuter(&ctrlAnkOut);
+	controller_hip(&ctrlHip);
+}
+
 
 /* Tests gravity compensation with PD controller turned off (one leg on ground, one leg in air).
  * Parameters:

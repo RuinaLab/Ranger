@@ -33,6 +33,7 @@ struct IntData {
 	float prev_read_data;
 	unsigned long time_of_prev_read_data; 
 	float current_angle;
+	float prev_angle; //stores the previous angle --> to be used in correcting the gyro angle when Ranger walks 
 };
 
 void mb_estimator_update(void);
@@ -58,6 +59,8 @@ float get_out_angle(void);
 float get_out_ang_rate(void);
 float get_in_angle(void);
 float get_in_ang_rate(void);
+void set_gyro_angle(float);
+float get_prev_gyro_angle(void);
 
 #endif  // __MB_ESTIMATOR_H__
 

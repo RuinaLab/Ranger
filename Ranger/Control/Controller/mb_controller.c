@@ -36,6 +36,7 @@ void mb_controller_update(void) {
 		param_update(); //read parameters from LABVIEW for FSM
 		disable_motors();
 		angles_update();
+		test_gyro_angle_init();
 		break;
 	case M4_FSM:
 		set_UI_LED(5, 'r');
@@ -55,7 +56,7 @@ void mb_controller_update(void) {
 		//hold_feet();
 		//motors_off();
 		//ankle_motor_test();
-		test_feet();
+		//test_feet();
 		//test_gravity_compensation();
 		//hip_motor_test();
 		//test_hip_outer();
@@ -63,6 +64,7 @@ void mb_controller_update(void) {
 		//test_gravity_compensation();
 		//test_spring_compensation();
 		//test_ankle_current_control();
+		test_gyro_angle();
 		break;
 	case M0_Calibrate:
 		set_UI_LED(5, 'y');

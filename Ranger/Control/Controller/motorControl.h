@@ -25,8 +25,8 @@ extern float param_joint_ankle_flip;// = 0.3; // Hard stop at 0.0. Foot flips up
 extern float param_joint_ankle_push;// = 2.5; // Hard stop at 3.0. Foot pushes off to inject energy, this is maximum bound.
 extern float param_joint_ankle_hold;// = 1.662;
 
-extern float qr, qh, dqr, dqh, q0, q1, dq0, dq1; //relative
-extern float th0, th1, dth0, dth1; //absolute 
+extern float qr, qh, dqr, dqh, q0, q1, dq0, dq1; //relative	angles
+extern float th0, th1, dth0, dth1; //absolute angles 
 
 float MotorModel_Current(float, float);
 void controller_hip(struct ControllerData *);

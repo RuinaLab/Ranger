@@ -235,7 +235,7 @@ float getAnkleControllerCurrentOut( struct ControllerData * C ){
 	         - param_ank_spring_const * param_ank_spring_ref
 	     ) / param_ank_motor_const;
 
-	mb_io_set_float(ID_CTRL_TEST_W8, C->kp * (C->xRef) + C->kd * (C->vRef));
+	//mb_io_set_float(ID_CTRL_TEST_W8, C->kp * (C->xRef) + C->kd * (C->vRef));
 
 	return Ir;
 }

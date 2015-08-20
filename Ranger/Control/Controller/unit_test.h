@@ -1,4 +1,6 @@
 void param_update_test(void);
+void test_gyro_angle_init(void);
+void test_gyro_angle(void);
 
 void test_gravity_compensation(void);
 void test_spring_compensation(void);

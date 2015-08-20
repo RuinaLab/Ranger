@@ -161,7 +161,7 @@ void filter_foot_data(void){
 	return;
 }
 
-/* Returns 1 if inner feet are on the ground. */
+/* Returns 1 if inner feet are on the ground (higher than threshold values for 10 continuous cyclces) */
 int FI_on_ground(void){
 	if(in_feet_count > 10){
 		set_UI_LED(1, 'g'); 
@@ -170,7 +170,7 @@ int FI_on_ground(void){
 	return 0;
 }
 
-/* Returns 1 if outer feet are on the ground. */
+/* Returns 1 if outer feet are on the ground (higher than threshold values for 10 continuous cyclces) */
 int FO_on_ground(void){
 	if(out_feet_count > 10){
 		set_UI_LED(2, 'g');
@@ -356,6 +356,7 @@ void int_init_ang_rate(void){
 	ID_ang_rate.prev_read_data = 0;
 	ID_ang_rate.time_of_prev_read_data = 0;
 	ID_ang_rate.current_angle = 0;
+	ID_ang_rate.prev_angle = 0;
 }
 
 /* Runs the integrator for integrating the gyro rate. */
@@ -366,6 +367,7 @@ void int_ang_rate(void){
 	ID_ang_rate.currently_read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- DEFAULT_GYRO_BIAS/*mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/); // negative sign because of sign convention difference 
 	ID_ang_rate.time_of_curr_read_data = mb_io_get_time(ID_UI_ANG_RATE_X);
 	
+	ID_ang_rate.prev_angle = ID_ang_rate.current_angle; 
 	ID_ang_rate.current_angle = ID_ang_rate.current_angle + ( ID_ang_rate.prev_read_data + ID_ang_rate.currently_read_data)*(ID_ang_rate.time_of_curr_read_data - ID_ang_rate.time_of_prev_read_data)/2000; //divide 1000 to convert time from ms to s 
 }
 
@@ -373,6 +375,16 @@ void int_ang_rate(void){
 /* Calibration: sets the angle integrated over gyro rate to zero */
 void calibrate(void){
 	int_init_ang_rate();
+}
+
+/* Sets the current gyro angle in the integration struct. */
+void set_gyro_angle(float a){
+	ID_ang_rate.current_angle = a;	
+}
+
+/* Returns the gyro angle calucated from the previous ms. */
+float get_prev_gyro_angle(void){
+	return ID_ang_rate.prev_angle;
 }
 
 /* Returns "qr" the angle integrated over gyro rate.

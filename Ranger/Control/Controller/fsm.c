@@ -205,6 +205,7 @@ void fsm_update(void){
 /*******************************************************/
 
 enum testStates {
+	zero,
 	one,
 	two,
 	three,
@@ -212,13 +213,15 @@ enum testStates {
 	five,
 };
 
-static enum testStates test_state = one; 
+static enum testStates test_state = zero; 
 int setup = 1;
+int flight_count = 0;
 
 /* Initializes the test FSM. */
 void test_init(void){
-	test_state = one;
+	test_state = zero;
 	setup = 1;
+	flight_count = 0;
 }
 
 /* Makes Ranger walk with simpler transition conditions.
@@ -232,14 +235,14 @@ void test_fsm(void){
 		
 /*	KP&KD values that work:
   	hip: kp=27 kd=3.8 or kp=16 kd=3
-	ank: kp=7 kd=1
+	ank: push_kp=20 push_kd=3; kp=7 kd=1
 */
 
-	ANK_FLIP_KP = mb_io_get_float(ID_CTRL_ANK_FLIP_KP);
+	ANK_FLIP_KP = mb_io_get_float(ID_CTRL_ANK_FLIP_KP);	 //medium high
 	ANK_FLIP_KD = mb_io_get_float(ID_CTRL_ANK_FLIP_KD);
-	ANK_PUSH_KP = mb_io_get_float(ID_CTRL_ANK_PUSH_KP);
+	ANK_PUSH_KP = mb_io_get_float(ID_CTRL_ANK_PUSH_KP);	 //high, more push off
 	ANK_PUSH_KD = mb_io_get_float(ID_CTRL_ANK_PUSH_KD);
-	ANK_HOLD_KP =  mb_io_get_float(ID_CTRL_ANK_HOLD_KP);
+	ANK_HOLD_KP =  mb_io_get_float(ID_CTRL_ANK_HOLD_KP); //low, moderately hold the feet, easier to push off
 	ANK_HOLD_KD =  mb_io_get_float(ID_CTRL_ANK_HOLD_KD);
 	HIP_KP = mb_io_get_float(ID_CTRL_HIP_KP);
 	HIP_KD= mb_io_get_float(ID_CTRL_HIP_KD);
@@ -247,18 +250,38 @@ void test_fsm(void){
 	angles_update();
 
 	// Enters flight state if all feet are off ground 
-/*	if(!setup && !FI_on_ground() && !FO_on_ground()){
-		test_state = five;
-	} 
-  */
+	if(!setup){	//not in the setup state
+		if(!FI_on_ground() && !FO_on_ground()){
+			flight_count++;
+		}else{
+			flight_count = 0;
+		}
+		if(flight_count >= 200 ){
+			test_state = five;
+		}
+	}
+	mb_io_set_float(ID_CTRL_TEST_W9, flight_count);
+  
 	switch(test_state){
+	case zero: //initial setup done in the air 
+		mb_io_set_float(ID_CTRL_TEST_W1, 0);
+		// hold outer feet and flip up inner feet
+		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
+		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
+		// hip tracks zero angle
+		hip_track_rel(&ctrlHip, 0.0, 0.0, HIP_KP, HIP_KD);
+		 
+		// ready to walk when placed on ground					
+		if(FO_on_ground()){
+			test_state = one;
+			setup = 0;		
+		}
+		break;		
 	case one:  //swing innner leg 
 		mb_io_set_float(ID_CTRL_TEST_W1, 1);
-		// hold outer feet
+		// hold outer feet and flip up inner feet
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
-		// flip up inner feet
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
-		// adjust hip
 		hip_scissor_track_outer(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE, HIP_KP, HIP_KD); 
 
 		if(th0<-HIP_REF_TRANS_ANGLE){ //inner leg in front, outer leg in the back 
@@ -266,26 +289,22 @@ void test_fsm(void){
 		} 
 		break;
 	case two: //push off outer feet 
-		setup = 0;
 		mb_io_set_float(ID_CTRL_TEST_W1, 2);
-		// push down outer feet
+		// push down outer feet and hold inner feet
 	    out_ank_track_abs(&ctrlAnkOut, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
-		// hold inner feet
 	 	inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
-		// decrease the angle between two legs
 	    hip_track_rel(&ctrlHip, HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
 		
-		if(FI_on_ground()){ //outer ankle angle
+		if(FI_on_ground()){ 
+			correct_gyro_angle();
 			test_state = three;
 		}		
 		break;
 	case three: //swing outer leg
 		mb_io_set_float(ID_CTRL_TEST_W1, 3);
-		// flip up outer feet 
+		// flip up outer feet and hold inner feet
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
-		// hold inner feet
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
-		// adjust hip angle
 		hip_scissor_track_inner(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE, HIP_KP, HIP_KD);
 		
 		if(th0>HIP_REF_TRANS_ANGLE){ //outer leg in front, inner leg in the back 
@@ -299,7 +318,8 @@ void test_fsm(void){
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
 		hip_track_rel(&ctrlHip, -HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
 
-		if(FO_on_ground()){ //inner ankle angle
+		if(FO_on_ground()){ 
+			correct_gyro_angle(); 
 			test_state = one;
 		}	
 		break;
@@ -309,13 +329,60 @@ void test_fsm(void){
 		break;
 	}
 
-	controller_hip(&ctrlHip);
-	controller_ankleInner(&ctrlAnkInn);
-	controller_ankleOuter(&ctrlAnkOut);
+	if(test_state != five){
+		controller_hip(&ctrlHip);
+		controller_ankleInner(&ctrlAnkInn);
+		controller_ankleOuter(&ctrlAnkOut);
+	}
+}
+
+/* Corrects the gyro angle (integrated from gyro rate) every step Ranger takes
+ * using the gyro angle (calculated from geometry). 
+ * Sets the corrected gyro angle in the estimator code. 
+ * Requires: 
+ *		Both feet on ground. 
+ */
+void correct_gyro_angle(void){
+	float l = 0.96;  // robot leg length
+	float d = 0.14;  // robot foot joint eccentricity
+	float Phi = 1.8;  // ankle joint orientation constant
+
+	float Slope = 0.0;  // Ground slope (assume linear)
+	float x, y, stepLength, qr_geo, qr_int, qr_new;
+
+	//float qh = 0.3;  // robot hip angle
+	//float q0 = 1.95; // outer ankle joint angle
+	//float q1 = 1.65;  // inner ankle joint angle
+
+	/* Ranger geometry:
+	 * [x;y] = vector from outer foot virtual center to the inner foot
+	 * virtual center, in a frame that is rotated such that qr = 0
+	 * These functions were determined using computer math. The code can
+	 * be found in:
+	 * templates/Estimator/legAngleEstimator/Derive_Eqns.m
+	 */
+	x = l*Sin(qh) - d*Sin(Phi - q1 + qh) + d*Sin(Phi - q0);
+	y = l + d*Cos(Phi - q1 + qh) - l*Cos(qh) - d*Cos(Phi - q0);
+
+	stepLength = Sqrt(x*x + y*y);
+	qr_geo = Atan(y/x) + Slope;	 //gyro angle calculated from geometry 
+	qr_int = get_prev_gyro_angle();	//gyro angle integrated from gyro rate (from the preivous ms)
+	qr_new = 0.95*qr_int + 0.05*qr_geo;	//new gyro angle that's a weighted average of the two above
+	
+	//NOTE: ratio of 0.9:0.1 (used in Anoop's code) makes Ranger fall foward 
+
+	/*
+	mb_io_set_float(ID_CTRL_TEST_W2, qr_int);
+	mb_io_set_float(ID_CTRL_TEST_W3, qr_new);
+	mb_io_set_float(ID_CTRL_TEST_W4, qr_geo);
+	*/  
+	set_gyro_angle(qr_new);	//updates the gyro angle used in the estimator 
+	
+	return;
 }
 
 
-/* Simulates how ankles move when Ranger walks. 
+/* Simulates movement of ankles when Ranger walks. 
  * Parameters:
  *	- ID_CTRL_TEST_W1 = current state of the FSM		
  */
