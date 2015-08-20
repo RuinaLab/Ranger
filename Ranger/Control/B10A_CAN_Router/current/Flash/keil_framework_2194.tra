@@ -1,0 +1,35 @@
+*** Creating Trace Output File '.\Flash\keil_framework_2194.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '".\flash\startup.o"'
+### List of Objects: adding '".\flash\main.o"'
+### List of Objects: adding '".\flash\hardware_setup.o"'
+### List of Objects: adding '".\flash\software_setup.o"'
+### List of Objects: adding '".\flash\b10a_router_leds.o"'
+### List of Objects: adding '".\flash\data_nexus.o"'
+### List of Objects: adding '".\flash\heartbeat.o"'
+### List of Objects: adding '".\flash\can_types.o"'
+### List of Objects: adding '".\flash\utility.o"'
+### List of Objects: adding '".\flash\async_scheduler.o"'
+### List of Objects: adding '".\flash\error.o"'
+### List of Objects: adding '".\flash\mutex.o"'
+### List of Objects: adding '".\flash\csr_ssp.o"'
+### List of Objects: adding '".\flash\csr_clock.o"'
+### List of Objects: adding '".\flash\csr_router.o"'
+### List of Objects: adding '".\flash\csr_can_tx.o"'
+### List of Objects: adding '".\flash\can_ring.o"'
+### ADS-LD Command completed:
+--device DARMP ".\flash\startup.o" ".\flash\main.o" ".\flash\hardware_setup.o" ".\flash\software_setup.o" ".\flash\b10a_router_leds.o" ".\flash\data_nexus.o" ".\flash\heartbeat.o" ".\flash\can_types.o" ".\flash\utility.o" ".\flash\async_scheduler.o" ".\flash\error.o" ".\flash\mutex.o" ".\flash\csr_ssp.o" ".\flash\csr_clock.o" ".\flash\csr_router.o" ".\flash\csr_can_tx.o" ".\flash\can_ring.o" --library_type=microlib --strict --scatter ".\Flash\keil_framework_2194.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\Flash\keil_framework_2194.map" -o ".\Flash\keil_framework_2194.axf"### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: '.\Flash\keil_framework_2194.axf'
+### ADS-LD Command File: '.\Flash\keil_framework_2194.lnp'
+### Checking for dirty Components...
+### Creating CmdFile '.\Flash\keil_framework_2194.lnp', Handle=0x00000238
+### Writing '.lnp' file
+### ADS-LD Command file '.\Flash\keil_framework_2194.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.
