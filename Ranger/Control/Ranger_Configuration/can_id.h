@@ -232,13 +232,13 @@ typedef enum can_ids{
 	ID_CTRL_HIP_KD = 220,	 // 3 0 1 // 
 	ID_CTRL_ANK_FLIP_KP = 221,	 // 7 0 1 // 
 	ID_CTRL_ANK_FLIP_KD = 222,	 // 1 0 1 // 
-	ID_CTRL_ANK_PUSH_KP = 223,	 // 7 0 1 // 
-	ID_CTRL_ANK_PUSH_KD = 224,	 // 1 0 1 // 
+	ID_CTRL_ANK_PUSH_KP = 223,	 // 20 0 1 // 
+	ID_CTRL_ANK_PUSH_KD = 224,	 // 3 0 1 // 
 	ID_CTRL_ANK_HOLD_KP = 225,	 // 7 0 1 // 
 	ID_CTRL_ANK_HOLD_KD = 226,	 // 1 0 1 // 
 	ID_CTRL_HIP_REF_HOLD = 227,	 // 0.2 0 1 // 
 	ID_CTRL_HIP_TRANS_ANGLE = 228,	 // 0.08 0 1 // 
-	ID_CTRL_ANK_REF_PUSH = 229,	 // -0.75 0 1 // 
+	ID_CTRL_ANK_REF_PUSH = 229,	 // -0.9 0 1 // 
 	ID_CTRL_ANK_REF_HOLD = 230,	 // 0 0 1 // 
 	ID_CTRL_ANK_REF_FLIP = 231,	 // 1.55 0 1 // 
 	ID_CTRL_TEST_R0 = 232,	 // 0 0 1 // test read from labview

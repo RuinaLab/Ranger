@@ -275,7 +275,7 @@ void test_fsm(void){
 		// decrease the angle between two legs
 	    hip_track_rel(&ctrlHip, HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
 		
-		if(FI_on_ground() /*&& q0>2.0*/){ //outer ankle angle
+		if(FI_on_ground()){ //outer ankle angle
 			test_state = three;
 		}		
 		break;
@@ -299,7 +299,7 @@ void test_fsm(void){
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
 		hip_track_rel(&ctrlHip, -HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
 
-		if(FO_on_ground() /*&& q1>2.0*/){ //inner ankle angle
+		if(FO_on_ground()){ //inner ankle angle
 			test_state = one;
 		}	
 		break;
