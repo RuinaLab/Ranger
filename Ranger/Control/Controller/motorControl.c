@@ -83,6 +83,7 @@ void controller_hip( struct ControllerData * C ) {
 	mb_io_set_float(ID_MCH_DAMPNESS, C->Cd);
 }
 
+// Parameters needed for saturation
 #define uMAX_ANK 4
 #define uMAX_HIP 8  //2*uMAX_ANK
 
@@ -155,7 +156,7 @@ void controller_ankleInner( struct ControllerData * C ) {
 }
 
 
-/* Computes the current for ankle using saturation
+/* Computes the current for ankle WITH SATURATION
  * The following fields of the input struct need to be set before calling this function:
  * {uRef, xRef, vRef, kp, kd} 
  * The following filds of the input struct are being set in the function:
@@ -190,7 +191,7 @@ float RangerAnkleControl(struct ControllerData * C, float x, float v){
 }
 
 
-/* Computes the current to send to the ankle controller without saturation 
+/* Computes the current to send to the ankle controller WITHOUT SATURATION 
  * The following fields of the input struct need to be set before calling this function:
  * {uRef, xRef, vRef, kp, kd} 
  * The following filds of the input struct are being set in the function:
@@ -208,8 +209,6 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
 	}else if(C->xRef < param_joint_ankle_flip){
 		C->xRef = param_joint_ankle_flip;
 	}
-
-	//mb_io_set_float(ID_CTRL_TEST_W0, C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef));
 
 	Ir = (
 	         C->uRef + C->kp * (C->xRef) + C->kd * (C->vRef)
@@ -241,9 +240,6 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
  /* Returns the torque needed to compensate for gravity pull on the legs. */
 float hip_gravity_compensation(void){
 	float u = leg_m * g * leg_r;
-	
-	//mb_io_set_float(ID_CTRL_TEST_W8, th0);
-	//mb_io_set_float(ID_CTRL_TEST_W9, -u * Sin(th0));
 
 	if(FI_on_ground() && !FO_on_ground()){
 		//track outer, only inner feet on ground
