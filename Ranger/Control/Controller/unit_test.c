@@ -7,7 +7,7 @@
 #include "RangerMath.h"	//for Sin()
 
 #define PI 3.141592653589793				   
-#define DATA TRAJ_DATA_Test0
+#define DATA TRAJ_DATA_Test0  //used in the function test_trajectory() 
 
 static float hip_kp, hip_kd, scissor_offset, scissor_rate, ank_kp, ank_kd, ank_hold, ank_push, ank_flip;
 
@@ -25,6 +25,7 @@ void param_update_test(void){
 	ank_flip = mb_io_get_float(ID_CTRL_ANK_REF_FLIP); 
 }
 
+/* testStates for testing the gyro angle */
 enum testStates {
 	INIT,
 	IN,
@@ -541,7 +542,6 @@ void motors_off(void){
  		struct ControllerData ctrlHip;
 		struct ControllerData ctrlAnkOut;
 		struct ControllerData ctrlAnkInn;
-
 		
 	/*	float hipRefAmp;  // square wave reference amplitude
 		float hip_xi;   // controller damping ratio
@@ -751,26 +751,6 @@ void motors_off(void){
 		*/
  } 
 
- /* Flip all feet up. */
- void foot_flip(void){
- 		struct ControllerData ctrlAnkOut;
-		struct ControllerData ctrlAnkInn;
-
-	// Flip outer feet
-		ctrlAnkOut.kp = 3;
-		ctrlAnkOut.kd = 0.5;
-		ctrlAnkOut.xRef = param_joint_ankle_flip;
-		ctrlAnkOut.vRef = 0.0;
-		ctrlAnkOut.uRef = 0.0;
-		controller_ankleOuter(&ctrlAnkOut);
-	// Flip inner feet
-		ctrlAnkInn.kp = 3;
-		ctrlAnkInn.kd = 0.5;
-		ctrlAnkInn.xRef = param_joint_ankle_flip; 	
-		ctrlAnkInn.vRef = 0.0;
-		ctrlAnkInn.uRef = 0.0;
-		controller_ankleInner(&ctrlAnkInn);
- }
 
  /* Returns the relative angle that makes the outer foot stay flat wrt ground. */
  float FO_flat_angle(void){
@@ -805,6 +785,11 @@ void motors_off(void){
  } 
 
 
+/*****************************************************************/
+/***********first attempt to make Ranger walk a step**************/
+/*Start with double stance, rock outer feet while pushing off inner
+ feet until it generates enough push to swing inner leg through. */
+/*****************************************************************/
 enum StepProgress {
 	PrePush,
 	Push,

@@ -3,7 +3,6 @@ void test_gyro_angle_init(void);
 void test_gyro_angle(void);
 
 void test_gravity_compensation(void);
-void test_spring_compensation(void);
 
 void test_feet(void);
 void test_hip_outer(void);
@@ -21,7 +20,6 @@ void test_trajectory(void);
 void test_freq_control(void);
 void track_sin(void);
 void double_stance(void);
-void foot_flip(void);
 float FO_flat_angle(void);
 float FI_flat_angle(void);
 

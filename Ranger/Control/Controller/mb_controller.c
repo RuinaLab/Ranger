@@ -30,13 +30,12 @@ void mb_controller_update(void) {
 	switch (controlMode) {
 	case M5_StandBy:
 		set_UI_LED(5, 'g');
-		//setPush(); //calls this for the step function in motorController
+		//setPush(); //calls this for the step function in unit_test.h
 		fsm_init();	//calls this for the FSM
 		test_init(); //calls this for the test FSM
 		param_update(); //read parameters from LABVIEW for FSM
 		disable_motors();
-		angles_update();
-		test_gyro_angle_init();
+		test_gyro_angle_init(); //calls this for the unit test function of gyro angle
 		break;
 	case M4_FSM:
 		set_UI_LED(5, 'r');

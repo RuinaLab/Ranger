@@ -44,7 +44,7 @@ void mb_estimator_update(void){
 }
 
 
-/* Initializes all the butterworth filters used. */
+/* Initializes all butterworth filters used. */
 void filter_init(void){
 	// Sets the cut_off ratio = cut_off_freq/(sampling_freq/2) where sampling_freq = 1kHz 
 	// For angular rates, cut_off_freq = 15Hz; a higher cutoff_freq(50Hz) generated lots of noise when the the hip scissor tracking function is ran
