@@ -14,7 +14,11 @@ enum ControlMode {
 	M5_StandBy,
 };
 
-////TODO - a quick comment to tell where all of these functions are
+/* All test functions are located in unit_test.c 
+ * Functions (fsm_param_updated, fsm_init & fsm_run) related to FSM are located in fsm.c 
+ * calibrate() can be found in mb_estimator.c   
+ * disable_motors() can be found in motorController.c
+ */
 
 /*  ENTRY-POINT FUNCTION FOR ALL CONTROL CODE */
 void mb_controller_update(void) {
@@ -30,45 +34,40 @@ void mb_controller_update(void) {
 
 	// Run the desired control mode
 	switch (controlMode) {
-	case M5_StandBy:	////TODO - button names -  Button 6 (right-most button)
+	case M5_StandBy:	//Button 6 (right-most button)
 		set_UI_LED(5, 'g');
-		//setPush(); //calls this for the step function in unit_test.h
+		//setPush(); //calls this for the step function in unit_test.c
 		fsm_init();	//calls this for the FSM
-		param_update(); //read parameters from LABVIEW for FSM
+		fsm_param_update(); //read parameters from LABVIEW for FSM
 		disable_motors();
 		test_gyro_angle_init(); //calls this for the unit test function of gyro angle
 		break;
-	case M4_FSM:
+	case M4_FSM:	//Button 5 (second button from the right)
 		set_UI_LED(5, 'r');
+		fsm_run();
+		break;
+	case M3_UnitTest: //Button 4 (third button from the right)
+		set_UI_LED(5, 'p');
 		//test_trajectory();
 		//track_sin();
 		//double_stance();
-		//check_30();
-		//test_hip();
-		//test_fsm();	   ////TODO - make this name better - walk or somethign 
-		//test_foot();
-		fsm_run();
-		//test_fsm_ank();
-		break;
-	case M3_UnitTest:
-		set_UI_LED(5, 'p');
 		//foot_flip();
 		//hold_feet();
 		//motors_off();
 		//ankle_motor_test();
 		//test_feet();
-		//test_gravity_compensation();
+		test_gravity_compensation();
 		//hip_motor_test();
 		//test_hip_outer();
 		//test_hip_inner();
 		//test_gravity_compensation();
 		//test_spring_compensation();
 		//test_ankle_current_control();
-		test_gyro_angle();
+		//test_gyro_angle();
 		break;
-	case M0_Calibrate:		////TODO - what does this do?
+	case M0_Calibrate: //Button 0 (left-most button)	
 		set_UI_LED(5, 'y');
-		calibrate();
+		calibrate(); //resets the angle integrated from gyro rate to zero in the estimator code 
 		break;
 	}
 

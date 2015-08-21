@@ -5,14 +5,23 @@
 
 #define SQRT_TWO 1.414213562373095
 #define PI 3.141592653589793
-#define DEFAULT_GYRO_BIAS -0.0097 //estimated bias for the rate gyro - based on experiment on 7/15/2015
-//default value in the can_table.cvs only works when the parameter is read from labview to the robot (0 to 1)	
+//#define DEFAULT_GYRO_BIAS -0.0097
+static float DEFAULT_GYRO_BIAS;//-0.0097 estimated bias for the rate gyro - based on experiment on 7/15/2015
+								//default value in the can_table.cvs only works when the parameter is read from labview to the robot (0 to 1)	
+								// this is the average imu rate read from can id when the imu is supposed to be at rest.
+                               	// hence this value will be subtracted from the can-id to correct for thsi offset. 
+                               	// THIS NUMBER SHOULD BE REGULARLY CHECKED AND UPDATED. it changes with time.
 
-#define in_feet_threshold 7000 ////TODO - more explaination
+/* Threshold values used to determine if the feet are in contact with the ground */
+#define in_feet_threshold 7000 
 #define out_feet_threshold 7000
-int in_feet_count = 0;
-int out_feet_count = 0;
-int count_gyro = 0;
+/* Counters that keep track of # of clock cycles that the foot sensor readings are above the threshold */
+static int in_feet_count = 0;
+static int out_feet_count = 0;
+/* Feet are touching the ground if the sensor reading stays above threshold value for 10 continuous clock cycles (~0.02s) */
+static const int ground_duration = 10;
+
+//int count_gyro = 0; //used for estimating the gyro rate bias
 
 /* This will be CALLED by the main brain and it will do all the estimations */
 void mb_estimator_update(void){
@@ -22,8 +31,11 @@ void mb_estimator_update(void){
 		int_init_ang_rate();
 		init = 1;
 	}
-	 	
-		////TODO - comments: call butterworth filter updates
+	
+	//read default gyro bias from labview  
+	DEFAULT_GYRO_BIAS = mb_io_get_float(ID_EST_DEFAULT_GYRO_BIAS);	
+
+	//run butterworth filters 
  	filter_hip_rate();	//run filter on hip_rate; this estimated hip_rate is less noisy than differenciating from hip angle
 	//filter_hip_ang();	//run filter on hip_angle then differentiate it to estimate the hip_rate 
 	filter_hip_motor_rate();	//run filter on hip_motor_rate	
@@ -136,7 +148,7 @@ void filter_hip_motor_rate(void){
 	return;
 }
 
-/* Runs a 2nd order butterworth filter on the inner/outer feet angles/rates. */	
+/* Runs a 2nd order butterworth filter on inner&outer feet angles & angular rates. */	
 void filter_foot_data(void){
 	float read_data_FI_a, read_data_FI_r, read_data_FO_a, read_data_FO_r;
 	unsigned long read_data_t_FI_a, read_data_t_FI_r, read_data_t_FO_a, read_data_t_FO_r;
@@ -163,26 +175,31 @@ void filter_foot_data(void){
 	return;
 }
 
-/* Returns 1 if inner feet are on the ground (higher than threshold values for 10 continuous cyclces) */
+/* Returns 1 if inner feet are on the ground (higher than threshold values for 10 continuous clock cycles) */
 int FI_on_ground(void){
-	if(in_feet_count > 10){ ////TODO - Make 10 an obvious parameter at top 
+	if(in_feet_count > ground_duration){  
 		set_UI_LED(1, 'g'); 
 		return 1;
 	}
 	return 0;
 }
 
-/* Returns 1 if outer feet are on the ground (higher than threshold values for 10 continuous cyclces) */
+/* Returns 1 if outer feet are on the ground (higher than threshold values for 10 continuous clock cycles) */
 int FO_on_ground(void){
-	if(out_feet_count > 10){
+	if(out_feet_count > ground_duration){
 		set_UI_LED(2, 'g');	  ////TODO - make nice table of LED stuff
 		return 1;
 	}
 	return 0;
 }
 
-/* Runs a 2nd order butterworth filter on the 4 foot sensors */
-////TODO - add way more comments here	
+/* Runs a 2nd order butterworth filter on all 4 foot sensors.
+ * First filters the two inner foot sensors, then increments the counter  
+ * if the combined filtered sensor readings is above the threshold value.
+ * Decides that inner foot are on ground if the combined reading exceeds 
+ * the threshold values for 10 continuous clock cycles.  
+ * Do the same things for the two outer foot sensors. 
+ */
 void filter_foot_sensor(void){																																																												  																																																	
 	float read_data_in_l, read_data_in_r, read_data_out_l, read_data_out_r;
 	unsigned long read_data_in_l_t, read_data_in_r_t, read_data_out_l_t, read_data_out_r_t;
@@ -343,12 +360,7 @@ float runFilter_new(struct FilterCoeff * FC, struct FilterData * FD, float z, un
 	return (FD->y0);
 }
 
-////TODO - Make this whole IMU rate gyro business obvious at top
-// for imu
-//static float gyro_bias = 0;//-0.0092; // -.004 (old value feb 18 2013)
-                               // new imu  //earlier imu 0.0165 ; //  // this is the average imu rate read from can id when the imu is supposed to be at rest.
-                               // hence this value will be subtracted from the can-id to correct for thsi offset. 
-                               // THIS NUMBER SHOUKD BE REGULARLY CHECKED AND UPDATED. it changes with time.
+
 /* Initializes the integrator for integrating the gyro rate. */
 void int_init_ang_rate(void){
 	ID_ang_rate.currently_read_data = 0;

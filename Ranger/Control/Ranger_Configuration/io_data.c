@@ -9,6 +9,7 @@ mb_io_data[ID_EST_TEST_R6].payload.ful.f = 0.000000;
 mb_io_data[ID_EST_TEST_R7].payload.ful.f = 0.000000; 
 mb_io_data[ID_EST_TEST_R8].payload.ful.f = 0.000000; 
 mb_io_data[ID_EST_TEST_R9].payload.ful.f = 0.000000; 
+mb_io_data[ID_EST_DEFAULT_GYRO_BIAS].payload.ful.f = -0.009700; 
 mb_io_data[ID_CTRL_HIP_KP].payload.ful.f = 16.000000; 
 mb_io_data[ID_CTRL_HIP_KD].payload.ful.f = 3.000000; 
 mb_io_data[ID_CTRL_ANK_FLIP_KP].payload.ful.f = 7.000000; 

@@ -11,7 +11,7 @@
 
 static float hip_kp, hip_kd, scissor_offset, scissor_rate, ank_kp, ank_kd, ank_hold, ank_push, ank_flip;
 
-/* Updates parameters read from LABVIEW. */
+/* Updates parameters (used in unit_test) from LABVIEW. */
 void param_update_test(void){
 	hip_kp = mb_io_get_float(ID_CTRL_HIP_KP);	  //16, 27
 	hip_kd = mb_io_get_float(ID_CTRL_HIP_KD);	  //3, 3.8

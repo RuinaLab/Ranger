@@ -46,7 +46,7 @@ float ANK_REF_PUSH;
 float ANK_REF_FLIP;
 
 /* Read in values for parameters used in fsm.c from Labview. */
-void param_update(void){
+void fsm_param_update(void){
 	HIP_REF_HOLD = mb_io_get_float(ID_CTRL_HIP_REF_HOLD);
 	HIP_REF_TRANS_ANGLE = mb_io_get_float(ID_CTRL_HIP_TRANS_ANGLE);
 	ANK_REF_HOLD = mb_io_get_float(ID_CTRL_ANK_REF_HOLD); 
@@ -255,10 +255,146 @@ void correct_gyro_angle(void){
 	stepLength = Sqrt(x*x + y*y);
 	qr_geo = Atan(y/x) + Slope;	 //gyro angle calculated from geometry 
 	qr_int = get_prev_gyro_angle();	//gyro angle integrated from gyro rate (from the preivous ms)
-	qr_new = 0.95*qr_int + 0.05*qr_geo;	//new gyro angle that's a weighted average of the two above
+	qr_new = 0.999*qr_int + 0.001*qr_geo;	//new gyro angle that's a weighted average of the two above
 										//NOTE: ratio of 0.9:0.1 (used in Anoop's code) makes Ranger fall forward 
-
+										/////TODO: needs to fix this function so robot doesn't fall 
 	set_gyro_angle(qr_new);	//updates the gyro angle in the estimator code
 	
 	return;
+}
+
+
+/*******************************************************/
+/***************FSM TEST FUNCTIONS**********************/
+/*******************************************************/
+
+////TODO - check that new version works, then many things below this line below this line
+
+
+enum testStates {
+	zero,
+	one,
+	two,
+	three,
+	four,
+	five,
+};
+
+static enum testStates test_state = zero; 
+int setup = 1;
+
+/* Initializes the test FSM. */
+void test_init(void){
+	test_state = zero;
+	setup = 1;
+	flight_count = 0;
+}
+
+/* Makes Ranger walk with simpler transition conditions.
+ * Parameters:
+ *	- ID_CTRL_TEST_W1 = current state of the FSM		
+ */
+void test_fsm(void){
+	struct ControllerData ctrlHip;
+	struct ControllerData ctrlAnkOut;
+	struct ControllerData ctrlAnkInn;
+	
+	//turns on gravity compensation in the hip motor
+	ctrlHip.GC = 1;
+	//turns off gravity compensation in the ankle motors
+	ctrlAnkOut.GC = 0;
+	ctrlAnkInn.GC = 0;	
+
+/*	KP&KD values that work:
+  	hip: kp=27 kd=3.8 or kp=16 kd=3
+	ank: push_kp=20 push_kd=3; kp=7 kd=1
+*/
+
+	angles_update();
+	//mb_io_set_float(ID_CTRL_TEST_W9, th0);
+
+	// Enters flight state if all feet are off ground 
+	if(!setup){	//not in the setup state
+		if(!FI_on_ground() && !FO_on_ground()){
+			flight_count++;
+		}else{
+			flight_count = 0;
+		}
+		if(flight_count >= 200 ){
+			test_state = five;
+		}
+	}
+  
+	switch(test_state){
+	case zero: //initial setup done in the air 
+		mb_io_set_float(ID_CTRL_TEST_W1, 0);
+		// hold outer feet and flip up inner feet
+		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
+		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
+		// hip tracks zero angle
+		hip_track_rel(&ctrlHip, 0.0, 0.0, HIP_KP, HIP_KD);
+		 
+		// ready to walk when placed on ground					
+		if(FO_on_ground()){
+			test_state = one;
+			setup = 0;		
+		}
+		break;		
+	case one:  //swing innner leg 
+		mb_io_set_float(ID_CTRL_TEST_W1, 1);
+		// hold outer feet and flip up inner feet
+		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
+		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
+		hip_scissor_track_outer(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE, HIP_KP, HIP_KD); 
+
+		if(th0<-HIP_REF_TRANS_ANGLE){ //inner leg in front, outer leg in the back 
+			test_state = two;
+		} 
+		break;
+	case two: //push off outer feet 
+		mb_io_set_float(ID_CTRL_TEST_W1, 2);
+		// push down outer feet and hold inner feet
+	    out_ank_track_abs(&ctrlAnkOut, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
+	 	inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
+	    hip_track_rel(&ctrlHip, HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
+		
+		if(FI_on_ground()){ 
+			correct_gyro_angle();
+			test_state = three;
+		}		
+		break;
+	case three: //swing outer leg
+		mb_io_set_float(ID_CTRL_TEST_W1, 3);
+		// flip up outer feet and hold inner feet
+		out_ank_track_abs(&ctrlAnkOut, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
+		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
+		hip_scissor_track_inner(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE, HIP_KP, HIP_KD);
+		
+		if(th0>HIP_REF_TRANS_ANGLE){ //outer leg in front, inner leg in the back 
+			test_state = four;	
+		}
+		break;
+	case four: //push off inner feet
+		mb_io_set_float(ID_CTRL_TEST_W1, 4);
+		//push down inner feet and hold outer feet
+		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
+		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
+		hip_track_rel(&ctrlHip, -HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
+
+		if(FO_on_ground()){ 
+			correct_gyro_angle(); 
+			test_state = one;
+		}	
+		break;
+	case five: //flight mode
+	 	mb_io_set_float(ID_CTRL_TEST_W1, 5);
+		disable_motors();
+		break;
+	}
+
+	if(test_state != five){
+		controller_hip(&ctrlHip);
+		controller_ankleInner(&ctrlAnkInn);
+		controller_ankleOuter(&ctrlAnkOut);
+	}
 }

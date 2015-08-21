@@ -11,7 +11,7 @@
 static int saturation = 0;
 
 /* Leg constants for gravity compensation */
-float leg_m = 4.96;  ////TODO - This should be bigger... 4.96 I believe
+float leg_m = 4.5;  
 float leg_r = 0.15;
 float g = 9.8;
 
@@ -275,6 +275,7 @@ float hip_gravity_compensation(void){
 
 
 /* Computes the controller set-points for tracking a RELATIVE angle in the hip. 
+ * The GC field of the input struct needs to be set before calling this function.  
  * Sets the following fields of the input struct:
  * 	{xRef, vRef, uRef, kp, kd}
  */
@@ -293,6 +294,7 @@ void hip_track_rel(struct ControllerData * ctrlData, float qh_ref, float dqh_ref
 
 
 /* Computes the controller set-points for the hip when OUTER FEET are on ground and inner feet in the air.
+ * The GC field of the input struct needs to be set before calling this function.  
  * Sets the following fields of the input struct:
  * 	{xRef, vRef, uRef, kp, kd}
  */
@@ -312,6 +314,7 @@ void hip_scissor_track_outer(struct ControllerData * ctrlData, float offset, flo
 }
 
 /* Computes the controller set-points for the hip when INNER FEET are on ground and outer feet in the air.
+ * The GC field of the input struct needs to be set before calling this function.  
  * Sets the following fields of the input struct:
  * 	{xRef, vRef, uRef, kp, kd}
  */

@@ -239,6 +239,7 @@ EST_TEST_W7,0,1,0,test write to labview
 EST_TEST_W8,0,1,0,test write to labview
 EST_TEST_W9,0,1,0,test write to labview
 #ControllerTesting,,,,
+EST_DEFAULT_GYRO_BIAS,-0.0097,0,1,
 CTRL_HIP_KP,16,0,1,
 CTRL_HIP_KD,3,0,1,
 CTRL_ANK_FLIP_KP,7,0,1,
