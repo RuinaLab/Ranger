@@ -1,6 +1,6 @@
 #include <mb_includes.h>
 #include <mb_estimator.h>
-#include <RangerMath.h>   // tan()
+#include <RangerMath.h>   // Tan()
 
 
 #define SQRT_TWO 1.414213562373095
@@ -8,7 +8,7 @@
 #define DEFAULT_GYRO_BIAS -0.0097 //estimated bias for the rate gyro - based on experiment on 7/15/2015
 //default value in the can_table.cvs only works when the parameter is read from labview to the robot (0 to 1)	
 
-#define in_feet_threshold 7000
+#define in_feet_threshold 7000 ////TODO - more explaination
 #define out_feet_threshold 7000
 int in_feet_count = 0;
 int out_feet_count = 0;
@@ -23,10 +23,11 @@ void mb_estimator_update(void){
 		init = 1;
 	}
 	 	
+		////TODO - comments: call butterworth filter updates
  	filter_hip_rate();	//run filter on hip_rate; this estimated hip_rate is less noisy than differenciating from hip angle
 	//filter_hip_ang();	//run filter on hip_angle then differentiate it to estimate the hip_rate 
 	filter_hip_motor_rate();	//run filter on hip_motor_rate	
-	filter_foot_sensor();	//run filter on foot sensors
+	filter_foot_sensor();	//run filter on all foot contact sensors
 	filter_foot_data();	//run filter on ankle angles & angular rates
 	filter_gyro_rate();
 	FI_on_ground();
@@ -48,6 +49,7 @@ void mb_estimator_update(void){
 void filter_init(void){
 	// Sets the cut_off ratio = cut_off_freq/(sampling_freq/2) where sampling_freq = 1kHz 
 	// For angular rates, cut_off_freq = 15Hz; a higher cutoff_freq(50Hz) generated lots of noise when the the hip scissor tracking function is ran
+	////TODO - make these top level parameters in labview, with defaults, group into a few speeds.
 	float cutoff_freq_hip_rate = 0.03; 
 	float cutoff_freq_gyro = 0.03; 
 	float cutoff_freq_foot = 0.0005;
@@ -66,7 +68,7 @@ void filter_init(void){
 	setFilterData(&FD_hip_rate, 0.0);
 	setFilterData(&FD_hip_motor_rate, 0.0);
 	setFilterData(&FD_gyro_rate, 0.0);
-	setFilterData(&FD_in_l, 0.0); //initialize to 0 or ~300 (foot in air)
+	setFilterData(&FD_in_l, 0.0); 
 	setFilterData(&FD_in_r, 0.0); 
 	setFilterData(&FD_out_l, 0.0); 
 	setFilterData(&FD_out_r, 0.0); 
@@ -80,7 +82,7 @@ void filter_init(void){
 
 
 /* Runs a 2nd order butterworth filter on the hip angle.
- * Sets the estimated hip angular rate (this estimation is MORE NOISY than directly filtering the hip angular rate). 
+ * Sets the estimated hip angular rate... the low-level estimate from the motor control board is a bit better. 
  * The measured hip angle is fairly accurate, 
  * this filtering is done to get data point for every ms for calculating the hip angular rate (by differentiating). 
  */
@@ -163,7 +165,7 @@ void filter_foot_data(void){
 
 /* Returns 1 if inner feet are on the ground (higher than threshold values for 10 continuous cyclces) */
 int FI_on_ground(void){
-	if(in_feet_count > 10){
+	if(in_feet_count > 10){ ////TODO - Make 10 an obvious parameter at top 
 		set_UI_LED(1, 'g'); 
 		return 1;
 	}
@@ -173,13 +175,14 @@ int FI_on_ground(void){
 /* Returns 1 if outer feet are on the ground (higher than threshold values for 10 continuous cyclces) */
 int FO_on_ground(void){
 	if(out_feet_count > 10){
-		set_UI_LED(2, 'g');
+		set_UI_LED(2, 'g');	  ////TODO - make nice table of LED stuff
 		return 1;
 	}
 	return 0;
 }
 
-/* Runs a 2nd order butterworth filter on the 4 foot sensors */	
+/* Runs a 2nd order butterworth filter on the 4 foot sensors */
+////TODO - add way more comments here	
 void filter_foot_sensor(void){																																																												  																																																	
 	float read_data_in_l, read_data_in_r, read_data_out_l, read_data_out_r;
 	unsigned long read_data_in_l_t, read_data_in_r_t, read_data_out_l_t, read_data_out_r_t;
@@ -229,19 +232,11 @@ void filter_gyro_rate(void){
 	unsigned long read_data_t;
 	float est_gyro_rate;
 	
-	//Run the filter just for hip scissor tracking function
+	//Run the filter (used in hip_scissor tracking)
 	read_data = mb_io_get_float(ID_UI_ANG_RATE_X);
 	read_data_t = mb_io_get_time(ID_UI_ANG_RATE_X);
 	est_gyro_rate = runFilter_new(&FC_gyro, &FD_gyro_rate, read_data, read_data_t);
 	mb_io_set_float(ID_E_UI_ANG_RATE_X, est_gyro_rate);
-
-	// Run the filter:
-	//read_data = mb_io_get_float(ID_UI_ANG_RATE_X) /*- mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/;
-	/*read_data_t = mb_io_get_time(ID_UI_ANG_RATE_X);
-	est_gyro_rate = runFilter_new(&FC_gyro, &FD_gyro_rate, read_data, read_data_t);
-	
-	mb_io_set_float(ID_EST_GYRO_RATE_BIAS, est_gyro_rate);
-	*/
 
 	return;
 }
@@ -316,8 +311,11 @@ float runFilter_new(struct FilterCoeff * FC, struct FilterData * FD, float z, un
 	}
 	
 	if(t_diff > 1){
+	////TODO - do something sensible here (like reset the filter)
 		// Error if the time difference b/t current and previous time stamp was greater than 4 ms 
 	}
+
+	////TODO - Make into one subfunction called twice?
 
 	// Time difference now is 1ms -> update everything once
 	// Update sensor history:
@@ -338,12 +336,14 @@ float runFilter_new(struct FilterCoeff * FC, struct FilterData * FD, float z, un
 	    (FC->a2) * (FD->y2);
 
 	// Compute & update the derivative at current time stamp
+	// First derivative, second-order one-sided method
 	// unit = rad/s
 	FD->d0 = (FD->y2 - 4*FD->y1 + 3*FD->y0)/2 * 1000;
 
 	return (FD->y0);
 }
 
+////TODO - Make this whole IMU rate gyro business obvious at top
 // for imu
 //static float gyro_bias = 0;//-0.0092; // -.004 (old value feb 18 2013)
                                // new imu  //earlier imu 0.0165 ; //  // this is the average imu rate read from can id when the imu is supposed to be at rest.
@@ -363,7 +363,8 @@ void int_init_ang_rate(void){
 void int_ang_rate(void){
     ID_ang_rate.prev_read_data = ID_ang_rate.currently_read_data;
 	ID_ang_rate.time_of_prev_read_data = ID_ang_rate.time_of_curr_read_data; 
-	
+
+	////TODO - Make permanent paramter in labview for gyro bias.	
 	ID_ang_rate.currently_read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- DEFAULT_GYRO_BIAS/*mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/); // negative sign because of sign convention difference 
 	ID_ang_rate.time_of_curr_read_data = mb_io_get_time(ID_UI_ANG_RATE_X);
 	

@@ -11,7 +11,7 @@
 static int saturation = 0;
 
 /* Leg constants for gravity compensation */
-float leg_m = 2.5;
+float leg_m = 2.5;  ////TODO - This should be bigger... 4.96 I believe
 float leg_r = 0.15;
 float g = 9.8;
 
@@ -21,9 +21,10 @@ float qr, qh, dqr, dqh, q0, q1, dq0, dq1; //relative
 float th0, th1, dth0, dth1; //absolute
 
 /* Relative reference of ankle joint angles */ 
+////TODO - These are bounds... name them as such
 float param_joint_ankle_flip = 0.3;
 float param_joint_ankle_push = 2.5;
-float param_joint_ankle_hold = 1.662;
+float param_joint_ankle_hold = 1.662;		////TODO - delete if unused
 
 /* PD controller constants */ 
 static const float param_hip_motor_const = 1.188;  // (Nm/Amp) Motor Constant, including gear box
@@ -32,6 +33,8 @@ static const float param_hip_spring_ref = 0.00;  // (rad) Hip spring reference a
 static const float param_hip_joint_inertia = 0.5616; // (kg-m^2) Swing leg moment of inertia about the hip joint
 
 static const float param_ank_motor_const = 0.612;  // (Nm/Amp) Motor Constant, including gear box
+
+////TODO - delete the following?
 static const float param_ank_spring_const = 0.0;   ////HACK////  0.134;  // (Nm/rad) Ankle spring constant
 static const float param_ank_spring_ref = 0.0; //// HACK //// 1.662;  // (rad) Ankle spring reference angle
 static const float param_ank_joint_inertia = 0.07;//0.01; // (kg-m^2) Ankle moment of inertia about ankle joint
@@ -42,7 +45,9 @@ static const float param_ank_joint_inertia = 0.07;//0.01; // (kg-m^2) Ankle mome
 //greater inertia --> greater kp, cp, Ir 	
 
 
-/* Updates the absolute/relative angle parameters in Ranger . */
+/* Updates the absolute/relative angle parameters in Ranger . 
+////TODO - what calls this / how is it used?
+*/
 void angles_update(void){
 	 // set relative angles/angular rates
 	qr = get_out_angle();	//angle integrated from rate gyro	
@@ -313,7 +318,7 @@ void hip_scissor_track_inner(struct ControllerData * ctrlData, float offset, flo
  */
 void out_ank_track_abs(struct ControllerData * ctrlData, float phi0_ref, float dphi0_ref, float u_ref, float KP, float KD){
 	//convert absolute to relative
-	//q0 = pi/2 - phi0 + th0
+	//q0 = ZERO_POS_OUT - phi0 + th0
 	//th0 = -qr
 	ctrlData->xRef = ZERO_POS_OUT - phi0_ref - qr; 
 	ctrlData->vRef = -dphi0_ref - dqr;
@@ -331,7 +336,7 @@ void out_ank_track_abs(struct ControllerData * ctrlData, float phi0_ref, float d
  */
 void inn_ank_track_abs(struct ControllerData * ctrlData, float phi1_ref, float dphi1_ref, float u_ref, float KP, float KD){
 	//convert absolute to relative
-	//q1 = pi/2 - phi1 + th1 
+	//q1 = ZERO_POS_INN - phi1 + th1 
 	//th1 = qh - qr
 	ctrlData->xRef = ZERO_POS_INN - phi1_ref + qh - qr;
 	ctrlData->vRef = -dphi1_ref + dqh - dqr;

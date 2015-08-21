@@ -7,6 +7,8 @@
 #define SCISSOR_OFFSET 0.1
 #define	SCISSOR_RATE 1.3
 
+
+
 /* States for the FSM */
 enum States {
 	SET_UP,
@@ -20,6 +22,7 @@ enum States {
 
 static enum States current_state = SET_UP; //keeps track of the current state the FSM is in 
 
+////TODO - what is the behavior of float vs static float in the following sense:  ?
 /* Paramers used in the FSM */
 float ANK_FLIP_KP; //medium high
 float ANK_FLIP_KD;
@@ -44,7 +47,9 @@ void param_update(void){
 	ANK_REF_FLIP = mb_io_get_float(ID_CTRL_ANK_REF_FLIP); 
 }
 
-static int flight_count = 0; //keeps track of the number of cycles the robot is in the air
+////TODO - add better explnantion of counter. Two or three lines.
+////TODO - reset when in flight ?
+static int flight_count = 0; 
 
 /* Sets the initial state of the FSM. */
 void fsm_init(void){
@@ -61,6 +66,7 @@ void fsm_run(void){
 	struct ControllerData ctrlAnkOut;
 	struct ControllerData ctrlAnkInn;
 	
+	////TODO - duplicate code / param_update()? clean up
 	ANK_FLIP_KP = mb_io_get_float(ID_CTRL_ANK_FLIP_KP);
 	ANK_FLIP_KD = mb_io_get_float(ID_CTRL_ANK_FLIP_KD);
 	ANK_PUSH_KP = mb_io_get_float(ID_CTRL_ANK_PUSH_KP);
@@ -71,11 +77,12 @@ void fsm_run(void){
 	HIP_KD= mb_io_get_float(ID_CTRL_HIP_KD); 
 
 
-	angles_update();  //updates all angle parameters used in the code 
+	angles_update();  //updates all angle variables used in the code 
 	fsm_update(); 	//updates FSM current state
 
 	switch (current_state){
 	case SET_UP: /*initial setup done in the air*/
+		////TODO - make it clearn what this does to the robot: gets ready for walking
 		mb_io_set_float(ID_CTRL_TEST_W1, 0);
 		// hold outer feet and flip up inner feet
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
@@ -83,7 +90,7 @@ void fsm_run(void){
 		// hip tracks zero angle
 		hip_track_rel(&ctrlHip, 0.0, 0.0, HIP_KP, HIP_KD);
 		break;
-	case OUT_SWING:	/*swing inner leg*/
+	case OUT_SWING:	/*swing inner leg*/	  ////TODO - make obvious -   (propagate)
 		mb_io_set_float(ID_CTRL_TEST_W1, 1);
 		// hold outer feet and flip up inner feet
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
@@ -112,7 +119,8 @@ void fsm_run(void){
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
 		hip_track_rel(&ctrlHip, -HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
 		break;
-	case HOLD_DOUBLE: /*double stance*/
+	case HOLD_DOUBLE: /*double stance*/   ////TODO: - what are we doing here?
+	////TODO - this is not used - say so, and why	(panic state)
 		mb_io_set_float(ID_CTRL_TEST_W1, 5);
 		// hold outer feet
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
@@ -125,11 +133,12 @@ void fsm_run(void){
 			hip_track_rel(&ctrlHip, HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);	//inner leg is in front
 		}
 		break;
-	case FLIGHT: /*flight mode*/ 
+	case FLIGHT: /*flight mode*/ 	////TODO - DIsable motors when robot is in the air
 		mb_io_set_float(ID_CTRL_TEST_W1, 6);
-		disable_motors();
+		disable_motors();	  ////TODO - Fix disable_motors, so that we don't need the guard below.
 		break;	
 	default: /*state doesn't exist*/
+		////TODO - pass error message to LabVIEW?
 		break;
 	}
 
@@ -145,13 +154,13 @@ void fsm_run(void){
 /* Updates current state of the FSM. */
 void fsm_update(void){
  	// Enters the flight state if all feet are off ground for 200 continuous cycles 
-	if(current_state != SET_UP){ //not in the setup state
+	if(current_state != SET_UP){ //not in the setup state  -- ////TODO - why?
 		if(!FI_on_ground() && !FO_on_ground()){
 			flight_count++;
 		}else{
 			flight_count = 0;
 		}
-		if(flight_count >= 200 ){
+		if(flight_count >= 200 ){	////TODO - 200 should be an obvious parameter somewhere
 			current_state = FLIGHT;
 		}
 	}
@@ -164,7 +173,7 @@ void fsm_update(void){
 		}
 		break;
 	case OUT_SWING:	/*swing inner leg*/
-		if(th0<-HIP_REF_TRANS_ANGLE){ //inner leg in front, outer leg in the back 
+		if(th0 < -HIP_REF_TRANS_ANGLE){ //inner leg in front, outer leg in the back 
 			current_state = OUT_PUSH;
 		} 		
 		/*if( th0<-trans_angle && dth0<0 ){ //falling forward, push off
@@ -199,7 +208,7 @@ void fsm_update(void){
 		current_state = HOLD_DOUBLE; //absorbing state, no exit transition
 		break;
 	case FLIGHT:
-		current_state = FLIGHT;
+		current_state = FLIGHT;	  //absorbing...
 		break;
 	default: /*state doesn't exist*/
 		break;
@@ -209,6 +218,9 @@ void fsm_update(void){
 /*******************************************************/
 /***************FSM TEST FUNCTIONS**********************/
 /*******************************************************/
+
+////TODO - check that new version works, then many things below this line below this line
+
 
 enum testStates {
 	zero,
@@ -347,6 +359,8 @@ void test_fsm(void){
  *		Both feet on ground & the function angles_update() called 
  */
 void correct_gyro_angle(void){
+
+	////TODO - call out constants a the top of something
 	float l = 0.96;  // robot leg length
 	float d = 0.14;  // robot foot joint eccentricity
 	float Phi = 1.8;  // ankle joint orientation constant
