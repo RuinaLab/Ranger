@@ -11,7 +11,6 @@ void simple_scissor_track_inner(struct ControllerData * ctrlData, float KP, floa
 
 void hip_motor_test(void);
 void ankle_motor_test(void);
-void motors_off(void);
 
 void test_sign(void);
 void test_inner_foot(void);

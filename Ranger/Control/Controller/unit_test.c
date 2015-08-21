@@ -449,36 +449,7 @@ void ankle_motor_test(void){
 		controller_ankleInner(&ctrlAnkInn);
  }
 
-/* Turns all motors off at high level by setting KP=0 and KD=0 */
-void motors_off(void){
-	struct ControllerData ctrlHip;
-	struct ControllerData ctrlAnkOut;
-	struct ControllerData ctrlAnkInn;
 
-	// Run a PD-controller on the hip angle:
-		ctrlHip.kp = 0.0;
-		ctrlHip.kd = 0.0;
-		ctrlHip.xRef = 0.0;
-		ctrlHip.vRef = 0.0;
-		ctrlHip.uRef = 0.0;
-		controller_hip(&ctrlHip);
-	
-	// Run a PD-controller on the outer foot angles:
-		ctrlAnkOut.kp = 0.0;
-		ctrlAnkOut.kd = 0.0;
-		ctrlAnkOut.xRef = 0.0;
-		ctrlAnkOut.vRef = 0.0;
-		ctrlAnkOut.uRef = 0.0;
-		controller_ankleOuter(&ctrlAnkOut);
-	
-	// Run a PD-controller on the inner foot angles:
-		ctrlAnkInn.kp = 0.0;
-		ctrlAnkInn.kd = 0.0;
-		ctrlAnkInn.xRef = 0.0;
-		ctrlAnkInn.vRef = 0.0;
-		ctrlAnkInn.uRef = 0.0;
-		controller_ankleInner(&ctrlAnkInn);
-}
 
 /* Helps figure out sign convention for the motors. */
  void test_sign(void){
@@ -511,7 +482,9 @@ void motors_off(void){
 		controller_ankleInner(&ctrlAnkInn); 
  }
 
-
+ static float param_joint_ankle_flip = 0.3;
+ static float param_joint_ankle_push = 2.5;
+ static float param_joint_ankle_hold = 1.662;
  static int counter = 0;  
  /* Makes the inner foot periodically tracks hold/push/flip. */
  void test_inner_foot(void) { 
@@ -801,6 +774,7 @@ enum StepProgress {
 static int count_step = 0;
 static int count_rock = 0;
 static enum StepProgress stepProgress = Push;
+
 #define thirty 0.25 //30 redians
 
  /*	Makes the robot move forward one step. */

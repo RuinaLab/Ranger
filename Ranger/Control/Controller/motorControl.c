@@ -11,7 +11,7 @@
 static int saturation = 0;
 
 /* Leg constants for gravity compensation */
-float leg_m = 2.5;  ////TODO - This should be bigger... 4.96 I believe
+float leg_m = 4.96;  ////TODO - This should be bigger... 4.96 I believe
 float leg_r = 0.15;
 float g = 9.8;
 
@@ -20,11 +20,9 @@ float g = 9.8;
 float qr, qh, dqr, dqh, q0, q1, dq0, dq1; //relative
 float th0, th1, dth0, dth1; //absolute
 
-/* Relative reference of ankle joint angles */ 
-////TODO - These are bounds... name them as such
-float param_joint_ankle_flip = 0.3;
-float param_joint_ankle_push = 2.5;
-float param_joint_ankle_hold = 1.662;		////TODO - delete if unused
+/* Ankle joint limits (in relative angle) */ 
+static const float param_joint_ankle_min = 0.3;	 // Hard stop at 0.0. Foot flips up to this angle to clear ground.
+static const float param_joint_ankle_max = 2.5;	 // Hard stop at 3.0. Foot pushes off to inject energy, this is maximum bound.
 
 /* PD controller constants */ 
 static const float param_hip_motor_const = 1.188;  // (Nm/Amp) Motor Constant, including gear box
@@ -45,9 +43,10 @@ static const float param_ank_joint_inertia = 0.07;//0.01; // (kg-m^2) Ankle mome
 //greater inertia --> greater kp, cp, Ir 	
 
 
-/* Updates the absolute/relative angle parameters in Ranger . 
-////TODO - what calls this / how is it used?
-*/
+/* An important function that updates the absolute/relative angle vairables used in Ranger code. 
+ * Needs to be called every clock cycle in order to use functions implemented in motroController.c, fsm.c & unit_test.c,
+ * otherwise, these functions would get old sensor readings and output wrong results.  
+ */
 void angles_update(void){
 	 // set relative angles/angular rates
 	qr = get_out_angle();	//angle integrated from rate gyro	
@@ -184,10 +183,10 @@ float getAnkleControllerCurrent( struct ControllerData * C ){
 	C->Cd = C->kd / param_ank_motor_const;
 
 	// Check to make sure ankle joint doesn't go out of bound
-	if(C->xRef > param_joint_ankle_push){
-		C->xRef = param_joint_ankle_push;
-	}else if(C->xRef < param_joint_ankle_flip){
-		C->xRef = param_joint_ankle_flip;
+	if(C->xRef > param_joint_ankle_max){
+		C->xRef = param_joint_ankle_max;
+	}else if(C->xRef < param_joint_ankle_min){
+		C->xRef = param_joint_ankle_min;
 	}
 
 	Ir = (
@@ -219,10 +218,10 @@ float get_ank_control_current_saturated(struct ControllerData * C, float x, floa
 	float kdStar = Uv;
 	
 	// Check to make sure ankle joint doesn't go out of bound
-	if(C->xRef > param_joint_ankle_push){
-		C->xRef = param_joint_ankle_push;
-	}else if(C->xRef < param_joint_ankle_flip){
-		C->xRef = param_joint_ankle_flip;
+	if(C->xRef > param_joint_ankle_max){
+		C->xRef = param_joint_ankle_max;
+	}else if(C->xRef < param_joint_ankle_min){
+		C->xRef = param_joint_ankle_min;
 	} 
 	
 	C->Cp = kpStar / param_ank_motor_const; 
@@ -249,6 +248,16 @@ float get_ank_control_current_saturated(struct ControllerData * C, float x, floa
  }
 
 
+/* Turns a motor off at a high levelby setting all fields of the input instruct to zero */
+void motor_off(struct ControllerData * C){
+	C->kp = 0.0;
+	C->kd = 0.0;
+	C->xRef = 0.0;
+	C->vRef = 0.0;
+	C->uRef = 0.0;
+	C->GC = 0;
+}
+
 
 /* Returns the torque needed to compensate for gravity pull on the legs. */
 float hip_gravity_compensation(void){
@@ -272,8 +281,11 @@ float hip_gravity_compensation(void){
 void hip_track_rel(struct ControllerData * ctrlData, float qh_ref, float dqh_ref, float KP, float KD){
 	ctrlData->xRef = qh_ref;
 	ctrlData->vRef = dqh_ref;
-	ctrlData->uRef = hip_gravity_compensation();
-	//ctrlData->uRef = 0.0;
+	if(ctrlData->GC){
+		ctrlData->uRef = hip_gravity_compensation();
+	}else{
+		ctrlData->uRef = 0.0;
+	}
 	ctrlData->kp = KP;
 	ctrlData->kd = KD;
 	return;
@@ -290,8 +302,11 @@ void hip_scissor_track_outer(struct ControllerData * ctrlData, float offset, flo
 	
 	ctrlData->xRef = th1Ref - th0;
 	ctrlData->vRef = dth1Ref - dth0; 
-	ctrlData->uRef = hip_gravity_compensation();
-	//ctrlData->uRef = 0.0;
+	if(ctrlData->GC){
+		ctrlData->uRef = hip_gravity_compensation();
+	}else{
+		ctrlData->uRef = 0.0;
+	}
 	ctrlData->kp = KP;
 	ctrlData->kd = KD;
 }
@@ -306,9 +321,12 @@ void hip_scissor_track_inner(struct ControllerData * ctrlData, float offset, flo
 	
 	ctrlData->xRef = th1 - th0Ref;
 	ctrlData->vRef = dth1 - dth0Ref;
-	ctrlData->uRef = hip_gravity_compensation();
-	//ctrlData->uRef = 0.0;
- 	ctrlData->kp = KP;
+	if(ctrlData->GC){
+		ctrlData->uRef = hip_gravity_compensation();
+	}else{
+		ctrlData->uRef = 0.0;
+ 	}
+	ctrlData->kp = KP;
 	ctrlData->kd = KD;
 }
 

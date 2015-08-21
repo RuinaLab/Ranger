@@ -10,6 +10,7 @@ struct ControllerData {
 	float kd;	//dampness, derivative gain, torque
 	float Cp;   // proportional gain, current, passed to the motor controller
 	float Cd;	// derivative gain, current, passed to the motor controller
+	int GC;	// turns on gravity compensation when GC=1; GC is always turned off for the ankle controllers 
 };
 
 extern float leg_m;// = 2.5; //4.95 mass of the inner leg
@@ -19,11 +20,6 @@ extern float g;// = 9.8;
 /* Ankle Offset */
 #define ZERO_POS_INN 1.85 //constant offset between absolute and relative ankle angle
 #define ZERO_POS_OUT 1.8
-
-/* joint limits */
-extern float param_joint_ankle_flip;// = 0.3; // Hard stop at 0.0. Foot flips up to this angle to clear ground.
-extern float param_joint_ankle_push;// = 2.5; // Hard stop at 3.0. Foot pushes off to inject energy, this is maximum bound.
-extern float param_joint_ankle_hold;// = 1.662;
 
 /* global angle parameters*/
 extern float qr, qh, dqr, dqh, q0, q1, dq0, dq1; //relative	angles
@@ -38,6 +34,7 @@ float get_ank_control_current_saturated(struct ControllerData * C, float x, floa
 float getAnkleControllerCurrent( struct ControllerData *);
 
 void disable_motors(void);
+void motor_off(struct ControllerData * C);
 void test_motor_control(void);
 
 float hip_gravity_compensation(void);

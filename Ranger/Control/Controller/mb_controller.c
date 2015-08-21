@@ -34,7 +34,6 @@ void mb_controller_update(void) {
 		set_UI_LED(5, 'g');
 		//setPush(); //calls this for the step function in unit_test.h
 		fsm_init();	//calls this for the FSM
-		test_init(); //calls this for the test FSM
 		param_update(); //read parameters from LABVIEW for FSM
 		disable_motors();
 		test_gyro_angle_init(); //calls this for the unit test function of gyro angle
@@ -46,9 +45,9 @@ void mb_controller_update(void) {
 		//double_stance();
 		//check_30();
 		//test_hip();
-		test_fsm();	   ////TODO - make this name better - walk or somethign 
+		//test_fsm();	   ////TODO - make this name better - walk or somethign 
 		//test_foot();
-		//fsm_run();
+		fsm_run();
 		//test_fsm_ank();
 		break;
 	case M3_UnitTest:
