@@ -1,8 +1,6 @@
 #include <mb_includes.h>
 #include <input_output.h>
 #include <motorControl.h>
-#include <TrajData.h>
-#include <Trajectory.h>
 #include <fsm.h>
 #include <unit_test.h>
 

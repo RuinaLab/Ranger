@@ -195,7 +195,6 @@ ERROR_LABVIEW,0,1,0,Buffered errors for transmission to LabView/PC
 ERROR_LCD,0,1,8,Buffered errors for transmission to Ranger LCD
 #,,,,
 #State Estimator,,,,
-E_MCH_MOTOR_VELOCITY,0,1,0,estimated angular rate (rad/sec) of hip motor
 E_MCH_ANG_RATE,0,1,0,estimated slightly filtered derivative of ID_MCH_ANGLE
 E_MCFI_LEFT_HEEL_SENSE,0,1,0,estimated value for the sensor on the inner left foot  
 E_MCFI_RIGHT_HEEL_SENSE,0,1,0,estimated value for the sensor on the inner right foot  
@@ -206,7 +205,9 @@ E_MCFO_RIGHT_ANKLE_ANGLE,0,1,0,
 E_MCFI_MID_ANKLE_ANGLE,0,1,0,estimated angle integrated from the rate gyro
 E_MCFO_RIGHT_ANKLE_RATE,0,1,0,estimated value for outer ankle angle
 E_MCFI_ANKLE_RATE,0,1,0,estimated value for inner ankle angle
-EST_GYRO_ANGLE,0,1,0,
+EST_CONTACT_OUTER,0,1,0,Filtered sum of both outer foot contact sensors
+EST_CONTACT_INNER,0,1,0,Filtered sum of both inner foot contact sensors
+EST_OUTER_LEG_ANGLE,0,1,0,Estimated orientation of the gyro on the outer legs
 EST_LAST_STEP_LENGTH,0,1,0,Stores the step length as computed once per step in double stance
 #,,,,
 #EstimatorTesting,0,0,1,test read from labview
