@@ -3,8 +3,6 @@
 #include <fsm.h>
 #include <RangerMath.h>
 
-#define PI 3.141592653589793
-
 /* States for the FSM */
 enum States {
 	SET_UP,
@@ -261,7 +259,9 @@ void correct_gyro_angle(void){
 	qr_new = 0.999*qr_int + 0.001*qr_geo;	//new gyro angle that's a weighted average of the two above
 										//NOTE: ratio of 0.9:0.1 (used in Anoop's code) makes Ranger fall forward 
 										/////TODO: needs to fix this function so robot doesn't fall 
-	set_gyro_angle(qr_new);	//updates the gyro angle in the estimator code
 	
+	set_gyro_angle(qr_new);	//updates the gyro angle in the estimator codd
+ 	mb_io_set_float(ID_EST_LAST_STEP_LENGTH, stepLength);
+
 	return;
 }

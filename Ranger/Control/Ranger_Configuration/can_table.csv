@@ -188,22 +188,12 @@ CSR_MCU_VOLTAGE,0,2,1,
 CSR_MCU_CURRENT,0,2,1,
 CSR_EMPTY_RX4,0,2,1,
 CSR_EMPTY_RX5,0,2,1,
+#,,,,
 #Main Brain,,,,
 MB_EXECUTION_TIME,0,1,0,Time required to finish the schedule
 ERROR_LABVIEW,0,1,0,Buffered errors for transmission to LabView/PC
 ERROR_LCD,0,1,8,Buffered errors for transmission to Ranger LCD
-MB_SYSTEM_INIT_FSM_STATE,0,1,0,System_init_fsm state number
-MB_HIP_FSM_STATE,0,1,0,hip fsm state number
-MB_FOOT_INNER_FSM_STATE,0,1,0,inner foot fsm state number
-MB_FOOT_OUTER_FSM_STATE,0,1,0,outer foot fsm state number
-MB_STEERING_FSM_STATE,0,1,0,steering fsm state number
-MB_UI_FSM_STATE,0,1,0,ui fsm state number
-MB_TOP_FSM_STATE,0,1,0,top fsm state number
-MB_LEG_FSM_STATE,0,1,0,leg fsm state
-MB_ROCK_HIP_FSM_STATE,0,1,0,rock hip fsm state
-MB_ROCK_FI_FSM_STATE,0,1,0,rock foot inner fsm state
-MB_ROCK_FO_FSM_STATE,0,1,0,rock foot outer fsm state
-MB_EMPTY_FSM3,0,1,0,Unused FSM ID
+#,,,,
 #State Estimator,,,,
 E_MCH_MOTOR_VELOCITY,0,1,0,estimated angular rate (rad/sec) of hip motor
 E_MCH_ANG_RATE,0,1,0,estimated slightly filtered derivative of ID_MCH_ANGLE
@@ -212,12 +202,14 @@ E_MCFI_RIGHT_HEEL_SENSE,0,1,0,estimated value for the sensor on the inner right 
 E_MCFO_LEFT_HEEL_SENSE,0,1,0,estimated value for the sensor on the outer left foot  
 E_MCFO_RIGHT_HEEL_SENSE,0,1,0,estimated value for the sensor on the outer right foot  
 E_UI_ANG_RATE_X,0,1,0,estimated value for gyro rate
-EST_GYRO_RATE_BIAS,-0.0097,1,0,estimated bias for the rate gyro - based on experiment on 7/15/2015; the default value does not pass to labview because this parameter writes to labview
-EST_GYRO_ANGLE,0,1,0,estimated angle integrated from the rate gyro
-E_MCFO_RIGHT_ANKLE_ANGLE,0,1,0,estimated value for outer ankle angle
-E_MCFI_MID_ANKLE_ANGLE,0,1,0,estimated value for inner ankle angle
-E_MCFO_RIGHT_ANKLE_RATE,0,1,0,estimated value for outer ankle angular rate
-E_MCFI_ANKLE_RATE,0,1,0,estimated value for inner ankle angular rate
+E_MCFO_RIGHT_ANKLE_ANGLE,0,1,0,
+E_MCFI_MID_ANKLE_ANGLE,0,1,0,estimated angle integrated from the rate gyro
+E_MCFO_RIGHT_ANKLE_RATE,0,1,0,estimated value for outer ankle angle
+E_MCFI_ANKLE_RATE,0,1,0,estimated value for inner ankle angle
+EST_GYRO_ANGLE,0,1,0,
+EST_LAST_STEP_LENGTH,0,1,0,Stores the step length as computed once per step in double stance
+#,,,,
+#EstimatorTesting,0,0,1,test read from labview
 EST_TEST_R0,0,0,1,test read from labview
 EST_TEST_R1,0,0,1,test read from labview
 EST_TEST_R2,0,0,1,test read from labview
@@ -227,7 +219,7 @@ EST_TEST_R5,0,0,1,test read from labview
 EST_TEST_R6,0,0,1,test read from labview
 EST_TEST_R7,0,0,1,test read from labview
 EST_TEST_R8,0,0,1,test read from labview
-EST_TEST_R9,0,0,1,test read from labview
+EST_TEST_R9,0,1,0,test write to labview
 EST_TEST_W0,0,1,0,test write to labview
 EST_TEST_W1,0,1,0,test write to labview
 EST_TEST_W2,0,1,0,test write to labview
@@ -237,24 +229,26 @@ EST_TEST_W5,0,1,0,test write to labview
 EST_TEST_W6,0,1,0,test write to labview
 EST_TEST_W7,0,1,0,test write to labview
 EST_TEST_W8,0,1,0,test write to labview
-EST_TEST_W9,0,1,0,test write to labview
-#ControllerTesting,,,,
-EST_DEFAULT_GYRO_BIAS,-0.0097,0,1,
-CTRL_HIP_KP,16,0,1,
-CTRL_HIP_KD,3,0,1,
-CTRL_ANK_FLIP_KP,7,0,1,
-CTRL_ANK_FLIP_KD,1,0,1,
-CTRL_ANK_PUSH_KP,20,0,1,
-CTRL_ANK_PUSH_KD,3,0,1,
-CTRL_ANK_HOLD_KP,7,0,1,
-CTRL_ANK_HOLD_KD,1,0,1,
-CTRL_HIP_SCISSOR_RATE,1.3,0,1,
-CTRL_HIP_SCISSOR_OFFSET,0.1,0,1,
-CTRL_HIP_REF_HOLD,0.2,0,1,
-CTRL_HIP_TRANS_ANGLE,0.08,0,1,
-CTRL_ANK_REF_PUSH,-0.9,0,1,
-CTRL_ANK_REF_HOLD,0,0,1,
-CTRL_ANK_REF_FLIP,1.55,0,1,
+EST_TEST_W9,,,,
+#,,,,
+#ControllerParameters,16,0,1,
+CTRL_HIP_KP,3,0,1,
+CTRL_HIP_KD,7,0,1,
+CTRL_ANK_FLIP_KP,1,0,1,
+CTRL_ANK_FLIP_KD,20,0,1,
+CTRL_ANK_PUSH_KP,3,0,1,
+CTRL_ANK_PUSH_KD,7,0,1,
+CTRL_ANK_HOLD_KP,1,0,1,
+CTRL_ANK_HOLD_KD,1.3,0,1,
+CTRL_HIP_SCISSOR_RATE,0.1,0,1,
+CTRL_HIP_SCISSOR_OFFSET,0.2,0,1,
+CTRL_HIP_REF_HOLD,0.08,0,1,
+CTRL_HIP_TRANS_ANGLE,-0.9,0,1,
+CTRL_ANK_REF_PUSH,0,0,1,
+CTRL_ANK_REF_HOLD,1.55,0,1,
+CTRL_ANK_REF_FLIP,,,,
+#,,,,
+#ControllerTesting,0,0,1,test read from labview
 CTRL_TEST_R0,0,0,1,test read from labview
 CTRL_TEST_R1,0,0,1,test read from labview
 CTRL_TEST_R2,0,0,1,test read from labview
@@ -264,7 +258,7 @@ CTRL_TEST_R5,0,0,1,test read from labview
 CTRL_TEST_R6,0,0,1,test read from labview
 CTRL_TEST_R7,0,0,1,test read from labview
 CTRL_TEST_R8,0,0,1,test read from labview
-CTRL_TEST_R9,0,0,1,test read from labview
+CTRL_TEST_R9,0,1,0,test write to labview
 CTRL_TEST_W0,0,1,0,test write to labview
 CTRL_TEST_W1,0,1,0,test write to labview
 CTRL_TEST_W2,0,1,0,test write to labview
@@ -274,7 +268,8 @@ CTRL_TEST_W5,0,1,0,test write to labview
 CTRL_TEST_W6,0,1,0,test write to labview
 CTRL_TEST_W7,0,1,0,test write to labview
 CTRL_TEST_W8,0,1,0,test write to labview
-CTRL_TEST_W9,0,1,0,test write to labview
+CTRL_TEST_W9,,,,
+#,,,,
 #Labview,,,,
 LV_START,,,,
 LV_CH_0,,,,

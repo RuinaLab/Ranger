@@ -4,9 +4,8 @@
 #include <unit_test.h>
 #include "Trajectory.h"
 #include "TrajData.h"
-#include "RangerMath.h"	//for Sin()
-
-#define PI 3.141592653589793				   
+#include "RangerMath.h"	//for Sin()	and TWO_PI and PI
+		   
 #define DATA TRAJ_DATA_Test0  //used in the function test_trajectory() 
 
 static float hip_kp, hip_kd, scissor_offset, scissor_rate, ank_kp, ank_kd, ank_hold, ank_flip;
@@ -223,7 +222,7 @@ void hip_motor_test(void){
 	
 	period = 2;
 
-	arg = 2*PI*time/period;
+	arg = TWO_PI*time/period;
 	xRef = 0.5*(qLow + qUpp) + 0.5*(qUpp-qLow)*Sin(arg);
 
 	vRef = (qUpp-qLow)*(PI/period)*Cos(arg);

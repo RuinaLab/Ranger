@@ -2,19 +2,6 @@
 
 #define SCHEDULE_TICK_DIVIDER 2 //number of system jiffies (should be 1 mS) per time slot
 
-
-//#define RUN_EVERY_LINE (TASK_PTR)&mb_update_elapsed_time, (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&mb_estimator_update, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_fsm_run, (TASK_PTR)&mb_send_data
-//#define RUN_EVERY_LINE (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_fsm_run, (TASK_PTR)&mb_send_data
-
-
-// You Use this
-// #define RUN_EVERY_LINE (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_fsm_run, (TASK_PTR)&mb_send_data
-//#define RUN_EVERY_LINE (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_fsm_run, (TASK_PTR)&mb_send_data
-
-
-//I USE THIS: ANOOP   (it has estimator update, otherwise its same)
-//#define RUN_EVERY_LINE (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&mb_estimator_execution_time_start , (TASK_PTR)&mb_estimator_update, (TASK_PTR)&mb_estimator_execution_time_stop, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_fsm_run, (TASK_PTR)&mb_send_data
-
 // MPK - Updated version that includes call to the controller & estimator, drops call to fsm and Anoop's estimator
 #define RUN_EVERY_LINE (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&mb_estimator_update, (TASK_PTR)&mb_controller_update, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_send_data
 

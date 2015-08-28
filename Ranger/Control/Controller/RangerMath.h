@@ -1,6 +1,10 @@
 #ifndef __RANGERMATH_H__
 #define __RANGERMATH_H__
 
+extern const float PI;
+extern const float TWO_PI;
+extern const float SQRT_TWO;
+
 float Sin(float);
 float Cos(float);
 float Tan(float);

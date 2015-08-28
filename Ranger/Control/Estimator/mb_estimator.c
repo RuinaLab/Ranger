@@ -3,19 +3,11 @@
 #include <RangerMath.h>   // Tan()
 #include <input_output.h> // LED functions
 
+/* Local constant parameters */
+static const float GYRO_RATE_BIAS = -0.0097;  // Measured in August 2015. Should be checked monthly.
+static const float CONTACT_THRESHOLD = 7000.0;  // Threshold for detecting contact on the feet
 
-#define SQRT_TWO 1.414213562373095
-#define PI 3.141592653589793
-//#define DEFAULT_GYRO_BIAS -0.0097
-static float DEFAULT_GYRO_BIAS;//-0.0097 estimated bias for the rate gyro - based on experiment on 7/15/2015
-								//default value in the can_table.cvs only works when the parameter is read from labview to the robot (0 to 1)	
-								// this is the average imu rate read from can id when the imu is supposed to be at rest.
-                               	// hence this value will be subtracted from the can-id to correct for thsi offset. 
-                               	// THIS NUMBER SHOULD BE REGULARLY CHECKED AND UPDATED. it changes with time.
 
-/* Threshold values used to determine if the feet are in contact with the ground */
-#define in_feet_threshold 7000 
-#define out_feet_threshold 7000
 /* Counters that keep track of # of clock cycles that the foot sensor readings are above the threshold */
 static int in_feet_count = 0;
 static int out_feet_count = 0;
@@ -33,9 +25,6 @@ void mb_estimator_update(void){
 		init = 1;
 	}
 	
-	//read default gyro bias from labview  
-	DEFAULT_GYRO_BIAS = mb_io_get_float(ID_EST_DEFAULT_GYRO_BIAS);	
-
 	//run butterworth filters 
  	filter_hip_rate();	//run filter on hip_rate; this estimated hip_rate is less noisy than differenciating from hip angle
 	//filter_hip_ang();	//run filter on hip_angle then differentiate it to estimate the hip_rate 
@@ -197,7 +186,7 @@ void filter_foot_sensor(void){
 	mb_io_set_float(ID_E_MCFI_RIGHT_HEEL_SENSE, est_in_r);
 
 	// Increment the counter if inner feet's combined reading is greater than threshold value
-	if( (read_data_in_l + read_data_in_r) >  in_feet_threshold){
+	if( (read_data_in_l + read_data_in_r) >  CONTACT_THRESHOLD){
 		in_feet_count ++; 
 	}else{
 		in_feet_count = 0;
@@ -214,7 +203,7 @@ void filter_foot_sensor(void){
 	mb_io_set_float(ID_E_MCFO_RIGHT_HEEL_SENSE, est_out_r);	
 	
 	// Increment the counter if outer feet's combined reading is greater than threshold value
-	if( (read_data_out_l + read_data_out_r) >  out_feet_threshold){
+	if( (read_data_out_l + read_data_out_r) >  CONTACT_THRESHOLD){
 		out_feet_count ++; 
 	}else{
 		out_feet_count = 0;
@@ -244,7 +233,6 @@ void filter_gyro_rate(void){
  * valid domain:  0.0001 < r < 0.9999   (coerced if out of bounds)
  */
 void setFilterCoeff(struct FilterCoeff * FC, float r) {
-	static float q = SQRT_TWO;
 	static float c;
 	
 	if (r < 0.0001) r = 0.0001;  // Prevents a divide by zero
@@ -252,12 +240,12 @@ void setFilterCoeff(struct FilterCoeff * FC, float r) {
 
 	c = Tan(0.5 * PI * (1.0 - r));
 
-	FC->b0 = 1.0 / (1.0 + q * c + c * c);
+	FC->b0 = 1.0 / (1.0 + SQRT_TWO * c + c * c);
 	FC->b1 = 2.0 * (FC->b0);
 	FC->b2 = (FC->b0);
 
 	FC->a1 = -2.0 * (c * c - 1.0) * (FC->b0);
-	FC->a2 = (1.0 - q * c + c * c) * (FC->b0);
+	FC->a2 = (1.0 - SQRT_TWO * c + c * c) * (FC->b0);
 
 }
 
@@ -357,7 +345,7 @@ void int_ang_rate(void){
 	ID_ang_rate.time_of_prev_read_data = ID_ang_rate.time_of_curr_read_data; 
 
 	////TODO - Make permanent paramter in labview for gyro bias.	
-	ID_ang_rate.currently_read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- DEFAULT_GYRO_BIAS/*mb_io_get_float(ID_EST_GYRO_RATE_BIAS)*/); // negative sign because of sign convention difference 
+	ID_ang_rate.currently_read_data = -(mb_io_get_float(ID_UI_ANG_RATE_X)- GYRO_RATE_BIAS); // negative sign because of sign convention difference 
 	ID_ang_rate.time_of_curr_read_data = mb_io_get_time(ID_UI_ANG_RATE_X);
 	
 	ID_ang_rate.prev_angle = ID_ang_rate.current_angle; 
@@ -390,7 +378,7 @@ float get_out_angle(void){
 
 /* Returns "dqr" the gyro rate (filtered) for the outer leg. */
 float get_out_ang_rate(void){
-	return -(mb_io_get_float(ID_E_UI_ANG_RATE_X)- DEFAULT_GYRO_BIAS);
+	return -(mb_io_get_float(ID_E_UI_ANG_RATE_X)- GYRO_RATE_BIAS);
 }
 
 /* gets "qh" the hip angle (angle b/t inner&outer legs; pos when inner leg is in front) */

@@ -1,4 +1,4 @@
-
+clc; clear;
 fprintf('\n\n************************ RangerParser v1.0 ************************\n');
 fprintf('           Emily McAdams, Nicolas Champagne-Williamson\n\n');
  
