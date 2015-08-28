@@ -7,4 +7,4 @@
     - `description` is the message that is sent to the LabVEIW data handler.
 2. Run `ranger_parser.m` - this is very important. It copies the error codes to the source files for each of the computers on Ranger, so that they all communicated together. Now when the code compiles, all modules (including LabVIEW) will know about the new error codes.
 3. The function to call (inside of the c code) is defined:
-        void mb_error_occured(ERROR_ID error_code);  
+        void mb_error_occurred(ERROR_ID error_code);  
