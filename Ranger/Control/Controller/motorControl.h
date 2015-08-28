@@ -27,10 +27,8 @@ extern float th0, th1, dth0, dth1; //absolute angles
 
 float MotorModel_Current(float, float);
 void controller_hip(struct ControllerData *);
-float get_hip_control_current_saturated(struct ControllerData * C, float x, float v);
 void controller_ankleOuter(struct ControllerData *);
 void controller_ankleInner(struct ControllerData *);
-float get_ank_control_current_saturated(struct ControllerData * C, float x, float v);
 float getAnkleControllerCurrent( struct ControllerData *);
 
 void disable_motors(void);

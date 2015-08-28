@@ -50,7 +50,7 @@ U = interp1(Iref.time',Iref.data',t','pchip')' - cp*Q - cd*dQ;
 %%%% Plot the data:
 figure(2); clf;
 % idx = 100:1800;   %Prevents matlab from crashing due to graphics failure
-idx = 1:length(t);
+idx = 1:ceil(0.25*length(t));
 
 subplot(3,1,1);
 plot(t(idx),Q(idx));

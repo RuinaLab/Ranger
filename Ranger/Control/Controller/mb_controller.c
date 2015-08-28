@@ -27,8 +27,8 @@ void mb_controller_update(void) {
 	static enum ControlMode controlMode = M5_StandBy;
 
 	// Check UI buttons to update control mode
-	if (detect_UI_button_input(3)) controlMode = M3_UnitTest; 	// 4th button flip feet up
 	if (detect_UI_button_input(0)) controlMode = M0_Calibrate;	 // 1st button calibrates
+	if (detect_UI_button_input(3)) controlMode = M3_UnitTest; 	// 4th button flip feet up
 	if (detect_UI_button_input(4)) controlMode = M4_FSM;	 // 5th button moves Ranger
 	if (detect_UI_button_input(5)) controlMode = M5_StandBy; // 6th button Stand-by, always goes last (highest priority)
 

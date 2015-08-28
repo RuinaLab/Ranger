@@ -38,7 +38,7 @@ struct IntData {
 
 void mb_estimator_update(void);
 void filter_init(void);
-void filter_hip_ang(void);
+//void filter_hip_ang(void);
 void filter_hip_rate(void);
 void filter_hip_motor_rate(void);
 void filter_foot_sensor(void);

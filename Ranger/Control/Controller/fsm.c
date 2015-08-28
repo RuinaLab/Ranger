@@ -4,8 +4,6 @@
 #include <RangerMath.h>
 
 #define PI 3.141592653589793
-#define SCISSOR_OFFSET 0.1
-#define	SCISSOR_RATE 1.3
 
 /* States for the FSM */
 enum States {
@@ -31,19 +29,21 @@ static const float Phi = 1.8;  // ankle joint orientation constant
 */
 
 /* Paramers used in the FSM */
-float ANK_FLIP_KP; //medium high
-float ANK_FLIP_KD;
-float ANK_PUSH_KP; //high, more push off
-float ANK_PUSH_KD;
-float ANK_HOLD_KP; //low, moderately hold the feet, easier to push off
-float ANK_HOLD_KD;
-float HIP_KP;
-float HIP_KD; 
-float HIP_REF_HOLD; //relative reference angle for the hip 
-float HIP_REF_TRANS_ANGLE;  
-float ANK_REF_HOLD; //absolute refernce angles for the ankles
-float ANK_REF_PUSH;
-float ANK_REF_FLIP;
+static float ANK_FLIP_KP; //medium high
+static float ANK_FLIP_KD;
+static float ANK_PUSH_KP; //high, more push off
+static float ANK_PUSH_KD;
+static float ANK_HOLD_KP; //low, moderately hold the feet, easier to push off
+static float ANK_HOLD_KD;
+static float HIP_KP;
+static float HIP_KD; 
+static float HIP_REF_HOLD; //relative reference angle for the hip 
+static float HIP_REF_TRANS_ANGLE;  
+static float ANK_REF_HOLD; //absolute refernce angles for the ankles
+static float ANK_REF_PUSH;
+static float ANK_REF_FLIP;
+static float HIP_SCISSOR_RATE;
+static float HIP_SCISSOR_OFFSET;
 
 /* Read in values for parameters used in fsm.c from Labview. */
 void fsm_param_update(void){
@@ -59,7 +59,9 @@ void fsm_param_update(void){
 	ANK_HOLD_KP =  mb_io_get_float(ID_CTRL_ANK_HOLD_KP); 
 	ANK_HOLD_KD =  mb_io_get_float(ID_CTRL_ANK_HOLD_KD);
 	HIP_KP = mb_io_get_float(ID_CTRL_HIP_KP);
-	HIP_KD= mb_io_get_float(ID_CTRL_HIP_KD); 
+	HIP_KD = mb_io_get_float(ID_CTRL_HIP_KD); 
+	HIP_SCISSOR_RATE = mb_io_get_float(ID_CTRL_HIP_SCISSOR_RATE);
+	HIP_SCISSOR_OFFSET = mb_io_get_float(ID_CTRL_HIP_SCISSOR_OFFSET);
 }
 
 //Ranger goes into flight mode when it's been lifted up in the air for a duration longer than 200 clock cycles (~0.4s).   
@@ -107,7 +109,7 @@ void fsm_run(void){
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
 		// adjust hip angle, outer on ground
-		hip_scissor_track_outer(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE,HIP_KP, HIP_KD);
+		hip_scissor_track_outer(&ctrlHip, HIP_SCISSOR_OFFSET, HIP_SCISSOR_RATE,HIP_KP, HIP_KD);
 		break;
 	case OUT_PUSH:	/*push off outer feet and land inner feet*/					   
 		mb_io_set_float(ID_CTRL_TEST_W1, 2);
@@ -121,7 +123,7 @@ void fsm_run(void){
 		// flip up outer feet and hold inner feet
 		out_ank_track_abs(&ctrlAnkOut, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
 		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
-		hip_scissor_track_inner(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE, HIP_KP, HIP_KD);
+		hip_scissor_track_inner(&ctrlHip, HIP_SCISSOR_OFFSET, HIP_SCISSOR_RATE, HIP_KP, HIP_KD);
 		break;
 	case INN_PUSH:	/*push off inner feet and land outer feet*/
 		mb_io_set_float(ID_CTRL_TEST_W1, 4);
@@ -252,6 +254,7 @@ void correct_gyro_angle(void){
 	x = l*Sin(qh) - d*Sin(Phi - q1 + qh) + d*Sin(Phi - q0);
 	y = l + d*Cos(Phi - q1 + qh) - l*Cos(qh) - d*Cos(Phi - q0);
 
+	////HACK//// The following doesn't work well - should be 0.9*... 0.1*..., but we use 0.999 for debugging now.
 	stepLength = Sqrt(x*x + y*y);
 	qr_geo = Atan(y/x) + Slope;	 //gyro angle calculated from geometry 
 	qr_int = get_prev_gyro_angle();	//gyro angle integrated from gyro rate (from the preivous ms)
@@ -261,140 +264,4 @@ void correct_gyro_angle(void){
 	set_gyro_angle(qr_new);	//updates the gyro angle in the estimator code
 	
 	return;
-}
-
-
-/*******************************************************/
-/***************FSM TEST FUNCTIONS**********************/
-/*******************************************************/
-
-////TODO - check that new version works, then many things below this line below this line
-
-
-enum testStates {
-	zero,
-	one,
-	two,
-	three,
-	four,
-	five,
-};
-
-static enum testStates test_state = zero; 
-int setup = 1;
-
-/* Initializes the test FSM. */
-void test_init(void){
-	test_state = zero;
-	setup = 1;
-	flight_count = 0;
-}
-
-/* Makes Ranger walk with simpler transition conditions.
- * Parameters:
- *	- ID_CTRL_TEST_W1 = current state of the FSM		
- */
-void test_fsm(void){
-	struct ControllerData ctrlHip;
-	struct ControllerData ctrlAnkOut;
-	struct ControllerData ctrlAnkInn;
-	
-	//turns on gravity compensation in the hip motor
-	ctrlHip.GC = 1;
-	//turns off gravity compensation in the ankle motors
-	ctrlAnkOut.GC = 0;
-	ctrlAnkInn.GC = 0;	
-
-/*	KP&KD values that work:
-  	hip: kp=27 kd=3.8 or kp=16 kd=3
-	ank: push_kp=20 push_kd=3; kp=7 kd=1
-*/
-
-	angles_update();
-	//mb_io_set_float(ID_CTRL_TEST_W9, th0);
-
-	// Enters flight state if all feet are off ground 
-	if(!setup){	//not in the setup state
-		if(!FI_on_ground() && !FO_on_ground()){
-			flight_count++;
-		}else{
-			flight_count = 0;
-		}
-		if(flight_count >= 200 ){
-			test_state = five;
-		}
-	}
-  
-	switch(test_state){
-	case zero: //initial setup done in the air 
-		mb_io_set_float(ID_CTRL_TEST_W1, 0);
-		// hold outer feet and flip up inner feet
-		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
-		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
-		// hip tracks zero angle
-		hip_track_rel(&ctrlHip, 0.0, 0.0, HIP_KP, HIP_KD);
-		 
-		// ready to walk when placed on ground					
-		if(FO_on_ground()){
-			test_state = one;
-			setup = 0;		
-		}
-		break;		
-	case one:  //swing innner leg 
-		mb_io_set_float(ID_CTRL_TEST_W1, 1);
-		// hold outer feet and flip up inner feet
-		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
-		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
-		hip_scissor_track_outer(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE, HIP_KP, HIP_KD); 
-
-		if(th0<-HIP_REF_TRANS_ANGLE){ //inner leg in front, outer leg in the back 
-			test_state = two;
-		} 
-		break;
-	case two: //push off outer feet 
-		mb_io_set_float(ID_CTRL_TEST_W1, 2);
-		// push down outer feet and hold inner feet
-	    out_ank_track_abs(&ctrlAnkOut, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
-	 	inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
-	    hip_track_rel(&ctrlHip, HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
-		
-		if(FI_on_ground()){ 
-			correct_gyro_angle();
-			test_state = three;
-		}		
-		break;
-	case three: //swing outer leg
-		mb_io_set_float(ID_CTRL_TEST_W1, 3);
-		// flip up outer feet and hold inner feet
-		out_ank_track_abs(&ctrlAnkOut, ANK_REF_FLIP, 0.0, 0.0, ANK_FLIP_KP, ANK_FLIP_KD);
-		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
-		hip_scissor_track_inner(&ctrlHip, SCISSOR_OFFSET, SCISSOR_RATE, HIP_KP, HIP_KD);
-		
-		if(th0>HIP_REF_TRANS_ANGLE){ //outer leg in front, inner leg in the back 
-			test_state = four;	
-		}
-		break;
-	case four: //push off inner feet
-		mb_io_set_float(ID_CTRL_TEST_W1, 4);
-		//push down inner feet and hold outer feet
-		out_ank_track_abs(&ctrlAnkOut, ANK_REF_HOLD, 0.0, 0.0, ANK_HOLD_KP, ANK_HOLD_KD);
-		inn_ank_track_abs(&ctrlAnkInn, ANK_REF_PUSH, 0.0, 0.0, ANK_PUSH_KP, ANK_PUSH_KD);
-		hip_track_rel(&ctrlHip, -HIP_REF_HOLD, 0.0, HIP_KP, HIP_KD);
-
-		if(FO_on_ground()){ 
-			correct_gyro_angle(); 
-			test_state = one;
-		}	
-		break;
-	case five: //flight mode
-	 	mb_io_set_float(ID_CTRL_TEST_W1, 5);
-		disable_motors();
-		break;
-	}
-
-	if(test_state != five){
-		controller_hip(&ctrlHip);
-		controller_ankleInner(&ctrlAnkInn);
-		controller_ankleOuter(&ctrlAnkOut);
-	}
 }

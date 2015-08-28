@@ -1,6 +1,7 @@
 #include <mb_includes.h>
 #include <mb_estimator.h>
 #include <RangerMath.h>   // Tan()
+#include <input_output.h> // LED functions
 
 
 #define SQRT_TWO 1.414213562373095
@@ -88,27 +89,6 @@ void filter_init(void){
 	setFilterData(&FD_FI_ang_rate, 0.0);
 	setFilterData(&FD_FO_angle, 0.0);
 	setFilterData(&FD_FO_ang_rate, 0.0); 
-
-	return;
-}
-
-
-/* Runs a 2nd order butterworth filter on the hip angle.
- * Sets the estimated hip angular rate... the low-level estimate from the motor control board is a bit better. 
- * The measured hip angle is fairly accurate, 
- * this filtering is done to get data point for every ms for calculating the hip angular rate (by differentiating). 
- */
-void filter_hip_ang(void){
-	float read_data;
-	unsigned long read_data_t;
-	float est_hip_ang;
-
-	// Run the filter:
-	read_data = mb_io_get_float(ID_MCH_ANGLE);
-	read_data_t = mb_io_get_time(ID_MCH_ANGLE);
-	est_hip_ang = runFilter_new(&FC_hip_ang, &FD_hip_ang, read_data, read_data_t);
-		
-	mb_io_set_float(ID_E_MCH_ANG_RATE, FD_hip_ang.d0);	
 
 	return;
 }
