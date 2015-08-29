@@ -116,6 +116,7 @@ typedef enum errors{
 	ERROR_MC_PWM_LIMIT,	//	MC: Requested PWM has reached limit
 	ERROR_MC_NOT_RUNNING,	//	MC: MC is not running due to off sleep shutdown thermal or mechanical states
 	ERROR_AE_SPIKE,	//	AE: A spike was detected and limited. 
+	ERROR_EST_FILTER_TIME_VIOLATION,	//	EST: An invalid time-stamp was passed to the butterworth filter.
 	ERROR_LAST_ID
 } ERROR_ID;
 

@@ -1,7 +1,6 @@
 #include <mb_includes.h>
 #include <mb_estimator.h>
-#include <RangerMath.h>   // Tan()
-#include <stdbool.h>
+#include <RangerMath.h>   // Tan(), bool
 #include <input_output.h> // LED functions
 
 typedef struct {
@@ -38,11 +37,6 @@ static const float FILTER_CUTOFF_SLOW = 0.002 * 10; // (2*period in sec)*(cutoff
 /* Local constant parameters */
 static const float GYRO_RATE_BIAS = -0.0097;  // Measured in August 2015. Should be checked monthly.
 static const float CONTACT_VALUE_THRESHOLD = 7000.0;  // Threshold for detecting contact on the feet
-static const int CONTACT_COUNT_THRESHOLD = 10;  // Contact is switched threshold for this many clock cycles
-
-/* Shared variables */
-static int CONTACT_COUNT_INN = 0; // Count number of cycles since contact was first sensed
-static int CONTACT_COUNT_OUT = 0;
 
 /* Butterworth filter coefficients */
 static FilterCoeff FC_FAST;
@@ -59,18 +53,16 @@ static FilterData FD_MCFI_RIGHT_HEEL_SENSE;
 static IntegralData intDat_OUTER_LEG_ANGLE;
 
 
-/* Returns true if the outer feet are in contact with the ground */
-bool getContactOuter(void) {
-	float sum = FD_MCFO_RIGHT_HEEL_SENSE.y0 + FD_MCFO_LEFT_HEEL_SENSE.y0;
-	return sum > CONTACT_VALUE_THRESHOLD;
+/* Initializes the filter to a single value. */
+void setFilterData(FilterData * FD, float z) {
+	FD->z0 = z;
+	FD->z1 = z;
+	FD->z2 = z;
+	FD->y0 = z;
+	FD->y1 = z;
+	FD->y2 = z;
+	FD->t0 = mb_io_get_float(ID_TIMESTAMP);
 }
-/* Returns true if the inner feet are in contact with the ground */
-bool getContactInner(void) {
-	float sum = FD_MCFI_RIGHT_HEEL_SENSE.y0 + FD_MCFI_LEFT_HEEL_SENSE.y0;
-	return sum > CONTACT_VALUE_THRESHOLD;
-}
-
-
 
 /* Updates the Butterworth filter based on new sensor data. The filter runs
  * with a period of 1ms, so that it can handle asynchronous data.
@@ -83,11 +75,8 @@ float runFilter(FilterCoeff * FC, FilterData * FD, unsigned long t, float z) {
 	unsigned long tDiff = t - (FD->t0);
 
 	// Error checking on timing:
-	if (tDiff < 0) { // Somehow we went back in time...
-		mb_error_occured(ERROR_FILTER_TIME_VIOLATION);
-		return z;
-	} else if (tDiff > 20) { // Went a long time without calling the filter
-		mb_error_occured(ERROR_FILTER_TIME_VIOLATION);
+ 	if (tDiff > 20) { // Went a long time without calling the filter
+		mb_error_occurred(ERROR_EST_FILTER_TIME_VIOLATION);
 		setFilterData(FD, z);  // Reset the filter here
 		return z;
 	} else if (tDiff != 0) { // Recursively call the filter
@@ -121,7 +110,7 @@ float runFilter(FilterCoeff * FC, FilterData * FD, unsigned long t, float z) {
 /* Runs the butterworth filter on the gyro rate */
 void runFilter_ui_ang_rate_x(void) {
 	unsigned long t = mb_io_get_time(ID_UI_ANG_RATE_X);
-	float z = mb_io_get_float(ID_UI_ANG_RATE_X);
+	float z = mb_io_get_float(ID_UI_ANG_RATE_X) - GYRO_RATE_BIAS;
 	float y = runFilter(&FC_FAST, &FD_UI_ANG_RATE_X, t, z);
 	mb_io_set_float(ID_E_UI_ANG_RATE_X, y);
 }
@@ -171,21 +160,8 @@ void setFilterCoeff(FilterCoeff * FC, float r) {
 }
 
 
-/* Initializes the filter to a single value. */
-void setFilterData(FilterData * FD, float z) {
-	FD->z0 = z;
-	FD->z1 = z;
-	FD->z2 = z;
-	FD->y0 = z;
-	FD->y1 = z;
-	FD->y2 = z;
-	FD->t0 = mb_io_get_float(ID_TIMESTAMP);
-	FD->d0 = z;
-}
-
-
 /* Returns the derivative of a filtered signal */
-void getFilterDerivative(FilterData * FD) {
+float getFilterDerivative(FilterData * FD) {
 	float derivative = 0.5 * (FD->y2 - 4 * FD->y1 + 3 * FD->y0); // Second-order backwards difference
 	return  1000 * derivative; // Convert to 1/seconds rather than 1/ms
 }
@@ -194,19 +170,19 @@ void getFilterDerivative(FilterData * FD) {
 
 /* Returns the integral of the sensor data by trapazoid method */
 float computeIntegral(IntegralData * intDat, unsigned long t, float z) {
-	float dt = 0.001*(t - intDat->tLast);  // Time in seconds between data points
-	float area = 0.5 * dt * (z + intDat->zLast)
-	             intDat->sum = intDat->sum + area;
+	float dt = 0.001 * (t - intDat->tLast); // Time in seconds between data points
+	float area = 0.5 * dt * (z + intDat->zLast);
+	intDat->sum = intDat->sum + area;
 	return intDat->sum;
 }
 
 
 /* Computes the integral of the outer leg angular rate */
-void runIntegral_outerLegAngle(){
+void runIntegral_outerLegAngle() {
 	unsigned long t = mb_io_get_time(ID_UI_ANG_RATE_X);
 	float z = mb_io_get_float(ID_UI_ANG_RATE_X);
 	float sum = computeIntegral(&intDat_OUTER_LEG_ANGLE, t, z);
-	mb_io_set_float(ID_EST_OUTER_LEG_ANGLE,sum);
+	mb_io_set_float(ID_EST_OUTER_LEG_ANGLE, sum);
 }
 
 /* Resets the sum in the integral.
@@ -218,6 +194,27 @@ void resetIntegral(IntegralData * intDat, float z, float sum) {
 	intDat->sum = sum;
 }
 
+
+/********************* Public Functions ***********************************
+ *                                                                        *
+ **************************************************************************/
+
+
+/* Returns true if the outer feet are in contact with the ground */
+bool getContactOuter(void) {
+	float sum = FD_MCFO_RIGHT_HEEL_SENSE.y0 + FD_MCFO_LEFT_HEEL_SENSE.y0;
+	return sum > CONTACT_VALUE_THRESHOLD;
+}
+/* Returns true if the inner feet are in contact with the ground */
+bool getContactInner(void) {
+	float sum = FD_MCFI_RIGHT_HEEL_SENSE.y0 + FD_MCFI_LEFT_HEEL_SENSE.y0;
+	return sum > CONTACT_VALUE_THRESHOLD;
+}
+
+/* Sets the outer leg angle estimate to zero */
+void resetOuterLegAngle(void){
+	resetIntegral(&intDat_OUTER_LEG_ANGLE, 0.0, 0.0);
+}
 
 
 

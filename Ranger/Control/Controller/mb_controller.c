@@ -65,7 +65,7 @@ void mb_controller_update(void) {
 		break;
 	case M0_Calibrate: //Button 0 (left-most button)	
 		set_UI_LED(5, 'y');
-		calibrate(); //resets the angle integrated from gyro rate to zero in the estimator code 
+		resetOuterLegAngle(); //resets the angle integrated from gyro rate to zero in the estimator code 
 		break;
 	}
 
