@@ -1,12 +1,11 @@
 #include <mb_includes.h>
 #include <motorControl.h>
-#include "fsm.h"
 #include "RangerMath.h"
 #include "robotParameters.h"
 #include "mb_estimator.h"
 
-extern bool HIP_GRAVITY_COMPENSATION = true;
-extern bool HIP_SPRING_COMPENSATION = true;
+bool HIP_GRAVITY_COMPENSATION = true;
+bool HIP_SPRING_COMPENSATION = true;
 
 /* standardized controller input struct */
 typedef struct  {

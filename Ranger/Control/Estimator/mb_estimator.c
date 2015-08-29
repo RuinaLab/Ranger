@@ -29,7 +29,7 @@ typedef struct {
 } IntegralData;
 
 /* Global variables */
-extern bool INITIALIZE_ESTIMATOR = true;   // Should the estimator be initialized?
+bool INITIALIZE_ESTIMATOR = true;   // Should the estimator be initialized?
 
 /* Filter cut-off frequencies */
 static const float FILTER_CUTOFF_FAST = 0.002 * 50; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
@@ -60,22 +60,22 @@ static FilterData FD_MCFI_RIGHT_HEEL_SENSE;
 static IntegralData intDat_OUTER_LEG_ANGLE;
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
-extern float STATE_qr;  // robot angle
-extern float STATE_qh;  // hip angle
-extern float STATE_q0;  // outer ankle angle
-extern float STATE_q1;  // inner ankle angle
-extern float STATE_dqr;  // robot rate
-extern float STATE_dqh;  // hip rate
-extern float STATE_dq0;  // outer ankle rate
-extern float STATE_dq1;  // inner ankle rate
-extern float STATE_th0;  // absolute orientation of outer legs
-extern float STATE_th1;  // absolute orientation of inner legs
-extern float STATE_phi0;  // absolute orientation of outer feet
-extern float STATE_phi1;  // absolute orientation of inner feet
-extern float STATE_dth0;  // absolute orientation rate of outer legs
-extern float STATE_dth1;  // absolute orientation rate of inner legs
-extern float STATE_dphi0;  // absolute orientation rate of outer feet
-extern float STATE_dphi1;  // absolute orientation rate of inner feet
+float STATE_qr;  // robot angle
+float STATE_qh;  // hip angle
+float STATE_q0;  // outer ankle angle
+float STATE_q1;  // inner ankle angle
+float STATE_dqr;  // robot rate
+float STATE_dqh;  // hip rate
+float STATE_dq0;  // outer ankle rate
+float STATE_dq1;  // inner ankle rate
+float STATE_th0;  // absolute orientation of outer legs
+float STATE_th1;  // absolute orientation of inner legs
+float STATE_phi0;  // absolute orientation of outer feet
+float STATE_phi1;  // absolute orientation of inner feet
+float STATE_dth0;  // absolute orientation rate of outer legs
+float STATE_dth1;  // absolute orientation rate of inner legs
+float STATE_dphi0;  // absolute orientation rate of outer feet
+float STATE_dphi1;  // absolute orientation rate of inner feet
 
 /* Initializes the filter to a single value. */
 void setFilterData(FilterData * FD, float z) {

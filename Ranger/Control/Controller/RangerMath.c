@@ -1,13 +1,13 @@
 #include "RangerMath.h"
 
 /* Global constants */
-extern const float PI = 3.141592653589793;
-extern const float TWO_PI = 6.283185307179586;
-extern const float SQRT_TWO = 1.414213562373095;
+const float PI = 3.141592653589793;
+const float TWO_PI = 6.283185307179586;
+const float SQRT_TWO = 1.414213562373095;
 
 /* Local constants */
-static const float INV_TWO_PI = 0.159154943091895;
-static const float HALF_PI = 1.570796326794897;
+const float INV_TWO_PI = 0.159154943091895;
+const float HALF_PI = 1.570796326794897;
 
 
 /* Perform quadratic interpolation to evalute y = f(x) at point x,
