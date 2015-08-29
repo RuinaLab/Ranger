@@ -2,6 +2,7 @@
 #include <mb_estimator.h>
 #include <RangerMath.h>   // Tan(), bool
 #include <input_output.h> // LED functions
+#include <robotParameters.h>
 
 typedef struct {
 	float a1;
@@ -33,6 +34,7 @@ extern bool INITIALIZE_ESTIMATOR = true;   // Should the estimator be initialize
 /* Filter cut-off frequencies */
 static const float FILTER_CUTOFF_FAST = 0.002 * 50; // (2*period in sec)*(cutoff frequency in Hz)
 static const float FILTER_CUTOFF_SLOW = 0.002 * 10; // (2*period in sec)*(cutoff frequency in Hz)
+static const float FILTER_OUTER_LEG_ANGLE_UPDATE = 0.9; // 1.0->Ignore heel-strike reset, 0.0->update purely based on reset
 
 /* Local constant parameters */
 static const float GYRO_RATE_BIAS = -0.0097;  // Measured in August 2015. Should be checked monthly.
@@ -52,6 +54,23 @@ static FilterData FD_MCFI_RIGHT_HEEL_SENSE;
 /* Estimate of the outer leg angle */
 static IntegralData intDat_OUTER_LEG_ANGLE;
 
+/* Robot state variables. Naming conventions in docs. Matches simulator. */
+extern float STATE_qr;  // robot angle
+extern float STATE_qh;  // hip angle
+extern float STATE_q0;  // outer ankle angle
+extern float STATE_q1;  // inner ankle angle
+extern float STATE_dqr;  // robot rate
+extern float STATE_dqh;  // hip rate
+extern float STATE_dq0;  // outer ankle rate
+extern float STATE_dq1;  // inner ankle rate
+extern float STATE_th0;  // absolute orientation of outer legs
+extern float STATE_th1;  // absolute orientation of inner legs
+extern float STATE_phi0;  // absolute orientation of outer feet
+extern float STATE_phi1;  // absolute orientation of inner feet
+extern float STATE_dth0;  // absolute orientation rate of outer legs
+extern float STATE_dth1;  // absolute orientation rate of inner legs
+extern float STATE_dphi0;  // absolute orientation rate of outer feet
+extern float STATE_dphi1;  // absolute orientation rate of inner feet
 
 /* Initializes the filter to a single value. */
 void setFilterData(FilterData * FD, float z) {
@@ -75,7 +94,7 @@ float runFilter(FilterCoeff * FC, FilterData * FD, unsigned long t, float z) {
 	unsigned long tDiff = t - (FD->t0);
 
 	// Error checking on timing:
- 	if (tDiff > 20) { // Went a long time without calling the filter
+	if (tDiff > 20) { // Went a long time without calling the filter
 		mb_error_occurred(ERROR_EST_FILTER_TIME_VIOLATION);
 		setFilterData(FD, z);  // Reset the filter here
 		return z;
@@ -188,10 +207,34 @@ void runIntegral_outerLegAngle() {
 /* Resets the sum in the integral.
  * @param z = current value of sensor
  * @param sum = desired value of the integral */
-void resetIntegral(IntegralData * intDat, float z, float sum) {
+void initializeIntegral(IntegralData * intDat, float z, float sum) {
 	intDat->zLast = z;
 	intDat->tLast = mb_io_get_float(ID_TIMESTAMP);
 	intDat->sum = sum;
+}
+void resetIntegral(IntegralData * intDat, float sum) {
+	intDat->tLast = mb_io_get_float(ID_TIMESTAMP);
+	intDat->sum = sum;
+}
+
+/* Updates the robot's state, based on estimates and direct sensor reading */
+void updateRobotState(void) {
+	STATE_qr = mb_io_get_float(ID_EST_OUTER_LEG_ANGLE);  // robot angle - absolute orientation of outer legs
+	STATE_qh = mb_io_get_float(ID_MCH_ANGLE); // hip angle - between legs
+	STATE_q0 = mb_io_get_float(ID_MCFO_RIGHT_ANKLE_ANGLE);  // outer ankle angle
+	STATE_q1 = mb_io_get_float(ID_MCFI_MID_ANKLE_ANGLE);  // inner ankle angle
+	STATE_dqr = mb_io_get_float(ID_E_UI_ANG_RATE_X);  // robot angle rate - absolute orientation rate of outer legs
+	STATE_dqh = mb_io_get_float(ID_MCH_ANG_RATE); // hip angle rate - between legs
+	STATE_dq0 = mb_io_get_float(ID_MCFO_RIGHT_ANKLE_RATE);  // outer ankle angle rate
+	STATE_dq1 = mb_io_get_float(ID_MCFI_ANKLE_RATE);  // inner ankle angle rate
+	STATE_th0 = -STATE_qr;  // absolute orientation of outer legs
+	STATE_th1 = STATE_qh - STATE_qr; // absolute orientation of inner legs
+	STATE_phi0 = PARAM_Phi - STATE_qr - STATE_q0;  // absolute orientation of outer feet
+	STATE_phi1 = PARAM_Phi  + STATE_qh - STATE_qr - STATE_q1; // absolute orientation of inner feet
+	STATE_dth0 = -STATE_dqr;  // absolute orientation rate of outer legs
+	STATE_dth1 = STATE_dqh - STATE_dqr;  // absolute orientation rate of inner legs
+	STATE_dphi0 = -STATE_dqr - STATE_dq0;  // absolute orientation rate of outer feet
+	STATE_dphi1 = STATE_dqh - STATE_dqr - STATE_dq1; // absolute orientation rate of inner feet
 }
 
 
@@ -212,11 +255,51 @@ bool getContactInner(void) {
 }
 
 /* Sets the outer leg angle estimate to zero */
-void resetOuterLegAngle(void){
-	resetIntegral(&intDat_OUTER_LEG_ANGLE, 0.0, 0.0);
+void resetOuterLegAngle(float sum) {
+	resetIntegral(&intDat_OUTER_LEG_ANGLE, sum);
 }
 
+/* Updates the outer leg angle based on double stance contact. This should be called from 
+ * the walking controller each time a heel-strike occurs. */
+void updateOuterLegAngle(void){
 
+	float Slope = 0.0;  // Assume flat ground for now
+	float x, y; // scalar distances, in coordinate system aligned with outer legs
+	float th0_geometry;  // Store estimate from geometry here
+	float th0_update;  // new estimate goes here
+	float alpha = 1.0; ////HACK//// FILTER_OUTER_LEG_ANGLE_UPDATE;
+
+	float Phi = PARAM_Phi;
+	float l = PARAM_l;
+	float d = PARAM_d;
+	float qh = STATE_qh;
+	float q1 = STATE_q1;
+	float q0 = STATE_q0;
+
+	/* Ranger geometry:
+	 * [x;y] = vector from outer foot virtual center to the inner foot
+	 * virtual center, in a frame that is rotated such that qr = 0
+	 * These functions were determined using computer math. The code can
+	 * be found in:
+	 * templates/Estimator/legAngleEstimator/Derive_Eqns.m
+	 */
+	x = l*Sin(qh) - d*Sin(Phi - q1 + qh) + d*Sin(Phi - q0);
+	y = l + d*Cos(Phi - q1 + qh) - l*Cos(qh) - d*Cos(Phi - q0);
+
+	th0_geometry = Atan(y/x) + Slope;	 //gyro angle calculated from geometry 
+
+	/* The new robot angle should be a convex combination of the estimate from 
+	 * the rate gyro integration and the geometry from double stance. This is basically
+	 * a first-order filter, running once per step. The weight should be alpha = 0.9,
+	 * but there is a bug in the reset now, so we are neglecting it. */
+	th0_update = alpha*STATE_th0 + (1-alpha)*th0_geometry;	//new gyro angle that's a weighted average of the two above
+
+	resetOuterLegAngle(-th0_update);  // outer leg angle = qr = -th0
+ 	mb_io_set_float(ID_EST_LAST_STEP_LENGTH, Sqrt(x*x + y*y));  // Distance between two contact points
+
+	return;
+
+}
 
 
 /***************** ENTRY-POINT FUNCTION CALL  *****************************
@@ -238,7 +321,7 @@ void mb_estimator_update(void) {
 		setFilterData(&FD_MCFI_RIGHT_HEEL_SENSE, 0.0);
 
 		// Reset the estimate of the outer leg angle
-		resetIntegral(&intDat_OUTER_LEG_ANGLE, 0.0, 0.0);
+		initializeIntegral(&intDat_OUTER_LEG_ANGLE, 0.0, 0.0);
 
 		// Remember that we've initialized everything properly
 		INITIALIZE_ESTIMATOR = false;
@@ -251,6 +334,9 @@ void mb_estimator_update(void) {
 
 	// Run calculations:
 	runIntegral_outerLegAngle();
+
+	// Update the state variables:  (absolute orientation and rate)
+	updateRobotState();
 
 	return;
 }
