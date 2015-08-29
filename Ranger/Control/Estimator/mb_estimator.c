@@ -32,7 +32,7 @@ typedef struct {
 bool INITIALIZE_ESTIMATOR = true;   // Should the estimator be initialized?
 
 /* Filter cut-off frequencies */
-static const float FILTER_CUTOFF_FAST = 0.002 * 50; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
+static const float FILTER_CUTOFF_FAST = 0.002 * 30; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
 static const float FILTER_CUTOFF_SLOW = 0.002 * 10; // (2*period in sec)*(cutoff frequency in Hz) -- Used by foot contact sensors
 static const float FILTER_OUTER_LEG_ANGLE_UPDATE = 0.9; // 1.0->Ignore heel-strike reset, 0.0->update purely based on reset
 
@@ -60,11 +60,9 @@ static FilterData FD_MCFI_RIGHT_HEEL_SENSE;
 static IntegralData intDat_OUTER_LEG_ANGLE;
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
-float STATE_qr;  // robot angle
 float STATE_qh;  // hip angle
 float STATE_q0;  // outer ankle angle
 float STATE_q1;  // inner ankle angle
-float STATE_dqr;  // robot rate
 float STATE_dqh;  // hip rate
 float STATE_dq0;  // outer ankle rate
 float STATE_dq1;  // inner ankle rate
@@ -137,8 +135,8 @@ void runFilter_ui_ang_rate_x(void) {
 	unsigned long t = mb_io_get_time(ID_UI_ANG_RATE_X);
 	float z = mb_io_get_float(ID_UI_ANG_RATE_X) - GYRO_RATE_BIAS;
 	float y = runFilter(&FC_FAST, &FD_UI_ANG_RATE_X, t, z);
-	mb_io_set_float(ID_E_UI_ANG_RATE_X, y);
-	STATE_dqr = y; // Send robot orientation rate to the control and estimation code
+	mb_io_set_float(ID_EST_STATE_DTH0, y);
+	STATE_dth0 = y; // Send robot orientation rate to the control and estimation code
 }
 
 /* Runs the butterworth filter on the three joint sensors */
@@ -238,8 +236,8 @@ void runIntegral_outerLegAngle() {
 	unsigned long t = mb_io_get_time(ID_UI_ANG_RATE_X);
 	float z = mb_io_get_float(ID_UI_ANG_RATE_X) - GYRO_RATE_BIAS;
 	float sum = computeIntegral(&intDat_OUTER_LEG_ANGLE, t, z);
-	mb_io_set_float(ID_EST_OUTER_LEG_ANGLE, sum);  // Send over CAN
-	STATE_qr = sum;  // Send to control and estimator code
+	mb_io_set_float(ID_EST_STATE_TH0, sum);  // Send over CAN
+	STATE_th0 = sum;  // Send to control and estimator code
 }
 
 /* Resets the sum in the integral.
@@ -254,8 +252,8 @@ void resetIntegral(IntegralData * intDat, unsigned long t, float z, float sum) {
 
 /* Updates the robot's state.
  * Joint angles are read directly from the sensors
- * Robot angle (qr) is updated by runIntegral_outerLegAngle
- * Joint rates (dqr, dqh, dq0, dq1) are computed by butterworth filters and updated there. */
+ * Robot angle (th0) is updated by runIntegral_outerLegAngle
+ * Joint rates (dth0, dqh, dq0, dq1) are computed by butterworth filters and updated there. */
 void updateRobotState(void) {
 
 	// Read the joint angles of the robot
@@ -264,14 +262,20 @@ void updateRobotState(void) {
 	STATE_q1 = mb_io_get_float(ID_MCFI_MID_ANKLE_ANGLE);  // inner ankle angle
 
 	// Compute the absolute orientation of the robot's feet and legs
-	STATE_th0 = -STATE_qr;  // absolute orientation of outer legs
-	STATE_th1 = STATE_qh - STATE_qr; // absolute orientation of inner legs
-	STATE_phi0 = PARAM_Phi - STATE_qr - STATE_q0;  // absolute orientation of outer feet
-	STATE_phi1 = PARAM_Phi  + STATE_qh - STATE_qr - STATE_q1; // absolute orientation of inner feet
-	STATE_dth0 = -STATE_dqr;  // absolute orientation rate of outer legs
-	STATE_dth1 = STATE_dqh - STATE_dqr;  // absolute orientation rate of inner legs
-	STATE_dphi0 = -STATE_dqr - STATE_dq0;  // absolute orientation rate of outer feet
-	STATE_dphi1 = STATE_dqh - STATE_dqr - STATE_dq1; // absolute orientation rate of inner feet
+	STATE_th1 = STATE_qh + STATE_th0; // absolute orientation of inner legs
+	STATE_phi0 = PARAM_Phi + STATE_th0 - STATE_q0;  // absolute orientation of outer feet
+	STATE_phi1 = PARAM_Phi  + STATE_qh + STATE_th0 - STATE_q1; // absolute orientation of inner feet
+	STATE_dth1 = STATE_dqh + STATE_dth0;  // absolute orientation rate of inner legs
+	STATE_dphi0 = STATE_dth0 - STATE_dq0;  // absolute orientation rate of outer feet
+	STATE_dphi1 = STATE_dqh + STATE_dth0 - STATE_dq1; // absolute orientation rate of inner feet
+
+	// Send back across network of data logging and diagnostics:
+	mb_io_set_float(ID_EST_STATE_TH1, STATE_th1);
+	mb_io_set_float(ID_EST_STATE_PHI0, STATE_phi0);
+	mb_io_set_float(ID_EST_STATE_PHI1, STATE_phi1);
+	mb_io_set_float(ID_EST_STATE_DTH1, STATE_dth1);
+	mb_io_set_float(ID_EST_STATE_DPHI0, STATE_dphi0);
+	mb_io_set_float(ID_EST_STATE_DPHI1, STATE_dphi1);
 }
 
 

@@ -195,14 +195,20 @@ ERROR_LABVIEW,0,1,0,Buffered errors for transmission to LabView/PC
 ERROR_LCD,0,1,8,Buffered errors for transmission to Ranger LCD
 #,,,,
 #State Estimator,,,,
-E_UI_ANG_RATE_X,0,1,0,estimated rate of the outer legs (STATE = dqr)
 E_MCH_ANG_RATE,0,1,0,estimated rate of the hip (STATE = dqh)
 E_MCFO_RIGHT_ANKLE_RATE ,0,1,0,estimated rate of the outer ankles (STATE=dq0)
 E_MCFI_ANKLE_RATE,0,1,0,estimated rate of the inner ankles (STATE = dq1)
 EST_CONTACT_OUTER,0,1,0,Filtered sum of both outer foot contact sensors
 EST_CONTACT_INNER,0,1,0,Filtered sum of both inner foot contact sensors
 EST_LAST_STEP_LENGTH,0,1,0,Stores the step length as computed once per step in double stance
-EST_OUTER_LEG_ANGLE,0,1,0,absolute angle of the outer legs STATE=(qr)
+EST_STATE_TH0,0,1,0,abs angle outer legs
+EST_STATE_TH1,0,1,0,abs angle inner legs
+EST_STATE_PHI0,0,1,0,abs angle outer feet
+EST_STATE_PHI1,0,1,0,abs angle inner feet
+EST_STATE_DTH0,0,1,0,abs rate outer legs
+EST_STATE_DTH1,0,1,0,abs rate inner legs
+EST_STATE_DPHI0,0,1,0,abs rate outer feet
+EST_STATE_DPHI1,0,1,0,abs rate inner feet
 #,,,,
 #EstimatorTesting,0,0,1,test read from labview
 EST_TEST_R0,0,0,1,test read from labview

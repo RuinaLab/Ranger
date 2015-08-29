@@ -6,11 +6,9 @@
 extern bool INITIALIZE_ESTIMATOR; // Should the estimator be initialized?
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
-extern float STATE_qr;  // robot angle
 extern float STATE_qh;  // hip angle
 extern float STATE_q0;  // outer ankle angle
 extern float STATE_q1;  // inner ankle angle
-extern float STATE_dqr;  // robot rate
 extern float STATE_dqh;  // hip rate
 extern float STATE_dq0;  // outer ankle rate
 extern float STATE_dq1;  // inner ankle rate
