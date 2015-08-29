@@ -38,6 +38,7 @@ void mb_controller_update(void) {
 	case M0_Calibrate: //Button 0 (left-most button)	
 		set_UI_LED(5, 'y');
 		resetOuterLegAngle(0.0); //resets the angle integrated from gyro rate to zero in the estimator code 
+		controlMode = M5_StandBy;  // Switch immediately back to stand-by
 		break;
 	}
 

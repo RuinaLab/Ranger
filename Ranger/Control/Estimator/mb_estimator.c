@@ -37,7 +37,7 @@ static const float FILTER_CUTOFF_SLOW = 0.002 * 10; // (2*period in sec)*(cutoff
 static const float FILTER_OUTER_LEG_ANGLE_UPDATE = 0.9; // 1.0->Ignore heel-strike reset, 0.0->update purely based on reset
 
 /* Local constant parameters */
-static const float GYRO_RATE_BIAS = -0.0097;  // Measured in August 2015. Should be checked monthly.
+static const float GYRO_RATE_BIAS = -0.009324229372422;  // Measured August 29, 2015. Should be checked monthly.
 static const float CONTACT_VALUE_THRESHOLD = 7000.0;  // Threshold for detecting contact on the feet
 
 /* Butterworth filter coefficients */
@@ -96,21 +96,23 @@ void setFilterData(FilterData * FD, float z) {
  */
 float runFilter(FilterCoeff * FC, FilterData * FD, unsigned long t, float z) {
 
-	unsigned long tDiff = t - (FD->t0);
+	int tDiff = (int) (t - (FD->t0));
 
 	// Error checking on timing:
-	if (tDiff > 20) { // Went a long time without calling the filter
+	if (tDiff > 30 || tDiff < 0) { // Something went wrong
 		mb_error_occurred(ERROR_EST_FILTER_TIME_VIOLATION);
-		setFilterData(FD, z);  // Reset the filter here
+		setFilterData(FD, z);  // Reset the filter
 		return z;
-	} else if (tDiff != 0) { // Recursively call the filter
-		return runFilter(FC, FD, t - 1, z);
-	} else {	// BASE CASE:  Expect that t == (FD->t0)
+	} else if (tDiff == 0) { // No new data - return old estimate
+		return FD->y0;
+	}
 
+	// March forward in time until we reach the present:
+	do {
 		// Update sensor history:
 		FD->z2 = FD->z1;
 		FD->z1 = FD->z0;
-		//FD->z0;	 //keep the previous measured value
+		FD->z0 = z;
 		// Update estimate history:
 		FD->y2 = FD->y1;
 		FD->y1 = FD->y0;
@@ -123,8 +125,7 @@ float runFilter(FilterCoeff * FC, FilterData * FD, unsigned long t, float z) {
 		    (FC->b2) * (FD->z2) -
 		    (FC->a1) * (FD->y1) -
 		    (FC->a2) * (FD->y2);
-	}
-
+	} while (FD->t0 < t);
 	return (FD->y0);
 }
 
@@ -226,6 +227,8 @@ float computeIntegral(IntegralData * intDat, unsigned long t, float z) {
 	float dt = 0.001 * (t - intDat->tLast); // Time in seconds between data points
 	float area = 0.5 * dt * (z + intDat->zLast);
 	intDat->sum = intDat->sum + area;
+	intDat->zLast = z;
+	intDat->tLast = t;
 	return intDat->sum;
 }
 
@@ -233,22 +236,19 @@ float computeIntegral(IntegralData * intDat, unsigned long t, float z) {
 /* Computes the integral of the outer leg angular rate */
 void runIntegral_outerLegAngle() {
 	unsigned long t = mb_io_get_time(ID_UI_ANG_RATE_X);
-	float z = mb_io_get_float(ID_UI_ANG_RATE_X);
+	float z = mb_io_get_float(ID_UI_ANG_RATE_X) - GYRO_RATE_BIAS;
 	float sum = computeIntegral(&intDat_OUTER_LEG_ANGLE, t, z);
 	mb_io_set_float(ID_EST_OUTER_LEG_ANGLE, sum);  // Send over CAN
 	STATE_qr = sum;  // Send to control and estimator code
 }
 
 /* Resets the sum in the integral.
+ * @param t = current time
  * @param z = current value of sensor
  * @param sum = desired value of the integral */
-void initializeIntegral(IntegralData * intDat, float z, float sum) {
+void resetIntegral(IntegralData * intDat, unsigned long t, float z, float sum) {
 	intDat->zLast = z;
-	intDat->tLast = mb_io_get_float(ID_TIMESTAMP);
-	intDat->sum = sum;
-}
-void resetIntegral(IntegralData * intDat, float sum) {
-	intDat->tLast = mb_io_get_float(ID_TIMESTAMP);
+	intDat->tLast = t;
 	intDat->sum = sum;
 }
 
@@ -293,7 +293,9 @@ bool getContactInner(void) {
 
 /* Sets the outer leg angle estimate to zero */
 void resetOuterLegAngle(float sum) {
-	resetIntegral(&intDat_OUTER_LEG_ANGLE, sum);
+	unsigned long t = mb_io_get_time(ID_UI_ANG_RATE_X);
+	float z = mb_io_get_float(ID_UI_ANG_RATE_X) - GYRO_RATE_BIAS;
+	resetIntegral(&intDat_OUTER_LEG_ANGLE, t, z, sum);
 }
 
 /* Updates the outer leg angle based on double stance contact. This should be called from
@@ -329,7 +331,7 @@ void updateOuterLegAngle(void) {
 	 * the rate gyro integration and the geometry from double stance. This is basically
 	 * a first-order filter, running once per step. The weight should be alpha = 0.9,
 	 * but there is a bug in the reset now, so we are neglecting it. */
-	th0_update = alpha * STATE_th0 + (1 - alpha) * th0_geometry;	//new gyro angle that's a weighted average of the two above
+	th0_update = alpha * STATE_th0 + (1.0 - alpha) * th0_geometry;	//new gyro angle that's a weighted average of the two above
 
 	resetOuterLegAngle(-th0_update);  // outer leg angle = qr = -th0
 	mb_io_set_float(ID_EST_LAST_STEP_LENGTH, Sqrt(x * x + y * y)); // Distance between two contact points
@@ -350,15 +352,19 @@ void mb_estimator_update(void) {
 		setFilterCoeff(&FC_FAST, FILTER_CUTOFF_FAST);
 		setFilterCoeff(&FC_SLOW, FILTER_CUTOFF_SLOW);
 
-		// Reset the filters
+		// Reset the joint angle rate filters
 		setFilterData(&FD_UI_ANG_RATE_X, 0.0);
+		setFilterData(&FD_MCH_ANG_RATE, 0.0);
+		setFilterData(&FD_MCFO_RIGHT_ANKLE_RATE, 0.0);
+		setFilterData(&FD_MCFI_ANKLE_RATE, 0.0);
+		// Reset the contact sensor filters
 		setFilterData(&FD_MCFO_LEFT_HEEL_SENSE, 0.0);
 		setFilterData(&FD_MCFO_RIGHT_HEEL_SENSE, 0.0);
 		setFilterData(&FD_MCFI_LEFT_HEEL_SENSE, 0.0);
 		setFilterData(&FD_MCFI_RIGHT_HEEL_SENSE, 0.0);
 
 		// Reset the estimate of the outer leg angle
-		initializeIntegral(&intDat_OUTER_LEG_ANGLE, 0.0, 0.0);
+		resetOuterLegAngle(0.0);
 
 		// Remember that we've initialized everything properly
 		INITIALIZE_ESTIMATOR = false;

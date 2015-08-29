@@ -2,7 +2,6 @@
 
 #define SCHEDULE_TICK_DIVIDER 2 //number of system jiffies (should be 1 mS) per time slot
 
-// MPK - Updated version that includes call to the controller & estimator, drops call to fsm and Anoop's estimator
 #define RUN_EVERY_LINE (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&mb_estimator_update, (TASK_PTR)&mb_controller_update, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_send_data
 
 const TASK_PTR schedule[]={
@@ -11,7 +10,6 @@ const TASK_PTR schedule[]={
   RUN_EVERY_LINE, (TASK_PTR)&a9_bt_dma_receive,             (TASK_PTR)NULL,
   RUN_EVERY_LINE, (TASK_PTR)&mb_create_display_data_lists,  (TASK_PTR)NULL,
   RUN_EVERY_LINE, (TASK_PTR)&mb_distribute_error_frames, (TASK_PTR)NULL,
- // RUN_EVERY_LINE, (TASK_PTR)NULL,
   RUN_EVERY_LINE, (TASK_PTR)&mb_test_ui_board1,               (TASK_PTR)NULL,
   RUN_EVERY_LINE, (TASK_PTR)NULL,
   RUN_EVERY_LINE, (TASK_PTR)NULL,
