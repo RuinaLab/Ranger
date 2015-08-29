@@ -195,20 +195,14 @@ ERROR_LABVIEW,0,1,0,Buffered errors for transmission to LabView/PC
 ERROR_LCD,0,1,8,Buffered errors for transmission to Ranger LCD
 #,,,,
 #State Estimator,,,,
-E_MCH_ANG_RATE,0,1,0,estimated slightly filtered derivative of ID_MCH_ANGLE
-E_MCFI_LEFT_HEEL_SENSE,0,1,0,estimated value for the sensor on the inner left foot  
-E_MCFI_RIGHT_HEEL_SENSE,0,1,0,estimated value for the sensor on the inner right foot  
-E_MCFO_LEFT_HEEL_SENSE,0,1,0,estimated value for the sensor on the outer left foot  
-E_MCFO_RIGHT_HEEL_SENSE,0,1,0,estimated value for the sensor on the outer right foot  
-E_UI_ANG_RATE_X,0,1,0,estimated value for gyro rate
-E_MCFO_RIGHT_ANKLE_ANGLE,0,1,0,
-E_MCFI_MID_ANKLE_ANGLE,0,1,0,estimated angle integrated from the rate gyro
-E_MCFO_RIGHT_ANKLE_RATE,0,1,0,estimated value for outer ankle angle
-E_MCFI_ANKLE_RATE,0,1,0,estimated value for inner ankle angle
+E_UI_ANG_RATE_X,0,1,0,estimated rate of the outer legs (STATE = dqr)
+E_MCH_ANG_RATE,0,1,0,estimated rate of the hip (STATE = dqh)
+E_MCFO_RIGHT_ANKLE_RATE ,0,1,0,estimated rate of the outer ankles (STATE=dq0)
+E_MCFI_ANKLE_RATE,0,1,0,estimated rate of the inner ankles (STATE = dq1)
 EST_CONTACT_OUTER,0,1,0,Filtered sum of both outer foot contact sensors
 EST_CONTACT_INNER,0,1,0,Filtered sum of both inner foot contact sensors
-EST_OUTER_LEG_ANGLE,0,1,0,Estimated orientation of the gyro on the outer legs
 EST_LAST_STEP_LENGTH,0,1,0,Stores the step length as computed once per step in double stance
+EST_OUTER_LEG_ANGLE,0,1,0,absolute angle of the outer legs STATE=(qr)
 #,,,,
 #EstimatorTesting,0,0,1,test read from labview
 EST_TEST_R0,0,0,1,test read from labview
@@ -232,22 +226,22 @@ EST_TEST_W7,0,1,0,test write to labview
 EST_TEST_W8,0,1,0,test write to labview
 EST_TEST_W9,,,,
 #,,,,
-#ControllerParameters,16,0,1,
-CTRL_HIP_KP,3,0,1,
-CTRL_HIP_KD,7,0,1,
-CTRL_ANK_FLIP_KP,1,0,1,
-CTRL_ANK_FLIP_KD,20,0,1,
-CTRL_ANK_PUSH_KP,3,0,1,
-CTRL_ANK_PUSH_KD,7,0,1,
-CTRL_ANK_HOLD_KP,1,0,1,
-CTRL_ANK_HOLD_KD,1.3,0,1,
-CTRL_HIP_SCISSOR_RATE,0.1,0,1,
-CTRL_HIP_SCISSOR_OFFSET,0.2,0,1,
-CTRL_HIP_REF_HOLD,0.08,0,1,
-CTRL_HIP_TRANS_ANGLE,-0.9,0,1,
-CTRL_ANK_REF_PUSH,0,0,1,
-CTRL_ANK_REF_HOLD,1.55,0,1,
-CTRL_ANK_REF_FLIP,,,,
+#ControllerParameters,,,,
+CTRL_HIP_KP,16,0,1,
+CTRL_HIP_KD,3,0,1,
+CTRL_ANK_FLIP_KP,7,0,1,
+CTRL_ANK_FLIP_KD,1,0,1,
+CTRL_ANK_PUSH_KP,20,0,1,
+CTRL_ANK_PUSH_KD,3,0,1,
+CTRL_ANK_HOLD_KP,7,0,1,
+CTRL_ANK_HOLD_KD,1,0,1,
+CTRL_HIP_SCISSOR_RATE,1.3,0,1,
+CTRL_HIP_SCISSOR_OFFSET,0.1,0,1,
+CTRL_HIP_REF_HOLD,0.2,0,1,
+CTRL_HIP_TRANS_ANGLE,0.08,0,1,
+CTRL_ANK_REF_PUSH,-0.9,0,1,
+CTRL_ANK_REF_HOLD,0,0,1,
+CTRL_ANK_REF_FLIP,1.55,0,1,
 #,,,,
 #ControllerTesting,0,0,1,test read from labview
 CTRL_TEST_R0,0,0,1,test read from labview

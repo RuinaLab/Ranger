@@ -13,4 +13,5 @@ extern const float PARAM_g;  // acceleration due to gravity
 extern const float PARAM_hip_spring_const;  // (Nm/rad) Hip spring constant
 extern const float PARAM_inv_hip_motor_const; // (Amp/Nm)  ==  (1.0)/(P.Km*P.Gh) == (1.0)/(0.018*66)
 extern const float PARAM_inv_ank_motor_const; // (Amp/Nm)  ==  (1.0)/(P.Km*P.Ga) == (1.0)/(0.018*34)
+
 #endif  // __ROBOT_PARAMETERS_H__

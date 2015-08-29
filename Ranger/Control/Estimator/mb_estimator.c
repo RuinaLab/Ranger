@@ -32,8 +32,8 @@ typedef struct {
 extern bool INITIALIZE_ESTIMATOR = true;   // Should the estimator be initialized?
 
 /* Filter cut-off frequencies */
-static const float FILTER_CUTOFF_FAST = 0.002 * 50; // (2*period in sec)*(cutoff frequency in Hz)
-static const float FILTER_CUTOFF_SLOW = 0.002 * 10; // (2*period in sec)*(cutoff frequency in Hz)
+static const float FILTER_CUTOFF_FAST = 0.002 * 50; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
+static const float FILTER_CUTOFF_SLOW = 0.002 * 10; // (2*period in sec)*(cutoff frequency in Hz) -- Used by foot contact sensors
 static const float FILTER_OUTER_LEG_ANGLE_UPDATE = 0.9; // 1.0->Ignore heel-strike reset, 0.0->update purely based on reset
 
 /* Local constant parameters */
@@ -41,11 +41,16 @@ static const float GYRO_RATE_BIAS = -0.0097;  // Measured in August 2015. Should
 static const float CONTACT_VALUE_THRESHOLD = 7000.0;  // Threshold for detecting contact on the feet
 
 /* Butterworth filter coefficients */
-static FilterCoeff FC_FAST;
-static FilterCoeff FC_SLOW;
+static FilterCoeff FC_FAST;  // For joint sensors
+static FilterCoeff FC_SLOW;  // For contact sensors
 
-/* Butterworth filters */
-static FilterData FD_UI_ANG_RATE_X;
+/* Butterworth filters on joint sensors */
+static FilterData FD_UI_ANG_RATE_X;  // stance leg angular rate
+static FilterData FD_MCH_ANG_RATE;  // hip angle rate
+static FilterData FD_MCFO_RIGHT_ANKLE_RATE ;  // outer ankle rate
+static FilterData FD_MCFI_ANKLE_RATE;  // inner ankle rate
+
+/* Butterworth filters on contact sensors */
 static FilterData FD_MCFO_LEFT_HEEL_SENSE;
 static FilterData FD_MCFO_RIGHT_HEEL_SENSE;
 static FilterData FD_MCFI_LEFT_HEEL_SENSE;
@@ -132,6 +137,35 @@ void runFilter_ui_ang_rate_x(void) {
 	float z = mb_io_get_float(ID_UI_ANG_RATE_X) - GYRO_RATE_BIAS;
 	float y = runFilter(&FC_FAST, &FD_UI_ANG_RATE_X, t, z);
 	mb_io_set_float(ID_E_UI_ANG_RATE_X, y);
+	STATE_dqr = y; // Send robot orientation rate to the control and estimation code
+}
+
+/* Runs the butterworth filter on the three joint sensors */
+void runFilter_jointRates(void) {
+	unsigned long t; // Store the time here
+	float z;  // Store the sensor data
+	float y;  // Store the estimate
+
+	// Hip Angular Rate:
+	t = mb_io_get_time(ID_MCH_ANG_RATE);
+	z = mb_io_get_float(ID_MCH_ANG_RATE);
+	y = runFilter(&FC_FAST, &FD_MCH_ANG_RATE, t, z);
+	mb_io_set_float(ID_E_MCH_ANG_RATE, y);
+	STATE_dqh = y;
+
+	// Outer Ankle Rate:
+	t = mb_io_get_time(ID_MCFO_RIGHT_ANKLE_RATE );
+	z = mb_io_get_float(ID_MCFO_RIGHT_ANKLE_RATE );
+	y = runFilter(&FC_FAST, &FD_MCFO_RIGHT_ANKLE_RATE, t, z);
+	mb_io_set_float(ID_E_MCFO_RIGHT_ANKLE_RATE, y);
+	STATE_dq0 = y;
+
+	// Inner Ankle Rate:
+	t = mb_io_get_time(ID_MCFI_ANKLE_RATE );
+	z = mb_io_get_float(ID_MCFI_ANKLE_RATE );
+	y = runFilter(&FC_FAST, &FD_MCFI_ANKLE_RATE, t, z);
+	mb_io_set_float(ID_E_MCFI_ANKLE_RATE, y);
+	STATE_dq1 = y;
 }
 
 /* Runs the butterworth filter on the outer foot contact sensors */
@@ -201,7 +235,8 @@ void runIntegral_outerLegAngle() {
 	unsigned long t = mb_io_get_time(ID_UI_ANG_RATE_X);
 	float z = mb_io_get_float(ID_UI_ANG_RATE_X);
 	float sum = computeIntegral(&intDat_OUTER_LEG_ANGLE, t, z);
-	mb_io_set_float(ID_EST_OUTER_LEG_ANGLE, sum);
+	mb_io_set_float(ID_EST_OUTER_LEG_ANGLE, sum);  // Send over CAN
+	STATE_qr = sum;  // Send to control and estimator code
 }
 
 /* Resets the sum in the integral.
@@ -217,16 +252,18 @@ void resetIntegral(IntegralData * intDat, float sum) {
 	intDat->sum = sum;
 }
 
-/* Updates the robot's state, based on estimates and direct sensor reading */
+/* Updates the robot's state.
+ * Joint angles are read directly from the sensors
+ * Robot angle (qr) is updated by runIntegral_outerLegAngle
+ * Joint rates (dqr, dqh, dq0, dq1) are computed by butterworth filters and updated there. */
 void updateRobotState(void) {
-	STATE_qr = mb_io_get_float(ID_EST_OUTER_LEG_ANGLE);  // robot angle - absolute orientation of outer legs
+
+	// Read the joint angles of the robot
 	STATE_qh = mb_io_get_float(ID_MCH_ANGLE); // hip angle - between legs
 	STATE_q0 = mb_io_get_float(ID_MCFO_RIGHT_ANKLE_ANGLE);  // outer ankle angle
 	STATE_q1 = mb_io_get_float(ID_MCFI_MID_ANKLE_ANGLE);  // inner ankle angle
-	STATE_dqr = mb_io_get_float(ID_E_UI_ANG_RATE_X);  // robot angle rate - absolute orientation rate of outer legs
-	STATE_dqh = mb_io_get_float(ID_MCH_ANG_RATE); // hip angle rate - between legs
-	STATE_dq0 = mb_io_get_float(ID_MCFO_RIGHT_ANKLE_RATE);  // outer ankle angle rate
-	STATE_dq1 = mb_io_get_float(ID_MCFI_ANKLE_RATE);  // inner ankle angle rate
+
+	// Compute the absolute orientation of the robot's feet and legs
 	STATE_th0 = -STATE_qr;  // absolute orientation of outer legs
 	STATE_th1 = STATE_qh - STATE_qr; // absolute orientation of inner legs
 	STATE_phi0 = PARAM_Phi - STATE_qr - STATE_q0;  // absolute orientation of outer feet
@@ -259,9 +296,9 @@ void resetOuterLegAngle(float sum) {
 	resetIntegral(&intDat_OUTER_LEG_ANGLE, sum);
 }
 
-/* Updates the outer leg angle based on double stance contact. This should be called from 
+/* Updates the outer leg angle based on double stance contact. This should be called from
  * the walking controller each time a heel-strike occurs. */
-void updateOuterLegAngle(void){
+void updateOuterLegAngle(void) {
 
 	float Slope = 0.0;  // Assume flat ground for now
 	float x, y; // scalar distances, in coordinate system aligned with outer legs
@@ -283,19 +320,19 @@ void updateOuterLegAngle(void){
 	 * be found in:
 	 * templates/Estimator/legAngleEstimator/Derive_Eqns.m
 	 */
-	x = l*Sin(qh) - d*Sin(Phi - q1 + qh) + d*Sin(Phi - q0);
-	y = l + d*Cos(Phi - q1 + qh) - l*Cos(qh) - d*Cos(Phi - q0);
+	x = l * Sin(qh) - d * Sin(Phi - q1 + qh) + d * Sin(Phi - q0);
+	y = l + d * Cos(Phi - q1 + qh) - l * Cos(qh) - d * Cos(Phi - q0);
 
-	th0_geometry = Atan(y/x) + Slope;	 //gyro angle calculated from geometry 
+	th0_geometry = Atan(y / x) + Slope;	 //gyro angle calculated from geometry
 
-	/* The new robot angle should be a convex combination of the estimate from 
+	/* The new robot angle should be a convex combination of the estimate from
 	 * the rate gyro integration and the geometry from double stance. This is basically
 	 * a first-order filter, running once per step. The weight should be alpha = 0.9,
 	 * but there is a bug in the reset now, so we are neglecting it. */
-	th0_update = alpha*STATE_th0 + (1-alpha)*th0_geometry;	//new gyro angle that's a weighted average of the two above
+	th0_update = alpha * STATE_th0 + (1 - alpha) * th0_geometry;	//new gyro angle that's a weighted average of the two above
 
 	resetOuterLegAngle(-th0_update);  // outer leg angle = qr = -th0
- 	mb_io_set_float(ID_EST_LAST_STEP_LENGTH, Sqrt(x*x + y*y));  // Distance between two contact points
+	mb_io_set_float(ID_EST_LAST_STEP_LENGTH, Sqrt(x * x + y * y)); // Distance between two contact points
 
 	return;
 
@@ -329,6 +366,7 @@ void mb_estimator_update(void) {
 
 	// Run all of the butterworth filters:
 	runFilter_ui_ang_rate_x();
+	runFilter_jointRates();
 	runFilter_contactOuter();
 	runFilter_contactInner();
 

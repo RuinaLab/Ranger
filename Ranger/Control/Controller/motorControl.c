@@ -3,7 +3,7 @@
 #include "fsm.h"
 #include "RangerMath.h"
 #include "robotParameters.h"
-#include "mb_estimator"
+#include "mb_estimator.h"
 
 extern bool HIP_GRAVITY_COMPENSATION = true;
 extern bool HIP_SPRING_COMPENSATION = true;
@@ -49,7 +49,7 @@ void run_controller_hip( ControllerData * C ) {
 	float kd = C->kd;
 
 	if (HIP_SPRING_COMPENSATION) {
-		kp = kp - param_hip_spring_const;
+		kp = kp - PARAM_hip_spring_const;
 	}
 
 	if (HIP_GRAVITY_COMPENSATION) {
@@ -68,7 +68,7 @@ void run_controller_hip( ControllerData * C ) {
 
 	mb_io_set_float(ID_MCH_COMMAND_CURRENT, uRef);
 	mb_io_set_float(ID_MCH_STIFFNESS, kp);
-	mb_io_set_float(ID_MCH_DAMPNESS, kd;
+	mb_io_set_float(ID_MCH_DAMPNESS, kd);
 }
 
 
@@ -90,7 +90,7 @@ void run_controller_ankOut( ControllerData * C ) {
 
 	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, uRef);
 	mb_io_set_float(ID_MCFO_STIFFNESS, kp);
-	mb_io_set_float(ID_MCFO_DAMPNESS, kd;
+	mb_io_set_float(ID_MCFO_DAMPNESS, kd);
 }
 
 
@@ -113,7 +113,7 @@ void run_controller_ankInn( ControllerData * C ) {
 
 	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, uRef);
 	mb_io_set_float(ID_MCFI_STIFFNESS, kp);
-	mb_io_set_float(ID_MCFI_DAMPNESS, kd;
+	mb_io_set_float(ID_MCFI_DAMPNESS, kd);
 }
 
 
@@ -195,11 +195,13 @@ void trackAbs_ankInn(float phi1, float kp, float kd) {
  * swingAngle -> -rate*stanceAngle + offset */
 void trackScissor_hip(float rate, float offset, float kp, float kd) {
 
+	bool c0, c1; // Contact information
+
 	ctrlHip.kp = kp;
 	ctrlHip.kd = kd;
 
-	bool c0 = getContactOuter(); // Is the outer foot in contact?
-	bool c1 = getContactInner(); // Is the inner foot in contact?
+	c0 = getContactOuter(); // Is the outer foot in contact?
+	c1 = getContactInner(); // Is the inner foot in contact?
 
 	rate = rate + 1.0;  // Follows from geometry - see docs.
 
