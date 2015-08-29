@@ -2,16 +2,8 @@
 #include <motorControl.h>
 #include "fsm.h"
 #include "RangerMath.h"
-
-/* Leg constants for gravity compensation */
-float leg_m = 4.5;
-float leg_r = 0.15;
-float g = 9.8;
-
-/* Relative/absolute angle parameters (refer to RangerNamingConventions in docs)
- * shared by motorController.c, fsm.c & test.c */
-float qr, qh, dqr, dqh, q0, q1, dq0, dq1; //relative
-float th0, th1, dth0, dth1; //absolute
+#include "robotParameters.h"
+#include "mb_estimator"
 
 /* Ankle joint limits (in relative angle) */
 static const float param_joint_ankle_min = 0.3;	 // Hard stop at 0.0. Foot flips up to this angle to clear ground.
@@ -152,18 +144,21 @@ void motor_off(struct ControllerData * C) {
 }
 
 
-/* Returns the torque needed to compensate for gravity pull on the legs. */
+/* Returns the torque needed to compensate for gravity. Returns 0.0 if the robot 
+ * is in either flight or double stance. */
 float hip_gravity_compensation(void) {
-	float u = leg_m * g * leg_r;
+	float uGravity = PARAM_m * PARAM_g * PARAM_c; // Torque scale factor
+	bool c0 = getContactOuter(); // Is the outer foot in contact?
+	bool c1 = getContactInner(); // Is the inner foot in contact?
 
-	if (FI_on_ground() && !FO_on_ground()) {
-		//track outer, only inner feet on ground
-		return -u * Sin(th0);
-	} else if (!FI_on_ground() && FO_on_ground()) {
-		//track inner, only outer feet on ground
-		return  u * Sin(th1);
+	if (c0 && !c1) { // Single stance, outer leg on ground
+		return  uGravity * Sin(STATE_th1);
+	} else if (!c0 && c1) { // Single stance, inner leg on ground
+		return -uGravity * Sin(STATE_th0);
+	} else {  // Flight or double stance - no compensation
+		return 0.0; 
 	}
-	return 0.0;
+
 }
 
 

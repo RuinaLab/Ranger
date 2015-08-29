@@ -13,17 +13,9 @@ struct ControllerData {
 	int GC;	// turns on gravity compensation when GC=1; GC is always turned off for the ankle controllers 
 };
 
-extern float leg_m;// = 2.5; //4.95 mass of the inner leg
-extern float leg_r;// = 0.15; //length to the center of mass of inner leg
-extern float g;// = 9.8;
-
 /* Ankle Offset */
 #define ZERO_POS_INN 1.85 //constant offset between absolute and relative ankle angle
 #define ZERO_POS_OUT 1.8
-
-/* global angle parameters*/
-extern float qr, qh, dqr, dqh, q0, q1, dq0, dq1; //relative	angles
-extern float th0, th1, dth0, dth1; //absolute angles 
 
 float MotorModel_Current(float, float);
 void controller_hip(struct ControllerData *);
