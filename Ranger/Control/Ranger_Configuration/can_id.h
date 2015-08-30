@@ -230,8 +230,8 @@ typedef enum can_ids{
 	ID_CTRL_HIP_REF_HOLD = 218,	 // 0.2 0 1 // 
 	ID_CTRL_HIP_TRANS_ANGLE = 219,	 // 0.08 0 1 // 
 	ID_CTRL_ANK_REF_PUSH = 220,	 // -0.9 0 1 // 
-	ID_CTRL_ANK_REF_HOLD = 221,	 // 0 0 1 // 
-	ID_CTRL_ANK_REF_FLIP = 222,	 // 1.55 0 1 // 
+	ID_CTRL_HIP_GRAVITY_COMPENSATION = 221,	 // 1 0 1 // Enables (1) or disables (0) gravity compensation in hip controller
+	ID_CTRL_HIP_SPRING_COMPENSATION = 222,	 // 1 0 1 // Enables (1) or disables (0) spring compensation in hip controller
 	ID_CTRL_TEST_R0 = 223,	 // 0 0 1 // test read from labview
 	ID_CTRL_TEST_R1 = 224,	 // 0 0 1 // test read from labview
 	ID_CTRL_TEST_R2 = 225,	 // 0 0 1 // test read from labview

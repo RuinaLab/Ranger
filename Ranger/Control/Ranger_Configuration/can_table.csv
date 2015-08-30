@@ -246,8 +246,8 @@ CTRL_HIP_SCISSOR_OFFSET,0.1,0,1,
 CTRL_HIP_REF_HOLD,0.2,0,1,
 CTRL_HIP_TRANS_ANGLE,0.08,0,1,
 CTRL_ANK_REF_PUSH,-0.9,0,1,
-CTRL_ANK_REF_HOLD,0,0,1,
-CTRL_ANK_REF_FLIP,1.55,0,1,
+CTRL_HIP_GRAVITY_COMPENSATION,1,0,1,Enables (1) or disables (0) gravity compensation in hip controller
+CTRL_HIP_SPRING_COMPENSATION,1,0,1,Enables (1) or disables (0) spring compensation in hip controller
 #,,,,
 #ControllerTesting,0,0,1,test read from labview
 CTRL_TEST_R0,0,0,1,test read from labview

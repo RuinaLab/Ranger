@@ -242,7 +242,7 @@ float Fmod(float x, float den) {
 
 /* Square Wave, with equal time spend at min and max. */
 float SquareWave(float time, float period, float min, float max){
-  float phase = Fmod(time,period)/period;
+  float phase = Fmod(time,period)/period; 
   if (phase < 0.5){
     return min;
   } else {

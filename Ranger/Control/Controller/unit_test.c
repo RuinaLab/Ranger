@@ -61,12 +61,14 @@ void test_trackAbs_ankle() {
  }
 
 
- /* Hang the robot from the ceiling. The hip motor should 
-  * attempt to cancel the effect of the hip spring. */
+ /* Hang the robot from the ceiling. Send a desired hip
+  * angle to the robot on ID_CTRL_TEST_R0, and the hip motor
+  * will produce the torque to cancel out the effect of the
+  * spring at that angle. */
  void test_hipSpringCompensation(){
  	disable_ankOut();
  	disable_ankInn();
- 	trackRel_hip(0.0, 0.0, 0.0); // 
+ 	trackRel_hip(mb_io_get_float(ID_CTRL_TEST_R0), 0.0, 0.0);  
  }
 
 
@@ -89,6 +91,30 @@ void test_hipCompensation_outer(){
 
 	trackAbs_ankOut(0.0, kp_ank, kd_ank);
 	trackRel_ankInn(0.2, kp_ank, kd_ank);
+	trackRel_hip(qTarget, kp_hip, kd_hip);
+	mb_io_set_float(ID_CTRL_TEST_W0, qTarget);
+}
+
+
+/* Robot is standing in single stance on the inner feet.
+ * The outer legs should track a slow sine curve, with 
+ * minimal stead-state error thanks to gravity and spring
+ * compensation. The target hip angle is on ID_CTRL_TEST_W0. */
+void test_hipCompensation_inner(){
+	float kp_hip = 14.0;
+	float kd_hip = 2.0;
+	float kp_ank = 7.0;
+	float kd_ank = 1.0;
+	float min = -0.2;
+	float max = 0.2;
+	float period = 5.0;
+	float qTarget;
+	float time = getTime();
+
+	qTarget = SineWave(time,period,min,max);
+
+	trackRel_ankOut(0.2, kp_ank, kd_ank);
+	trackAbs_ankInn(0.0, kp_ank, kd_ank);
 	trackRel_hip(qTarget, kp_hip, kd_hip);
 	mb_io_set_float(ID_CTRL_TEST_W0, qTarget);
 }
@@ -122,8 +148,9 @@ void runUnitTest(void) {
 	/***** Motor Control ****/
 	//test_trackAbs_ankle();
 	//test_trackRel_ankle();
-	//test_hipSpringCompensation();  // --RE-CHECK--
-	test_hipCompensation_outer();  // --FAILED--
+	//test_hipSpringCompensation();  
+	//test_hipCompensation_outer(); 
+	test_hipCompensation_inner();
 
 	/**** Debugging ****/
 	//debug_directCurrentControl();

@@ -5,6 +5,10 @@
 
 extern bool INITIALIZE_ESTIMATOR; // Should the estimator be initialized?
 
+/* Parameters set by LabVIEW */
+extern bool LABVIEW_HIP_GRAVITY_COMPENSATION;
+extern bool LABVIEW_HIP_SPRING_COMPENSATION;
+
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 extern float STATE_qh;  // hip angle
 extern float STATE_q0;  // outer ankle angle

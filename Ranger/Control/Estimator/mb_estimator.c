@@ -59,6 +59,10 @@ static FilterData FD_MCFI_RIGHT_HEEL_SENSE;
 /* Estimate of the outer leg angle */
 static IntegralData intDat_OUTER_LEG_ANGLE;
 
+/* Parameters from Labview */
+bool LABVIEW_HIP_GRAVITY_COMPENSATION;
+bool LABVIEW_HIP_SPRING_COMPENSATION;
+
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 float STATE_qh;  // hip angle
 float STATE_q0;  // outer ankle angle
@@ -279,6 +283,13 @@ void updateRobotState(void) {
 }
 
 
+/* Updates any controller parameters that are set from LabVIEW */
+void updateParameters(void){
+	LABVIEW_HIP_GRAVITY_COMPENSATION = mb_io_get_float(ID_CTRL_HIP_GRAVITY_COMPENSATION) > 0.5;
+	LABVIEW_HIP_SPRING_COMPENSATION = mb_io_get_float(ID_CTRL_HIP_SPRING_COMPENSATION) > 0.5;
+}
+
+
 /********************* Public Functions ***********************************
  *                                                                        *
  **************************************************************************/
@@ -385,6 +396,10 @@ void mb_estimator_update(void) {
 
 	// Update the state variables:  (absolute orientation and rate)
 	updateRobotState();
+
+	// Update controller parameters from LabVIEW
+	updateParameters();
+
 
 	return;
 }

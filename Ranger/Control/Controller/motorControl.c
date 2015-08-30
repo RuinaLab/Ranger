@@ -4,8 +4,8 @@
 #include "robotParameters.h"
 #include "mb_estimator.h"
 
-bool HIP_GRAVITY_COMPENSATION = false; ////HACK//// true;
-bool HIP_SPRING_COMPENSATION = false; ////HACK//// true;
+bool HIP_GRAVITY_COMPENSATION = true;
+bool HIP_SPRING_COMPENSATION = true;
 
 /* standardized controller input struct */
 typedef struct  {
@@ -41,17 +41,19 @@ float hip_gravity_compensation(void) {
 }
 
 
-/* This function calls the low-level hip controller. */
+/* This function calls the low-level hip controller. 
+ * The spring compensation adds a torque equal and opposite
+ * to what the spring would produce at the target hip angle */
 void run_controller_hip( ControllerData * C ) {
 	float uRef = 0.0; // Nominal torque expected at joint before control
 	float kp = C->kp;
 	float kd = C->kd;
 
-	if (HIP_SPRING_COMPENSATION) {
-		kp = kp - PARAM_hip_spring_const;
+	if (LABVIEW_HIP_SPRING_COMPENSATION) {
+		uRef = uRef  + (C->xRef) * PARAM_hip_spring_const;
 	}
 
-	if (HIP_GRAVITY_COMPENSATION) {
+	if (LABVIEW_HIP_GRAVITY_COMPENSATION) {
 		uRef = uRef + hip_gravity_compensation();
 	}
 
