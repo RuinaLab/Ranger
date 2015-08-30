@@ -209,7 +209,7 @@ EST_STATE_DTH0,0,1,0,abs rate outer legs
 EST_STATE_DTH1,0,1,0,abs rate inner legs
 EST_STATE_DPHI0,0,1,0,abs rate outer feet
 EST_STATE_DPHI1,0,1,0,abs rate inner feet
-EST_ROBOT_ANGLE_GYRO_WEIGHT,0.9,0,1,Trade-off between rate gyro and double stance geometry for robot orientation sensing 0 is total reset 1 is ignore geometry
+EST_ROBOT_ANGLE_GYRO_WEIGHT,0.5,0,1,Trade-off between rate gyro and double stance geometry for robot orientation sensing 0 is total reset 1 is ignore geometry
 #,,,,
 #EstimatorTesting,0,0,1,test read from labview
 EST_TEST_R0,0,0,1,test read from labview

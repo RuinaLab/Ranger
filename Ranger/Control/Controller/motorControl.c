@@ -210,26 +210,25 @@ void trackAbs_ankInn(float phi1, float kp, float kd) {
 /* Computes the controller commands such that the swing leg tracks a
  * linear function of the stance leg angle. Disables the hip motor
  * when in double stance or flight.
- * swingAngle -> -rate*stanceAngle + offset */
+ * swingAngle -> -rate*stanceAngle + offset 
+ * positive is defined to be the swing leg in front of the stance leg */
 void trackScissor_hip(float rate, float offset, float kp, float kd) {
 
 	ctrlHip.kp = kp;
 	ctrlHip.kd = kd;
 
-	rate = rate + 1.0;  // Follows from geometry - see docs.
-
 	switch (STATE_contactMode) {
 	case CONTACT_S0:
 		ctrlHip.kp = kp;
 		ctrlHip.kd = kd;
-		ctrlHip.xRef = offset - STATE_th0 * rate;
-		ctrlHip.vRef = -STATE_dth0 * rate;
+		ctrlHip.xRef = offset - STATE_th0 * (rate + 1.0);
+		ctrlHip.vRef = -STATE_dth0 * (rate + 1.0);
 		break;
 	case CONTACT_S1:
 		ctrlHip.kp = kp;
 		ctrlHip.kd = kd;
-		ctrlHip.xRef = offset - STATE_th1 * rate;
-		ctrlHip.vRef = -STATE_dth1 * rate;
+		ctrlHip.xRef = -offset + STATE_th1 * (rate + 1.0);
+		ctrlHip.vRef = STATE_dth1 * (rate + 1.0);
 		break;
 	default:
 		ctrlHip.kp = 0.0;

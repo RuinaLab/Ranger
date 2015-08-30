@@ -77,6 +77,10 @@ bool STATE_c0;
 bool STATE_c1;
 ContactMode STATE_contactMode = CONTACT_FL;
 
+/* Static variables for computing integral of rate gyro */
+static unsigned long RATE_GYRO_LAST_TIME;
+static float RATE_GYRO_LAST_RATE;
+
 /* Initializes the filter to a single value. */
 void setFilterData(FilterData * FD, float z) {
 	FD->z0 = z;
@@ -216,13 +220,33 @@ void setFilterCoeff(FilterCoeff * FC, float r) {
 }
 
 
-/* Returns the derivative of a filtered signal */
-float getFilterDerivative(FilterData * FD) {
-	float derivative = 0.5 * (FD->y2 - 4 * FD->y1 + 3 * FD->y0); // Second-order backwards difference
-	return  1000 * derivative; // Convert to 1/seconds rather than 1/ms
+/* This function must be called when robot starts to initialize the
+ * static variables used to compute the integral of the rate gyro */
+void initGyroIntegral() {
+	RATE_GYRO_LAST_TIME = mb_io_get_time(ID_UI_ANG_RATE_X);
+	RATE_GYRO_LAST_RATE = mb_io_get_float(ID_UI_ANG_RATE_X) - GYRO_RATE_BIAS;
 }
 
-
+/* Returns the angle of the outer legs of the robot, by integrating the
+ * gyro rate from */
+float getOuterLegAngleGyro(float zLast) {
+	unsigned long t;  // time now
+	float dt;  // Time between data points
+	float dz;  // rate now
+	float zNew;  // new angle
+	t = mb_io_get_time(ID_UI_ANG_RATE_X);
+	dz = mb_io_get_float(ID_UI_ANG_RATE_X) - GYRO_RATE_BIAS;
+	if (t == RATE_GYRO_LAST_TIME) { // No new data
+		return zLast;
+	} else { // new data:
+		dt = (float) (t - RATE_GYRO_LAST_TIME);
+		dt = 0.001 * dt; // convert to seconds;
+		zNew = zLast + 0.5*dt*(dz + RATE_GYRO_LAST_RATE);
+		RATE_GYRO_LAST_TIME = t;
+		RATE_GYRO_LAST_RATE = dz;
+		return zNew;
+	}
+}
 
 /* Returns the angle of the outer legs of the robot, assuming that both feet
  * are on the ground, and that the ground is flat and level. */
@@ -258,8 +282,6 @@ float getOuterLegAngleGeometry(void) {
  * combining information from the rate gyro and the geometry of
  * the robot (if both feet are on the ground). */
 void updateRobotOrientation() {
-	float dz0, dz1; // Angle rates at the present and one time step back
-	float dt = 0.001;  // Time step, in seconds between readings on the filter.
 	float zLast;  // Leg angle at the last time step
 	float zGyro;  // Leg angle at this time step, based on rate gyro data
 	float zGeom;  // Leg angle at this time step, based on geometry
@@ -269,21 +291,18 @@ void updateRobotOrientation() {
 	float alpha = mb_io_get_float(ID_EST_ROBOT_ANGLE_GYRO_WEIGHT);
 
 	// Figure out the expected new orientation, based on integral of gyro rate:
-	dz0 = FD_UI_ANG_RATE_X.z0;  // Most recent angular rate
-	dz1 = FD_UI_ANG_RATE_X.z1;  // Previous angular rate
-	zLast = FD_OUTER_LEG_ANGLE.y0; // Last estimate of the leg angle
-	zGyro = zLast + 0.5 * dt * (dz0 + dz1); // Trapazoid rule integration
+	zLast = FD_OUTER_LEG_ANGLE.z0; // Last un-filtered leg angle
+	zGyro = getOuterLegAngleGyro(zLast);
 
 	// Compute the expected orientation based on geometry, if both feet on ground
 	if (STATE_contactMode == CONTACT_DS) {
 		zGeom = getOuterLegAngleGeometry();
+		z = alpha * zGyro + (1.0 - alpha) * zGeom;
 	} else {
-		alpha = 1.0;  // Only base update on the gyro integral data
-		zGeom = 0.0;  // Unused
+		z = zGyro;  // Update purely based on integral of gyro rate
 	}
 
 	// Run the filter using the fusion of the two sensors:
-	z = alpha * zGyro + (1.0 - alpha) * zGeom;
 	t = mb_io_get_time(ID_UI_ANG_RATE_X);
 	y = runFilter(&FC_FAST, &FD_OUTER_LEG_ANGLE, t, z);
 	mb_io_set_float(ID_EST_STATE_TH0, y);
@@ -378,6 +397,7 @@ void mb_estimator_update(void) {
 		setFilterData(&FD_MCFI_RIGHT_HEEL_SENSE, 0.0);
 
 		// Reset the estimate of the outer leg angle
+		initGyroIntegral();  // sets the static variables used to compute integral
 		resetRobotOrientation();  // Also sets FD_OUTER_LEG_ANGLE
 
 		// Remember that we've initialized everything properly
