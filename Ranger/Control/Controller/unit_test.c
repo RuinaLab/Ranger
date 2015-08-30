@@ -150,7 +150,7 @@ void runUnitTest(void) {
 	//test_trackRel_ankle();
 	//test_hipCompensation_flight();  
 	//test_hipCompensation_outer(); 
-	//test_hipCompensation_inner();
+	test_hipCompensation_inner();
 
 	/**** Debugging ****/
 	//debug_directCurrentControl();

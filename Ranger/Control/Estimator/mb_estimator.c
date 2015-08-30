@@ -79,6 +79,11 @@ float STATE_dth1;  // absolute orientation rate of inner legs
 float STATE_dphi0;  // absolute orientation rate of outer feet
 float STATE_dphi1;  // absolute orientation rate of inner feet
 
+/* Contact configuration */
+bool STATE_c0;
+bool STATE_c1;
+ContactMode STATE_contactMode = CONTACT_FL;
+
 /* Initializes the filter to a single value. */
 void setFilterData(FilterData * FD, float z) {
 	FD->z0 = z;
@@ -180,6 +185,7 @@ void runFilter_contactOuter(void) {
 	float yr = runFilter(&FC_SLOW, &FD_MCFO_RIGHT_HEEL_SENSE, tr, zr);
 	float yl = runFilter(&FC_SLOW, &FD_MCFO_LEFT_HEEL_SENSE, tl, zl);
 	mb_io_set_float(ID_EST_CONTACT_OUTER, yr + yl);
+	STATE_c0 = (yr + yl) > CONTACT_VALUE_THRESHOLD;
 }
 
 /* Runs the butterworth filter on the inner foot contact sensors */
@@ -191,6 +197,7 @@ void runFilter_contactInner(void) {
 	float yr = runFilter(&FC_SLOW, &FD_MCFI_RIGHT_HEEL_SENSE, tr, zr);
 	float yl = runFilter(&FC_SLOW, &FD_MCFI_LEFT_HEEL_SENSE, tl, zl);
 	mb_io_set_float(ID_EST_CONTACT_INNER, yr + yl);
+	STATE_c1 = (yr + yl) > CONTACT_VALUE_THRESHOLD;
 }
 
 
@@ -280,13 +287,33 @@ void updateRobotState(void) {
 	mb_io_set_float(ID_EST_STATE_DTH1, STATE_dth1);
 	mb_io_set_float(ID_EST_STATE_DPHI0, STATE_dphi0);
 	mb_io_set_float(ID_EST_STATE_DPHI1, STATE_dphi1);
+
+	// Figure out the contact mode:
+	if (STATE_c0 && !STATE_c1) { // Single stance outer
+		STATE_contactMode = CONTACT_S0;
+	} else if (!STATE_c0 && STATE_c1) { // single stance inner
+		STATE_contactMode = CONTACT_S1;
+	} else if (STATE_c0 && STATE_c1) { // double stance
+		STATE_contactMode = CONTACT_S1;
+	} else {                           // Flight
+		STATE_contactMode = CONTACT_FL;
+	}
+
 }
 
 
 /* Updates any controller parameters that are set from LabVIEW */
-void updateParameters(void){
+void updateParameters(void) {
 	LABVIEW_HIP_GRAVITY_COMPENSATION = mb_io_get_float(ID_CTRL_HIP_GRAVITY_COMPENSATION) > 0.5;
 	LABVIEW_HIP_SPRING_COMPENSATION = mb_io_get_float(ID_CTRL_HIP_SPRING_COMPENSATION) > 0.5;
+}
+
+
+/* Sets the outer leg angle estimate to zero */
+void resetOuterLegAngle(float sum) {
+	unsigned long t = mb_io_get_time(ID_UI_ANG_RATE_X);
+	float z = mb_io_get_float(ID_UI_ANG_RATE_X) - GYRO_RATE_BIAS;
+	resetIntegral(&intDat_OUTER_LEG_ANGLE, t, z, sum);
 }
 
 
@@ -294,23 +321,14 @@ void updateParameters(void){
  *                                                                        *
  **************************************************************************/
 
-
-/* Returns true if the outer feet are in contact with the ground */
-bool getContactOuter(void) {
-	float sum = FD_MCFO_RIGHT_HEEL_SENSE.y0 + FD_MCFO_LEFT_HEEL_SENSE.y0;
-	return sum > CONTACT_VALUE_THRESHOLD;
-}
-/* Returns true if the inner feet are in contact with the ground */
-bool getContactInner(void) {
-	float sum = FD_MCFI_RIGHT_HEEL_SENSE.y0 + FD_MCFI_LEFT_HEEL_SENSE.y0;
-	return sum > CONTACT_VALUE_THRESHOLD;
-}
-
-/* Sets the outer leg angle estimate to zero */
-void resetOuterLegAngle(float sum) {
-	unsigned long t = mb_io_get_time(ID_UI_ANG_RATE_X);
-	float z = mb_io_get_float(ID_UI_ANG_RATE_X) - GYRO_RATE_BIAS;
-	resetIntegral(&intDat_OUTER_LEG_ANGLE, t, z, sum);
+/* Sets the outer leg angle estimate, assuming that vector the bisects
+ * the hip angle is pointing straight down. This is true when the robot
+ * is hanging, or when it is in double stance with the feet flipped up,
+ * or double stance with identical ankle angles. This is called when the
+ * robot turns on, and also when the left-most button is pressed. */
+void resetRobotOrientation(void) {
+	float qh = mb_io_get_float(ID_MCH_ANGLE);
+	resetOuterLegAngle(-0.5 * qh);
 }
 
 /* Updates the outer leg angle based on double stance contact. This should be called from

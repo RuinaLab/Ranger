@@ -23,30 +23,28 @@ static ControllerData ctrlAnkInn;
  *                    Private Methods                                   *
  ************************************************************************/
 
-/* Returns the torque needed to compensate for gravity at the target hip angle. 
+/* Returns the torque needed to compensate for gravity at the target hip angle.
  * Returns 0.0 if the robot is in double stance. */
 float hip_gravity_compensation(float qRefHip) {
 	float uGravity = PARAM_m * PARAM_g * PARAM_c; // Torque scale factor
 	float qRefSwing;
-	bool c0 = getContactOuter(); // Is the outer foot in contact?
-	bool c1 = getContactInner(); // Is the inner foot in contact?
 
-	if (c0 && !c1) { // Single stance, outer leg on ground
+	switch (STATE_contactMode) {
+	case CONTACT_S0:
 		qRefSwing = qRefHip + STATE_th0;
 		return  uGravity * Sin(qRefSwing);
-	} else if (!c0 && c1) { // Single stance, inner leg on ground
+	case CONTACT_S1:
 		qRefSwing = STATE_th1 - qRefHip;
 		return -uGravity * Sin(qRefSwing);
-	} else if (!c0 && !c1) {  // Flight, both feet in the air
-		return uGravity*Sin(0.5*qRefHip);
-	} else {  // Double stance - no compensation
+	case CONTACT_DS:
+		return uGravity * Sin(0.5 * qRefHip);
+	default:
 		return 0.0;
 	}
-
 }
 
 
-/* This function calls the low-level hip controller. 
+/* This function calls the low-level hip controller.
  * The spring compensation adds a torque equal and opposite
  * to what the spring would produce at the target hip angle */
 void run_controller_hip( ControllerData * C ) {
@@ -215,32 +213,31 @@ void trackAbs_ankInn(float phi1, float kp, float kd) {
  * swingAngle -> -rate*stanceAngle + offset */
 void trackScissor_hip(float rate, float offset, float kp, float kd) {
 
-	bool c0, c1; // Contact information
-
 	ctrlHip.kp = kp;
 	ctrlHip.kd = kd;
 
-	c0 = getContactOuter(); // Is the outer foot in contact?
-	c1 = getContactInner(); // Is the inner foot in contact?
-
 	rate = rate + 1.0;  // Follows from geometry - see docs.
 
-	if (c0 && !c1) { // Single stance, outer leg on ground
+	switch (STATE_contactMode) {
+	case CONTACT_S0:
 		ctrlHip.kp = kp;
 		ctrlHip.kd = kd;
 		ctrlHip.xRef = offset - STATE_th0 * rate;
 		ctrlHip.vRef = -STATE_dth0 * rate;
-	} else if (!c0 && c1) { // Single stance, inner leg on ground
+		break;
+	case CONTACT_S1:
 		ctrlHip.kp = kp;
 		ctrlHip.kd = kd;
 		ctrlHip.xRef = offset - STATE_th1 * rate;
 		ctrlHip.vRef = -STATE_dth1 * rate;
-	} else {  // Flight or double stance - do nothing
+		break;
+	default:
 		ctrlHip.kp = 0.0;
 		ctrlHip.kd = 0.0;
 		ctrlHip.xRef = STATE_qh;
 		ctrlHip.vRef = STATE_dqh;
 	}
+
 	run_controller_hip(&ctrlHip);
 }
 

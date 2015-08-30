@@ -25,13 +25,23 @@ extern float STATE_dth1;  // absolute orientation rate of inner legs
 extern float STATE_dphi0;  // absolute orientation rate of outer feet
 extern float STATE_dphi1;  // absolute orientation rate of inner feet
 
+typedef enum {
+	CONTACT_S0,
+	CONTACT_S1,
+	CONTACT_DS,
+	CONTACT_FL
+} ContactMode;
+
+/* Robot contact configuration. */
+extern bool STATE_c0; // true if outer feet are in contact
+extern bool STATE_c1; // true if inner feet are in contact
+extern ContactMode STATE_contactMode;  // stores current contact mode
+
 /* Robot physical parameters. */
 extern const float PARAM_Phi;  // ankle joint orientation constant
 
 /* helper functions */
-bool getContactOuter(void); // Returns true if outer feet on ground
-bool getContactInner(void);  // returns true if outer feet on ground
-void resetOuterLegAngle(float);  // hard reset the outer leg angle to some value
+void resetRobotOrientation(void);  // hard reset the outer leg angle to some value
 void updateOuterLegAngle(void); // Call on each heel-strike to correct drift in the rate gyro
 
 /* Entry-point function */
