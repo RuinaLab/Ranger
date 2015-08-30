@@ -65,7 +65,7 @@ void test_trackAbs_ankle() {
   * angle to the robot on ID_CTRL_TEST_R0, and the hip motor
   * will produce the torque to cancel out the effect of the
   * spring at that angle. */
- void test_hipSpringCompensation(){
+ void test_hipCompensation_flight(){
  	disable_ankOut();
  	disable_ankInn();
  	trackRel_hip(mb_io_get_float(ID_CTRL_TEST_R0), 0.0, 0.0);  
@@ -148,9 +148,9 @@ void runUnitTest(void) {
 	/***** Motor Control ****/
 	//test_trackAbs_ankle();
 	//test_trackRel_ankle();
-	//test_hipSpringCompensation();  
+	//test_hipCompensation_flight();  
 	//test_hipCompensation_outer(); 
-	test_hipCompensation_inner();
+	//test_hipCompensation_inner();
 
 	/**** Debugging ****/
 	//debug_directCurrentControl();
@@ -160,16 +160,17 @@ void runUnitTest(void) {
  *                        NOTES                                *
  ***************************************************************
 
-Known Bugs:
+--> All unit tests pass
 
-1) Something is wrong with the hip controller. The spring compensation
-works fine when all inputs to the controller are set to zero, but it makes
-things worse (or maybe it's gravity compensation?) when tracking.
 
-2) When the robot turns on, the absolute tracking on the outer feet 
-sometimes fails spectacularily. Calling calibrate by hitting button 0 
-seems to fix the problem. Maybe it's something related to an uninitialized
-variable?
+--> Known Issue: The estimator initializes the stance leg angle 
+to zero when the robot boots. This is really bad if you turn the 
+robot on when it is balanced in double stance, with the feet spread
+apart. It would be better to assume that the angle between the legs 
+is vertical, since this will be true in double stance and when the
+robot is hanging, or balancing with legs together.
+
+
 
  ***************************************************************/
 

@@ -23,18 +23,23 @@ static ControllerData ctrlAnkInn;
  *                    Private Methods                                   *
  ************************************************************************/
 
-/* Returns the torque needed to compensate for gravity. Returns 0.0 if the robot
- * is in either flight or double stance. */
-float hip_gravity_compensation(void) {
+/* Returns the torque needed to compensate for gravity at the target hip angle. 
+ * Returns 0.0 if the robot is in double stance. */
+float hip_gravity_compensation(float qRefHip) {
 	float uGravity = PARAM_m * PARAM_g * PARAM_c; // Torque scale factor
+	float qRefSwing;
 	bool c0 = getContactOuter(); // Is the outer foot in contact?
 	bool c1 = getContactInner(); // Is the inner foot in contact?
 
 	if (c0 && !c1) { // Single stance, outer leg on ground
-		return  uGravity * Sin(STATE_th1);
+		qRefSwing = qRefHip + STATE_th0;
+		return  uGravity * Sin(qRefSwing);
 	} else if (!c0 && c1) { // Single stance, inner leg on ground
-		return -uGravity * Sin(STATE_th0);
-	} else {  // Flight or double stance - no compensation
+		qRefSwing = STATE_th1 - qRefHip;
+		return -uGravity * Sin(qRefSwing);
+	} else if (!c0 && !c1) {  // Flight, both feet in the air
+		return uGravity*Sin(0.5*qRefHip);
+	} else {  // Double stance - no compensation
 		return 0.0;
 	}
 
@@ -48,19 +53,21 @@ void run_controller_hip( ControllerData * C ) {
 	float uRef = 0.0; // Nominal torque expected at joint before control
 	float kp = C->kp;
 	float kd = C->kd;
+	float xRef = C->xRef;
+	float vRef = C->vRef;
 
 	if (LABVIEW_HIP_SPRING_COMPENSATION) {
-		uRef = uRef  + (C->xRef) * PARAM_hip_spring_const;
+		uRef = uRef  + xRef * PARAM_hip_spring_const;
 	}
 
 	if (LABVIEW_HIP_GRAVITY_COMPENSATION) {
-		uRef = uRef + hip_gravity_compensation();
+		uRef = uRef + hip_gravity_compensation(xRef);
 	}
 
 	/* Combine all constant terms:                         *
 	 * u = uRef + kp*(xRef - x) + kd*(vRef - v)            *
 	 * u = (uRef + kp*xRef + kd*vRef) - (kp)*x - (kd)*v    */
-	uRef = uRef + kp * C->xRef + kd * C->vRef;
+	uRef = uRef + kp * xRef + kd * vRef;
 
 	// Convert from torques to currents:
 	uRef = uRef * PARAM_inv_hip_motor_const;
