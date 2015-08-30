@@ -10,7 +10,7 @@ bool HIP_SPRING_COMPENSATION = true;
 /* standardized controller input struct */
 typedef struct  {
 	float xRef; 	// reference joint angle
-	float vRef;  	// reference joint angle rate 
+	float vRef;  	// reference joint angle rate
 	float kp;	//stiffness, proportional gain, torque
 	float kd;	//dampness, derivative gain, torque
 } ControllerData;
@@ -123,19 +123,31 @@ void run_controller_ankInn( ControllerData * C ) {
 
 /* Turns off motors. */
 void disable_motors() {
-	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, 0.0);
-	mb_io_set_float(ID_MCFI_STIFFNESS, 0.0);
-	mb_io_set_float(ID_MCFI_DAMPNESS, 0.0);
+	disable_ankInn();
+	disable_ankOut();
+	disable_hip();
+}
 
-	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, 0.0);
-	mb_io_set_float(ID_MCFO_STIFFNESS, 0.0);
-	mb_io_set_float(ID_MCFO_DAMPNESS, 0.0);
-
+/* Turn off the hip motor */
+void disable_hip() {
 	mb_io_set_float(ID_MCH_COMMAND_CURRENT, 0.0);
 	mb_io_set_float(ID_MCH_STIFFNESS, 0.0);
 	mb_io_set_float(ID_MCH_DAMPNESS, 0.0);
 }
 
+/* turn off the outer ankle motor */
+void disable_ankOut() {
+	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, 0.0);
+	mb_io_set_float(ID_MCFO_STIFFNESS, 0.0);
+	mb_io_set_float(ID_MCFO_DAMPNESS, 0.0);
+}
+
+/* turn off the inner ankle motor */
+void disable_ankInn() {
+	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, 0.0);
+	mb_io_set_float(ID_MCFI_STIFFNESS, 0.0);
+	mb_io_set_float(ID_MCFI_DAMPNESS, 0.0);
+}
 
 /* Computes controller commands such that the outer ankle tracks
  * a constant joint angle (q0). */

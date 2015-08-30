@@ -1,6 +1,7 @@
 #include <mb_includes.h>
 #include <input_output.h>
 #include <motorControl.h>
+#include <unit_test.h>
 
 /* Currespond to buttons on UI board */
 enum ControlMode {
@@ -34,6 +35,7 @@ void mb_controller_update(void) {
 		break;
 	case M3_UnitTest: //Button 4 (third button from the right)
 		set_UI_LED(5, 'p');
+		runUnitTest();
 		break;
 	case M0_Calibrate: //Button 0 (left-most button)	
 		set_UI_LED(5, 'y');

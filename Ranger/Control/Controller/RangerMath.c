@@ -239,3 +239,32 @@ float Fmod(float x, float den) {
   return x - base * den;
 }
 
+
+/* Square Wave, with equal time spend at min and max. */
+float SquareWave(float time, float period, float min, float max){
+  float phase = Fmod(time,period)/period;
+  if (phase < 0.5){
+    return min;
+  } else {
+    return max;
+  }
+}
+
+
+/* Sine Wave, with user-defined period, min, and max values */
+float SineWave(float time, float period, float min, float max){
+  float arg = TWO_PI*time/period;
+  return 0.5*(min+max) + 0.5*(max-min)*Sin(arg);
+}
+
+
+/* Triangle Wave, with user-defined period, min, and max values */
+float TriangleWave(float time, float period, float min, float max){
+  float slope = (max-min)/period;
+  float phase = Fmod(time,period)/period;
+  if (phase < 0.5){ // Rising side
+    return 2.0*phase*slope + min; 
+  } else { // falling side
+    return -2.0*(phase-0.5)*slope + max;
+  }
+}

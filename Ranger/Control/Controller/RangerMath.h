@@ -15,6 +15,10 @@ float Tan(float);
 float Atan(float);
 float Tanh(float);
 float Sqrt(float);
-float Fmod(float,float);
+float Fmod(float x, float den);
+
+float SquareWave(float time, float period, float min, float max);
+float SineWave(float time, float period, float min, float max);
+float TriangleWave(float time, float period, float min, float max);
 
 #endif // __RANGERMATH_H__
