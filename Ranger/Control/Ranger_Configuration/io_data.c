@@ -1,4 +1,5 @@
 //Set initial values for every parameter (src is 0 - labview/PC)
+mb_io_data[ID_EST_ROBOT_ANGLE_GYRO_WEIGHT].payload.ful.f = 0.900000; 
 mb_io_data[ID_EST_TEST_R0].payload.ful.f = 0.000000; 
 mb_io_data[ID_EST_TEST_R1].payload.ful.f = 0.000000; 
 mb_io_data[ID_EST_TEST_R2].payload.ful.f = 0.000000; 

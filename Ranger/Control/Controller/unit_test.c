@@ -120,13 +120,28 @@ void test_hipCompensation_inner(){
 }
 
 
+/* Set the motor controllers to hold the robot in a good double-stance 
+ * configuration. The user can then rock the robot up onto the inner
+ * or outer feet to check that the contact sensors are working well */
+ void test_doubleStanceContact(void){
+ 	float kp_hip = 14.0;
+	float kd_hip = 2.0;
+	float kp_ank = 7.0;
+	float kd_ank = 1.0;
+
+ 	trackAbs_ankOut(0.0, kp_ank, kd_ank);
+	trackAbs_ankInn(0.0, kp_ank, kd_ank);
+	trackRel_hip(0.2, kp_hip, kd_hip);
+ }
+
+
 /* Gives the user direct control over motor command current
  * from LabVIEW, bypassing high-level motor control code.
  * Use Carefully!
  * ID_CTRL_TEST_R0 == outer ankle command current
  * ID_CTRL_TEST_R1 == inner ankle command current
  * ID_CTRL_TEST_R2 == hip joint command current          */
-void debug_directCurrentControl(){
+void debug_directCurrentControl(void){
 	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, mb_io_get_float(ID_CTRL_TEST_R0));
 	mb_io_set_float(ID_MCFO_STIFFNESS, 0.0);
 	mb_io_set_float(ID_MCFO_DAMPNESS, 0.0);
@@ -150,7 +165,10 @@ void runUnitTest(void) {
 	//test_trackRel_ankle();
 	//test_hipCompensation_flight();  
 	//test_hipCompensation_outer(); 
-	test_hipCompensation_inner();
+	//test_hipCompensation_inner();
+
+	/***** Estimation ****/
+	test_doubleStanceContact();
 
 	/**** Debugging ****/
 	//debug_directCurrentControl();

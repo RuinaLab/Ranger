@@ -42,7 +42,6 @@ extern const float PARAM_Phi;  // ankle joint orientation constant
 
 /* helper functions */
 void resetRobotOrientation(void);  // hard reset the outer leg angle to some value
-void updateOuterLegAngle(void); // Call on each heel-strike to correct drift in the rate gyro
 
 /* Entry-point function */
 void mb_estimator_update(void);
