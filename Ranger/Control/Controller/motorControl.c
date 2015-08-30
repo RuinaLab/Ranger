@@ -4,8 +4,8 @@
 #include "robotParameters.h"
 #include "mb_estimator.h"
 
-bool HIP_GRAVITY_COMPENSATION = true;
-bool HIP_SPRING_COMPENSATION = true;
+bool HIP_GRAVITY_COMPENSATION = false; ////HACK//// true;
+bool HIP_SPRING_COMPENSATION = false; ////HACK//// true;
 
 /* standardized controller input struct */
 typedef struct  {
@@ -174,8 +174,8 @@ void trackRel_ankInn(float q1, float kp, float kd) {
 void trackRel_hip(float qh, float kp, float kd) {
 	ctrlHip.xRef = qh;
 	ctrlHip.vRef = 0.0;
-	ctrlHip.kp = 0.0;
-	ctrlHip.kd = 0.0;
+	ctrlHip.kp = kp;
+	ctrlHip.kd = kd;
 	run_controller_hip(&ctrlHip);
 }
 
