@@ -159,6 +159,66 @@ void test_hipScissorTrack_inner() {
 	trackScissor_hip(rate, offset, kp_hip, kd_hip);
 }
 
+/* The robot holds the outer feet while the inner feet alternate
+ * between flip-up and flip-down to hold. Used to test the basic
+ * wrapper functions on the ankles */
+void test_flipUpDownHold_outer(void) {
+	float period = 2.0;
+	float upDownTest;
+	float time = getTime();
+	upDownTest = SquareWave(time, period, -1.0, 1.0);
+	if (upDownTest > 0.0) {
+		flipUp_ankInn();
+	} else {
+		flipDown_ankInn();
+	}
+	disable_hip();
+	holdStance_ankOut();
+}
+
+/* The robot holds the inner feet while the outer feet alternate
+ * between flip-up and flip-down to hold. Used to test the basic
+ * wrapper functions on the ankles */
+void test_flipUpDownHold_inner(void) {
+	float period = 2.0;
+	float upDownTest;
+	float time = getTime();
+	upDownTest = SquareWave(time, period, -1.0, 1.0);
+	if (upDownTest > 0.0) {
+		flipUp_ankOut();
+	} else {
+		flipDown_ankOut();
+	}
+	disable_hip();
+	holdStance_ankInn();
+}
+
+/* Runs hip-scissor tracking, but using gains and set-points
+ * from labview and the constant parameters header file for walking */
+void test_hipGlide_outer() {
+	float offset, rate;
+
+	offset = mb_io_get_float(ID_CTRL_TEST_R0);
+	rate = mb_io_get_float(ID_CTRL_TEST_R1);
+
+	holdStance_ankOut();
+	flipUp_ankInn();
+	hipGlide(rate, offset);
+}
+
+/* Runs hip-scissor tracking, but using gains and set-points
+ * from labview and the constant parameters header file for walking */
+void test_hipGlide_inner() {
+	float offset, rate;
+
+	offset = mb_io_get_float(ID_CTRL_TEST_R0);
+	rate = mb_io_get_float(ID_CTRL_TEST_R1);
+
+	holdStance_ankInn();
+	flipUp_ankOut();
+	hipGlide(rate, offset);
+}
+
 
 /* Set the motor controllers to hold the feet of the robot in the correct
  * configuration for double stance standing, while turning off the hip motor.
@@ -206,10 +266,10 @@ void debug_singleStanceOuter(void) {
 /* Entry-point function for all unit tests */
 void runUnitTest(void) {
 
-	/***** Ranger Math ****/
+	/**** Ranger Math ****/
 	//test_waveFunctions();
 
-	/***** Motor Control ****/
+	/**** Low-Level Motor Control ****/
 	//test_trackAbs_ankle();
 	//test_trackRel_ankle();
 	//test_hipCompensation_flight();
@@ -218,7 +278,13 @@ void runUnitTest(void) {
 	//test_hipScissorTrack_outer();
 	//test_hipScissorTrack_inner();
 
-	/***** Estimation ****/
+	/**** High-Level Motor Control ****/
+	//test_flipUpDownHold_outer();
+	//test_flipUpDownHold_inner();
+	//test_hipGlide_outer();
+	//test_hipGlide_inner();
+
+	/**** Estimation ****/
 	//test_doubleStanceContact();
 
 	/**** Debugging ****/

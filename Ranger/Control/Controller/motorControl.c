@@ -337,11 +337,11 @@ void pushOff_ankInn(float push) {
 /* Wrapper function.
  * Hip does scissor tracking with gains from LabVIEW */
 void hipGlide(float rate, float offset){
-	trackScissor_hip(rate, offset, LABVIEW_HIP_KP, LABVIEW_HIP_KP);
+	trackScissor_hip(rate, offset, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
 }
 
 /* Wrapper function.
  * hip holds a fixed angle using gains from LabVIEW */
 void hipHold(float qh){
-	trackRel_hip(qh, LABVIEW_HIP_KP, LABVIEW_HIP_KP);
+	trackRel_hip(qh, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
 }
