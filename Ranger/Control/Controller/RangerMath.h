@@ -16,6 +16,7 @@ float Atan(float);
 float Tanh(float);
 float Sqrt(float);
 float Fmod(float x, float den);
+float Clamp(float x, float min, float max);
 
 float SquareWave(float time, float period, float min, float max);
 float SineWave(float time, float period, float min, float max);

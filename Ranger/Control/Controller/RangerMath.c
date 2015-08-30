@@ -240,6 +240,14 @@ float Fmod(float x, float den) {
 }
 
 
+/* Clamps the input to be between min and max */
+float Clamp(float x, float min, float max){
+  if (x < min) return min;
+  if (x > max) return max;
+  return x;
+}
+
+
 /* Square Wave, with equal time spend at min and max. */
 float SquareWave(float time, float period, float min, float max){
   float phase = Fmod(time,period)/period; 

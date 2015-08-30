@@ -14,4 +14,10 @@ extern const float PARAM_hip_spring_const;  // (Nm/rad) Hip spring constant
 extern const float PARAM_inv_hip_motor_const; // (Amp/Nm)  ==  (1.0)/(P.Km*P.Gh) == (1.0)/(0.018*66)
 extern const float PARAM_inv_ank_motor_const; // (Amp/Nm)  ==  (1.0)/(P.Km*P.Ga) == (1.0)/(0.018*34)
 
+/* Parameters and set-points for walking sub-functions */
+extern const float PARAM_ctrl_ank_flipTarget;  // relative ankle angle when foot is flipped up. Hard stop at 0.0.
+extern const float PARAM_ctrl_ank_holdLevel;  // absolute foot angle for the stance foot to hold during the step
+extern const float PARAM_ctrl_ank_pushTarget;  // relative ankle angle when foot is flipped down for push-off. Hard stop at 3.2.
+extern const float PARAM_ctrl_ank_currentScale;  // maximum push-off uses this much default current. Motors saturate at 8.0.
+
 #endif  // __ROBOT_PARAMETERS_H__

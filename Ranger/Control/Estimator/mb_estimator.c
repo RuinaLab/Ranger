@@ -53,8 +53,14 @@ static FilterData FD_MCFI_RIGHT_HEEL_SENSE;
 static FilterData FD_OUTER_LEG_ANGLE; // absolute angle of the outer legs
 
 /* Parameters from Labview */
-bool LABVIEW_HIP_GRAVITY_COMPENSATION;
-bool LABVIEW_HIP_SPRING_COMPENSATION;
+bool LABVIEW_HIP_GRAVITY_COMPENSATION;  // enable gravity compensation in hip?
+bool LABVIEW_HIP_SPRING_COMPENSATION; // enable spring compensation in hip?
+float LABVIEW_HIP_KP;  // hip pd controller p gain
+float LABVIEW_HIP_KD;  // hip pd controller d gain
+float LABVIEW_ANK_STANCE_KP;  // ankle pd controller p gain when foot on ground.
+float LABVIEW_ANK_STANCE_KD;  // ankle pd controller d gain when foot on ground.
+float LABVIEW_ANK_SWING_KP;  // ankle pd controller p gain when foot in air.
+float LABVIEW_ANK_SWING_KD;  // ankle pd controller d gain when foot in air.
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 float STATE_qh;  // hip angle
@@ -241,7 +247,7 @@ float getOuterLegAngleGyro(float zLast) {
 	} else { // new data:
 		dt = (float) (t - RATE_GYRO_LAST_TIME);
 		dt = 0.001 * dt; // convert to seconds;
-		zNew = zLast + 0.5*dt*(dz + RATE_GYRO_LAST_RATE);
+		zNew = zLast + 0.5 * dt * (dz + RATE_GYRO_LAST_RATE);
 		RATE_GYRO_LAST_TIME = t;
 		RATE_GYRO_LAST_RATE = dz;
 		return zNew;
@@ -356,6 +362,13 @@ void updateRobotState(void) {
 void updateParameters(void) {
 	LABVIEW_HIP_GRAVITY_COMPENSATION = mb_io_get_float(ID_CTRL_HIP_GRAVITY_COMPENSATION) > 0.5;
 	LABVIEW_HIP_SPRING_COMPENSATION = mb_io_get_float(ID_CTRL_HIP_SPRING_COMPENSATION) > 0.5;
+	LABVIEW_HIP_KP = mb_io_get_float(ID_CTRL_HIP_KP);  // hip pd controller p gain
+	LABVIEW_HIP_KD = mb_io_get_float(ID_CTRL_HIP_KD);  // hip pd controller d gain
+	LABVIEW_ANK_STANCE_KP = mb_io_get_float(ID_CTRL_ANK_STANCE_KP);  // ankle pd controller p gain when foot on ground.
+	LABVIEW_ANK_STANCE_KD = mb_io_get_float(ID_CTRL_ANK_STANCE_KD);  // ankle pd controller d gain when foot on ground.
+	LABVIEW_ANK_SWING_KP = mb_io_get_float(ID_CTRL_ANK_SWING_KP);  // ankle pd controller p gain when foot in air.
+	LABVIEW_ANK_SWING_KD = mb_io_get_float(ID_CTRL_ANK_SWING_KD);  // ankle pd controller d gain when foot in air.
+
 }
 
 

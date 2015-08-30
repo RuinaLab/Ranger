@@ -8,6 +8,12 @@ extern bool INITIALIZE_ESTIMATOR; // Should the estimator be initialized?
 /* Parameters set by LabVIEW */
 extern bool LABVIEW_HIP_GRAVITY_COMPENSATION;
 extern bool LABVIEW_HIP_SPRING_COMPENSATION;
+extern float LABVIEW_HIP_KP;  // hip pd controller p gain
+extern float LABVIEW_HIP_KD;  // hip pd controller d gain
+extern float LABVIEW_ANK_STANCE_KP;  // ankle pd controller p gain when foot on ground.
+extern float LABVIEW_ANK_STANCE_KD;  // ankle pd controller d gain when foot on ground.
+extern float LABVIEW_ANK_SWING_KP;  // ankle pd controller p gain when foot in air.
+extern float LABVIEW_ANK_SWING_KD;  // ankle pd controller d gain when foot in air.
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 extern float STATE_qh;  // hip angle
