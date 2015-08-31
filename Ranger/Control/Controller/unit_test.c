@@ -220,6 +220,59 @@ void test_hipGlide_inner() {
 }
 
 
+/* Put the robot in double stance, and set the ID_CTRL_TEST_R0 to be a 
+ * value between 0.0 (no push-off) and 1.0 (maximum push-off). The robot 
+ * will then alternate between push-off and stance hold on the inner feet,
+ * waiting 4.0 seconds between each change. The outer feet remain in stance
+ * hold the entire time, and the hip just (weakly) holds a constant angle */
+ void test_pushOff_outer(void){
+ 	float kp_hip = 10;  // weak gains on the hip
+ 	float kd_hip = 0.5;
+ 	float qh_hold = -0.3;  // hold this angle
+ 	float period = 8.0; // 4 seconds push, 4 seconds hold
+ 	float modeSignal;  // -1.0 for push, 1.0 for hold
+ 	float push;  // Amplitude of the push-off feed-forward term, from labVIEW
+ 	float time = getTime();
+
+ 	push = mb_io_get_float(ID_CTRL_TEST_R0);
+ 	modeSignal = SquareWave(time,period,-1.0, 1.0);
+ 	if (modeSignal < 0.0){
+ 		pushOff_ankInn(push);
+ 	} else {
+ 		holdStance_ankInn();
+ 	}
+
+ 	holdStance_ankOut();
+	trackRel_hip(qh_hold,kp_hip,kd_hip);
+ }
+
+
+/* Put the robot in double stance, and set the ID_CTRL_TEST_R0 to be a 
+ * value between 0.0 (no push-off) and 1.0 (maximum push-off). The robot 
+ * will then alternate between push-off and stance hold on the outer feet,
+ * waiting 4.0 seconds between each change. The inner feet remain in stance
+ * hold the entire time, and the hip just (weakly) holds a constant angle */
+ void test_pushOff_inner(void){
+ 	float kp_hip = 10;  // weak gains on the hip
+ 	float kd_hip = 0.5;
+ 	float qh_hold = 0.3;  // hold this angle
+ 	float period = 8.0; // 4 seconds push, 4 seconds hold
+ 	float modeSignal;  // -1.0 for push, 1.0 for hold
+ 	float push;  // Amplitude of the push-off feed-forward term, from labVIEW
+ 	float time = getTime();
+
+ 	push = mb_io_get_float(ID_CTRL_TEST_R0);
+ 	modeSignal = SquareWave(time,period,-1.0, 1.0);
+ 	if (modeSignal < 0.0){
+ 		pushOff_ankOut(push);
+ 	} else {
+ 		holdStance_ankOut();
+ 	}
+
+ 	holdStance_ankInn();
+	trackRel_hip(qh_hold,kp_hip,kd_hip);
+ }
+
 /* Set the motor controllers to hold the feet of the robot in the correct
  * configuration for double stance standing, while turning off the hip motor.
  * The user can then rock the robot up onto the inner
@@ -283,6 +336,8 @@ void runUnitTest(void) {
 	//test_flipUpDownHold_inner();
 	//test_hipGlide_outer();
 	//test_hipGlide_inner();
+	//test_pushOff_outer();
+	test_pushOff_inner();
 
 	/**** Estimation ****/
 	//test_doubleStanceContact();

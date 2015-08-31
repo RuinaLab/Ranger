@@ -283,54 +283,52 @@ void flipDown_ankInn(void) {
 	trackAbs_ankInn(PARAM_ctrl_ank_holdLevel, LABVIEW_ANK_SWING_KP, LABVIEW_ANK_SWING_KD);
 }
 
-/* Push off the stance feet, using an open-loop current in addition
- * to the feed-back position control.
- * @param push = [0,1] = [none, max] feed-forward current */
+/* Push off the stance feet, by adjusting both the stance foot gains and the target angle
+ * @param push = [0,1] = [none, max] 
+ * If push==0.0 then this function is nearly identical to holdStance_ankOut().
+ * If push==1.0 then this function will increase both the gains and target angle such that 
+ * the initial response of the motors is close to the peak torque available from the motor*/
 void pushOff_ankOut(float push) {
 	float qStart;  // Relative joint angle if the absolute orientation of the foot were level.
 	float qFinal;  // Relative joint angle when the foot reaches maximum extension
-	float phase;   // progress through push-off cycle (0 = start, 1 = at target)
-	float torque;  // feed-forward current to send to motor
+	float angle;   // relative angle for push-off target
+	float maxGain;    // Proportional gain to produce maximum current at push-off of 1.0
+	float gain;    // proportional gain to send to motors.
 	qStart = PARAM_Phi - PARAM_ctrl_ank_holdLevel + STATE_th0;
 	qFinal = PARAM_ctrl_ank_pushTarget;
 
-	// Calculate the feed-forward current signal
-	phase = (qFinal - STATE_q0) / (qFinal - qStart); // (0 = start, 1 = at target)
-	phase = Clamp(phase, 0.0, 1.0);
-	push = Clamp(push, 0.0, 1.0);
-	torque = push * phase * PARAM_ctrl_ank_torqueScale; // Positive torque will extend foot
+	// Calculate the desired angle:
+	push = Clamp(push, 0.0, 1.0);  // Prevent sending crazy motor commands
+	angle = push*qFinal + (1.0-push)*qStart; // push == 0.0 then same as hold level
+
+	// Figure out the gain to give torque = torqueScale at the initial (maximal) deflection
+	maxGain = PARAM_ctrl_ank_torqueScale / (qFinal - qStart);
+	gain = push*maxGain + (1.0-push)*LABVIEW_ANK_STANCE_KP;
 
 	// Send the feed-back commands
-	ctrlAnkOut.uRef = torque;
-	ctrlAnkOut.xRef = PARAM_ctrl_ank_pushTarget;
-	ctrlAnkOut.vRef = 0.0;
-	ctrlAnkOut.kp = LABVIEW_ANK_STANCE_KP;
-	ctrlAnkOut.kd = LABVIEW_ANK_STANCE_KD;
-	run_controller_ankOut( &ctrlAnkOut );
+	trackRel_ankOut(angle,gain,LABVIEW_ANK_STANCE_KD);
 }
 
-/* Same as pushOff_ankOut, but with the inner feed instead. */
+/* Same as pushOff_ankOut, but with the inner feet instead. */
 void pushOff_ankInn(float push) {
 	float qStart;  // Relative joint angle if the absolute orientation of the foot were level.
 	float qFinal;  // Relative joint angle when the foot reaches maximum extension
-	float phase;   // progress through push-off cycle (0 = start, 1 = at target)
-	float torque;  // feed-forward current to send to motor
+	float angle;   // relative angle for push-off target
+	float maxGain;    // Proportional gain to produce maximum current at push-off of 1.0
+	float gain;    // proportional gain to send to motors.
 	qStart = PARAM_Phi - PARAM_ctrl_ank_holdLevel + STATE_th1;
 	qFinal = PARAM_ctrl_ank_pushTarget;
 
-	// Calculate the feed-forward current signal
-	phase = (qFinal - STATE_q1) / (qFinal - qStart); // (0 = start, 1 = at target)
-	phase = Clamp(phase, 0.0, 1.0);
-	push = Clamp(push, 0.0, 1.0);
-	torque = push * phase * PARAM_ctrl_ank_torqueScale; // Positive torque will extend foot
+	// Calculate the desired angle:
+	push = Clamp(push, 0.0, 1.0);  // Prevent sending crazy motor commands
+	angle = push*qFinal + (1.0-push)*qStart; // push == 0.0 then same as hold level
+
+	// Figure out the gain to give torque = torqueScale at the initial (maximal) deflection
+	maxGain = PARAM_ctrl_ank_torqueScale / (qFinal - qStart);
+	gain = push*maxGain + (1.0-push)*LABVIEW_ANK_STANCE_KP;
 
 	// Send the feed-back commands
-	ctrlAnkInn.uRef = torque;
-	ctrlAnkInn.xRef = PARAM_ctrl_ank_pushTarget;
-	ctrlAnkInn.vRef = 0.0;
-	ctrlAnkInn.kp = LABVIEW_ANK_STANCE_KP;
-	ctrlAnkInn.kd = LABVIEW_ANK_STANCE_KD;
-	run_controller_ankInn( &ctrlAnkInn );
+	trackRel_ankInn(angle,gain,LABVIEW_ANK_STANCE_KD);
 }
 
 
