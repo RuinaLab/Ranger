@@ -226,26 +226,27 @@ typedef enum can_ids{
 	ID_CTRL_ANK_SWING_KD = 214,	 // 1 0 1 // 
 	ID_CTRL_HIP_GRAVITY_COMPENSATION = 215,	 // 1 0 1 // Enables (1) or disables (0) gravity compensation in hip controller
 	ID_CTRL_HIP_SPRING_COMPENSATION = 216,	 // 1 0 1 // Enables (1) or disables (0) spring compensation in hip controller
-	ID_CTRL_TEST_R0 = 217,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R1 = 218,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R2 = 219,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R3 = 220,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R4 = 221,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R5 = 222,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R6 = 223,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R7 = 224,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R8 = 225,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R9 = 226,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W0 = 227,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W1 = 228,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W2 = 229,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W3 = 230,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W4 = 231,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W5 = 232,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W6 = 233,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W7 = 234,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W8 = 235,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W9 = 236,	 //    // 
+	ID_CTRL_FSM_CRIT_STANCE_ANGLE  = 217,	 // 0.1 0 1 // The angle that the stance leg must rotate through to trigger a state transition
+	ID_CTRL_TEST_R0 = 218,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R1 = 219,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R2 = 220,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R3 = 221,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R4 = 222,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R5 = 223,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R6 = 224,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R7 = 225,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R8 = 226,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R9 = 227,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W0 = 228,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W1 = 229,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W2 = 230,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W3 = 231,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W4 = 232,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W5 = 233,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W6 = 234,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W7 = 235,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W8 = 236,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W9 = 237,	 //    // 
 	ID_LV_START,	 //    // 
 	ID_LV_CH_0,	 //    // 
 	ID_LV_CH_1,	 //    // 

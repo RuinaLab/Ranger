@@ -14,6 +14,7 @@ extern float LABVIEW_ANK_STANCE_KP;  // ankle pd controller p gain when foot on 
 extern float LABVIEW_ANK_STANCE_KD;  // ankle pd controller d gain when foot on ground.
 extern float LABVIEW_ANK_SWING_KP;  // ankle pd controller p gain when foot in air.
 extern float LABVIEW_ANK_SWING_KD;  // ankle pd controller d gain when foot in air.
+extern float LABVIEW_FSM_CRIT_STANCE_ANGLE;  // The angle that the stance leg must rotate through to trigger a state transition.
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 extern float STATE_qh;  // hip angle

@@ -61,6 +61,7 @@ float LABVIEW_ANK_STANCE_KP;  // ankle pd controller p gain when foot on ground.
 float LABVIEW_ANK_STANCE_KD;  // ankle pd controller d gain when foot on ground.
 float LABVIEW_ANK_SWING_KP;  // ankle pd controller p gain when foot in air.
 float LABVIEW_ANK_SWING_KD;  // ankle pd controller d gain when foot in air.
+float LABVIEW_FSM_CRIT_STANCE_ANGLE; // Angle that the stance leg must rotate through for the FSM to switch
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 float STATE_qh;  // hip angle
@@ -368,7 +369,7 @@ void updateParameters(void) {
 	LABVIEW_ANK_STANCE_KD = mb_io_get_float(ID_CTRL_ANK_STANCE_KD);  // ankle pd controller d gain when foot on ground.
 	LABVIEW_ANK_SWING_KP = mb_io_get_float(ID_CTRL_ANK_SWING_KP);  // ankle pd controller p gain when foot in air.
 	LABVIEW_ANK_SWING_KD = mb_io_get_float(ID_CTRL_ANK_SWING_KD);  // ankle pd controller d gain when foot in air.
-
+	LABVIEW_FSM_CRIT_STANCE_ANGLE = mb_io_get_float(ID_CTRL_FSM_CRIT_STANCE_ANGLE); // The angle that the stance leg must rotate through to trigger a state transition.
 }
 
 

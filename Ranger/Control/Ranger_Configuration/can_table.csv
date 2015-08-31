@@ -242,6 +242,7 @@ CTRL_ANK_SWING_KP,7,0,1,
 CTRL_ANK_SWING_KD,1,0,1,
 CTRL_HIP_GRAVITY_COMPENSATION,1,0,1,Enables (1) or disables (0) gravity compensation in hip controller
 CTRL_HIP_SPRING_COMPENSATION,1,0,1,Enables (1) or disables (0) spring compensation in hip controller
+CTRL_FSM_CRIT_STANCE_ANGLE ,0.1,0,1,The angle that the stance leg must rotate through to trigger a state transition
 #,,,,
 #ControllerTesting,0,0,1,test read from labview
 CTRL_TEST_R0,0,0,1,test read from labview
