@@ -62,6 +62,11 @@ float LABVIEW_ANK_STANCE_KD;  // ankle pd controller d gain when foot on ground.
 float LABVIEW_ANK_SWING_KP;  // ankle pd controller p gain when foot in air.
 float LABVIEW_ANK_SWING_KD;  // ankle pd controller d gain when foot in air.
 float LABVIEW_FSM_CRIT_STANCE_ANGLE; // Angle that the stance leg must rotate through for the FSM to switch
+float LABVIEW_WALK_ANK_PUSH;  //magnitude of the push-off during walking, normalized to be on the range [0,1]
+float LABVIEW_WALK_HIP_RATE;  //scissor tracking rate, should be near one (~0.5, ~1.5)
+float LABVIEW_WALK_HIP_OFFSET;  //How much the swing leg should lead the stance leg during scissor tracking
+float LABVIEW_CTRL_WALK_HIP_ANGLE;  //Target angle for the hip to hold during push-off
+
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 float STATE_qh;  // hip angle
@@ -370,6 +375,10 @@ void updateParameters(void) {
 	LABVIEW_ANK_SWING_KP = mb_io_get_float(ID_CTRL_ANK_SWING_KP);  // ankle pd controller p gain when foot in air.
 	LABVIEW_ANK_SWING_KD = mb_io_get_float(ID_CTRL_ANK_SWING_KD);  // ankle pd controller d gain when foot in air.
 	LABVIEW_FSM_CRIT_STANCE_ANGLE = mb_io_get_float(ID_CTRL_FSM_CRIT_STANCE_ANGLE); // The angle that the stance leg must rotate through to trigger a state transition.
+    LABVIEW_WALK_ANK_PUSH = mb_io_get_float(ID_CTRL_WALK_ANK_PUSH);  //magnitude of the push-off during walking, normalized to be on the range [0,1]
+    LABVIEW_WALK_HIP_RATE = mb_io_get_float(ID_CTRL_WALK_HIP_RATE);  //scissor tracking rate, should be near one (~0.5, ~1.5)
+    LABVIEW_WALK_HIP_OFFSET = mb_io_get_float(ID_CTRL_WALK_HIP_OFFSET);  //How much the swing leg should lead the stance leg during scissor tracking
+    LABVIEW_CTRL_WALK_HIP_ANGLE = mb_io_get_float(ID_CTRL_WALK_HIP_ANGLE);  //Target angle for the hip to hold during push-off
 }
 
 

@@ -284,9 +284,9 @@ void flipDown_ankInn(void) {
 }
 
 /* Push off the stance feet, by adjusting both the stance foot gains and the target angle
- * @param push = [0,1] = [none, max] 
+ * @param push = [0,1] = [none, max]
  * If push==0.0 then this function is nearly identical to holdStance_ankOut().
- * If push==1.0 then this function will increase both the gains and target angle such that 
+ * If push==1.0 then this function will increase both the gains and target angle such that
  * the initial response of the motors is close to the peak torque available from the motor*/
 void pushOff_ankOut(float push) {
 	float qStart;  // Relative joint angle if the absolute orientation of the foot were level.
@@ -299,14 +299,14 @@ void pushOff_ankOut(float push) {
 
 	// Calculate the desired angle:
 	push = Clamp(push, 0.0, 1.0);  // Prevent sending crazy motor commands
-	angle = push*qFinal + (1.0-push)*qStart; // push == 0.0 then same as hold level
+	angle = push * qFinal + (1.0 - push) * qStart; // push == 0.0 then same as hold level
 
 	// Figure out the gain to give torque = torqueScale at the initial (maximal) deflection
 	maxGain = PARAM_ctrl_ank_torqueScale / (qFinal - qStart);
-	gain = push*maxGain + (1.0-push)*LABVIEW_ANK_STANCE_KP;
+	gain = push * maxGain + (1.0 - push) * LABVIEW_ANK_STANCE_KP;
 
 	// Send the feed-back commands
-	trackRel_ankOut(angle,gain,LABVIEW_ANK_STANCE_KD);
+	trackRel_ankOut(angle, gain, LABVIEW_ANK_STANCE_KD);
 }
 
 /* Same as pushOff_ankOut, but with the inner feet instead. */
@@ -321,25 +321,43 @@ void pushOff_ankInn(float push) {
 
 	// Calculate the desired angle:
 	push = Clamp(push, 0.0, 1.0);  // Prevent sending crazy motor commands
-	angle = push*qFinal + (1.0-push)*qStart; // push == 0.0 then same as hold level
+	angle = push * qFinal + (1.0 - push) * qStart; // push == 0.0 then same as hold level
 
 	// Figure out the gain to give torque = torqueScale at the initial (maximal) deflection
 	maxGain = PARAM_ctrl_ank_torqueScale / (qFinal - qStart);
-	gain = push*maxGain + (1.0-push)*LABVIEW_ANK_STANCE_KP;
+	gain = push * maxGain + (1.0 - push) * LABVIEW_ANK_STANCE_KP;
 
 	// Send the feed-back commands
-	trackRel_ankInn(angle,gain,LABVIEW_ANK_STANCE_KD);
+	trackRel_ankInn(angle, gain, LABVIEW_ANK_STANCE_KD);
 }
 
 
 /* Wrapper function.
  * Hip does scissor tracking with gains from LabVIEW */
-void hipGlide(float rate, float offset){
+void hipGlide(float rate, float offset) {
 	trackScissor_hip(rate, offset, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
 }
 
 /* Wrapper function.
- * hip holds a fixed angle using gains from LabVIEW */
-void hipHold(float qh){
-	trackRel_hip(qh, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
+ * The hip holds various angles based on the contact configuration.
+ * @param qh = magnitude (positive) of the hip angle during single stance.
+ * double stance = do nothing
+ * flight = hold zero
+ * single stance outer = hold pos
+ * single stance inner = hold neg    */
+void hipHold(float qh) {
+	switch (STATE_contactMode) {
+	case CONTACT_S0:
+		trackRel_hip(qh, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
+		break;
+	case CONTACT_S1:
+		trackRel_hip(-qh, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
+		break;
+	case CONTACT_DS:
+		disable_hip();
+		break;
+	case CONTACT_FL:
+		trackRel_hip(0.0, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
+		break;
+	}
 }

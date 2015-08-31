@@ -37,7 +37,7 @@ void updateWalkFsm(void) {
 			} break;
 		case Glide_Inn:
 			if (STATE_th1 < -LABVIEW_FSM_CRIT_STANCE_ANGLE) {
-				WALK_FSM_MODE = Push_Inn; 
+				WALK_FSM_MODE = Push_Inn;
 			} break;
 		case Push_Inn:
 			if (STATE_c0) {  // If outer feet hit the ground
@@ -74,6 +74,77 @@ void setWalkFsmLed(void) {
 }
 
 
+/* Sends commands to the motors based on the current state of the
+ * walking finite state machine */
+void sendMotorCommands(void) {
+
+	/* Read controller parameters directly from labview for now */
+	float push = LABVIEW_WALK_ANK_PUSH;  //magnitude of the push-off during walking, normalized to be on the range [0,1]
+	float rate = LABVIEW_WALK_HIP_RATE;  //scissor tracking rate, should be near one (~0.5, ~1.5)
+	float offset = LABVIEW_WALK_HIP_OFFSET;  //How much the swing leg should lead the stance leg during scissor tracking
+	float angle = LABVIEW_CTRL_WALK_HIP_ANGLE;  //Target angle for the hip to hold during push-off
+
+	switch (WALK_FSM_MODE_PREV) {
+	case Glide_Out:
+		holdStance_ankOut();
+		flipUp_ankInn();
+		hipGlide(rate, offset);
+		break;
+	case Push_Out:
+		flipDown_ankInn();
+		pushOff_ankOut(push);
+		hipHold(angle);
+		break;
+	case Glide_Inn:
+		flipUp_ankOut();
+		holdStance_ankInn();
+		hipGlide(rate, offset);
+		break;
+	case Push_Inn:
+		flipDown_ankOut();
+		pushOff_ankInn(push);
+		hipHold(angle);
+		break;
+	case Flight:  // In the air, get ready for Glide_Out
+		holdStance_ankOut();
+		flipUp_ankInn();
+		disable_hip();
+		break;
+	}
+
+}
+
+
+/*******************************************************************************
+ *                      TESTING FUNCTIONS                                      *
+ *******************************************************************************/
+
+
+/* Hold both feet in stance and disable the hip. Run the walking finite state
+ * machine, and check transitions based on LED sequence.  */
+void test_walkFsmTransitions(void) {
+	updateWalkFsm();
+	setWalkFsmLed();
+	disable_hip();
+	holdStance_ankOut();
+	holdStance_ankInn();
+}
+
+
+/* This function is used for testing various aspects of the walking code,
+ * designed to be called by unitTest     */
+void walkControl_test(void) {
+
+	/* Simple test for manually stepping through the finite state machine */
+	test_walkFsmTransitions();
+}
+
+
+
+/*******************************************************************************
+ *                     MAIN ENTRY-POINT FUNCTIONS                              *
+ *******************************************************************************/
+
 /* This function is called once, as soon as the button is pressed
  * for the robot to begin walking. It is used for initialization. */
 void walkControl_entry(void) {
@@ -92,8 +163,6 @@ void walkControl_entry(void) {
 void walkControl_main(void) {
 	updateWalkFsm();
 	setWalkFsmLed();
-
-	// Dummy Test for now:
-	holdStance_ankOut();
-	holdStance_ankInn();
+	sendMotorCommands();
 }
+

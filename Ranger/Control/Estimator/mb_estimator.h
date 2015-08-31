@@ -15,6 +15,12 @@ extern float LABVIEW_ANK_STANCE_KD;  // ankle pd controller d gain when foot on 
 extern float LABVIEW_ANK_SWING_KP;  // ankle pd controller p gain when foot in air.
 extern float LABVIEW_ANK_SWING_KD;  // ankle pd controller d gain when foot in air.
 extern float LABVIEW_FSM_CRIT_STANCE_ANGLE;  // The angle that the stance leg must rotate through to trigger a state transition.
+extern float LABVIEW_WALK_ANK_PUSH;  //magnitude of the push-off during walking, normalized to be on the range [0,1]
+extern float LABVIEW_WALK_HIP_RATE;  //scissor tracking rate, should be near one (~0.5, ~1.5)
+extern float LABVIEW_WALK_HIP_OFFSET;  //How much the swing leg should lead the stance leg during scissor tracking
+extern float LABVIEW_CTRL_WALK_HIP_ANGLE;  //Target angle for the hip to hold during push-off
+
+
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 extern float STATE_qh;  // hip angle

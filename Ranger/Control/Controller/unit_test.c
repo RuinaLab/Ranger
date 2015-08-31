@@ -2,6 +2,7 @@
 #include <unit_test.h>
 #include <motorControl.h>
 #include <RangerMath.h>
+#include <walkControl.h>
 
 
 /*Simple function to return the robot time in seconds */
@@ -273,6 +274,19 @@ void test_hipGlide_inner() {
 	trackRel_hip(qh_hold,kp_hip,kd_hip);
  }
 
+
+/* Holds both feet in stance. The behavior of the hip:
+ * double stance = do nothing
+ * flight = hold zero
+ * single stance outer = hold pos
+ * single stance inner = hold neg    */
+ void test_hipHold(){
+ 	holdStance_ankOut();
+ 	holdStance_ankInn();
+ 	hipHold(0.3);
+ }
+
+
 /* Set the motor controllers to hold the feet of the robot in the correct
  * configuration for double stance standing, while turning off the hip motor.
  * The user can then rock the robot up onto the inner
@@ -334,10 +348,14 @@ void runUnitTest(void) {
 	/**** High-Level Motor Control ****/
 	//test_flipUpDownHold_outer();
 	//test_flipUpDownHold_inner();
-	//test_hipGlide_outer();
+	test_hipGlide_outer();
 	//test_hipGlide_inner();
 	//test_pushOff_outer();
-	test_pushOff_inner();
+	//test_pushOff_inner();
+	//test_hipHold();
+
+	/**** Walking Controller ****/
+	//walkControl_test();
 
 	/**** Estimation ****/
 	//test_doubleStanceContact();
@@ -351,7 +369,17 @@ void runUnitTest(void) {
  *                        NOTES                                *
  ***************************************************************
 
-All tests work
+All tests pass
+
+
+************************
+
+
+Known Bugs:
+1) If you send a single command to the motors, such as disable,
+then the inner ankle motor sometimes does not receive the command.
+This can be addressed by resending the command, but should be fixed 
+eventually on the low-level control board.
 
 
  ***************************************************************/

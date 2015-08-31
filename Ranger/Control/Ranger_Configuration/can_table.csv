@@ -243,6 +243,10 @@ CTRL_ANK_SWING_KD,1,0,1,
 CTRL_HIP_GRAVITY_COMPENSATION,1,0,1,Enables (1) or disables (0) gravity compensation in hip controller
 CTRL_HIP_SPRING_COMPENSATION,1,0,1,Enables (1) or disables (0) spring compensation in hip controller
 CTRL_FSM_CRIT_STANCE_ANGLE ,0.1,0,1,The angle that the stance leg must rotate through to trigger a state transition
+CTRL_WALK_ANK_PUSH ,0.4,0,1,magnitude of the push-off during walking  normalized to be on the range 0 to 1
+CTRL_WALK_HIP_RATE ,1.2,0,1,scissor tracking rate should be near one 
+CTRL_WALK_HIP_OFFSET ,0.2,0,1,How much the swing leg should lead the stance leg during scissor tracking
+CTRL_WALK_HIP_ANGLE ,0.3,0,1,Target angle for the hip to hold during push-off
 #,,,,
 #ControllerTesting,0,0,1,test read from labview
 CTRL_TEST_R0,0,0,1,test read from labview
