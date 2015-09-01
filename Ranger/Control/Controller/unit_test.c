@@ -367,11 +367,17 @@ Debugging...
 
 
 Known Bugs:
+
 1) If you send a single command to the motors, such as disable,
 then the inner ankle motor sometimes does not receive the command.
 This can be addressed by resending the command, but should be fixed 
 eventually on the low-level control board.
 
+2) Sometimes when the robot boots there is a timing problem and the IMU
+does not receive the command to start sending data. As a result the robot
+orientation estimate goes crazy. We may have fixed this by increasing the
+lenght of a wait on the UI board before it sends the command to the IMU to
+start sending data.
 
  ***************************************************************/
 
