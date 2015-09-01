@@ -199,7 +199,11 @@ void test_flipUpDownHold_inner(void) {
 void test_hipGlide_outer() {
 	holdStance_ankOut();
 	flipUp_ankInn();
-	hipGlide(LABVIEW_WALK_HIP_RATE, LABVIEW_WALK_HIP_OFFSET);
+	PHASE_HIP_ANGLE_START = mb_io_get_float(ID_CTRL_TEST_R0);    // The angle of the hip at the start of the glide phase
+	PHASE_HIP_ANGLE_FINAL = mb_io_get_float(ID_CTRL_TEST_R1);    // The angle of the hip at the end of the glide phase
+	PHASE_STANCE_ANGLE_START = mb_io_get_float(ID_CTRL_TEST_R2);    // The angle of the stance leg at the start of the glide phase
+	PHASE_STANCE_ANGLE_FINAL = mb_io_get_float(ID_CTRL_TEST_R3);    // The angle of the stance leg at the end of the glide phase
+	hipGlide();
 }
 
 /* --12-- Runs hip-scissor tracking, but using gains and set-points
@@ -207,7 +211,11 @@ void test_hipGlide_outer() {
 void test_hipGlide_inner() {
 	holdStance_ankInn();
 	flipUp_ankOut();
-	hipGlide(LABVIEW_WALK_HIP_RATE, LABVIEW_WALK_HIP_OFFSET);
+	PHASE_HIP_ANGLE_START = mb_io_get_float(ID_CTRL_TEST_R0);    // The angle of the hip at the start of the glide phase
+	PHASE_HIP_ANGLE_FINAL = mb_io_get_float(ID_CTRL_TEST_R1);    // The angle of the hip at the end of the glide phase
+	PHASE_STANCE_ANGLE_START = mb_io_get_float(ID_CTRL_TEST_R2);    // The angle of the stance leg at the start of the glide phase
+	PHASE_STANCE_ANGLE_FINAL = mb_io_get_float(ID_CTRL_TEST_R3);    // The angle of the stance leg at the end of the glide phase
+	hipGlide();
 }
 
 

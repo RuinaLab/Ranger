@@ -217,9 +217,8 @@ void trackAbs_ankInn(float phi1, float kp, float kd) {
 /* Computes the controller commands such that the swing leg tracks a
  * linear function of the stance leg angle. Disables the hip motor
  * when in double stance or flight.
- * swingAngle -> -rate*stanceAngle + offset
- * positive is defined to be the swing leg in front of the stance leg */
-void trackScissor_hip(float rate, float offset, float kp, float kd) {
+ * hipAngle -> gain*stanceAngle + offset        */
+void trackScissor_hip(float gain, float offset, float kp, float kd) {
 
 	ctrlHip.kp = kp;
 	ctrlHip.kd = kd;
@@ -229,15 +228,15 @@ void trackScissor_hip(float rate, float offset, float kp, float kd) {
 		ctrlHip.uRef = 0.0;
 		ctrlHip.kp = kp;
 		ctrlHip.kd = kd;
-		ctrlHip.xRef = offset - STATE_th0 * (rate + 1.0);
-		ctrlHip.vRef = -STATE_dth0 * (rate + 1.0);
+		ctrlHip.xRef = gain*STATE_th0 + offset;
+		ctrlHip.vRef = gain*STATE_dth0;
 		break;
 	case CONTACT_S1:
 		ctrlHip.uRef = 0.0;
 		ctrlHip.kp = kp;
 		ctrlHip.kd = kd;
-		ctrlHip.xRef = -offset + STATE_th1 * (rate + 1.0);
-		ctrlHip.vRef = STATE_dth1 * (rate + 1.0);
+		ctrlHip.xRef = gain*STATE_th1 + offset;
+		ctrlHip.vRef = gain*STATE_dth1;
 		break;
 	default:
 		ctrlHip.uRef = 0.0;
@@ -248,116 +247,4 @@ void trackScissor_hip(float rate, float offset, float kp, float kd) {
 	}
 
 	run_controller_hip(&ctrlHip);
-}
-
-
-
-/* A simple wrapper function that forces the outer foot to track
- * the hold-level target. Designed to be called on the stance foot
- * during walking control. Uses gains from LabVIEW, and setpoints
- * from robotParameters.h */
-void holdStance_ankOut(void) {
-	trackAbs_ankOut(PARAM_ctrl_ank_holdLevel, LABVIEW_ANK_STANCE_KP, LABVIEW_ANK_STANCE_KD);
-}
-void holdStance_ankInn(void) {
-	trackAbs_ankInn(PARAM_ctrl_ank_holdLevel, LABVIEW_ANK_STANCE_KP, LABVIEW_ANK_STANCE_KD);
-}
-
-
-/* Wrapper Function.
- * Flips the outer feet up and out of the way during swing phase */
-void flipUp_ankOut(void) {
-	trackRel_ankOut(PARAM_ctrl_ank_flipTarget, LABVIEW_ANK_SWING_KP, LABVIEW_ANK_SWING_KD);
-}
-void flipUp_ankInn(void) {
-	trackRel_ankInn(PARAM_ctrl_ank_flipTarget, LABVIEW_ANK_SWING_KP, LABVIEW_ANK_SWING_KD);
-}
-
-
-/* Wrapper Functions.
- * Flips the outer feet down in preparation for heel-strike */
-void flipDown_ankOut(void) {
-	trackAbs_ankOut(PARAM_ctrl_ank_holdLevel, LABVIEW_ANK_SWING_KP, LABVIEW_ANK_SWING_KD);
-}
-void flipDown_ankInn(void) {
-	trackAbs_ankInn(PARAM_ctrl_ank_holdLevel, LABVIEW_ANK_SWING_KP, LABVIEW_ANK_SWING_KD);
-}
-
-/* Push off the stance feet, by adjusting both the stance foot gains and the target angle
- * @param push = [0,1] = [none, max]
- * If push==0.0 then this function is nearly identical to holdStance_ankOut().
- * If push==1.0 then this function will increase both the gains and target angle such that
- * the initial response of the motors is close to the peak torque available from the motor*/
-void pushOff_ankOut(float push) {
-	float qStart;  // Relative joint angle if the absolute orientation of the foot were level.
-	float qFinal;  // Relative joint angle when the foot reaches maximum extension
-	float angle;   // relative angle for push-off target
-	float maxGain;    // Proportional gain to produce maximum current at push-off of 1.0
-	float gain;    // proportional gain to send to motors.
-	qStart = PARAM_Phi - PARAM_ctrl_ank_holdLevel + STATE_th0;
-	qFinal = PARAM_ctrl_ank_pushTarget;
-
-	// Calculate the desired angle:
-	push = Clamp(push, 0.0, 1.0);  // Prevent sending crazy motor commands
-	angle = push * qFinal + (1.0 - push) * qStart; // push == 0.0 then same as hold level
-
-	// Figure out the gain to give torque = torqueScale at the initial (maximal) deflection
-	maxGain = PARAM_ctrl_ank_torqueScale / (qFinal - qStart);
-	gain = push * maxGain + (1.0 - push) * LABVIEW_ANK_STANCE_KP;
-
-	// Send the feed-back commands
-	trackRel_ankOut(angle, gain, LABVIEW_ANK_STANCE_KD);
-}
-
-/* Same as pushOff_ankOut, but with the inner feet instead. */
-void pushOff_ankInn(float push) {
-	float qStart;  // Relative joint angle if the absolute orientation of the foot were level.
-	float qFinal;  // Relative joint angle when the foot reaches maximum extension
-	float angle;   // relative angle for push-off target
-	float maxGain;    // Proportional gain to produce maximum current at push-off of 1.0
-	float gain;    // proportional gain to send to motors.
-	qStart = PARAM_Phi - PARAM_ctrl_ank_holdLevel + STATE_th1;
-	qFinal = PARAM_ctrl_ank_pushTarget;
-
-	// Calculate the desired angle:
-	push = Clamp(push, 0.0, 1.0);  // Prevent sending crazy motor commands
-	angle = push * qFinal + (1.0 - push) * qStart; // push == 0.0 then same as hold level
-
-	// Figure out the gain to give torque = torqueScale at the initial (maximal) deflection
-	maxGain = PARAM_ctrl_ank_torqueScale / (qFinal - qStart);
-	gain = push * maxGain + (1.0 - push) * LABVIEW_ANK_STANCE_KP;
-
-	// Send the feed-back commands
-	trackRel_ankInn(angle, gain, LABVIEW_ANK_STANCE_KD);
-}
-
-
-/* Wrapper function.
- * Hip does scissor tracking with gains from LabVIEW */
-void hipGlide(float rate, float offset) {
-	trackScissor_hip(rate, offset, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
-}
-
-/* Wrapper function.
- * The hip holds various angles based on the contact configuration.
- * @param qh = magnitude (positive) of the hip angle during single stance.
- * double stance = do nothing
- * flight = hold zero
- * single stance outer = hold pos
- * single stance inner = hold neg    */
-void hipHold(float qh) {
-	switch (STATE_contactMode) {
-	case CONTACT_S0:
-		trackRel_hip(qh, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
-		break;
-	case CONTACT_S1:
-		trackRel_hip(-qh, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
-		break;
-	case CONTACT_DS:
-		disable_hip();
-		break;
-	case CONTACT_FL:
-		trackRel_hip(0.0, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
-		break;
-	}
 }
