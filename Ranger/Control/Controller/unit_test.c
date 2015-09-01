@@ -197,27 +197,17 @@ void test_flipUpDownHold_inner(void) {
 /* Runs hip-scissor tracking, but using gains and set-points
  * from labview and the constant parameters header file for walking */
 void test_hipGlide_outer() {
-	float offset, rate;
-
-	offset = mb_io_get_float(ID_CTRL_TEST_R0);
-	rate = mb_io_get_float(ID_CTRL_TEST_R1);
-
 	holdStance_ankOut();
 	flipUp_ankInn();
-	hipGlide(rate, offset);
+	hipGlide(LABVIEW_WALK_HIP_RATE, LABVIEW_WALK_HIP_OFFSET);
 }
 
 /* Runs hip-scissor tracking, but using gains and set-points
  * from labview and the constant parameters header file for walking */
 void test_hipGlide_inner() {
-	float offset, rate;
-
-	offset = mb_io_get_float(ID_CTRL_TEST_R0);
-	rate = mb_io_get_float(ID_CTRL_TEST_R1);
-
 	holdStance_ankInn();
 	flipUp_ankOut();
-	hipGlide(rate, offset);
+	hipGlide(LABVIEW_WALK_HIP_RATE, LABVIEW_WALK_HIP_OFFSET);
 }
 
 
@@ -348,7 +338,7 @@ void runUnitTest(void) {
 	/**** High-Level Motor Control ****/
 	//test_flipUpDownHold_outer();
 	//test_flipUpDownHold_inner();
-	test_hipGlide_outer();
+	//test_hipGlide_outer();
 	//test_hipGlide_inner();
 	//test_pushOff_outer();
 	//test_pushOff_inner();
@@ -369,7 +359,8 @@ void runUnitTest(void) {
  *                        NOTES                                *
  ***************************************************************
 
-All tests pass
+
+Debugging...
 
 
 ************************

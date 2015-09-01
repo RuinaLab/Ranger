@@ -207,7 +207,7 @@ typedef enum can_ids{
 	ID_EST_TEST_R6 = 195,	 // 0 0 1 // test read from labview
 	ID_EST_TEST_R7 = 196,	 // 0 0 1 // test read from labview
 	ID_EST_TEST_R8 = 197,	 // 0 0 1 // test read from labview
-	ID_EST_TEST_R9 = 198,	 // 0 1 0 // test write to labview
+	ID_EST_TEST_R9 = 198,	 // 0 0 1 // test read from labview
 	ID_EST_TEST_W0 = 199,	 // 0 1 0 // test write to labview
 	ID_EST_TEST_W1 = 200,	 // 0 1 0 // test write to labview
 	ID_EST_TEST_W2 = 201,	 // 0 1 0 // test write to labview
@@ -217,7 +217,7 @@ typedef enum can_ids{
 	ID_EST_TEST_W6 = 205,	 // 0 1 0 // test write to labview
 	ID_EST_TEST_W7 = 206,	 // 0 1 0 // test write to labview
 	ID_EST_TEST_W8 = 207,	 // 0 1 0 // test write to labview
-	ID_EST_TEST_W9 = 208,	 //    // 
+	ID_EST_TEST_W9 = 208,	 // 0 1 0 // test write to labview
 	ID_CTRL_HIP_KP = 209,	 // 14 0 1 // 
 	ID_CTRL_HIP_KD = 210,	 // 2 0 1 // 
 	ID_CTRL_ANK_STANCE_KP = 211,	 // 7 0 1 // 
@@ -240,7 +240,7 @@ typedef enum can_ids{
 	ID_CTRL_TEST_R6 = 228,	 // 0 0 1 // test read from labview
 	ID_CTRL_TEST_R7 = 229,	 // 0 0 1 // test read from labview
 	ID_CTRL_TEST_R8 = 230,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R9 = 231,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_R9 = 231,	 // 0 0 1 // test read from labview
 	ID_CTRL_TEST_W0 = 232,	 // 0 1 0 // test write to labview
 	ID_CTRL_TEST_W1 = 233,	 // 0 1 0 // test write to labview
 	ID_CTRL_TEST_W2 = 234,	 // 0 1 0 // test write to labview
@@ -250,7 +250,7 @@ typedef enum can_ids{
 	ID_CTRL_TEST_W6 = 238,	 // 0 1 0 // test write to labview
 	ID_CTRL_TEST_W7 = 239,	 // 0 1 0 // test write to labview
 	ID_CTRL_TEST_W8 = 240,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W9 = 241,	 //    // 
+	ID_CTRL_TEST_W9 = 241,	 // 0 1 0 // test write to labview
 	ID_LV_START,	 //    // 
 	ID_LV_CH_0,	 //    // 
 	ID_LV_CH_1,	 //    // 
