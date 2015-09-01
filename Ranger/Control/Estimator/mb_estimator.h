@@ -20,8 +20,6 @@ extern float LABVIEW_WALK_HIP_RATE;  //scissor tracking rate, should be near one
 extern float LABVIEW_WALK_HIP_OFFSET;  //How much the swing leg should lead the stance leg during scissor tracking
 extern float LABVIEW_CTRL_WALK_HIP_ANGLE;  //Target angle for the hip to hold during push-off
 
-
-
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 extern float STATE_qh;  // hip angle
 extern float STATE_q0;  // outer ankle angle
@@ -49,12 +47,6 @@ typedef enum {
 extern bool STATE_c0; // true if outer feet are in contact
 extern bool STATE_c1; // true if inner feet are in contact
 extern ContactMode STATE_contactMode;  // stores current contact mode
-
-/* Robot physical parameters. */
-extern const float PARAM_Phi;  // ankle joint orientation constant
-
-/* helper functions */
-void resetRobotOrientation(void);  // hard reset the outer leg angle to some value
 
 /* Entry-point function */
 void mb_estimator_update(void);

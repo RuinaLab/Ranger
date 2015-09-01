@@ -15,7 +15,6 @@ typedef enum {
 static UiFsmMode UI_FSM_MODE = StandBy;  // What to run now
 static UiFsmMode UI_FSM_MODE_PREV = StandBy;  // What we ran last time
 
-
 /* Name the LEDs */
 const int LED_WALK_FSM = 1;
 const int LED_CONTACT = 4;
@@ -24,7 +23,6 @@ const int LED_UI_FSM = 5;
 /* Name the UI buttons.
  * button 0 is the left-most button,
  * button 5 is the right-most button    */
-const int BUTTON_CALIBRATE_GYRO = 0;
 const int BUTTON_UNIT_TEST = 3;
 const int BUTTON_WALK_CONTROL = 4;
 const int BUTTON_STAND_BY = 5;
@@ -72,12 +70,6 @@ void mb_controller_update(void) {
 			walkControl_entry();  // Run the initialization function for the walking FSM
 		}
 		walkControl_main();  // Run the main walk function
-	}
-
-	// Calibrate the rate gyro if the left-most button is pressed:
-	if (detect_UI_button_input(BUTTON_CALIBRATE_GYRO)) {
-		set_UI_LED(LED_UI_FSM, 'y');
-		resetRobotOrientation();
 	}
 
 	// Set LED for contact flags:

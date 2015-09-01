@@ -200,7 +200,6 @@ E_MCFO_RIGHT_ANKLE_RATE ,0,1,0,estimated rate of the outer ankles (STATE=dq0)
 E_MCFI_ANKLE_RATE,0,1,0,estimated rate of the inner ankles (STATE = dq1)
 EST_CONTACT_OUTER,0,1,0,Filtered sum of both outer foot contact sensors
 EST_CONTACT_INNER,0,1,0,Filtered sum of both inner foot contact sensors
-EST_LAST_STEP_LENGTH,0,1,0,Stores the step length as computed once per step in double stance
 EST_STATE_TH0,0,1,0,abs angle outer legs
 EST_STATE_TH1,0,1,0,abs angle inner legs
 EST_STATE_PHI0,0,1,0,abs angle outer feet
@@ -209,29 +208,6 @@ EST_STATE_DTH0,0,1,0,abs rate outer legs
 EST_STATE_DTH1,0,1,0,abs rate inner legs
 EST_STATE_DPHI0,0,1,0,abs rate outer feet
 EST_STATE_DPHI1,0,1,0,abs rate inner feet
-EST_ROBOT_ANGLE_GYRO_WEIGHT,0.5,0,1,Trade-off between rate gyro and double stance geometry for robot orientation sensing 0 is total reset 1 is ignore geometry
-#,,,,
-#EstimatorTesting,,,,
-EST_TEST_R0,0,0,1,test read from labview
-EST_TEST_R1,0,0,1,test read from labview
-EST_TEST_R2,0,0,1,test read from labview
-EST_TEST_R3,0,0,1,test read from labview
-EST_TEST_R4,0,0,1,test read from labview
-EST_TEST_R5,0,0,1,test read from labview
-EST_TEST_R6,0,0,1,test read from labview
-EST_TEST_R7,0,0,1,test read from labview
-EST_TEST_R8,0,0,1,test read from labview
-EST_TEST_R9,0,0,1,test read from labview
-EST_TEST_W0,0,1,0,test write to labview
-EST_TEST_W1,0,1,0,test write to labview
-EST_TEST_W2,0,1,0,test write to labview
-EST_TEST_W3,0,1,0,test write to labview
-EST_TEST_W4,0,1,0,test write to labview
-EST_TEST_W5,0,1,0,test write to labview
-EST_TEST_W6,0,1,0,test write to labview
-EST_TEST_W7,0,1,0,test write to labview
-EST_TEST_W8,0,1,0,test write to labview
-EST_TEST_W9,0,1,0,test write to labview
 #,,,,
 #ControllerParameters,,,,
 CTRL_HIP_KP,14,0,1,
@@ -249,6 +225,7 @@ CTRL_WALK_HIP_OFFSET ,0.2,0,1,How much the swing leg should lead the stance leg 
 CTRL_WALK_HIP_ANGLE ,0.3,0,1,Target angle for the hip to hold during push-off
 #,,,,
 #ControllerTesting,,,,
+CTRL_UNIT_TEST_ID,0,0,1,Selects which unit test the robot should be running. Default is zero = no test
 CTRL_TEST_R0,0,0,1,test read from labview
 CTRL_TEST_R1,0,0,1,test read from labview
 CTRL_TEST_R2,0,0,1,test read from labview
