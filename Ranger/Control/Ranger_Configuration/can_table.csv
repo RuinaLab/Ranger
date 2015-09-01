@@ -212,10 +212,13 @@ EST_STATE_DPHI1,0,1,0,abs rate inner feet
 #ControllerParameters,,,,
 CTRL_HIP_KP,14,0,1,
 CTRL_HIP_KD,2,0,1,
+CTRL_ANK_PUSH_KP,25,0,1,
+CTRL_ANK_PUSH_KD,1,0,1,
 CTRL_ANK_STANCE_KP,7,0,1,
 CTRL_ANK_STANCE_KD,1,0,1,
 CTRL_ANK_SWING_KP,7,0,1,
 CTRL_ANK_SWING_KD,1,0,1,
+CTRL_HIP_COMPENSATION_TARGET,0,0,1,hip compensation at target (1) or at measured state (0)
 CTRL_HIP_GRAVITY_COMPENSATION,1,0,1,Enables (1) or disables (0) gravity compensation in hip controller
 CTRL_HIP_SPRING_COMPENSATION,1,0,1,Enables (1) or disables (0) spring compensation in hip controller
 CTRL_WALK_ANK_PUSH ,0.4,0,1,magnitude of the push-off during walking  normalized to be on the range 0 to 1

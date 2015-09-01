@@ -4,9 +4,6 @@
 #include "robotParameters.h"
 #include "mb_estimator.h"
 
-bool HIP_GRAVITY_COMPENSATION = true;
-bool HIP_SPRING_COMPENSATION = true;
-
 /* standardized controller input struct */
 typedef struct  {
 	float uRef;   // feed-forward torque term
@@ -55,13 +52,20 @@ void run_controller_hip( ControllerData * C ) {
 	float kd = C->kd;
 	float xRef = C->xRef;
 	float vRef = C->vRef;
+	float xComp;
+
+	if (LABVIEW_HIP_COMPENSATION_TARGET) {
+		xComp = xRef; // Compensate for the target state
+	} else {
+		xComp = STATE_qh;  // Compensate for the present state
+	}
 
 	if (LABVIEW_HIP_SPRING_COMPENSATION) {
-		uRef = uRef  + xRef * PARAM_hip_spring_const;
+		uRef = uRef  + xComp * PARAM_hip_spring_const;
 	}
 
 	if (LABVIEW_HIP_GRAVITY_COMPENSATION) {
-		uRef = uRef + hip_gravity_compensation(xRef);
+		uRef = uRef + hip_gravity_compensation(xComp);
 	}
 
 	/* Combine all constant terms:                         *
@@ -228,15 +232,15 @@ void trackScissor_hip(float gain, float offset, float kp, float kd) {
 		ctrlHip.uRef = 0.0;
 		ctrlHip.kp = kp;
 		ctrlHip.kd = kd;
-		ctrlHip.xRef = gain*STATE_th0 + offset;
-		ctrlHip.vRef = gain*STATE_dth0;
+		ctrlHip.xRef = gain * STATE_th0 + offset;
+		ctrlHip.vRef = gain * STATE_dth0;
 		break;
 	case CONTACT_S1:
 		ctrlHip.uRef = 0.0;
 		ctrlHip.kp = kp;
 		ctrlHip.kd = kd;
-		ctrlHip.xRef = gain*STATE_th1 + offset;
-		ctrlHip.vRef = gain*STATE_dth1;
+		ctrlHip.xRef = gain * STATE_th1 + offset;
+		ctrlHip.vRef = gain * STATE_dth1;
 		break;
 	default:
 		ctrlHip.uRef = 0.0;

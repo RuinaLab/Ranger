@@ -52,10 +52,13 @@ static FilterData FD_MCFI_LEFT_HEEL_SENSE;
 static FilterData FD_MCFI_RIGHT_HEEL_SENSE;
 
 /* Parameters from Labview */
+bool LABVIEW_HIP_COMPENSATION_TARGET; // Hip compensation at the target (true) or measured state (false)
 bool LABVIEW_HIP_GRAVITY_COMPENSATION;  // enable gravity compensation in hip?
 bool LABVIEW_HIP_SPRING_COMPENSATION; // enable spring compensation in hip?
 float LABVIEW_HIP_KP;  // hip pd controller p gain
 float LABVIEW_HIP_KD;  // hip pd controller d gain
+float LABVIEW_ANK_PUSH_KP;  // ankle p gain used during push off
+float LABVIEW_ANK_PUSH_KD;  // ankle d gain used during push off
 float LABVIEW_ANK_STANCE_KP;  // ankle pd controller p gain when foot on ground.
 float LABVIEW_ANK_STANCE_KD;  // ankle pd controller d gain when foot on ground.
 float LABVIEW_ANK_SWING_KP;  // ankle pd controller p gain when foot in air.
@@ -64,9 +67,11 @@ float LABVIEW_WALK_CRIT_STANCE_ANGLE; // Angle that the stance leg must rotate t
 float LABVIEW_WALK_ANK_PUSH;  //magnitude of the push-off during walking, normalized to be on the range [0,1]
 float LABVIEW_WALK_HIP_RATE;  //scissor tracking rate, should be near one (~0.5, ~1.5)
 float LABVIEW_WALK_HIP_OFFSET;  //How much the swing leg should lead the stance leg during scissor tracking
-float LABVIEW_CTRL_WALK_ANK_PUSH; // magnitude of the push-off during walking  normalized to be on the range 0 to 1
-float LABVIEW_CTRL_WALK_CRIT_STANCE_ANGLE; // the critical stance leg angle when push-off should occur
-float LABVIEW_CTRL_WALK_HIP_STEP_ANGLE; //	Target angle for the hip to reach by the end of the step
+float LABVIEW_WALK_ANK_PUSH; // magnitude of the push-off during walking  normalized to be on the range 0 to 1
+float LABVIEW_WALK_CRIT_STANCE_ANGLE; // the critical stance leg angle when push-off should occur
+float LABVIEW_WALK_HIP_STEP_ANGLE; //	Target angle for the hip to reach by the end of the step
+
+
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 float STATE_qh;  // hip angle
@@ -261,17 +266,20 @@ void updateRobotState(void) {
 
 /* Updates any controller parameters that are set from LabVIEW */
 void updateParameters(void) {
+	LABVIEW_HIP_COMPENSATION_TARGET = mb_io_get_float(ID_CTRL_HIP_COMPENSATION_TARGET) > 0.5;
 	LABVIEW_HIP_GRAVITY_COMPENSATION = mb_io_get_float(ID_CTRL_HIP_GRAVITY_COMPENSATION) > 0.5;
 	LABVIEW_HIP_SPRING_COMPENSATION = mb_io_get_float(ID_CTRL_HIP_SPRING_COMPENSATION) > 0.5;
 	LABVIEW_HIP_KP = mb_io_get_float(ID_CTRL_HIP_KP);  // hip pd controller p gain
 	LABVIEW_HIP_KD = mb_io_get_float(ID_CTRL_HIP_KD);  // hip pd controller d gain
+	LABVIEW_ANK_PUSH_KP = mb_io_get_float(ID_CTRL_ANK_PUSH_KP);  // push-off ankle p gain
+	LABVIEW_ANK_PUSH_KD = mb_io_get_float(ID_CTRL_ANK_PUSH_KD);  // push-off ankle d gain
 	LABVIEW_ANK_STANCE_KP = mb_io_get_float(ID_CTRL_ANK_STANCE_KP);  // ankle pd controller p gain when foot on ground.
 	LABVIEW_ANK_STANCE_KD = mb_io_get_float(ID_CTRL_ANK_STANCE_KD);  // ankle pd controller d gain when foot on ground.
 	LABVIEW_ANK_SWING_KP = mb_io_get_float(ID_CTRL_ANK_SWING_KP);  // ankle pd controller p gain when foot in air.
 	LABVIEW_ANK_SWING_KD = mb_io_get_float(ID_CTRL_ANK_SWING_KD);  // ankle pd controller d gain when foot in air.
-	LABVIEW_CTRL_WALK_ANK_PUSH = mb_io_get_float(ID_CTRL_WALK_ANK_PUSH); // magnitude of the push-off during walking  normalized to be on the range 0 to 1
-	LABVIEW_CTRL_WALK_CRIT_STANCE_ANGLE = mb_io_get_float(ID_CTRL_WALK_CRIT_STANCE_ANGLE); // the critical stance leg angle when push-off should occur
-	LABVIEW_CTRL_WALK_HIP_STEP_ANGLE = mb_io_get_float(ID_CTRL_WALK_HIP_STEP_ANGLE); //	Target angle for the hip to reach by the end of the step
+	LABVIEW_WALK_ANK_PUSH = mb_io_get_float(ID_CTRL_WALK_ANK_PUSH); // magnitude of the push-off during walking  normalized to be on the range 0 to 1
+	LABVIEW_WALK_CRIT_STANCE_ANGLE = mb_io_get_float(ID_CTRL_WALK_CRIT_STANCE_ANGLE); // the critical stance leg angle when push-off should occur
+	LABVIEW_WALK_HIP_STEP_ANGLE = mb_io_get_float(ID_CTRL_WALK_HIP_STEP_ANGLE); //	Target angle for the hip to reach by the end of the step
 }
 
 

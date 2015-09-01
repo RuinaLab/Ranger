@@ -65,11 +65,16 @@ void test_trackRel_ankle() {
 /* --4-- Hang the robot from the ceiling. Send a desired hip
  * angle to the robot on ID_CTRL_TEST_R0, and the hip motor
  * will produce the torque to cancel out the effect of the
- * spring at that angle. */
+ * spring at that angle. If the hip is set to track cancel the
+ * measured state (not the target state), then you can use
+ * R1 and R2 to send kp and kd gains respectively.*/
 void test_hipCompensation_flight() {
+	float target = mb_io_get_float(ID_CTRL_TEST_R0);
+	float kp = mb_io_get_float(ID_CTRL_TEST_R1);
+	float kd = mb_io_get_float(ID_CTRL_TEST_R2);
 	disable_ankOut();
 	disable_ankInn();
-	trackRel_hip(mb_io_get_float(ID_CTRL_TEST_R0), 0.0, 0.0);
+	trackRel_hip(target, kp, kd);
 }
 
 

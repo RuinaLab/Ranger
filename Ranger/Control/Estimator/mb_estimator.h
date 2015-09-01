@@ -6,17 +6,20 @@
 extern bool INITIALIZE_ESTIMATOR; // Should the estimator be initialized?
 
 /* Parameters set by LabVIEW */
+extern bool LABVIEW_HIP_COMPENSATION_TARGET; // Hip compensation at the target (true) or measured state (false)
 extern bool LABVIEW_HIP_GRAVITY_COMPENSATION;
 extern bool LABVIEW_HIP_SPRING_COMPENSATION;
 extern float LABVIEW_HIP_KP;  // hip pd controller p gain
 extern float LABVIEW_HIP_KD;  // hip pd controller d gain
+extern float LABVIEW_ANK_PUSH_KP;  // ankle p gain used during push off 
+extern float LABVIEW_ANK_PUSH_KD;  // ankle d gain used during push off 
 extern float LABVIEW_ANK_STANCE_KP;  // ankle pd controller p gain when foot on ground.
 extern float LABVIEW_ANK_STANCE_KD;  // ankle pd controller d gain when foot on ground.
 extern float LABVIEW_ANK_SWING_KP;  // ankle pd controller p gain when foot in air.
 extern float LABVIEW_ANK_SWING_KD;  // ankle pd controller d gain when foot in air.
-extern float LABVIEW_CTRL_WALK_ANK_PUSH; // magnitude of the push-off during walking  normalized to be on the range 0 to 1
-extern float LABVIEW_CTRL_WALK_CRIT_STANCE_ANGLE; // the critical stance leg angle when push-off should occur
-extern float LABVIEW_CTRL_WALK_HIP_STEP_ANGLE; //	Target angle for the hip to reach by the end of the step
+extern float LABVIEW_WALK_ANK_PUSH; // magnitude of the push-off during walking  normalized to be on the range 0 to 1
+extern float LABVIEW_WALK_CRIT_STANCE_ANGLE; // the critical stance leg angle when push-off should occur
+extern float LABVIEW_WALK_HIP_STEP_ANGLE; //	Target angle for the hip to reach by the end of the step
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 extern float STATE_qh;  // hip angle

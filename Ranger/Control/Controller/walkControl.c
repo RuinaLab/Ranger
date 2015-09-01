@@ -29,9 +29,9 @@ float PHASE_STANCE_ANGLE_FINAL;    // The angle of the stance leg at the end of 
  * how the swing leg tracks the stance leg.    */
 void setPhaseConstantsOuter(void) {
 	PHASE_HIP_ANGLE_START = STATE_qh;
-	PHASE_HIP_ANGLE_FINAL = LABVIEW_CTRL_WALK_HIP_STEP_ANGLE;
+	PHASE_HIP_ANGLE_FINAL = LABVIEW_WALK_HIP_STEP_ANGLE;
 	PHASE_STANCE_ANGLE_START = STATE_th0;
-	PHASE_STANCE_ANGLE_FINAL = LABVIEW_CTRL_WALK_CRIT_STANCE_ANGLE;
+	PHASE_STANCE_ANGLE_FINAL = LABVIEW_WALK_CRIT_STANCE_ANGLE;
 }
 
 /* This function should be called when the walking finite state machine
@@ -39,9 +39,9 @@ void setPhaseConstantsOuter(void) {
  * how the swing leg tracks the stance leg.    */
 void setPhaseConstantsInner(void) {
 	PHASE_HIP_ANGLE_START = STATE_qh;
-	PHASE_HIP_ANGLE_FINAL = -LABVIEW_CTRL_WALK_HIP_STEP_ANGLE;
+	PHASE_HIP_ANGLE_FINAL = -LABVIEW_WALK_HIP_STEP_ANGLE;
 	PHASE_STANCE_ANGLE_START = STATE_th1;
-	PHASE_STANCE_ANGLE_FINAL = LABVIEW_CTRL_WALK_CRIT_STANCE_ANGLE;
+	PHASE_STANCE_ANGLE_FINAL = LABVIEW_WALK_CRIT_STANCE_ANGLE;
 }
 
 /* This function applies any reset maps that are necessary for transitions
@@ -70,7 +70,7 @@ void updateWalkFsm(void) {
 	} else {  // Run the normal walking finite state machine
 		switch (WALK_FSM_MODE_PREV) {
 		case Glide_Out:
-			if (STATE_th0 < LABVIEW_CTRL_WALK_CRIT_STANCE_ANGLE) {
+			if (STATE_th0 < LABVIEW_WALK_CRIT_STANCE_ANGLE) {
 				WALK_FSM_MODE = Push_Out;
 			} break;
 		case Push_Out:
@@ -78,7 +78,7 @@ void updateWalkFsm(void) {
 				WALK_FSM_MODE = Glide_Inn;
 			} break;
 		case Glide_Inn:
-			if (STATE_th1 < LABVIEW_CTRL_WALK_CRIT_STANCE_ANGLE) {
+			if (STATE_th1 < LABVIEW_WALK_CRIT_STANCE_ANGLE) {
 				WALK_FSM_MODE = Push_Inn;
 			} break;
 		case Push_Inn:
@@ -121,8 +121,8 @@ void setWalkFsmLed(void) {
 void sendMotorCommands(void) {
 
 	/* Read controller parameters directly from labview for now */
-	float push = LABVIEW_CTRL_WALK_ANK_PUSH;  //magnitude of the push-off during walking, normalized to be on the range [0,1]
-	float angle = LABVIEW_CTRL_WALK_HIP_STEP_ANGLE;  //Target angle for the hip to hold during push-off
+	float push = LABVIEW_WALK_ANK_PUSH;  //magnitude of the push-off during walking, normalized to be on the range [0,1]
+	float angle = LABVIEW_WALK_HIP_STEP_ANGLE ;  //Target angle for the hip to hold during push-off
 
 	switch (WALK_FSM_MODE_PREV) {
 	case Glide_Out:
@@ -180,7 +180,6 @@ void flipUp_ankInn(void) {
 	trackRel_ankInn(PARAM_ctrl_ank_flipTarget, LABVIEW_ANK_SWING_KP, LABVIEW_ANK_SWING_KD);
 }
 
-
 /* Wrapper Functions.
  * Flips the outer feet down in preparation for heel-strike */
 void flipDown_ankOut(void) {
@@ -190,52 +189,18 @@ void flipDown_ankInn(void) {
 	trackAbs_ankInn(PARAM_ctrl_ank_holdLevel, LABVIEW_ANK_SWING_KP, LABVIEW_ANK_SWING_KD);
 }
 
-/* Push off the stance feet, by adjusting both the stance foot gains and the target angle
- * @param push = [0,1] = [none, max]
- * If push==0.0 then this function is nearly identical to holdStance_ankOut().
- * If push==1.0 then this function will increase both the gains and target angle such that
- * the initial response of the motors is close to the peak torque available from the motor*/
+
+/* Wrapper Function.
+ * Push-off with the outer ankles*/
 void pushOff_ankOut(float push) {
-	float qStart;  // Relative joint angle if the absolute orientation of the foot were level.
-	float qFinal;  // Relative joint angle when the foot reaches maximum extension
-	float angle;   // relative angle for push-off target
-	float maxGain;    // Proportional gain to produce maximum current at push-off of 1.0
-	float gain;    // proportional gain to send to motors.
-	qStart = PARAM_Phi - PARAM_ctrl_ank_holdLevel + STATE_th0;
-	qFinal = PARAM_ctrl_ank_pushTarget;
-
-	// Calculate the desired angle:
-	push = Clamp(push, 0.0, 1.0);  // Prevent sending crazy motor commands
-	angle = push * qFinal + (1.0 - push) * qStart; // push == 0.0 then same as hold level
-
-	// Figure out the gain to give torque = torqueScale at the initial (maximal) deflection
-	maxGain = PARAM_ctrl_ank_torqueScale / (qFinal - qStart);
-	gain = push * maxGain + (1.0 - push) * LABVIEW_ANK_STANCE_KP;
-
-	// Send the feed-back commands
-	trackRel_ankOut(angle, gain, LABVIEW_ANK_STANCE_KD);
+	float holdLevelRel = PARAM_Phi - PARAM_ctrl_ank_holdLevel + STATE_th0;
+	float target = push * (PARAM_ctrl_ank_pushTarget) + (1.0 - push) * holdLevelRel;
+	trackRel_ankOut(target, LABVIEW_ANK_PUSH_KP, LABVIEW_ANK_PUSH_KD);
 }
-
-/* Same as pushOff_ankOut, but with the inner feet instead. */
 void pushOff_ankInn(float push) {
-	float qStart;  // Relative joint angle if the absolute orientation of the foot were level.
-	float qFinal;  // Relative joint angle when the foot reaches maximum extension
-	float angle;   // relative angle for push-off target
-	float maxGain;    // Proportional gain to produce maximum current at push-off of 1.0
-	float gain;    // proportional gain to send to motors.
-	qStart = PARAM_Phi - PARAM_ctrl_ank_holdLevel + STATE_th1;
-	qFinal = PARAM_ctrl_ank_pushTarget;
-
-	// Calculate the desired angle:
-	push = Clamp(push, 0.0, 1.0);  // Prevent sending crazy motor commands
-	angle = push * qFinal + (1.0 - push) * qStart; // push == 0.0 then same as hold level
-
-	// Figure out the gain to give torque = torqueScale at the initial (maximal) deflection
-	maxGain = PARAM_ctrl_ank_torqueScale / (qFinal - qStart);
-	gain = push * maxGain + (1.0 - push) * LABVIEW_ANK_STANCE_KP;
-
-	// Send the feed-back commands
-	trackRel_ankInn(angle, gain, LABVIEW_ANK_STANCE_KD);
+	float holdLevelRel = PARAM_Phi - PARAM_ctrl_ank_holdLevel + STATE_th1;
+	float target = push * (PARAM_ctrl_ank_pushTarget) + (1.0 - push) * holdLevelRel;
+	trackRel_ankInn(target, LABVIEW_ANK_PUSH_KP, LABVIEW_ANK_PUSH_KD);
 }
 
 
