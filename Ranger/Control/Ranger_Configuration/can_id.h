@@ -196,10 +196,10 @@ typedef enum can_ids{
 	ID_EST_STATE_DTH1 = 184,	 // 0 1 0 // abs rate inner legs
 	ID_EST_STATE_DPHI0 = 185,	 // 0 1 0 // abs rate outer feet
 	ID_EST_STATE_DPHI1 = 186,	 // 0 1 0 // abs rate inner feet
-	ID_CTRL_HIP_KP = 187,	 // 14 0 1 // 
-	ID_CTRL_HIP_KD = 188,	 // 2 0 1 // 
-	ID_CTRL_ANK_PUSH_KP = 189,	 // 25 0 1 // 
-	ID_CTRL_ANK_PUSH_KD = 190,	 // 1 0 1 // 
+	ID_CTRL_HIP_KP = 187,	 // 16 0 1 // 
+	ID_CTRL_HIP_KD = 188,	 // 3 0 1 // 
+	ID_CTRL_ANK_PUSH_KP = 189,	 // 20 0 1 // 
+	ID_CTRL_ANK_PUSH_KD = 190,	 // 3 0 1 // 
 	ID_CTRL_ANK_STANCE_KP = 191,	 // 7 0 1 // 
 	ID_CTRL_ANK_STANCE_KD = 192,	 // 1 0 1 // 
 	ID_CTRL_ANK_SWING_KP = 193,	 // 7 0 1 // 
@@ -207,31 +207,32 @@ typedef enum can_ids{
 	ID_CTRL_HIP_COMPENSATION_TARGET = 195,	 // 0 0 1 // hip compensation at target (1) or at measured state (0)
 	ID_CTRL_HIP_GRAVITY_COMPENSATION = 196,	 // 1 0 1 // Enables (1) or disables (0) gravity compensation in hip controller
 	ID_CTRL_HIP_SPRING_COMPENSATION = 197,	 // 1 0 1 // Enables (1) or disables (0) spring compensation in hip controller
-	ID_CTRL_WALK_ANK_PUSH  = 198,	 // 0.4 0 1 // magnitude of the push-off during walking  normalized to be on the range 0 to 1
+	ID_CTRL_WALK_ANK_PUSH  = 198,	 // 0.8 0 1 // magnitude of the push-off during walking  normalized to be on the range 0 to 1
 	ID_CTRL_WALK_CRIT_STANCE_ANGLE = 199,	 // -0.1 0 1 // the critical stance angle when push-off should occur (should be less than zero)
-	ID_CTRL_WALK_HIP_STEP_ANGLE  = 200,	 // 0.3 0 1 // Target angle for the hip to hold during push-off
-	ID_CTRL_WALK_HIP_TARGET_RATE = 201,	 // 0.5 0 1 // Target angular rate for the swing leg (hip joint) during the glide phase of motion
-	ID_CTRL_UNIT_TEST_ID = 202,	 // 0 0 1 // Selects which unit test the robot should be running. Default is zero = no test
-	ID_CTRL_TEST_R0 = 203,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R1 = 204,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R2 = 205,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R3 = 206,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R4 = 207,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R5 = 208,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R6 = 209,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R7 = 210,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R8 = 211,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R9 = 212,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_W0 = 213,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W1 = 214,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W2 = 215,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W3 = 216,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W4 = 217,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W5 = 218,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W6 = 219,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W7 = 220,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W8 = 221,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W9 = 222,	 // 0 1 0 // test write to labview
+	ID_CTRL_WALK_HIP_STEP_ANGLE  = 200,	 // 0.2 0 1 // Target angle for the hip to hold during push-off
+	ID_CTRL_WALK_SCISSOR_GAIN = 201,	 // 1.3 0 1 // 
+	ID_CTRL_WALK_SCISSOR_OFFSET = 202,	 // 0.1 0 1 // 
+	ID_CTRL_UNIT_TEST_ID = 203,	 // 0 0 1 // Selects which unit test the robot should be running. Default is zero = no test
+	ID_CTRL_TEST_R0 = 204,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R1 = 205,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R2 = 206,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R3 = 207,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R4 = 208,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R5 = 209,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R6 = 210,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R7 = 211,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R8 = 212,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R9 = 213,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_W0 = 214,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W1 = 215,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W2 = 216,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W3 = 217,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W4 = 218,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W5 = 219,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W6 = 220,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W7 = 221,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W8 = 222,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W9 = 223,	 // 0 1 0 // test write to labview
 	ID_LV_START,	 //    // 
 	ID_LV_CH_0,	 //    // 
 	ID_LV_CH_1,	 //    // 

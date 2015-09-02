@@ -104,5 +104,42 @@ void updateRobotOrientatio_OLDVERSION() {
 }
 
 
+/**************************************************************************
+ *                        Motor Control Stuff                             *
+ **************************************************************************/             
 
 
+
+/* Wrapper function.
+ * Computes the scissor tracking gains such that the hip angle
+ * tracks a linear function of the stance leg angle. The coefficients
+ * are set by the boundary conditions:
+ * Start: Hip angle measured at start of glide phase
+ * FInal: Hip angle is at target angle when push-off begins */
+void hipGlide_Saturate(void) {
+	float th;  // Stance leg angle
+	float q;  // target hip angle
+	float dq = LABVIEW_WALK_HIP_TARGET_RATE;  // targe hip angular rate
+	float qStar = LABVIEW_WALK_HIP_STEP_ANGLE;   // Should be positive
+	float thStar = LABVIEW_WALK_CRIT_STANCE_ANGLE;   // Should be negative 
+	switch (STATE_contactMode) {
+	case CONTACT_S0:
+		th = STATE_th0;
+		th = Clamp(th,thStar,0.0);  // thStar is usually something like -0.1.
+		q = qStar*th/thStar;
+		trackVel_hip(q, dq, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
+		break;
+	case CONTACT_S1:
+		th = STATE_th1;
+		th = Clamp(th,thStar,0.0);  // thStar is usually something like -0.1.
+		q = -qStar*th/thStar;  // Negate for hip angle convention
+		trackVel_hip(q, -dq, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
+		break;
+	case CONTACT_DS:
+		disable_hip();
+		break;
+	case CONTACT_FL:
+		trackRel_hip(0.0, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
+		break;
+	}
+}

@@ -210,10 +210,10 @@ EST_STATE_DPHI0,0,1,0,abs rate outer feet
 EST_STATE_DPHI1,0,1,0,abs rate inner feet
 #,,,,
 #ControllerParameters,,,,
-CTRL_HIP_KP,14,0,1,
-CTRL_HIP_KD,2,0,1,
-CTRL_ANK_PUSH_KP,25,0,1,
-CTRL_ANK_PUSH_KD,1,0,1,
+CTRL_HIP_KP,16,0,1,
+CTRL_HIP_KD,3,0,1,
+CTRL_ANK_PUSH_KP,20,0,1,
+CTRL_ANK_PUSH_KD,3,0,1,
 CTRL_ANK_STANCE_KP,7,0,1,
 CTRL_ANK_STANCE_KD,1,0,1,
 CTRL_ANK_SWING_KP,7,0,1,
@@ -221,10 +221,11 @@ CTRL_ANK_SWING_KD,1,0,1,
 CTRL_HIP_COMPENSATION_TARGET,0,0,1,hip compensation at target (1) or at measured state (0)
 CTRL_HIP_GRAVITY_COMPENSATION,1,0,1,Enables (1) or disables (0) gravity compensation in hip controller
 CTRL_HIP_SPRING_COMPENSATION,1,0,1,Enables (1) or disables (0) spring compensation in hip controller
-CTRL_WALK_ANK_PUSH ,0.4,0,1,magnitude of the push-off during walking  normalized to be on the range 0 to 1
+CTRL_WALK_ANK_PUSH ,0.8,0,1,magnitude of the push-off during walking  normalized to be on the range 0 to 1
 CTRL_WALK_CRIT_STANCE_ANGLE,-0.1,0,1,the critical stance angle when push-off should occur (should be less than zero)
-CTRL_WALK_HIP_STEP_ANGLE ,0.3,0,1,Target angle for the hip to hold during push-off
-CTRL_WALK_HIP_TARGET_RATE,0.5,0,1,Target angular rate for the swing leg (hip joint) during the glide phase of motion
+CTRL_WALK_HIP_STEP_ANGLE ,0.2,0,1,Target angle for the hip to hold during push-off
+CTRL_WALK_SCISSOR_GAIN,1.3,0,1,
+CTRL_WALK_SCISSOR_OFFSET,0.1,0,1,
 #,,,,
 #ControllerTesting,,,,
 CTRL_UNIT_TEST_ID,0,0,1,Selects which unit test the robot should be running. Default is zero = no test

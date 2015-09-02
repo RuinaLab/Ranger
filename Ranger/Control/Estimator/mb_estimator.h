@@ -21,7 +21,8 @@ extern float LABVIEW_WALK_ANK_PUSH; // magnitude of the push-off during walking 
 extern float LABVIEW_WALK_CRIT_STANCE_ANGLE; // the critical stance leg angle when push-off should occur
 extern float LABVIEW_WALK_HIP_STEP_ANGLE; //	Target angle for the hip to reach by the end of the step
 extern float LABVIEW_WALK_HIP_TARGET_RATE;  //Target angular rate for the swing leg (hip joint) during the glide phase of motion
-
+extern float LABVIEW_WALK_SCISSOR_GAIN;  
+extern float LABVIEW_WALK_SCISSOR_OFFSET;
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 extern float STATE_qh;  // hip angle
