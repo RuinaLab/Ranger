@@ -196,13 +196,13 @@ typedef enum can_ids{
 	ID_EST_STATE_DTH1 = 184,	 // 0 1 0 // abs rate inner legs
 	ID_EST_STATE_DPHI0 = 185,	 // 0 1 0 // abs rate outer feet
 	ID_EST_STATE_DPHI1 = 186,	 // 0 1 0 // abs rate inner feet
-	ID_CTRL_HIP_KP = 187,	 // 16 0 1 // 
+	ID_CTRL_HIP_KP = 187,	 // 25 0 1 // 
 	ID_CTRL_HIP_KD = 188,	 // 3 0 1 // 
 	ID_CTRL_ANK_PUSH_KP = 189,	 // 20 0 1 // 
 	ID_CTRL_ANK_PUSH_KD = 190,	 // 3 0 1 // 
-	ID_CTRL_ANK_STANCE_KP = 191,	 // 7 0 1 // 
+	ID_CTRL_ANK_STANCE_KP = 191,	 // 15 0 1 // 
 	ID_CTRL_ANK_STANCE_KD = 192,	 // 1 0 1 // 
-	ID_CTRL_ANK_SWING_KP = 193,	 // 7 0 1 // 
+	ID_CTRL_ANK_SWING_KP = 193,	 // 20 0 1 // 
 	ID_CTRL_ANK_SWING_KD = 194,	 // 1 0 1 // 
 	ID_CTRL_HIP_COMPENSATION_TARGET = 195,	 // 0 0 1 // hip compensation at target (1) or at measured state (0)
 	ID_CTRL_HIP_GRAVITY_COMPENSATION = 196,	 // 1 0 1 // Enables (1) or disables (0) gravity compensation in hip controller
@@ -210,7 +210,7 @@ typedef enum can_ids{
 	ID_CTRL_WALK_ANK_PUSH  = 198,	 // 0.8 0 1 // magnitude of the push-off during walking  normalized to be on the range 0 to 1
 	ID_CTRL_WALK_CRIT_STANCE_ANGLE = 199,	 // -0.08 0 1 // the critical stance angle when push-off should occur (should be less than zero)
 	ID_CTRL_WALK_HIP_STEP_ANGLE  = 200,	 // 0.2 0 1 // Target angle for the hip to hold during push-off
-	ID_CTRL_WALK_SCISSOR_GAIN = 201,	 // 1.3 0 1 // 
+	ID_CTRL_WALK_SCISSOR_GAIN = 201,	 // 1.2 0 1 // 
 	ID_CTRL_WALK_SCISSOR_OFFSET = 202,	 // 0.1 0 1 // 
 	ID_CTRL_UNIT_TEST_ID = 203,	 // 0 0 1 // Selects which unit test the robot should be running. Default is zero = no test
 	ID_CTRL_TEST_R0 = 204,	 // 0 0 1 // test read from labview
