@@ -13,6 +13,7 @@ mb_io_data[ID_CTRL_HIP_SPRING_COMPENSATION].payload.ful.f = 1.000000;
 mb_io_data[ID_CTRL_WALK_ANK_PUSH ].payload.ful.f = 0.400000; 
 mb_io_data[ID_CTRL_WALK_CRIT_STANCE_ANGLE].payload.ful.f = -0.100000; 
 mb_io_data[ID_CTRL_WALK_HIP_STEP_ANGLE ].payload.ful.f = 0.300000; 
+mb_io_data[ID_CTRL_WALK_HIP_TARGET_RATE].payload.ful.f = 0.500000; 
 mb_io_data[ID_CTRL_UNIT_TEST_ID].payload.ful.f = 0.000000; 
 mb_io_data[ID_CTRL_TEST_R0].payload.ful.f = 0.000000; 
 mb_io_data[ID_CTRL_TEST_R1].payload.ful.f = 0.000000; 

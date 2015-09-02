@@ -1,11 +1,6 @@
 #ifndef __WALKCONTROL_H__
 #define __WALKCONTROL_H__
 
-extern float PHASE_HIP_ANGLE_START;    // The angle of the hip at the start of the glide phase
-extern float PHASE_HIP_ANGLE_FINAL;    // The angle of the hip at the end of the glide phase
-extern float PHASE_STANCE_ANGLE_START;    // The angle of the stance leg at the start of the glide phase
-extern float PHASE_STANCE_ANGLE_FINAL;    // The angle of the stance leg at the end of the glide phase
-
 /* Functions to be called during walking. All use gains from LabVIEW
  * and controller setpoints from robotParameters. */
 void holdStance_ankOut(void);  // Call to hold the outer foot level on the ground

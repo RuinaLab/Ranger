@@ -195,6 +195,17 @@ void trackRel_hip(float qh, float kp, float kd) {
 	run_controller_hip(&ctrlHip);
 }
 
+/* Computes controller commands such that the hip angle tracks
+ * a constant joint angle (qh). */
+void trackVel_hip(float qh, float dqh, float kp, float kd) {
+	ctrlHip.uRef = 0.0;
+	ctrlHip.xRef = qh;
+	ctrlHip.vRef = dqh;
+	ctrlHip.kp = kp;
+	ctrlHip.kd = kd;
+	run_controller_hip(&ctrlHip);
+}
+
 /* Computes controller commands such that the outer feet track
  * a constant absolute orientation (phi0). */
 void trackAbs_ankOut(float phi0, float kp, float kd) {

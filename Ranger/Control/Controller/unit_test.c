@@ -204,10 +204,6 @@ void test_flipUpDownHold_inner(void) {
 void test_hipGlide_outer() {
 	holdStance_ankOut();
 	flipUp_ankInn();
-	PHASE_HIP_ANGLE_START = mb_io_get_float(ID_CTRL_TEST_R0);    // The angle of the hip at the start of the glide phase
-	PHASE_HIP_ANGLE_FINAL = mb_io_get_float(ID_CTRL_TEST_R1);    // The angle of the hip at the end of the glide phase
-	PHASE_STANCE_ANGLE_START = mb_io_get_float(ID_CTRL_TEST_R2);    // The angle of the stance leg at the start of the glide phase
-	PHASE_STANCE_ANGLE_FINAL = mb_io_get_float(ID_CTRL_TEST_R3);    // The angle of the stance leg at the end of the glide phase
 	hipGlide();
 }
 
@@ -216,10 +212,6 @@ void test_hipGlide_outer() {
 void test_hipGlide_inner() {
 	holdStance_ankInn();
 	flipUp_ankOut();
-	PHASE_HIP_ANGLE_START = mb_io_get_float(ID_CTRL_TEST_R0);    // The angle of the hip at the start of the glide phase
-	PHASE_HIP_ANGLE_FINAL = mb_io_get_float(ID_CTRL_TEST_R1);    // The angle of the hip at the end of the glide phase
-	PHASE_STANCE_ANGLE_START = mb_io_get_float(ID_CTRL_TEST_R2);    // The angle of the stance leg at the start of the glide phase
-	PHASE_STANCE_ANGLE_FINAL = mb_io_get_float(ID_CTRL_TEST_R3);    // The angle of the stance leg at the end of the glide phase
 	hipGlide();
 }
 

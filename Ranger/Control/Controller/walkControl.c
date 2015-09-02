@@ -17,47 +17,6 @@ typedef enum {
 static WalkFsmMode WALK_FSM_MODE = Glide_Out;  // What to run now
 static WalkFsmMode WALK_FSM_MODE_PREV = Glide_Out;  // What we ran last time
 
-/* These are made available in the header file to use with unit testing */
-float PHASE_HIP_ANGLE_START;    // The angle of the hip at the start of the glide phase
-float PHASE_HIP_ANGLE_FINAL;    // The angle of the hip at the end of the glide phase
-float PHASE_STANCE_ANGLE_START;    // The angle of the stance leg at the start of the glide phase
-float PHASE_STANCE_ANGLE_FINAL;    // The angle of the stance leg at the end of the glide phase
-
-
-/* This function should be called when the walking finite state machine
- * transitions into the Glide_Out mode. It sets the constants that determine
- * how the swing leg tracks the stance leg.    */
-void setPhaseConstantsOuter(void) {
-	PHASE_HIP_ANGLE_START = STATE_qh;
-	PHASE_HIP_ANGLE_FINAL = LABVIEW_WALK_HIP_STEP_ANGLE;
-	PHASE_STANCE_ANGLE_START = STATE_th0;
-	PHASE_STANCE_ANGLE_FINAL = LABVIEW_WALK_CRIT_STANCE_ANGLE;
-}
-
-/* This function should be called when the walking finite state machine
- * transitions into the Glide_Inn mode. It sets the constants that determine
- * how the swing leg tracks the stance leg.    */
-void setPhaseConstantsInner(void) {
-	PHASE_HIP_ANGLE_START = STATE_qh;
-	PHASE_HIP_ANGLE_FINAL = -LABVIEW_WALK_HIP_STEP_ANGLE;
-	PHASE_STANCE_ANGLE_START = STATE_th1;
-	PHASE_STANCE_ANGLE_FINAL = LABVIEW_WALK_CRIT_STANCE_ANGLE;
-}
-
-/* This function applies any reset maps that are necessary for transitions
- * into a given state of the finite state machine.   */
-void applyResetMaps(void) {
-	switch (WALK_FSM_MODE) {
-	case Glide_Out:
-		if (WALK_FSM_MODE != WALK_FSM_MODE_PREV) {
-			setPhaseConstantsOuter();
-		} break;
-	case Glide_Inn:
-		if (WALK_FSM_MODE != WALK_FSM_MODE_PREV) {
-			setPhaseConstantsInner();
-		} break;
-	}
-}
 
 /* This function is called once per loop, and checks the
  * sensors that are used to trigger transitions between
@@ -211,16 +170,31 @@ void pushOff_ankInn(float push) {
  * Start: Hip angle measured at start of glide phase
  * FInal: Hip angle is at target angle when push-off begins */
 void hipGlide(void) {
-	float qStart = PHASE_HIP_ANGLE_START;  // Initial hip angle
-	float qFinal = PHASE_HIP_ANGLE_FINAL;  // Final hip angle
-	float thStart = PHASE_STANCE_ANGLE_START;  // Initial stance angle
-	float thFinal = PHASE_STANCE_ANGLE_FINAL;   // Final stance angle
-	float rate, offset; // Gains to pass through to scissor tracking.
-
-	rate = (qFinal - qStart) / (thFinal - thStart);
-	offset = qStart - rate * thStart;
-
-	trackScissor_hip(rate, offset, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
+	float th;  // Stance leg angle
+	float q;  // target hip angle
+	float dq = LABVIEW_WALK_HIP_TARGET_RATE;  // targe hip angular rate
+	float qStar = LABVIEW_WALK_HIP_STEP_ANGLE;   // Should be positive
+	float thStar = LABVIEW_WALK_CRIT_STANCE_ANGLE;   // Should be negative 
+	switch (STATE_contactMode) {
+	case CONTACT_S0:
+		th = STATE_th0;
+		th = Clamp(th,thStar,0.0);  // thStar is usually something like -0.1.
+		q = qStar*th/thStar;
+		trackVel_hip(q, dq, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
+		break;
+	case CONTACT_S1:
+		th = STATE_th1;
+		th = Clamp(th,thStar,0.0);  // thStar is usually something like -0.1.
+		q = -qStar*th/thStar;  // Negate for hip angle convention
+		trackVel_hip(q, -dq, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
+		break;
+	case CONTACT_DS:
+		disable_hip();
+		break;
+	case CONTACT_FL:
+		trackRel_hip(0.0, LABVIEW_HIP_KP, LABVIEW_HIP_KD);
+		break;
+	}
 }
 
 /* Wrapper function.
@@ -299,7 +273,6 @@ void walkControl_entry(void) {
  * are called from here */
 void walkControl_main(void) {
 	updateWalkFsm();
-	applyResetMaps();
 	setWalkFsmLed();
 	sendMotorCommands();
 }

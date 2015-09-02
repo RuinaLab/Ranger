@@ -70,7 +70,7 @@ float LABVIEW_WALK_HIP_OFFSET;  //How much the swing leg should lead the stance 
 float LABVIEW_WALK_ANK_PUSH; // magnitude of the push-off during walking  normalized to be on the range 0 to 1
 float LABVIEW_WALK_CRIT_STANCE_ANGLE; // the critical stance leg angle when push-off should occur
 float LABVIEW_WALK_HIP_STEP_ANGLE; //	Target angle for the hip to reach by the end of the step
-
+float LABVIEW_WALK_HIP_TARGET_RATE;  //Target angular rate for the swing leg (hip joint) during the glide phase of motion
 
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
@@ -280,8 +280,8 @@ void updateParameters(void) {
 	LABVIEW_WALK_ANK_PUSH = mb_io_get_float(ID_CTRL_WALK_ANK_PUSH); // magnitude of the push-off during walking  normalized to be on the range 0 to 1
 	LABVIEW_WALK_CRIT_STANCE_ANGLE = mb_io_get_float(ID_CTRL_WALK_CRIT_STANCE_ANGLE); // the critical stance leg angle when push-off should occur
 	LABVIEW_WALK_HIP_STEP_ANGLE = mb_io_get_float(ID_CTRL_WALK_HIP_STEP_ANGLE); //	Target angle for the hip to reach by the end of the step
+	LABVIEW_WALK_HIP_TARGET_RATE = mb_io_get_float(ID_CTRL_WALK_HIP_TARGET_RATE);  //Target angular rate for the swing leg (hip joint) during the glide phase of motion
 }
-
 
 
 /***************** ENTRY-POINT FUNCTION CALL  *****************************
