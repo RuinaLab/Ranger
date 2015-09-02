@@ -152,14 +152,12 @@ void flipDown_ankInn(void) {
 /* Wrapper Function.
  * Push-off with the outer ankles*/
 void pushOff_ankOut(float push) {
-	float holdLevelRel = PARAM_Phi - PARAM_ctrl_ank_holdLevel + STATE_th0;
-	float target = push * (PARAM_ctrl_ank_pushTarget) + (1.0 - push) * holdLevelRel;
-	trackRel_ankOut(target, LABVIEW_ANK_PUSH_KP, LABVIEW_ANK_PUSH_KD);
+	float target = push * (PARAM_ctrl_ank_pushTarget) + (1.0 - push) * PARAM_ctrl_ank_holdLevel;
+	trackAbs_ankOut(target, LABVIEW_ANK_PUSH_KP, LABVIEW_ANK_PUSH_KD);
 }
 void pushOff_ankInn(float push) {
-	float holdLevelRel = PARAM_Phi - PARAM_ctrl_ank_holdLevel + STATE_th1;
-	float target = push * (PARAM_ctrl_ank_pushTarget) + (1.0 - push) * holdLevelRel;
-	trackRel_ankInn(target, LABVIEW_ANK_PUSH_KP, LABVIEW_ANK_PUSH_KD);
+	float target = push * (PARAM_ctrl_ank_pushTarget) + (1.0 - push) * PARAM_ctrl_ank_holdLevel;
+	trackAbs_ankInn(target, LABVIEW_ANK_PUSH_KP, LABVIEW_ANK_PUSH_KD);
 }
 
 

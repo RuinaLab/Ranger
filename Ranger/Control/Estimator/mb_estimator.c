@@ -32,7 +32,7 @@ static const float FILTER_CUTOFF_SLOW = 0.002 * 10; // (2*period in sec)*(cutoff
 /* Local constant parameters */
 static const float GYRO_RATE_BIAS = -0.009324229372422;  // Measured August 29, 2015. Should be checked monthly.
 static const float GYRO_ROLL_BIAS = -0.02;  // Measured September 1, 2015.
-static const float CONTACT_VALUE_THRESHOLD = 1500.0;  // Threshold for detecting contact on the feet
+static const float CONTACT_VALUE_THRESHOLD = 2500.0;  // Threshold for detecting contact on the feet
 
 /* Butterworth filter coefficients */
 static FilterCoeff FC_FAST;  // For joint sensors

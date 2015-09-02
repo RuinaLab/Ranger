@@ -208,7 +208,7 @@ typedef enum can_ids{
 	ID_CTRL_HIP_GRAVITY_COMPENSATION = 196,	 // 1 0 1 // Enables (1) or disables (0) gravity compensation in hip controller
 	ID_CTRL_HIP_SPRING_COMPENSATION = 197,	 // 1 0 1 // Enables (1) or disables (0) spring compensation in hip controller
 	ID_CTRL_WALK_ANK_PUSH  = 198,	 // 0.8 0 1 // magnitude of the push-off during walking  normalized to be on the range 0 to 1
-	ID_CTRL_WALK_CRIT_STANCE_ANGLE = 199,	 // -0.1 0 1 // the critical stance angle when push-off should occur (should be less than zero)
+	ID_CTRL_WALK_CRIT_STANCE_ANGLE = 199,	 // -0.08 0 1 // the critical stance angle when push-off should occur (should be less than zero)
 	ID_CTRL_WALK_HIP_STEP_ANGLE  = 200,	 // 0.2 0 1 // Target angle for the hip to hold during push-off
 	ID_CTRL_WALK_SCISSOR_GAIN = 201,	 // 1.3 0 1 // 
 	ID_CTRL_WALK_SCISSOR_OFFSET = 202,	 // 0.1 0 1 // 
