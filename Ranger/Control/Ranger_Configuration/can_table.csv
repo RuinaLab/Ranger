@@ -206,6 +206,7 @@ EST_STATE_DTH0,0,1,0,abs rate outer legs
 EST_STATE_DTH1,0,1,0,abs rate inner legs
 EST_STATE_DPHI0,0,1,0,abs rate outer feet
 EST_STATE_DPHI1,0,1,0,abs rate inner feet
+EST_STATE_PSI,0,1,0,Steering angle  in radians
 #,,,,
 #ControllerParameters,,,,
 CTRL_HIP_KP,25,0,1,

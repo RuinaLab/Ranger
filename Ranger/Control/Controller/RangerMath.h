@@ -8,6 +8,7 @@ extern const float TWO_PI;
 extern const float SQRT_TWO;
 extern const float INV_TWO_PI;
 extern const float HALF_PI;
+extern const float DEG_TO_RAD;
 
 float Sin(float);
 float Cos(float);

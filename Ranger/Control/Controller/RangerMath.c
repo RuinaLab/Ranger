@@ -1,14 +1,12 @@
 #include "RangerMath.h"
 
 /* Global constants */
-const float PI = 3.141592653589793;
-const float TWO_PI = 6.283185307179586;
-const float SQRT_TWO = 1.414213562373095;
-
-/* Local constants */
-const float INV_TWO_PI = 0.159154943091895;
-const float HALF_PI = 1.570796326794897;
-
+const float PI = 3.141592653589793;  //    = PI 
+const float TWO_PI = 6.283185307179586;  //    2*PI
+const float SQRT_TWO = 1.414213562373095;   //   sqrt(2)
+const float INV_TWO_PI = 0.159154943091895; //    = 1/(2*PI)
+const float HALF_PI = 1.570796326794897;   //   = PI/2
+const float DEG_TO_RAD = 0.017453292519943;    //    = PI/180
 
 /* Perform quadratic interpolation to evalute y = f(x) at point x,
   given the arrays Y = f(X). If X is out of bounds, then it will.

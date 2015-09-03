@@ -26,8 +26,9 @@ typedef struct {
 bool INITIALIZE_ESTIMATOR = true;   // Should the estimator be initialized?
 
 /* Filter cut-off frequencies */
-static const float FILTER_CUTOFF_FAST = 0.004 * 30; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
-static const float FILTER_CUTOFF_SLOW = 0.004 * 10; // (2*period in sec)*(cutoff frequency in Hz) -- Used by foot contact sensors
+static const float FILTER_CUTOFF_FAST = 0.004 * 30.0; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
+static const float FILTER_CUTOFF_SLOW = 0.004 * 10.0; // (2*period in sec)*(cutoff frequency in Hz) -- Used by foot contact sensors
+static const float FILTER_CUTOFF_VERY_SLOW = 0.004 * 2.0; //  (2*period in sec)*(cutoff frequency in Hz) -- Used by steering motor
 
 /* Local constant parameters */
 static const float GYRO_RATE_BIAS = -0.009324229372422;  // Measured August 29, 2015. Should be checked monthly.
@@ -37,6 +38,7 @@ static const float CONTACT_VALUE_THRESHOLD = 2500.0;  // Threshold for detecting
 /* Butterworth filter coefficients */
 static FilterCoeff FC_FAST;  // For joint sensors
 static FilterCoeff FC_SLOW;  // For contact sensors
+static FilterCoeff FC_VERY_SLOW;  // for steering motor
 
 /* Butterworth filters on orientation and rate sensors */
 static FilterData FD_OUTER_LEG_ANGLE; // absolute angle of the outer legs
@@ -50,6 +52,9 @@ static FilterData FD_MCFO_LEFT_HEEL_SENSE;
 static FilterData FD_MCFO_RIGHT_HEEL_SENSE;
 static FilterData FD_MCFI_LEFT_HEEL_SENSE;
 static FilterData FD_MCFI_RIGHT_HEEL_SENSE;
+
+/* Butterworth filter on steering angle */
+static FilterData FD_MCSI_STEER_ANGLE;
 
 /* Parameters from Labview */
 bool LABVIEW_HIP_COMPENSATION_TARGET; // Hip compensation at the target (true) or measured state (false)
@@ -88,6 +93,7 @@ float STATE_dth0;  // absolute orientation rate of outer legs
 float STATE_dth1;  // absolute orientation rate of inner legs
 float STATE_dphi0;  // absolute orientation rate of outer feet
 float STATE_dphi1;  // absolute orientation rate of inner feet
+float STATE_psi;  // Steering angle
 
 /* Contact configuration */
 bool STATE_c0;
@@ -176,6 +182,11 @@ void runAllFilters(void) {
 	y = y + runFilter(&FC_SLOW, &FD_MCFI_LEFT_HEEL_SENSE);
 	mb_io_set_float(ID_EST_CONTACT_INNER, y);
 	STATE_c1 = y > CONTACT_VALUE_THRESHOLD;
+
+	// Steering angle
+	y = runFilter(&FC_VERY_SLOW, &FD_MCSI_STEER_ANGLE);
+	mb_io_set_float(ID_EST_STATE_PSI, y);
+	STATE_psi = y;
 
 }
 
@@ -275,6 +286,7 @@ void mb_estimator_update(void) {
 		// Initialize the filter coefficients:
 		setFilterCoeff(&FC_FAST, FILTER_CUTOFF_FAST);
 		setFilterCoeff(&FC_SLOW, FILTER_CUTOFF_SLOW);
+		setFilterCoeff(&FC_VERY_SLOW, FILTER_CUTOFF_VERY_SLOW);
 
 		// Reset the joint angle rate filters
 		setFilterData(&FD_OUTER_LEG_ANGLE, ID_UI_ROLL);
@@ -288,6 +300,9 @@ void mb_estimator_update(void) {
 		setFilterData(&FD_MCFO_RIGHT_HEEL_SENSE, ID_MCFO_RIGHT_HEEL_SENSE);
 		setFilterData(&FD_MCFI_LEFT_HEEL_SENSE, ID_MCFI_LEFT_HEEL_SENSE);
 		setFilterData(&FD_MCFI_RIGHT_HEEL_SENSE, ID_MCFI_RIGHT_HEEL_SENSE);
+
+		// Steering motor stuff:
+		setFilterData(&FD_MCSI_STEER_ANGLE, ID_MCSI_STEER_ANGLE);
 
 		// Remember that we've initialized everything properly
 		INITIALIZE_ESTIMATOR = false;
