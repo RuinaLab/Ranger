@@ -34,7 +34,7 @@ void task_every_row(void)
   adcx_conversion_wait();
 
   dn_update_pwm();
-//  mc_compliant_control();
+  mc_compliant_control();	// Uncommented by MPK,  Sept 3, 2015
 }
 
 //A simple function to run other functions at a slow, not necessarily well-timed rate.
@@ -49,12 +49,6 @@ void run_occasionally(void)
   else if (i == 1){can_transmit_status();}    // Send board operation status code to main brain
   else if (i == 2){can_transmit4();}          // Send execution time over the CAN bus
   else if (i == 3){can_transmit5();}          // Send max overall execution time over the CAN bus
-  
-  /* clearing up stuff; petr 5/30/13
-  // adding more transmission can_id's // noopetr, Feb/12/2013
-  else if (i == 4){can_transmit_test();}          // Send test can_ids over the CAN bus
-  */
-  
 //  else if (i == 4){can_tx_board_status();}      
 //  else if (i == 5){can_tx_batt_current();}     // Send battery current over the CAN bus
 //  else if (i == 6){can_tx_batt_voltage();}     // Send battery voltage over the CAN bus
@@ -83,21 +77,8 @@ void init_software(void){
   adcx_add_config( ADCX_CH_0, ADCX_GAIN_2); //steer angle from potentiometer
   adcx_add_config( ADCX_CH_P4N5, ADCX_GAIN_2); //motor current
   adcx_add_config( ADCX_CH_P2N3, ADCX_GAIN_20); //battery current
-  
-  mc_init 
+  mc_init
   (
-<<<<<<< .mine
-    12.0, //float max_volts
-    0.3, //float max_current
-    -0.3, //float min_current
-//     0.25, //float max_target   // commented on Feb/7/2013 to have more control on the gains of pid controller
-     3.0, //float max_target   // added on Feb/7/2013 to have more control on the gains of pid controller
-//     -0.25, //float min_target  // commented on Feb/7/2013 to have more control on the gains of pid controller
-      -3.0, //float min_target  // added on Feb/7/2013 to have more control on the gains of pid controller
-    0.2, //float thermal_current_limit
-    10.1, //float thermal_time_constant
-    0.0,  //float kp // **** TEST CODE **** Set Kp to zero 
-=======
     12.0, 
     0.3, 
     -0.3, 
@@ -106,18 +87,16 @@ void init_software(void){
     0.3, 
     10.1,
     0.0,  // **** TEST CODE **** Set Kp to zero 
->>>>>>> .r2954
     //220.0, 
-    20.0, //float ki
-    0.0, //float kd
-    200, //int max_pwm
-    4, //int error_limit
-    10.0, //float smart_error_limit
-    MC_NORMAL, //MC_OPERATION op
-    &dn_get_raw_motor_current, //FIXED_VOID_F current
-    &dn_get_steer_angle, //FLOAT_VOID_F position
-//    &floatvoid_noerror //FLOAT_VOID_F velocity // commented on Feb/7/2013 to have more control on the gains of pid controller
-    &dn_get_motor_current //FLOAT_VOID_F velocity // added on Feb/7/2013 to have more control on the gains of pid controller
+    20.0, 
+    0.0, 
+    200, 
+    4, 
+    10.0, 
+    MC_NORMAL, 
+    &dn_get_raw_motor_current, 
+    &dn_get_steer_angle, 
+    &floatvoid_noerror
   );
 
   mc_set_stiffness(0.0); //0.001

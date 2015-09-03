@@ -1,0 +1,125 @@
+06-30-2010
+
+First little assembly project, now that the FIQ handler framework seems to be working: Set up code to measure execution time of various things in the FIQ_Handler.
+
+For example, with Level 3 speed optimization, the CAN1 RX handler takes 215 clock cycles, minus about 11 for the timer itself, for a total of about 204.
+
+with no optimization, Level 0, no speed optimization, it takes 356 clock cycles. This goes up to 361 when I use a static variable to hold the time, instead of a register, for approximately 16 cycles just to calculate the elapsed time to run the ISR.
+
+Either way is a problem, because at 200KHz count rate there are only 300 cycles available for all FIQ interrupts plus anything else we want the processor to do, besides counting encoder pulses and receiving CAN packets. Even if the encoder functions are efficient enough, it seems unlikely that the CAN function can safely run in FIQ also. But since the acceptance filter doesn't work right, CAN RX needs to be able to preempt other code. So this may lead to using a recursively callable IRQ handler, and many levels of IRQ preemption. Luckily there is an application note from NXP on how that works, but it would be good to avoid it. If only I can get the combined handlers down below 300...
+
+The CAN RX handler can be made much more efficient, but I don't want to go to that effort if the encoder can't also be made very efficient.
+
+So far I have had no luck getting a locally-declared variable to work, but instead had to declare it in C and import the symbol to assembly.
+Need an example, I guess. Oh wait, if I put it in the code it will be read-only, obviously, and won't work right.
+
+A quick check on the time requirements of a branch statement. With no branch statement at all, straight through the code, we have 53 cycles. With a branch statement always false (so it still goes straight through the code plus the branch statement itself) it takes 55 cycles.
+
+With the branch statement always true, so the code is skipped, it takes 46.
+
+
+And with the skipped code commented out and no branch occurring (but with the branch statement still there), it takes 40.
+So the branch statement adds about 6 cycles to the code?
+
+Another amusing test: Does it take longer when the branch condition is true (and it happens), or if it is false (and skipped)? In the test, both options go to the same place.
+
+Result: Taking the branch took 42 cycles; not taking it, 40 cycles; and no branch statement at all: 39. That makes sense - a branch turns into a NOP when its condition code is false, just like any other instruction. So, have branches to the less likely options, when possible.
+
+Test: How many cycles does it take to store 6 registers into the stack? Answer: 7 cycles (1 cycle plus one each per register?)? This is much faster than loading one at a time, which appears to take 11(!). (Example code was a load of a single byte from the T0IR register, using instructions LDR R9, =T0IR and LDR R10, [R9]. The first one might be a composite instruction, checking the code... No, it looks like there are only two instructions involved. 
+
+Conclusion: Store as many registers as needed at the start, and only load data from memory once. Try to put all the necessary variables (counts, overflows, previous times, etc.) in a single structure or array, and load them in one operation. Not much to be done about the T0IR, T0CCR, and FIO0PIN registers, though. Except I might be able to cheat a little and load T0IR and T0CCR in one instruction.
+
+Test: Load 5 registers from a struct containing five 32-bit fields. Do they go up in memory steadily with successive fields, as expected? How many cycles are required for the copy, using load multiple increment ascending (LDMIA)?
+
+Result: Yes, in ascending order of memory as you get farther down the list of fields. Required cycles: 14, including the initial address load, or slightly less than three cycles per 32-bit word. Way better than the 11 needed for a single word. Data goes into ascending register numbers in the list you give it, probably regardless of the actual order you put them in.
+
+Test: How many cycles just to measure the cycles?
+
+Result:  22. Well, that's nice, the code itself is not as bloated as I'd been worried it was. The timer test code still needs to use two registers, unfortunately. But they can be anything, just scratch registers.
+
+Test: How many cycles to load in the VICFIQStatus register to CPU register 11? Result: 7 cycles
+
+Test: How many cycle to push 6 registers onto the stack?  Result: 7 cycles (wow! Is that right?)
+
+Test: How many cycles to test a register bit? Result: 2 cycles
+
+Test: How many cycles to do a branch with link (going there only, no return yet)?   Result:  6 cycles
+
+Test: How many cycles to push 10 registers onto the stack? Result: 11 cycles (so, one cycle per register, plus one)
+
+Test: How many cycles to load a C variable address?  Result: 3 cycles
+
+Test: How many cycles to load a register base address?  Result: 4 cycles (This will vary a bit depending on the actual instructions generated by the assembler for this. Some constants can be loaded in directly by MOV plus shifts, others need to come from a literal pool.)
+
+But loading in and storing single variables is obviously a slow way to do things.
+
+6 registers can be loaded from the stack in the time it takes to load one from a specific memory location, see above.
+Test: Load in data from a register on Timer 0 (IR), using the timer0 base address + IR_OFFSET. How many cycles?	7 (!)
+Why so many? This is terrible! The specific assembly code is LDR R12, [R11, #IR_OFFSET], where R11 already has the T0_BASE address
+
+Test: Use TST to check bit one. Cycle count: 1
+
+Test: A branch not taken:  Cycle count: 1
+
+Test: Load a single word from a C structure.  Cycle count: 3
+
+Test: Load a second word from the same structure, same instructions format.  Cycle count: also 3
+
+Test: How many cycles to load the overflow size? This involves a load from a timer register, and adding 1. Total cycles: 9 (!)
+Just to load the timer register, with the base address already in a register:  8 (!) plus one to add one.
+
+Test: Write a single word to a C struct.  Result: 3 cycles.
+
+Test: Why 7 or 8 cycles to read from a timer register, but only 3 to read/write a single C struct word? I don't see any obvious difference in the disassembly code, but there must be something in the machine code.
+
+Test: Load the overflow size (30000 = T0MR0 + 1) from a literal pool instead of directly from MR0 and adding one. Cycle count: 3
+(6 cycles faster! Somehow these timer accesses are very slow.)
+
+Test: Load 5 consecutive words from the data struct with the LDMIA instruction. Result: 7 cycles.
+
+Test: Load contents (one word) of the FIO0PIN register.  Result: 4 cycles
+
+Test: Calculate lookup table address (7 ADD and AND instructions):  Result:  6 cycles
+No need to optimize this part, assuming no extra registers are used.
+
+Test: Load in 4 lookup table valuew, using LDMIA.  Result: 7 cycles
+
+Test: Load in capture register contents, with address directly in a second register (no offset), using LDR. Result: 6 cycles.
+
+Test: Save back three data struct values, using STMIA:  Result: 4 cycles
+
+Test: Update capture control register using LDR with offset:  Result: 7 cycles
+
+Test: Load in the the capture register contents with LDMIA instead of LDR.  Result: 6 cycles (no change)
+What if the assembler sneaks in the LDR anyway? Try reading from CR0 and CR1. Result: 7 cycles.
+So it appears that the timer accesses are just very slow somehow, compared to the RAM. What if the lookup table was in flash, does that slow it down?
+Hard to test this now, I need to initialize it and it's easier to do it at run time.
+
+But I could set up a variable for the match register size plus one, and try it both ways.
+
+Test: Check for difference in cycles between reading in a C variable from RAM and one from flash. Result: 8 cycles for RAM, 11 cycles for flash, and 3 cycles to load a constant from the literal pool. I think this has more to do with the distance of the reach to the address of the value, not the type of memory, however, since the literal pool appears to be in flash (the instruction used was a short offset from the PC). So maybe not much to be done about this problem except to use as few timer values as possible.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

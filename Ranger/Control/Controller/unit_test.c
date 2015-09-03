@@ -324,6 +324,13 @@ void debug_singleStanceOuter(void) {
 	disable_hip();
 }
 
+/* --20-- Lets the user directly control the inputs to the steering
+ * motor controller at a low level */
+void debug_steeringMotors(void) {
+	mb_io_set_float(ID_MCSI_COMMAND_CURRENT, mb_io_get_float(ID_CTRL_TEST_R0));
+	mb_io_set_float(ID_MCSI_STIFFNESS, mb_io_get_float(ID_CTRL_TEST_R1));
+	mb_io_set_float(ID_MCSI_DAMPNESS, mb_io_get_float(ID_CTRL_TEST_R2));
+}
 
 /* Entry-point function for all unit tests */
 void runUnitTest(void) {
@@ -362,6 +369,7 @@ void runUnitTest(void) {
 	/**** Debugging ****/
 	case 18: debug_directCurrentControl();  break;
 	case 19: debug_singleStanceOuter();  break;
+	case 20: debug_steeringMotors(); break;
 
 	}
 }

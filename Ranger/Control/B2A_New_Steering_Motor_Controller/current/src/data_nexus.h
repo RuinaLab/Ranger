@@ -49,15 +49,4 @@ void dn_sched_done(void);
 float dn_get_execution_time(void);
 float dn_get_max_execution_time(void);
 
-/* clearing up stuff; petr 5/30/13
-// adding stuff to transmit more can_id's // noopetr, Feb/12/2013
-float dn_get_mech_mult(void);
-float dn_get_therm_mult(void);
-*/
-
-/*  clearing up stuff // petr 5/9/13
-// adding stuff to receive more can_id's // noopetr, Feb/12/2013
-void dn_set_steer_filter(float new_coeff);
-*/
-
 #endif

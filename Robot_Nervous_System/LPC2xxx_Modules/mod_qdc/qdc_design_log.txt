@@ -1,0 +1,101 @@
+QEC (Quadrature Encoder Controller) 2 Design Log:
+
+Initial concept:
+
+Use a "buzz"-resistant design to ignore spurious channel transitions from the encoder. Specifically, upon observing a transition on channel A and a high level on channel B, for example, the decoder state machine will next look only for a high-to-low transition on channel B (ignoring channel A). Similarly, after a transition on channel B with a high level on channel A, it will only look for a high-to-low transition on channel A. The remaining two cases are similar, with low levels on the non-transition channels.
+
+This state machine system is a 4X count system, with an interrupt at every transition. Thus, during consistently forward or reverse rotation it will have twice the interrupt call frequency of the previous 2X system. However, it ignores rapid transitions across a single edge, as might be caused by electrical or mechanical noise, and therefore also limits the maximum interrupt frequency to four times the maximum pulse frequency. When in the presence of noise there is no such defined upper frequency, and in fact we have seen evidence that the microcontroller cannot keep up with the count frequency. But it is difficult to determine whether the missed counts are due to noise or overall inability to keep up with the count frequency.
+
+Therefore, a second goal of QEC2 is to reduce the required calculation load, allowing it to keep up with higher count frequencies and reducing the load on the processor.
+
+The primary mechanism to improve execution efficiency is to use a lookup table for generation of the required numbers in each decoder state. This includes the timer numbers needed for estimation of encoder angular velocity from pulse-to-pulse elapsed time.
+
+Lookup table contents:
+
+Ultimately, the decoder should be capable of decoding the inputs from three or more encoders; two of these can be connected to the four capture inputs on Timer0; two can be connected to the capture inputs on Timer1 (only hypothetically in the case of the B2A boards, since some of these pins are used for other peripherals); and additional encoders could potentially be connected to the external interrupt inputs, though with some loss of timing accuray (they should still give good position values, though).
+
+For angular rate calculation, three pieces of data are stored to a ring buffer for each encoder, per count: the timer value, the number of timer overflows since the previous count, and the count direction. This happens in the interrupt function; at the non-interrupt end, the data is read in, and the velocity estimate is generated.
+
+Example table for a single encoder channel:
+
+Each encoder would require its own table (to make it more modular). It also makes it easier to handle cases where multiple encoders have simultaneous counts.
+
+Define: 
+Flag0 is a transition on channel 0
+Flag1 is a transition on channel 1
+Level0 is channel 0 level
+Level1 is channel 1 level
+Overflow0 is an overflow (rollover) on Timer0.
+
+The table only runs if Flag0 or (xor) Flag1 is true, and even then many values should never be reached, leading to a relatively sparse table.
+The new state value can be calculated easily from the count increment, so that field could be left out to save memory. All of the required data could
+be squeezed into a 16-bit short int if necessary, using bit fields. But there might be a performance penalty.
+
+table_index = (prev_decoder_state << x1) | ((Level1 & mask_lv1) << x2) | ((Level0 & mask_lv0) << x3) | ((flag1 & mask_flg1) << x4) | ((flag0 & mask_flg0) << x5);
+
+								
+Table_index	New T0CCR value		New decoder state value		New count increment
+000000	0	Invalid				0				0
+000001	1	Cap1 rising = 0b101000		3				-1						
+000010	2	Invalid				0				0	
+000011	3	Cap1 rising = 0b101000		3				-1
+000100	4	Invalid				0				0
+000101	5	Cap1 rising = 0b101000		3				-1
+000110	6	Invalid
+000111	7	Cap1 rising = 0b101000		3				-1
+001000	8	Invalid
+001001	9	Cap1 falling = 0b110000		1				+1
+001010	10	Invalid
+001011	11	Cap1 falling = 0b110000		1				+1
+001100	12	Invalid
+001101	13	Cap1 falling = 0b110000		1				+1
+001110	14	Invalid
+001111	15	Cap1 falling = 0b110000		1				+1
+010000	16	Invalid
+010001	17	Invalid
+010010	18	Cap0 rising = 0b000101		2				+1
+010011	19	Cap0 rising = 0b000101		2				+1
+010100	20	Invalid
+010101	21	Invalid
+010110	22	Cap0 falling= 0b000110		0				-1
+010111	23	Cap0 falling= 0b000110		0				-1
+011000	24	Invalid
+011001	25	Invalid
+011010	26	Cap0 rising = 0b000101		2				+1
+011011	27	Cap0 rising = 0b000101		2				+1
+011100	28	Invalid
+011101	29	Invalid
+011110	30	Cap0 falling= 0b000110		0				-1
+011111	31	Cap0 falling= 0b000110		0				-1
+100000	32	Invalid
+100001	33	Cap1 rising = 0b101000		3				+1							
+100010	34	Invalid
+100011	35	Cap1 rising = 0b101000		3				+1
+100100	36	Invalid
+100101	37	Cap1 rising = 0b101000		3				+1
+100110	38	Invalid
+100111	39	Cap1 rising = 0b101000		3				+1
+101000	40	Invalid
+101001	41	Cap1 falling = 0b110000		1				-1
+101010	42	Invalid
+101011	43	Cap1 falling = 0b110000		1				-1
+101100	44	Invalid
+101101	45	Cap1 falling = 0b110000		1				-1
+101110	46	Invalid
+101111	47	Cap1 falling = 0b110000		1				-1
+110000	48	Invalid
+110001	49	Invalid
+110010	50	Cap0 rising = 0b000101		2				-1
+110011	51	Cap0 rising = 0b000101		2				-1
+110100	52	Invalid
+110101	53	Invalid
+110110	54	Cap0 falling= 0b000110		0				+1
+110111	55	Cap0 falling= 0b000110		0				+1
+111000	56	Invalid
+111001	57	Invalid
+111010	58	Cap0 rising = 0b000101		2				-1
+111011	59	Cap0 rising = 0b000101		2				-1
+111100	60	Invalid
+111101	61	Invalid
+111110	62	Cap0 falling = 0b000110		0				+1
+111111	63	Cap0 falling = 0b000110		0				+1

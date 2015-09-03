@@ -1,0 +1,229 @@
+10-15-2009 SSP-CAN router testing.
+
+Test 1: Same code as yesterday: the most recent synchronized-segment DMA-based code, with no optimization and a bit rate of 1 Mbit/sec. Still has a fixed segment time, at 1 mS, and a segment length of 31 short ints. The full SSP-CAN router test is running, from data arrays on the ARM9 to SSP to CAN and back again, then with modified CAN IDs back to the ARM9 data arrays. Flickering green LEDs indicate successful data transfer; red LEDs indicate a variety of error conditions, like buffer overflows and checksum errors. Recompiled and reloaded on new board (with apparent SSP hardware error) to investigate.
+
+Procedure: Load programs to both processors. Power off and back on. Start up ARM7 debugger, then ARM9. Press run button on ARM9 debugger, then ARM7. Turn on debug switch on ARM9, then ARM7.
+
+Result 1a: ARM7 went to Undef_Handler.
+
+Result 1b: (Reset ARM7 from debugger; turned off switch; turned off ARM9 debugger; ran ARM7; turned on ARM7 switch.) Now the LEDs seem to be blinking along happily enough, but with some red flashes indicating data errors along the way from the ARM9 to the ARM7 (MISO line). Ready to check with the scope.
+
+Oh wait, now it's crashed, this time into the data abort handler. The transmit indices are both zero, which seems a little suspicious. Receive buffer index 1 is 3, and index 2 is 4, indicating that the receive buffer has overflowed. ?. ectest1 is 45, which is right at the end of the SSP FIQ isr. Only some test variable instructions and VICVectAddr = 0. This may be bad to have here in the FIQ; what if the FIQ interrupts one of the CAN IRQ interrupts and then resets the CAN interrupt in the middle of something?  I'll try taking it out. I'm also going to make separate execution locator variables for the three different interrupt contexts, so I can tell better trace what happened before an abort.
+
+Test 2: Added fiqtest and irqtest global variables, to allow more detailed tracing of problems. Commented out the VICVectAddr = 0 line in the FIQ isr.
+
+Result 2a: Main is running, no aborts. But no LEDs. Timer0_isr is not running. FIQ is not running. irqtest and fiqtest are both zero, suggesting that the interrupts were never enabled properly. Checking the VIC pop-up debug window confirms that none of the interrupts are enabled.
+
+Result 2b: Reset and restart ARM7. Turn off ARM9 debugger (as above). Now running again. Will it crash again, or can I do my scope measurement?
+
+Result 2c: The MISO line looks fine on both sides of R44. The via near the ARM7 pin also looks fine. I had trouble getting the probe onto the processor pin without the microscope, so that will have to wait. Now for the clock line. It looks fine. I checked the MCU wiring under the microscope, and it also looks good.
+
+Test 3: Switch main brain boards. So now I am testing the newer ARM7 carrier board on our original ARM9 LPC3250 Phytec board. 
+
+Result 3a: No blinking LEDs. Everything seems to be running, but the schedule_run function sees only null function pointers. It isn't supposed to be trying to run the null values, is it? But index 5 is going to be an end-of-line null value. (See screen shot.)
+
+Result 3b: Reset and restarted ARM7, as above. Now running again. Still getting data errors.
+
+Result 3c: (With old ARM7 and new ARM9) Result: Two happily flickering green LEDs. No blue heartbeat. No red error LEDs. The line "if (FIO1PIN&(1<<25))" is never true, so the "FI01CLR = 1<<25" line does not run. Yet if the line was actually low, the blue LED should be on. The fast GPIO pop-up window says all pins are set to input. But I don't trust it, so adding test variables in hb_toggle...
+
+Result 3d: Recompile and reload. First try, no interrupts enabled. Hmm. Second try: Flickering green ARM7 MCU LED; no ARM9 green LED. No blue or red. Checking hb_toggle - all three MCU LED direction bits are high, even though the debugger window says they're all low. So another reason not to believe the debugger window. All three pins come up as low, despite being commanded to go high. Furthermore, only the green LED was actually on. Upon re-running, but not resetting, the directions all go to zero, and the green LED line shows high. When resetting and rerunning, the direction bits are high and the output bits are low, except now the green one is high. Time for an electrical check.
+
+Result 3e: Blue LED output (both sides of R13) is 1V. Red LED output (both sides of R16) is 2V. Green LED output (both sides of R17) is also 2V. Not good digital output levels. Replace MCU?
+
+Test 4: New MCU for first B10A carrier/SSP-CAN router board.
+
+Result 4: Blinking blue LED heartbeat, flickering green data-transfer LEDs, and no red LED. A breakpoint at the bad checksum location shows that bad checksums are at least very rare (none seen yet.)
+
+Test 5: New MCU for second B10A carrier/SSP-CAN router board.
+
+Result 5: Same as 4. It works! At least the data errors are gone, and in both cases the system started up without glitches. In fact, for test 4 I forgot to turn off the debug switches before I started the debuggers, and it still worked. For test 5 I used my regular starting sequence, and it also worked the first time - no resets needed.
+
+Test 6:  Try turning off the debug code. Will it work reliably at power-up? Commented out the #define DEBUG lines in software_setup.h for both processors, recompiled, reloaded, and powered down.
+
+Result 6: Yes, it started up and began routing without errors 10 out of 10 tries. The red LEDs came on for a fraction of a second for each processor at power-up.
+
+Test 7: Level 3 optimization for speed on the ARM7 side. (Already level 3 on ARM9.)
+
+Result 7: No errors at test speed (1 Mbit/sec.).
+
+Test 8: 6 Mbit/sec.
+
+Result 8a: As before, some but not all packets coming in to the ARM7 have checksum errors. In previous testing this only happened when the ARM7 was receiving a combination of blank and real packets; it worked with a steady stream of actual data, not mixed with zeroes.
+
+Result 8b: Now with a check to see if an interrupt occurred during the receive parsing. The weird thing is that my temp4 variable, set right before the breakpoint, shows csr_rx_index2 = 2. But the global variable watch list shows a value of 3. There is no evidence of an interrupt during parsing in this case. However, there receive FIFO overflow is occurring.
+
+10-16-2009
+
+Test 9: 6 Mbit/sec with test code removed from the FIQ isr. I am interested to know if a receive FIFO overflow is still occurring (and by extension, was probably occurring in the earlier testing). Perhaps there is not a race condition in the ARM7 data receive code after all, but a speed bottleneck. Although it did seem to work before at 6 Mbits/second with a full pipe of data, no zeroes.
+
+Result 9: Yes, it still has receive overflows even without the test code.
+
+Test 10: Trying slower speeds without test code. Does it still work at 1 Mbit/sec., at least?
+
+Result 10: 1 Mbit/sec.: yes, still fine. 2 Mbit/sec.: Here I noticed/confirmed that dropping breakpoints into level-3 optimized code does not give useful data. I put a breakpoint on a line that turned on the red LED and it stopped there, but the LED was not on. So, going only by the LEDs, the data rate can be as high as 5 Mbits/sec.; at 6 Mbits/sec. the ARM7 receive FIFO overflows, causing data loss.
+
+Test 11: Recheck that data transfer is successful with a "full pipe" also. This is done by sending the list of variables from the ARM9 every mS, instead of every 10 mS. 
+
+Result 11a: At 5 Mbits/sec. with a 133 uS segment period, there appear to be no errors. 
+
+Result 11b: How about 6 Mbits/sec. with a 100 uS segment period? (This worked in earlier testing.) Yes, it still (or again) works. More messing around with the debuggers seems necessary today at the higher data rates than yesterday at 1 Mbit/sec. 
+
+Test 12: Does it start and sychronize properly at the higher data rates on power-up? Testing full data transfer at 6 Mbits/sec:
+
+Result 12: Yes, it started up reliably 10 times in a row on power-up. The difficulty with debugging was likely due to the fact that I'd only re-enabled debug mode for the ARM7. The debug switch could cause problems if debug mode is not enabled.
+
+While it isn't entirely clear why it should run slower for less data, that is a question for later code optimization. For now I will reduce the speed to a more conservative value, like 3 or 4 Mbits/sec., and work on making the CAN router code immediately useable.
+
+Test 13: If the SSP with its high-priority fast interrupts has data overrun errors at 6 Mbits/sec., how about the CAN receivers? And are any buffers overflowing at the full data rate? Time to add LED warnings and see. Besides, I want all those CAN LEDs to be doing that normally anyway. Green for data transfer, red for errors.
+
+Test 14: Added timestamp code to send out a synchronization frame on each of the four CAN buses once per millisecond (or as configured). The initial implementation takes advantage of the three transmit buffers per CAN controller, and puts the sync frames in the third buffer. By intent, normal transmission uses only the first two buffers. In the event of multiple active buffers, the controller is set to send out the packet with the highest priority (lowest CAN ID), which would always be the time sync with ID zero. However, it was soon clear that the time was not being sent correctly, though a packet was indeed sent with each call to the time send function. In fact, with some more testing, it was also clear that the packet being sent corresponded to buffer 1, not buffer 3, even though I wasn't requesting transmission of buffer 1. Even making the CAN ID of the leftover data in buffer 1 much higher than that of buffer 3 did not solve the problem - in other words, it was not prioritizing on the basis of CAN ID. The apparent solution (and problem) was in the way the controller was being told to transmit the packets. In our previous code we had been setting the "use this buffer" bit in CnCMR, and in the next line setting the "send now" bit in CnCMR. Referring to NXP sample code, it would appear that both bits are intended to be set at the same time (same write operation.) Setting the "use this buffer" bit first, followed by the "send now" bit, seems to always trigger a send of buffer 1, not 2 or 3. This was not a problem as long as we were only using buffer 1... I am not completely sure that this is the full solution, because it seemed that I had the buffer 3 write set correctly at first, and only changed it to match the other incorrect code after it didn't seem to work. But the time sync packets are working now.
+
+Test 15: After a number of updates (note to self - don't allow so many changes to update at the same time!) the LEDs are showing CAN errors when transmitting some CAN ids. But not when time stamps only are being sent. I think the time stamps are being sent in one-time-only mode; perhaps try temporarily switching them to try-until-successful mode? But first the error codes from the CAN error capture registers (collected after CAN 1 bus shutdown reset)
+
+CAN 1:	0x070A0202
+CAN 2:	0x060A0202
+CAN 3:	0x060A0000
+CAN 4:	0x040A0008
+
+After CAN 2 bus shutdown reset:
+
+CAN 1:	0x050A0202
+CAN 2:	0x050A0000
+CAN 3:	0x060A0008
+CAN 4:	0x040A0002
+
+After CAN 3 bus shutdown reset:
+
+CAN 1:	0x070A0202
+CAN 2:	0x060A0002
+CAN 3:	0x060A0008
+CAN 4:	0x040A0000
+
+After CAN 4 bus shutdown reset:
+
+CAN 1:	0x050A0202
+CAN 2:	0x050A0202
+CAN 3:	0x060A0008
+CAN 4:	0x040A0000
+
+
+Interpreting: First, why are all four of them showing bus-off errors in the isr, but only two of them are lighting up their red leds?
+
+An 0x2 indicates transmit interrupt 1 is active - no problem
+An 0x8 indicates a data overrun interrupt
+An 0x200 indicates Transmit interrupt 2 is active - no problem
+Bits 16 through 20 are the error code capture. In each case this is 0x0A
+= 0b01010 = bus error in the data field
+
+Bit 21 is error direction: 0 = transmit errors
+Bit 23;22 is the error type: 00 = bit error
+
+Bits 24 through 28 show where arbitration was lost most recently.
+
+So, how helpful is this: bus error in the data fields on transmit, bit errors, on all four CAN buses?
+
+Checking: stop all transmission onto CAN bus except time stamps. No errors. Temporarily change all time stamp transmission to normal (try until transmit is successful): No errors.
+
+Now turning off time stamps and trying one channel at a time. Each seems to work by itself. I can also turn on routing for all the channel 1 and 3 packets, but as soon as I add a channel 2 packet or channel 4 packet, I get errors on channel 3! And sometimes on channel 4.
+
+What about the reverse? Channels 2 and 4 worked ok, but then there was an apparent receive buffer overflow on the SSP. Hmm. Too much processor load somewhere?
+
+Now checking with all channel 1 and 4 routes on. No problem. With a single channel 2 route added, however, I see occasional errors on channel 4. Adding a single channel 3 gives constant errors on 3. Increasing the SSP buffer by a factor of two did not help, suggesting that processing time is too high to keep up (or something else is wrong). Checking the SSP receive buffer overflow assumption: Yes, the SSP error is a read buffer overflow. But the relationship to the errors is not so clear. For example, no SSP error shows up with all the channels switched on. But when channels 1 and 3 are switched off the SSP receive error shows up. But then if I drop the number of channels from 6 of channel 2 and 2 of channel 4 to two of each, the ssp error goes away again.
+
+Ok, all these errors are probably because of my loopback CAN test cable. CAN1 to CAN3, CAN2 to CAN4. The data packets sent to CAN1 are received at CAN3, etc., then rerouted to CAN1 again, causing all kinds of mess.
+
+Checking this: All CAN routes on, but only frames from the SSP buffer are routed; I commented out the route phase of the CAN buffer read. Duh. No errors.
+
+Now with timestamps on again: No errors.
+
+Now at optimization level 0 (Can we run it slower to make debugging easier?): Um, no. Getting SSP read buffer errors again. Somewhat disappointing, as it is sending out only about 20 values from the SSP bus and timer per millisecond, then receiving them onto the CAN receive buffer (and then throwing them away, rather than routing, to avoid the error discussed above.) But in previous testing it was able to receive and route data in both directions at a throughput in each direction of 5 Mbits/sec with level 3 optimization.
+
+**************** Nice to have later: a check for whether a packet is coming in from the wrong source. The router can't check which satellite a particular packet is coming from, but it can easily spot packets coming from multiple busses. To do: add to Tommy's router code when I move it over.
+****************
+
+Test 16: Still seeing an occasional CAN bus error. More worrisome, channel four seems to start up wrong sometimes, giving continuous errors.
+
+Eliminating all (non-time = 0) packets being routed to CAN 4 (there were only two) did not eliminate the problem. Eliminating all non-0 packets being routed to CAN 2 also did seem to eliminate the errors. Putting the channel 4 packet routing back in (only 2 CAN_IDs) did not bring back the error. Now putting back routing for one CAN 2 ID: No error. Now with two CAN 2 IDs: Error returns.  It's intermittent, though. 
+
+After CAN 4 bus shutdown reset:
+
+CAN 1:	0x060A0282
+CAN 2:	0x050A0202
+CAN 3:	0x050A0000
+CAN 4:	0x000A0000
+
+Strange, only channel 1 shows a bus error, but a breakpoint in the can_isr.c bus-off reset code for CAN 4 halts execution. But it's at optimization level 3, so who knows. Now there are no errors for about 15 minutes, no apparent changes except in startup sequence. Perhaps enabling the startup sync code would help?
+
+Test 16a: Enable synchronization code on both ARM7 and ARM9:  First, it still runs, yay. It's hard to make it work when using the debugger, so normally I have it commented out.
+
+No apparent errors in ten power-up cycles, each about 10 seconds on and 30 seconds on.
+
+Now with the synchronization turned off again: For ten power-up cycles in a row, it operated normally for the first 15 seconds or so and then the CAN 4 error LED began to flash. The delay before the error appears is not random, it seems to take the same amount of time with each test. But if it is an initialization problem fixed by the sycnchronization functions, I think I'll ignore it for now. Though it would be interesting to know what exactly is breaking and why.
+
+Test 17: Now converting the CAN-SSP router to use the same CAN module code as the rest of the satellites. Step one was putting in callback function hooks to allow CAN packet counting and error display. These default to an empty function, but on the CAN router they call the packet counting and error LED functions that used to be stuck into the CAN code itself.
+
+The second step, now complete, is to start using Tommy's CAN tx code again, and not my test code. This involved putting the required CAN ring initialization and global declaration code into software_setup.c, switching the vectored interrupts over to the other tx functions, putting the "unstall" CAN transmit calls back into the can error isr, and putting calls to the correct push functions into the CAN router code.
+
+The third step is to transplant Tommy's more complete router code into the the router function. I think this would be easier to do step by step, instead of trying to move it all at once and then trying to fix a bunch of errors. So, one substep now done is to switch to a CSR_ROUTE struct for the source and destinations fields of the CSR routing table. The top three bits are the channel number of the (necessarily single) source; the bottom five destinations bits indicate which of the five routed channels are to receive a particular CAN ID. So, that worked, still seems fast enough. (To be checked later). The next substep is to clean up the CAN ring pointers. A bit confusing, but here's how it is supposed to work (I think): The CAN ring globals themselves are defined in software_setup.c, allowing the user of the module to establish such things as the ring buffer size. Then initialization functions in the CAN module make the connection between the globals and locally defined CAN_RING pointers. The problem, from a modularity point of view, is that the router and ssp code needs to use the CAN_FRAME type defined in the CAN module, or something completely equivalent. This is a performance-critical application, and it seems silly to disassemble a CAN_FRAME during a function call and convert it into an SSP_FRAME or ROUTER_FRAME.
+
+Another approach, from a discussion with Nic, is to have the csr (CAN-SSP-router) code not be a "module", but instead a board-specific package that will call the CAN module code and use its CAN_FRAME type. This still leaves a potential compile issue, because the software_setup.h and csr.h files would need to know about the CAN_FRAME definition in can.h, which they might not if the can.h file was compiled after they were. 
+
+My preferred approach is to make the CAN frame a globally defined typedef, along with the CAN_ID enum and the ERROR_ID enum. While possible to get around this, the extra effort would be huge, there might be computation overhead, and the added complexity would lead to more mistakes. I see no downside except that an ideally pure software module should not be using typedefs and enums defined outside its boundaries.
+
+I think I would want to eventually rename such global typedefs to something general, like DATA_FRAME and DATA_ID. We might want to have some other such global definitions, but they should be kept to a minimum. These might include BOARD_IDs and ERROR_SEVERITY.
+
+************************ Just noticed a potential bug - the CAN 1 and CAN 3 lights shut off after a while, but the CAN2 and CAN 4 LEDs stayed on. But it didn't happen with the debugger running. This may be similar in nature to the red error LEDs which turn on once in a while with CAN 2 and 4. I have not seen them with the synchronization functions active, so will leave it alone unless it shows up in actual operation.
+************************
+
+Now included: automatic update of the source field in the csr_routing_table; default is 0x7, which means that no frame with that ID has yet been received. Upon receiving a frame, this field is changed to equal the chan field of the incoming frame. If the source field is not 0x7 and the received chan field is something new, this is a reportable error condition - each type of data must have only one source. After reporting the error condition, the router modifies the table to reflect the new source, allowing a certain amount of hot-swapping of boards and CAN buses.
+
+Also added: A check, before sending out a frame to a particular destination, that the destination is not the same as the source. This is not an error condition; the data source satellite board might be on the same CAN bus as a board which needs that data. During the RTR subscription process, the board's RTR packet will cause an entry for its CAN bus to appear in the destinations field. But it can get the data directly from the CAN bus, with no routing required. Routing it back to the bus it came from could potentially cause collisions with new frames of the same ID, and would in any case be a waste of bandwidth.
+
+------------------------------------------------------------------------------------------------------------------------------
+04-17-2010 This concerns a bug, so far only proven on the CAN router board, in which it seems that an error call causes some kind of data conflict with the CAN4 transmit ring buffer. Of course, this is the only board with a CAN4 ring buffer, so... 
+
+Have now written temporary new versions of both the CAN ring code and the error.c code, though most of the original naming and framework remains.
+
+Results: Same error.
+
+Also tried calling errors from both IRQ and normal preemption level, with the same (bad) result. Now have the error_update function isolated and running a single time from main.c, and the error still occurs. Note that running earlier or later error code doesn't seem to cause a problem, but allowing even one push operation to the error buffer causes a data abort crash later when the CAN4 transmit buffer is used.
+
+Test: Remove all static designations from global variables and functions in error.c:
+
+Result: Still doesn't work. Oh well, worth a try.
+
+Test: Remove error buffer search (just push data on to error stack);
+
+Result: writing to error_buf{i].timestamp causes an error (later, I think.) Writing to the other fields of error_buf does not seem to cause an error. It doesn't seem to be related to the timestamp function call (my first thought), because setting it equal to a constant also causes a crash.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+

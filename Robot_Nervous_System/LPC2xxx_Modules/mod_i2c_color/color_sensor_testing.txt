@@ -1,0 +1,43 @@
+Test log for Avago color sensor code and hardware:
+
+02-23-2011
+
+Flicker of fluorescent lights is apparently causing aliasing effects in the output of the sensor.
+
+Questions: Can the sampling frequency be increased above the 120 Hz (say 240 Hz) of the lights?
+
+Would the input bandwidth to the sensor be reduced if we increased the capacitor and integration values high enough?
+
+What does that do to the ability to adjust to lighting conditions?
+
+Results: The integration time affects both the sampling time and the sensitivity, as expected.
+
+Sample times vs. integration values: (Code is running in main for maximum update rate)
+1		3 mS	(All color sensor values 0)
+1		2.5 mS	(At 200 KHz)
+2		3 mS
+4		3 mS
+8		3 mS
+16		3 mS	(at I2C clock rate of 150 KHz)
+16		4 mS	(at I2C clock rate of 100 KHz)
+16		2.5 mS	(at I2C clock rate of 200 KHz)
+16		2 mS	(at I2C clock rate of 300 KHz)
+16		400 KHz clock rate does not work
+32		3.5 mS
+64		3.5 mS	(Now seeing some non-zero values on white sensor)
+100		3.5 mS 	(Values on all colors, for room light with lens)
+200		4 mS
+400		4.5 mS
+500		5.5 mS
+600		5.5 mS
+700		5.5 mS
+800		6.5 mS
+900		6.5 mS	(at I2C clock rate of 150 KHz)
+900		7.5 mS	(at I2C clock rate of 100 KHz)
+1000		7 mS
+1000		7 mS	(Changed capacitors from 15 to 1; no apparent change in sample time)
+No apparent difference in waveforms when red capacitors = 1, green = 15.
+2000		11 mS	(Back to capacitors = 15 for all colors)
+3000		15 mS
+4095		19 mS	(Maximum integration value)
+4095		18 mS	(at I2C clock rate of 300 KHz)

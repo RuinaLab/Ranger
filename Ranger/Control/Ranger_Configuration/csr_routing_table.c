@@ -30,9 +30,9 @@
 	csr_routing_table[ID_MCSI_MOTOR_TARGET_CURRENT].destinations = (1<<CHAN_CAN4);
 	csr_routing_table[ID_MCSI_SHUTDOWN].destinations = (1<<CHAN_CAN4);
 	csr_routing_table[ID_MCSI_SLEEP].destinations = (1<<CHAN_CAN4);
-	csr_routing_table[ID_MCSI_COMMAND_ANG].destinations = (1<<CHAN_CAN4);
-	csr_routing_table[ID_MCSI_PROP_COEFF].destinations = (1<<CHAN_CAN4);
-	csr_routing_table[ID_MCSI_INT_COEFF].destinations = (1<<CHAN_CAN4);
+	csr_routing_table[ID_MCSI_COMMAND_CURRENT].destinations = (1<<CHAN_CAN4);
+	csr_routing_table[ID_MCSI_STIFFNESS].destinations = (1<<CHAN_CAN4);
+	csr_routing_table[ID_MCSI_DAMPNESS].destinations = (1<<CHAN_CAN4);
 	csr_routing_table[ID_MCSI_EMPTY_TX1].destinations = (1<<CHAN_CAN4);
 	csr_routing_table[ID_MCSI_EMPTY_TX2].destinations = (1<<CHAN_CAN4);
 	csr_routing_table[ID_UI_SET_LCD_QUAD_1].destinations = (1<<CHAN_CAN2);

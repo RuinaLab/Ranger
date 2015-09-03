@@ -1,0 +1,462 @@
+1) Testing of acceptance filter initialization function.
+
+First try with AccOff set to 0, and AccBP set to 1. This should put it in bypass mode, allowing all CAN_ids through to the receiver. It does (same setting we've had for a while).
+
+Second, try setting up with AccOff set to 0, and AccBP set to 1. Can the registers be set?
+
+Result: Apparently not, with some allowance for level 3 optimization here.
+
+Trying again with AccOff and AccBP (AFMR bits 0 and 1) both set to 1: Still nothing.
+
+Now with AccOff set to 1 and AccBP set to 0: Still nothing.
+
+Both zero? Still nothing.
+
+Try optimization 0 for this test?
+
+0, 0: Not able to write
+
+0, 1: Yes, able to write
+
+Conclusion: Hard to trust much of anything you find out with the debugger with level 3 optimization.
+
+So the non-AF operational setting we were using before was fine. Some other problem...
+
+Maybe it really didn't like having two identical IDs in the filter, even if they had different CAN controller numbers. Though it didn't give an error interrupt. The first test was with the first AF location set to ID 0 and CAN 1, while the second was ID 0 and CAN 4. Now trying ID 1 for the second one: Still nothing getting through the filter.
+
+This is setting the AFMR bits based on the quite-clear statement in the manual that both bits 0 and 1 should be zero for normal AF operation. But trying the other possibilities - first, the one with bit 0 = 0 and bit 1 = 1 that should give bypass operation, just to test my procedures: Yes, seem to be receiving data on all CAN channels.
+
+Now with 1 and 1: Receives data on all channels, regardless of AF contents.
+
+Now with 1 and 0: No data on any channel, despite what should be a valid entry for CAN 1.
+
+Setting 0 and 0 again: Still nothing.
+
+Probably worth looking into the setup details again. Did I use the right format? Did I calculate the hex value correctly from the bits? Did the data end up in the right spots?
+
+It looks ok, but it wasn't clear that I was getting the data into the table correctly. Now trying a more standard pointer configuration: Still no data.
+
+Checking the data in the table again: Well, it looks fine, with the higher ID in the most significant digits of the word I'm looking at. E.g., 0x80012000 is what I put in for a CAN ID of 1 on CAN 4, and CAN ID of 0 on CAN 1. The AFRAM start address is 0xE0038000, as shown in the manual. Wonder if the AC works with optimization 0? No.
+
+Some kind of weird little-endian thing? I thought I understood their example table, but it isn't as clear as it could be. So, switching the two IDs: This still didn't give the expected results, but actually I think it's right. Strangely, CAN 2 showed a receive packet, just once. But looking at the acceptance filter window in the peripherals menu, it now looks correct, with the correct indices, addresses, controller numbers, CAN ids, and so on. But no data. Is it getting the time stamps at ID 0 that I think it is? Turning off all other CAN transmissions:
+
+Hey, only the CAN 2 LED lights up. It's also receiving CAN timestamp packets through the AF, and channel 1 is not. Sounds like the numbering in the AF starts at 0, not 1.
+
+Trying again with 0 = CAN 1, 1 = CAN 2, etc.: Yup, now channel 1 has the data coming in. So that solves that problem.
+
+Now another question: will it let you receive the same CAN ID from different controllers? And does the order matter?  Also, do the AF values have to be in overall ascending order, or just the ID portion (not the controller number)?
+
+Trying ID 0 with channel 3, and ID 1 with channel 1, 0x40000001. This would be the case where the IDs are in order, but not the AF values themselves - 4000 is obviously larger than 0001.
+
+Hmm, nothing. Trying it the other way around: 0x00014000. And it works! So, sort by overall CAN controller + CAN ID?
+
+Now trying to enable multiple CAN controllers with the same ID (0): 0x00006000
+As expected, that gives reception of ID 0 on both CAN 1 and CAN 4.
+
+Now trying to receive ID 0 on all controllers at once, adding a second line to the AF.
+
+The pointer arithmetic seems to have worked as expected, all four now receive. Checking the AF table in the peripherals menu, it looks correct. The indices for the acceptance filter values start at 0. Index 3 showed up for the channel 4 receive that I tested (it's visible in the CAN 4 peripheral window.) Note that the index here refers to the location of the "hit" in the acceptance filter, a convenient function which lets you (with a function lookup table) look up the function to call to process each incoming data point, with no searching.
+
+Another question: if I have an odd number of CAN IDs to receive, can I put in an invalid CAN ID at the top to fill it out? What if it's zero, is that bad? How about 2047?
+
+First test: last ID in AF table is 0:
+
+Result: it seems that the table works except for the last pair of values, when that pair of values is not in ascending order. Now trying a switch on the first pair of values: This time it's the first two that don't work, the second two work ok. What if I make the second pair out of order with the first pair, but internally each pair is in order? Hmm. The second pair works, while the first pair are disabled. On the other hand, the second pair show up in red in the peripheral menu, showing they are out of order.
+
+Using 2047 seems ok, even though that is above the 2031 max CAN ID. So it can be used as a filler as needed at the top of the table.
+
+Now trying again with pointers to 16-bit values, instead of 32 bits. Still doesn't work right - the second value overwrites the first. 
+
+So, only 32-bit read/write allowed for the AFRAM, apparently.
+
+2) Now to read the frame descriptors and put the CAN_ID and channel info (.addr and .chan, respectively) into the acceptance filter RAM. To save memory, I have set myself the task of doing so directly into the AFRAM, without going first through a temporary array. The fact that only 32-bit reads and writes are possible to AFRAM complicates things a bit.
+
+But, after some bugs, it makes the list fine (the list of frame descriptors is expected to be terminated with a NULL.) Since there needs to be an even number of CAN_IDs for it to work right, I add a channel 4 2047 ID at the top if there are only an odd number of real ones. (CAN ID 2047 is higher than any valid CAN_ID, I think. At least it's the highest possible, unless you have a chip with more than 4 CAN controllers.)
+
+3) Now to sort the list in ascending order. The 32-bit read/write restriction makes this annoying too.  Ok, confusing for a while, but the sort works now. Tested for 8, 4, 3, 2, 1, and 0 elements in the list. Duplicate values can generate an error code if desired, but are not eliminated by the sort algorithm I used. Since there aren't supposed to be any duplicates anyway, this should be ok. 
+
+4) Last step: add the channel numbers (CAN controller numbers) to the sorted value, and go back to using the real can_rx_descriptors, instead of my fake test list.
+
+
+Some additional potential problems with the CAN module:
+
+1) All CAN interrupts for a particular controller are cleared at the start of each tx, rx or error isr, via a read of the CxICR register (which clears the flags). This is necessary for the error isr, since we need to know what the error was, and also not a problem, because the controller is not operating normally anyway if that function is called.
+
+But it concerns me that a tx interrupt might be cleared by an rx interrupt. The manual doesn't say that bit 0, the rx data ready interrupt, is cleared by reading the ICR register, but that might be a typo (otherwise why have an ICR read at the start of the read isr anyway?) If it was cleared, an incoming rx frame could be lost because of an ill-timed read of the ICR register by the tx isr. The window for this to happen is quite small - between the time the tx interrupt fires and the time the actual isr starts running and gets to the ICR read line. But it doesn't seem completely out of the question. It kind of depends on the internals of how the controller works, since it can only receive or transmit one frame at a time. So probably the transmit interrupt will only fire after a successful tx operation, and the receive interrupt will only fire after a successful rx operation, and they can't both happen at the same time. Unless, of course, there's an FIQ interrupt that changes that.
+
+2) There is no check for whether the tx buffer is available before putting new data into it. Once again, it should certainly be available when the tx interrupt fires, because that's what triggers it. But the call from the tx ring buffer push function is more questionable.
+
+I prefer a design where the tx buffer interrupt enable bits are turned off by the isr when the corresponding software ring buffer is empty. This part is straightforward enough. But what are the conditions (and correct order of operations) for turning them back on? And when should the isr be forced to run, due to stall conditions? As I understand it, the controller should basically not require any forcing after the transmit of the first frame; the interrupt should stay high until the next frame is loaded in, even if the IER bits were low for a while. But it will also be reset by the error isr, if it fires. Also the rx, unless it's fixed also.
+
+So, conditions to enable interrupts for a tx buffer: Its ring buffer is not empty, and its interrupts are off. No problem. Push data into the ring buffer, then turn on the interrupts.
+
+This is necessary but not sufficient: if the transmit buffer is empty and the interrupt is not on, nothing will happen when you turn on the interrupt enable bit(s).
+
+This is the case where the isr needs to be forced to run, either directly or my preference, via software interrupt (At least with a software interrupt, the only serious risk is if a race condition caused you to not run the isr when you need to. Occasionally having it run a second time is wasteful, but doesn't hurt the functioning otherwise. Potentially calling the isr from both normal and interrupt context could be very bad.) 
+
+Are there race condition problems in determining that this case is in effect? 
+
+Possibilities to check for and handle correctly:
+
+Assuming that we have just successfully pushed new data onto the ring buffer:
+
+Possibility 1: the tx buffer interrupt enable bit(s) are on and the tx buffer is full. The tx buffer raw interrupt is necessarily off. The new data we just pushed onto the ring is either already being sent or will surely be sent later, assuming normal bus operation. No action is needed. A read of the ICR register could break the happy chain of data being sent out, so this needs to be addressed in the error isr (set a software interrupt bit after an error to restart tx) and the rx isr (don't read the ICR). But don't set the software interrupt bit, the tx buffer is not ready to accept data. 1) is the normal case for high tx data throughput with a non-empty ring buffer.
+
+Possibility 2: the tx buffer interrupt enable bits are off (tx is stalled) and the raw tx buffer interrupt is on, and will stay that way unless the ICR is read or the tx buffer is written. The tx buffer is necessarily empty. 2) is the normal case for low tx data throughput, in which the ring buffer is completely emptied between transmissions.
+
+Possibility 3: the tx buffer interrupt enable bits are off (tx is stalled), the tx buffer is full, and thus the tx buffer raw interrupt is off. This would happen only at a particular intermediate throughput. 
+
+Possibility 4: the tx buffer interrupt enable bits are off (tx is stalled), the tx buffer is empty, but the tx buffer raw interrupt is off anyway. This could  happen at startup or as a result of a read from the ICR. Need to set the software interrupt; turning on the tx buffer interrupt bits by themselves would not be sufficient.
+
+Possibility 5: the tx buffer interrupt enable bits are on and the tx buffer is empty. The tx buffer raw interrupt is obviously off, or it would have fired. the isr. It has become stalled, perhaps at startup or because of a read from the ICR. Set the software interrupt bit.
+
+What about a race condition where a "third-party" (e.g. FIQ) interrupt happens between the data push and checking the various status bits, such that the tx buffer is empty again and the isr has turned off the tx buffer interrupt bits? (Or maybe the controller just moves the data out of the buffer and into the transmitter before the bits can be checked, I don't know how fast that goes.) So it looks like 2) or 3), but the new data is already gone and the ring buffer is empty. Then the isr would run an extra, unnecessary time before returning to stall mode.
+
+Many of the race conditions can be solved by simply turning off the relevant top-level tx interrupt enable bit in the VIC for the duration of the ring buffer push function. This simplifies the above possibilities a bit. So, assume that it is turned off at the start and on again at the end of the can_transmit function, and therefore no CAN tx interrupt will happen while it's running. The status register bits may still change as the controller continues to send out data from the tx buffers, however.
+
+1), above, may become a possibility 6), in which the tx buffer i enable bits are high, the tx buffer is empty, and the tx buffer raw interrupt is on. But the course of action (none) is unchanged - it will handle the new data properly either way when the top-level interrupt bit is re-enabled.
+
+3), above, may become 2) during execution of the ring push function. In either case, though, the tx buffer interrupt enable bits should be turned on, allowing the normal interrupt to handle the new data.
+
+In either case 4) or case 5), with an empty tx buffer and the raw interrupt off, the tx buffer interrupt enable bits should be set _and_ a software interrupt bit needs to be set. But note that we shouldn't actually read the raw tx buffer interrupt 
+
+So in conclusion, pending actual testing of code:
+
+1) During ring buffer push, temporarily turn off the high level tx interrupt bit in VIC.
+
+2) Turn on the relevant tx buffer interrupt enable bit, regardless of case. It does no harm if it's already on, easier not to even check. It will be turned off again when necessary by the isr.
+
+3) After turning on the tx buffer interrupt enable bit, check if the tx buffer is empty. If the raw VIC tx interrupt is nonetheless off, then set the software interrupt bit.
+
+4) Re-enable the top-level interrupt bit in VIC just before exiting the function.
+
+Note that I expect the isr to check all three tx buffers and ring buffers for possible action while it's there, even if they didn't specifically trigger the interrupt. So in that case it doesn't matter if I don't check exactly which of the tx buffers is creating the interrupt.
+
+
+The rx case should be easier; the interrupt is automatically cleared when you free up the read buffer after reading it. We just have to check that it's freed up even if the ring buffer is full.
+
+Test 1: Get rid of ICR register read (which clears tx interrupts) at start of rx isr function.
+
+	Result: No apparent immediate problems, data is being received on the rx isrs, and the main loop is running ok (not stuck continuously at isr level). 	The can_rx_now function writes to bit 2 of CAN_CMR, so the interrupt should be cleared even if the receive buffer is full (as it is in this test).
+
+Test 2: Try out the changes outlined above in one of the transmit isrs. For convenience I'll start with one of the test transmit isrs I wrote. 
+Action items: 
+Change VIC address to csr_can1_tx_isr: Done.
+Add software interrupt set to error isr: Done.
+Modify router so that data is sent to the new ring buffer: Done.
+Modify tx ring buffer push to include procedure above: Done.
+Modify tx 1 isr to clear TIE1 (tx buffer 1 interrupt bit) when ring buffer is empty: Done.
+Check that software interrupt bit is cleared at end of isr: Done.
+
+Getting some ack errors with my test setup. This means that the transmitter doesn't see an ACK dominant bit when it transmits (no answer from other CAN controllers), so it resends.
+
+Point 1: No error LEDs light up when I use the regular CAN code. When I use the new code, I get lots of ACK errors with CAN1 connected to CAN3 and CAN2 to CAN4, but none when I connect CAN1 to CAN4 and CAN2 to CAN3. This would suggest a cable problem, actually. Why not visible with the regular code? Maybe the ICR register read during transmit is covering up an error. Or, is it due to patterns in bus loading? Here I am sending whatever the normal set of data is on these buses, (Except that I disabled time stamp transmission on 3 and 4), but I don't really know what's there. For a better test I should be sending known test frames on each bus.
+
+--------------------------
+New approach: Change functions a little at a time. Save the original functions in commented-out form for easy restoration.
+
+First change: Switch can_transmit_frame_now function calls in error isr with software interrupts.
+
+Second change: Comment out SSP frame routing also in the CAN router (it already has the routing of incoming CAN frames commented out.) Replace with test frame transmission, first at one frame per millisecond, then with a steady stream. Each channel gets its own CAN_ID, to avoid same-ID issues.
+
+Third change: Disable all time stamps temporarily.
+
+Result so far: At 1 CAN packet per mS per bus, all seem to be working; no errors visible.
+
+Now at full CAN loading:
+
+(calling the CAN test transmit function from main also, not just from the 1 mS scheduler.)
+
+No errors here either. This should be keeping all the CAN buses as full as possible. Somewhat surprising: if there were bus loading or cable noise problems, surely they would show up at 100% bus loading. But not one blink of red yet. However, the ICR might be cleared by the code before it can show up as an error. so need to check that first. (Note: the wiring at this point is back to CAN 1 to CAN 3, and CAN 2 to CAN 4.)
+
+Next: Is there a good way to stop clearing the ICR register on CAN transmit? First, are the ICRs actually needed to clear the tx interrupts? Easily checked, and the answer is yes, they are actually doing something in the code as written. Commenting them out, as I did with the rx isrs, causes the board to crash.
+
+Adding code gradually to the original CAN tx code: Added interrupt disable for duration of CAN push function. No apparent errors. Is it doing what it's supposed to be doing? A little confusing because the function is supposed to work for all four CAN channels.
+
+Result: Yes, the interrupt was turned off for the correct channel while the function was running.
+
+Next: Add the rest of the stuff to the CAN push function and the CAN transmit_now function. Comment out the ICR reads at the start of each tx isr.
+
+Result of revised CAN tx functions:  Not so good - it has continual CAN tx interrupts. I had thought that the raw tx interrupt at the VIC level caused by tx buffer 1 becoming empty, with tx buffer 1 interrupt enable on, could then be masked by turning tx buffer 1 interrupt enable off. Not so. It would appear that instead of acting as some kind of big AND gate, the VIC raw interrupt bits are actually more of a latch. When the buffer empties, it sets the raw interrupt latch if enabled. If the tx buffer interrupt enable bit is cleared, too bad, the raw interrupt bit is already set, and can only be cleared by having filling the buffer or reading the ICR register.
+
+When using just a single transmit buffer, the easy fix is to use the VIC interrupt enable bit instead of the individual tx buffer bits. We can even use all three tx buffers from a single ring buffer with no change in function. But to use all the tx buffers, with two or more ring buffers of different priorities, as planned, requires a somewhat different design. Instead of using one ring buffer for each tx buffer, we'll need to use the three tx buffers as a group of equivalent buffers, to be filled first from the highest priority ring buffers, and then from the lower priority buffers. Basically, all three tx buffers need to be filled with data from somewhere each interrupt, or the interrupt enable has to be turned off. This is not necessarily a bad thing, since it allows all three tx buffers to be used at full capacity until all data from all ring buffers has been sent.
+
+Result of revised CAN tx functions with VIC interrupt enable/disable to control stall and empty ring buffer events, instead of TIE1: It appears to be fully functional, no errors, first with the full bus load CAN test and then with the normal SSP CAN traffic. Removing the CAN cable while on created CAN errors on all four channels, as it should; replacing it (also hot) resulted in full CAN operation resuming immediately, also as it should.
+
+Testing is still needed with the time stamps (were they somehow the cause of some of the weird errors) and with fully enabled operation of the router. (For testing the routing of packets received on the CAN bus is disabled, though they are still received at the CAN controllers and stored in the CAN receive buffer.)
+
+Test: Revised CAN tx as above, but with the timestamp packets enabled to tx buffer 3: 
+
+Result: Interesting, the errors came back on channels 1 and 3, as before, but not on 2 and 4. Just to double-check, do the errors go away again without the timestamps again? Yes. Do they come back again with the time stamps on again? Yes. Very reliable now, these errors. Perhaps they were being masked before by the ICR read?
+
+Test: Are the errors due to duplicate time stamp packets being transmitted by SSP from the main brain? Not apparently, the timestamp ID (0) is not on the transmit list. But I can check if any individual items on the main brain tx list are causing problems by process of elimination (binary). Hmm. Somehow the bug escaped while I was doing my binary search. The error stopped when I commented out all items on the tx list, but then didn't come back when I put them back in piece by piece. I also realized that the previous testing on the CAN tx functions had been done at level 0 optimization. It's reassuring to see, though, that it works pretty well (not perfectly?) at level 0 at full CAN throughput (what is supposed to be full CAN throughput, I didn't actually count frames this time.) It also seems to work fine at Level 3 optimization.
+
+Looking at the time-stamp transmission code: There are several unique features to the timestamp tx code (which I hope to eliminate soon). It's called from an FIQ isr, it uses tx buffer 3, and it uses a combination transmit and abort command which was intended to give a single-try transmission, with no retries. If I can get it to start showing errors again, I'd like to try changing that to normal transmission, which might be a better idea anyway. (The notion with the single-try tx was that too many retries would ruin the timeliness of the timestamp frame, so it was better to miss it completely and rely on the local timer to fill in the gap.) On the other hand, if an ID zero (top priority) frame doesn't get through quickly, none of the others will either. It certainly did look as if the timestamp code was causing problems.
+
+--------------------------------------------------------------------------------------------------------------------
+04-08-2010  Another bug to fix. We were getting data mixing between CAN packets, and eventually found that the can_tx functions were putting data into transmit buffer 1 without checking first whether the previous one had been sent. This was because with the new code structure such overwriting was possible, while with Tommy's original code the logic was such that no write would be attempted if the buffer was not empty. This was easily fixed, except it didn't work reliably. The CAN3 tX interrupt would eventually (after several seconds) fire and not stop, even though the code to disable it appeared to be running. I tried disabling the time stamp transmissions on buffer 3, in case something weird was happening there, but in my first test it still hung up. To make debugging more reliable I set the optimization back down to level 0, and (unfortunately) now it works, making further debugging difficult.
+
+Next test: Leave at opt 0, but turn the timestamps back on. Note: startup is now unreliable, it took three power cycles to get it to start running. Then it quit anyway (no debugger).
+
+Now for the debugger: Earlier today I moved the asched_tick function from timer 0 (IRQ) to timer 1 (FIQ); this was just to save a few processor cycles, and not that relevant to anything else. But it became much more touchy to debug also, and that may be why I now have to go to the peripherals menu and set the timer 1 int enable to zero before each startup.  So, switching back to timer 0. It seems kind of weird to have one timer doing the time stamps for the  whole system, and another doing the scheduler, but whatever. That's how all the other boards are now also.
+
+Result of moving the asched timer back to timer 0:  It does seem to run a lot more easily, though I am getting a main brain error. Possibly from the slow speed? Now to try O3 again: When first loaded, it ran with no data from main brain. When powered off and on again, it froze with all green LEDs on. When powered off and on a third time, it worked for about a minute then froze with all green LEDs on (same as in earlier testing.)
+
+Back to the debugger:
+
+Definitely easier to start the debugger now that asched doesn't use timer 1. No need to clear the Timer 1 int enable before startup. Waiting for it to freeze up again: Once again, about a minute.
+
+Ok. When I put a breakpoint in the CAN3 TX isr, the peripheral windows show that the CAN3 TX transmit buffer 1 interrupt status is 1, even though the transmit buffer is full and being sent. On the VIC, the interrupt is enabled and the raw interrupt is off. No software interrupt is active.
+
+The time delay and circumstances suggest some kind of race condition not prevented otherwise in the code. Specifically, I knew already that the TI1 will only go low if the interrupts are on while the buffer is being loaded; just the fact of filling the buffer does not, unfortunately, clear the interrupt. Or something like that.
+
+Another data point: this time the interrupt enable and the raw interrupt are on, even though the tx buffer is full.
+Next test: a trap in the transmit_now function, checking whether the interrupts are enabled prior to the send-buffer operation. They should always be on, but if they weren't somehow this might explain these errors.
+Result: No trap - the interrupts appear to be on during every buffer transmit operation.
+
+Next: Another trap - does it happen (it must) that the TI1 bit in the ICR register is not cleared during the buffer transmit? And under what circumstances? Unfortunately, reading the ICR register does clear the interrupt bits, so the behavior may be a little different afterward. But worth a try.
+
+Result: It does happen; and so far only for channel 3. Why only channel 3? What happens if channel 3 interrupts are disabled? Note that when checked at this point from the peripherals CAN window, it shows the CAN3SR with TBS1 and TCS1 set (buffer 1 available), but when I put in a test variable here it shows TS1, transmitting from the  buffer, as expected.
+
+Result: With channel 3 disabled, it does happen with other channels (e.g., 1). And I had seen it hang up before with channel 4. So...  My reluctant conclusion is that the ICR needs to be read after every transmit. How stupid. Pretty much, then, if I don't want to miss any error conditions I'll have to check for them and call the error handler from the transmit isr if they're high. Worse, the ICR bits will have to be written to one of four global variables to survive the transfer to the error handler. The only good thing about this, given that the error handlers are in place, is that the logic for the transmit becomes more flexible and allows for example a separate ring buffer for each CAN transmit buffer, if that's what we want.
+
+Result: Even with just reading the ICR for test purposes, the code no longer hangs up (as expected).
+
+Except, it still seems to not start up as reliably as it did previously.  Changes include the CAN TX stuff here, changes in the interrupt priorities, giving RX higher priority than TX CAN; and moving the sched tick from timer 0 to timer 1 and back again.
+
+sometimes when I power it up it runs apparently happily for a second or two and then the CAN lights go out, but the SSP and heartbeat lights stay on. But it hasn't done that yet in the debugger.
+
+---------------------------------------------------
+04-15-2010 Testing with the old (Tommy version) CAN TX code, we still see one or more (usually all four) CAN controllers stop working most of the time after startup. Usually immediately on power-up, sometimes a second later. However, this happens only when data is being received from the MB and being routed out to the satellites. (Fake satellites, in the case of this bench testing.)  Luckily it also happens when the debugger is running, so I am able to see from the peripherals menu that for each non-working CAN controller, the status register bits for one or more transmit buffers are in an illegal state. Specifically, TBS, TCS, and TS are all zero, which makes no sense - if no frame is being sent out from a buffer (the frame is already sent), then the buffer should be available, but it shows as unavailable.
+
+Test: write function to detect this probable error condition and reset the affected CAN controller when it occurs. Does this solve the initial lock-up problem? And does it happen all the time during normal operation? The function was called from the satellite timestamp transmit function.
+
+Result: Yes, start-up lock-up prevented. Now it starts every time, though sometimes the MB fails to start properly. Sometimes one or more of the red CAN error LEDs flash at power-up, showing that the function was activated. But there is no sign of it running except at powerup, either in debugger testing or by watching the red LEDs.
+
+Test: Is this related to the receive overrun lockup discussed in the errata sheet for the LPC2194/01? For this, I will set the acceptance filter to receive no packets, and temporarily disable the lockup fixer function.
+
+Result:  First, check that the CAN lights go out with just the unlocker function commented out. Yes, though not all of them and not all the time (better than it was recently, before some other error code fixes.) Hmm.
+
+Now with the receive turned off, by setting AFMR to 1 instead of 2. (Doublechecked in the debugger - no receive packets getting through.)  Result: the CAN controllers still lock up at startup sometimes. Unless the receive overrun lockup can happen somehow with the acceptance filter blocking everything (the errata sheet hints at that possiblity, rather confusingly and illogically), then this is not the result of a receive lockup.
+
+Test: How about sending packets to only two of the transmitters, and receiving on the other two? Which ones shut down? This should eliminate any residual doubt about the receive lockup possibility.
+
+So: Commenting out the CAN 3 and 4 timesstamps, plus all traffic to 3 and 4 in route_frame. Return AFMR to equal 2, for bypass mode instead of block mode.
+
+Result: I could not get the transmitting CAN controllers to misbehave, when they weren't receiving any data. Unfortunately, the receive traffic was not showing up on the LEDs. Time to fix this problem once and for all, by putting in count variables and getter functions.
+
+Finally got that mostly done, and the controllers on the receiving end are also not locking up. Now with the receive and transmit swapped: Still no shutdowns.
+
+Now with all of them back on, as a control (I made a number of ostensibly unrelated changes to get to this point): 
+Yes, the CAN controllers still shut down at startup on some occasions. The timing of the switching, as with the main brain, seems to affect the startup success. This implies that the larger capacitors on the PS may need to discharge longer before repowering the board, but the correct timing is not obvious if there is one. It still comes up in one of three states: normal, CAN bus errors, or MB not started correctly.
+
+Turning the CAN_UNLOck function back on, I once again get better startup reliability and an occasional red flash from the LEDs at startup, implying that it is being activated.
+
+Conclusion: there is no evidence that this lockup problem is related to the receive overrun lockup condition described in the errata sheet. Still unanswered: what conditions trigger this lockup? Can they ever happen during normal operation (not yet observed).
+
+---------------------------------------------------------
+04-20-2010
+
+Still having problems with the router, and CAN in general. It works nicely on the bench with lower CAN loading, but gives a variety of errors depending upon the conditions, code version running, and sometimes just randomly with turnon iteration. Tommy's can_rx code seems to be giving data abort errors, but only with other versions of the can_tx code. With his can_tx code, data is not transmitted reliably to the satellites. I wrote some new code to replace both the rx and tx code, and it seems to be solid. It's certainly simple enough, and also works well in bench testing. On the robot, however, the CAN controllers lock up, and no data is received or transmitted on one or more channels. However, they aren't completley locked up, as evidenced by the CAN timestamp transmissions that continue from the FIQ interrupt. Normally this would lead me to believe that there was some kind of data abort or similar problem, causing everything to stop except the FIQ interrupt routines. Not the case here, the heartbeat LED continues to blink and in debug mode I can check that the scheduler is running. As is the router, since the main brain continues to get timestamp frames from the router. And the main brain is running normally, as shown by the LabView display. But no data coming in from the satellites, and not out either. 
+
+In the peripherals menu, the vector interrupt controller window shows all of the CAN interrupts enabled and active (raw interrupt status high), and even the software interrupts are active for tx. Yet none of the isrs are running, and thus no tx or rx data is being handled. Except for the timestamps, which are sent directly from tx buffer 3 on each controller, bypassing the isr. So the CAN controllers are not completely nonfunctional; but neither is the vector interrupt controller, which is still handling the timer and SSP interrupts correctly. While the timer interrupts have higher priority than the CAN, there's no reason to think they would suddenly stop working with higher CAN load, and anyway the scheduler is still running at normal preemption level.
+
+My best theory at this point is that high receive bus loads caused CAN controller lockup, as discussed in the Errata sheet (note - call NXP at this point?). I have to explain away a couple of contrary facts, though. 1) Transmission of timestamps continues. 2) When using Tommy's tx code, this doesn't happen (as much, perhaps). 3) When I disable CAN transmission at the router, it receives mostly ok.
+
+#1 I can only explain by thinking this is a very strange partial lockup, in which the interrupts stop working. Still, isn't it the VIC's job at this point to call the isr, given that the interrupt is enabled and active? (Yes, the vectors point to the right addresses; the isrs work when either the tx or the rx are not in use.)
+
+#2 Tommy's tx code only used one tx buffer, and mostly ran at normal preemption level; perhaps that lowered the interrupt processing load enough to let the rx isr keep up.
+
+#3 Supports #2.
+
+Test:  To test the rx overrun idea, I am going to move the can tx to normal preemption level. If this looks helpful, I'll also try moving rx to FIQ, and SSP down to IRQ.
+
+Result: Much better performance; it almost "works". The UI board quit receiving and transmitting after several seconds. There are many CAN-related errors on the LabView error screen. At one power-up the SSP receive from the main brain stopped working somehow. The MCFO board stopped sending data about a minute later, and the SSP receive from the main brain stopped, giving bad SSP receive packet checksum errors. Obviously the SSP in the opposite direction is still working, since timestamps are still arriving. This implies a synchronization problem with the DMA SSP transmit on the main brain.
+
+Conclusion: Keeping up with CAN receive will prevent this lockup problem.
+
+Generally, though, we also need to increase the loop time from 1 mS to at least 2 mS, so that the bus is not so heavily loaded.
+
+New problem: Seizures. After several minutes the robot has a seizure. Great. I didn't look at LabView before I shut it off, but the mS counter said 401 and all the LEDs were blinking in sychronization, suggesting that the CSR was repeatedly resetting.
+
+A breakpoint at the reset vector confirms that the board is resetting itself. This seems fairly repeatable; it starts resetting itself in a minute or so.
+
+Test: turn off the transmit functions.
+
+Result: no resetting problem.
+
+Test: send dummy data at maximum throughput (lowest priority, though), thus bypassing the transmit buffers.
+
+Result: Resets quickly, under a minute.
+
+Test: send dummy data, but also disable the receive buffer, so the data is received and immediately discarded.
+
+Result: Still has spurious reset in several seconds.
+
+Test: Disable SSP interrupts (in addition to above CAN tx and rx tests)
+
+Result: Still has spurious reset in several seconds.
+
+Test: Disable everything else (turn off router and scheduler)
+
+Result: No reset. But - the satellites are probably not sending any CAN frames if they aren't getting a timestamp. So:
+
+Test: Turn SSP back on, leave router and scheduler off.
+
+Result:  Still no reset. But it may be that the satellites are waiting for the ready signal from the main brain to start sending data? 
+
+Test: Turn scheduler back on
+Result:  Spurious reset again. (Router off, scheduler on)
+
+Test: Remove can_unlock calls from scheduler, along with error_send_next and update_can_loading
+Result: No reset yet.
+
+Test: Put can_unlock functions back.
+Result: No reset (at least for a while)
+
+Test: Put error_send_next and update_can_loading back.
+Result: Spurious reset
+
+Test: Take them out again, and let the can_unlock functions case run for a long time.
+Result: Spurious reset - perhaps it didn't run long enough before.
+
+Test: Take out can_unlock functions.
+Result:  No spurious reset (so far, after several minutes.)
+
+Test: Put router back in, leave can_unlock functions off
+Result: No spurious reset yet, after about 10 minutes. The outer steering motor board seems to have stopped working, though.
+
+Test: PUt normal transmit and receive functionality back in.
+Result: After 15 minutes or so, still no spurious reset. But not all the CAN buses are receiving, and the outer steering motor does not seem to be receiving, or responding anyway, to the timestamp. Specifically, CAN 1 and CAN 4 rx isr are not running, while CAN 2 and 3 are.
+
+Conclusion: the CAN unlock function can cause MCU resets when combined with heavy CAN traffic. Do not use. Not necessary, anyway, if we don't use an interrupt-based CAN transmit function.
+
+Test: Are CAN 1 and CAN 4 not receiving because there aren't any incoming packets, or because their interrupts are locked up?  If interrupts are not locked up, probably no packets ... Note that, as before, most or all of the timestamps appear to be going out.
+
+Result: CAN 1 and 4 have no raw interrupt activity, but 2 and 3 do. I.e., they are not receiving packets.
+
+Test: Reset the CSR and start it again, without power-cycling the other boards (luckily the debugger is working so well now with the CSR board)
+
+Result: The same CAN buses are working, the same ones are not working.
+
+conclusion: The satellites are not sending data (assuming an MCU reset should reset its own CAN controllers, and that a power cycle is not necessary.) Unfortunately I can't power-cycle the cSR by itself, because it has on it the main system power supply.
+
+Test: Go back to interrupt-driven tx. Does the weird interrupt behavior return?
+Result: Yes, no CAN packets being received or transmitted, except for the timestamps. All CAN interrupts active and enabled, but not running their isrs.
+
+Test: Go back to the code that was generating data aborts, apparently from the can_ring rx code. First check if the data aborts still happen.
+Result: No, the MCU has spurious resets instead. The code is almost identical, but likely not exactly. I can't think of anything specific that was changed, but maybe some new CAN IDs were added?
+
+Test: Try removing the can_unlock function calls.
+Result: The spurious resets seem to have stopped.
+----------------------------------
+4-20-2010 Overall conclusions from the above batch of debugging:
+
+1) There may be a pointer/index problem in Tommy's can_rx code, but more likely it was an artifact of the can_unlock glitches. Something that causes spurious resets in one test situation could plausibly cause data aborts in another. 
+
+2) As above, the can_unlock code can cause crashes when CAN traffic is high. Don't use, convert to non-isr tx if it locks up. Note that the "evil" can_unlock code does only two things: it reads the CAN status register to look for an anomalous bit pattern in the transmit buffer flags, and if found puts the CAN controller briefly into reset mode, then back to normal mode. That an MCU reset occurs due to this is either because doing so with high traffic levels/overclocked CAN speed is outside the design parameters of the controllers, or because they need some finite time to finish their reset properly. Here I pretty much put the controller into reset in one line and return it to normal operation in the second.
+
+*** An important point to note here is that the can_error_isr also does this fast little reset of the CAN controller, and therefore may be a source of crashes.
+
+3) Weird CAN-interrupt lockup occurs when tx interrupts compete for time with rx interrupts. This strongly suggests data overrun lockup, as per the errata sheet. Putting the transmit code down into normal preemption level operation seemed to solve the problem for now with the CSR; a more extreme solution would be to let the CAN have the FIQ and use the IRQ for the SSP. The SSP needs to move data faster, but the CAN has a smaller FIFO buffer.
+
+Test: Moved CAN rx code to FIQ on the CSR module. No apparent complaints from the SSP code, and the CAN seems to be working better, with all boards starting up properly. There might or might not be a slight advantage to moving the SSP code to vectored IRQ.
+
+------------------------------------------
+04-24-2010 Now trying with an example motor controller board (MCH). Initial tries to directly port the code over resulted in weird controller lockups (apparently a new one) in which the controller stops paying attention to incoming packets, but continues to transmit.
+
+Now for a more thorough debugging effort:
+
+Test: Standard (Tommy's) receive and transmit code (the control).
+Result: Apparently normal operation. (Apparently, because if we had reliable CAN receive we would not need to be changing this. Other boards (generally not the hip) sporadically lose CAN reception.
+
+Test: Standard (Tommy's) receive and transmit code, but now moved to FIQ. This involved copying the rx isr functions, making them non-isr, removing the VICVectAddr = 0 line, disabling the IRQ CAN RX interrupts, enabling FIQ CAN RX interrupts, and putting lines into the FIQ_Handler to call the new rx functions.
+Result: A brief blink of the blue LED, then nothing. Not tested (other people need to use the robot), but assumed based on yesterday's testing to be RX lockup of some kind.
+
+Test: Use the receive code from the CSR board, adapted for use on a satellite board. But run the rx in IRQ mode, not FIQ. Specifically: New CAN rx buffer, new ISR functions (converted to IRQ from FIQ), can_rx_all called in the scheduler.
+Result: Seemed to be working ok at first, but then worked intermittently - occasionally receiving data, occasionally not.
+
+Test: Go back to standard receive code. Use the transmit code from the CSR board, adapted for use on a satellite board. Run in normal preemption mode, not interrupt.
+Result: Now it works even less.
+
+Test: Go back to standard code. Three changes: turn on CAN 2 rx and tx, along with CAN 1; turn off can_unlock; add data abort blinking red LED.Result: The same, still doesn't work.
+
+Test: Remove data abort code
+Result:  Still doesn't work.
+
+Test: Go back to standard code from SVN, but remove can_unlock from the scheduler.
+Result: It works.
+
+Test: Change to easier-to-understand FIQ_Handler (sorry Nic), first with just Timer0.
+Result: It works (apparently)
+
+At this point some of my test log was lost due to a computer shutdown. But basically I tried a slower CAN speed on CAN bus 1 only (1Mbps), which is just the hip controller and the corresponding channel of the router, and had intermittent receive outages at the hip controller. I then disabled CAN routing from the MB to CAN1, same result. Then I disabled all CAN transmit except maybe errors from the hip controller. Same result. Then I changed the speed to 2 Mbps. Same result. Then back to the normal 3 Mbps. Same result. Then I turned all the data back on, so the code should have been identical to what I started with. Same result! Then I tried my backup code, which was supposed to not change during my testing. Same result also, intermittent loss of CAN receive (or maybe router transmit, but that is unlikely.). Finally I updated from SVN and discovered to my dismay that the version on SVN did not compile, and went home.
+
+--------------------------------------------------------------------------------------------
+04-26-2010
+
+Now putting a local branch of the LPC2XXX modules inside the source folder of each board project, to avoid the incredibly frustrating situation above in which no single version level of SVN has a working board project. I am copying the files over from the lab computer via flash drive, to maximize the chance of having a working project to restart my testing with.
+
+Looking at the modules, I see the following changes between what was on SVN and what was on the lab computer:
+1) Some changes to adc internal (it didn't compile before due to changes in adc_internal).
+2) -- Added FIQ, dispatch_all, and dispatch_chan prototypes to can.h
+   -- Changes to can_isr.c, but they mostly look like they were reversed later. Possibly not the same regarding packet counting.
+   -- can_rx.c: Commented out rtr_subscribe function?
+3) heartbeat.c: just comment changes?
+4) qec.c: just comment changes?
+
+Now to see if the hip project \current compiles and functions from SVN as it did from the lab computer.
+
+No, it doesn't. The .h version of adci add_filter has an int in its parameters, while the .c version has a short. Since the number can be left-shifted up to 16 bits, it seems like it should be an int...
+
+Also, software setup has can_tx_now, which is not to be found in the module files.
+
+Back to the lab computer...
+
+Ok, it appears that a file called can.c (in the in_progress folder, not mod_can) is being used instead of can_tx. Fixing this also, it now compiles. Does it work?
+
+Result: Yes, seems so. No apparent missed timestamp packets on three successive power-ups, counting 100 heartbeat pulses each time.
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+

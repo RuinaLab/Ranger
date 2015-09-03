@@ -1,0 +1,103 @@
+### uVision2 Project, (C) Keil Software
+### Do not modify !
+
+ cExt (*.c)
+ aExt (*.s*; *.src; *.a*)
+ oExt (*.obj)
+ lExt (*.lib)
+ tExt (*.txt; *.h; *.inc)
+ pExt (*.plm)
+ CppX (*.cpp)
+ DaveTm { 0,0,0,0,0,0,0,0 }
+
+Target (Simulator), 0x0004 // Tools: 'ARM-ADS'
+Target (LPC2194/01), 0x0004 // Tools: 'ARM-ADS'
+Target (MCB2100 RAM), 0x0004 // Tools: 'ARM-ADS'
+GRPOPT 1,(Startup Code),1,0,0
+GRPOPT 2,(Board Code),1,0,0
+GRPOPT 3,(Module Code),1,0,0
+
+OPTFFF 1,1,2,50331648,0,157,178,0,<.\src\Startup.s><Startup.s> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,66,0,0,0,87,0,0,0,69,5,0,0,51,2,0,0 }
+OPTFFF 1,2,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\Code_Modules_LPC2194_01\Retarget.c><Retarget.c> 
+OPTFFF 2,3,1,0,0,1,1,0,<.\src\main.c><main.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,44,0,0,0,58,0,0,0,47,5,0,0,22,2,0,0 }
+OPTFFF 2,4,1,268435456,0,71,71,0,<.\src\hardware_setup.c><hardware_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,22,0,0,0,29,0,0,0,25,5,0,0,249,1,0,0 }
+OPTFFF 2,5,1,0,0,1,1,0,<.\src\software_setup.c><software_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,0,0,0,0,0,0,0,0,255,4,0,0,218,1,0,0 }
+OPTFFF 3,6,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_uart\UART.c><UART.c> 
+OPTFFF 3,7,1,2,0,1,1,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_heartbeat\heartbeat.c><heartbeat.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,88,0,0,0,88,0,0,0,2,3,0,0,25,2,0,0 }
+OPTFFF 3,8,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_scheduler\scheduler.c><scheduler.c> 
+OPTFFF 3,9,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_tic_toc\tic_toc.c><tic_toc.c> 
+OPTFFF 3,10,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can_isr.c><can_isr.c> 
+OPTFFF 3,11,1,872415232,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can_rx.c><can_rx.c> 
+OPTFFF 3,12,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can_tx.c><can_tx.c> 
+OPTFFF 3,13,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can_types.c><can_types.c> 
+OPTFFF 3,14,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can_ring.c><can_ring.c> 
+OPTFFF 3,15,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_uart_int\uart_int.c><uart_int.c> 
+OPTFFF 3,16,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_error\error.c><error.c> 
+
+
+TARGOPT 1, (Simulator)
+ ADSCLK=12000000
+  OPTTT 0,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 79,66,8,<.\Flash\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 1,0,0
+  OPTAX 0
+  OPTDL (SARM.DLL)(-cLPC2100)(DARMP.DLL)(-pLPC2194/01)(SARM.DLL)()(TARMP.DLL)(-pLPC2194/01)
+  OPTDBG 45053,0,()()()()()()()()()() (BIN\UL2ARM.DLL)()()()
+  OPTDF 0x0
+  OPTLE <>
+  OPTLC <>
+EndOpt
+
+TARGOPT 2, (LPC2194/01)
+ ADSCLK=10000000
+  OPTTT 1,0,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 79,66,8,<.\Flash\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 1,0,1
+  OPTAX 8
+  OPTBL 0,(Data Sheet)<DATASHTS\PHILIPS\LPC2194.PDF>
+  OPTBL 1,(User Manual)<DATASHTS\PHILIPS\user_manual_lpc2119_2129_2194_2292_2294.PDF>
+  OPTDL (SARM.DLL)(-cLPC2100)(DARMP.DLL)(-pLPC2194/01)(SARM.DLL)()(TARMP.DLL)(-pLPC2194/01)
+  OPTDBG 49142,0,()()()()()()()()()() (BIN\UL2ARM.DLL)()()()
+  OPTKEY 0,(DLGDARM)((134=-1,-1,-1,-1,0)(135=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0)(108=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(105=-1,-1,-1,-1,0)(147=-1,-1,-1,-1,0)(80=1175,30,1676,433,0)(104=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(101=-1,-1,-1,-1,0)(160=565,537,1153,735,0)(161=-1,-1,-1,-1,0)(113=-1,-1,-1,-1,0)(112=-1,-1,-1,-1,0)(136=-1,-1,-1,-1,0)(117=-1,-1,-1,-1,0)(118=-1,-1,-1,-1,0)(146=332,528,638,952,0)(110=768,389,1284,886,0)(111=882,485,1398,982,0)(114=-1,-1,-1,-1,0)(119=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(132=-1,-1,-1,-1,0)(115=-1,-1,-1,-1,0)(116=-1,-1,-1,-1,0))
+  OPTKEY 0,(UL2ARM)(-UV0157LAE -O47 -S0 -C0 -N00("ARM7TDMI-S Core") -D00(4F1F0F0F) -L00(4) -FO15 -FD40000000 -FC800 -FN1 -FF0LPC_IAP_256 -FS00 -FL03E000)
+  OPTKEY 0,(DLGTARM)((134=-1,-1,-1,-1,0)(135=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0)(108=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(105=122,153,464,390,0)(147=-1,-1,-1,-1,0)(80=378,270,879,673,0)(104=838,125,1144,537,0)(100=476,355,1049,507,0)(101=-1,-1,-1,-1,0)(160=653,528,1241,703,0)(161=-1,-1,-1,-1,0)(113=-1,-1,-1,-1,0)(112=-1,-1,-1,-1,0)(136=-1,-1,-1,-1,0)(117=-1,-1,-1,-1,0)(118=403,242,673,632,0)(146=719,235,1025,659,0)(110=-1,-1,-1,-1,0)(111=75,479,591,960,0)(114=-1,-1,-1,-1,0)(119=280,209,712,706,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(121=385,308,1081,789,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(115=-1,-1,-1,-1,0)(116=-1,-1,-1,-1,0))
+  OPTKEY 0,(ARMDBGFLAGS)(-T5F)
+  OPTKEY 0,(JLTDLG)()
+  OPTKEY 0,(JLTAgdi)(-O526 -J1 -Y1000 -Z0 -FO7 -FD40000000 -FC800 -FN0)
+  OPTMM 1,0,(0xe005c000)
+  OPTDF 0x84
+  OPTLE <>
+  OPTLC <>
+EndOpt
+
+TARGOPT 3, (MCB2100 RAM)
+ ADSCLK=10000000
+  OPTTT 1,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 79,66,8,<.\RAM\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 1,0,0
+  OPTAX 0
+  OPTDL (SARM.DLL)(-cLPC2100)(DARMP.DLL)(-pLPC2194/01)(SARM.DLL)()(TARMP.DLL)(-pLPC2194/01)
+  OPTDBG 43510,0,()()()()()()()()()(.\RAM.ini) (BIN\UL2ARM.DLL)()()()
+  OPTKEY 0,(UL2ARM)(-UV05410UA -O15 -S0 -C0 -N00("ARM7TDMI-S Core") -D00(4F1F0F0F) -L00(4) -FO7 -FD40000000 -FC800 -FN0)
+  OPTKEY 0,(DLGTARM)((134=-1,-1,-1,-1,0)(135=-1,-1,-1,-1,0)(107=-1,-1,-1,-1,0)(108=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(105=-1,-1,-1,-1,0)(147=-1,-1,-1,-1,0)(80=-1,-1,-1,-1,0)(104=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(101=-1,-1,-1,-1,0)(160=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(113=-1,-1,-1,-1,0)(112=-1,-1,-1,-1,0)(136=-1,-1,-1,-1,0)(117=-1,-1,-1,-1,0)(118=-1,-1,-1,-1,0)(146=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=-1,-1,-1,-1,0)(114=-1,-1,-1,-1,0)(119=-1,-1,-1,-1,0)(130=-1,-1,-1,-1,0)(131=-1,-1,-1,-1,0)(121=-1,-1,-1,-1,0)(122=-1,-1,-1,-1,0)(123=-1,-1,-1,-1,0)(124=-1,-1,-1,-1,0)(115=-1,-1,-1,-1,0)(116=-1,-1,-1,-1,0))
+  OPTKEY 0,(ARMDBGFLAGS)()
+  OPTKEY 0,(JLTAgdi)(-O526 -J1 -Y1000 -Z0 -FO7 -FD40000000 -FC800 -FN0)
+  OPTKEY 0,(JLTDLG)()
+  OPTMM 1,0,(0xe005c000)
+  OPTDF 0x84
+  OPTLE <>
+  OPTLC <>
+EndOpt
+

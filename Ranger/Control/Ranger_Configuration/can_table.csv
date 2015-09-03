@@ -1,6 +1,4 @@
 # All lines beginning with '#' are commented out (ignored) by the parser.,,,,
-# Note: Do not use commas in uncommented cells!!!,,,,
-#,,,,
 # Multiple Boards are separated with ';',,,,
 # You can use the board acronyms or numbers for Source/Dest Numbers,,,,
 # Board Acronyms & Numbers are from the board_table.csv,,,,
@@ -8,7 +6,7 @@
 # To add a new transmit id (MB to satellite) change one of the EMPTY_TX ids to the desired name.,,,,
 #,,,,
 # ID Name (All UPPERCASE!),Default Val,Source Num,Dest Num(s),Comment
-TIMESTAMP,0,2,1,Timestamp // time since turning on of the robot in milliseconds
+TIMESTAMP,0,2,1,Timestamp
 #Errors,,,,
 ERROR_MB,0,1,0,
 ERROR_CSR,0,2,1,
@@ -20,157 +18,157 @@ ERROR_MCSI,0,7,1,
 ERROR_UI,0,8,1,
 MB_STATUS,0,1,3;4;5;6;7;8;9,
 #Hip MC,,,,
-MCH_MOTOR_VELOCITY,0,3,1,angular rate (rad/sec) of hip motor
-MCH_MOTOR_CURRENT,0,3,1,hip motor current
-MCH_MOTOR_POSITION,0,3,1,angle in radians of the hip motor
+MCH_MOTOR_VELOCITY,0,3,1,
+MCH_MOTOR_CURRENT,0,3,1,
+MCH_MOTOR_POSITION,0,3,1,
 MCH_MOTOR_TARGET_CURRENT,0,1,3,
-MCH_ANGLE,0,3,1,angle in radians of the hip joint (difference between this and the hip motor angle is the gear back lash)
-MCH_BATT_POWER,0,3,1,power consumed by the hip board. 
-MCH_SHUTDOWN,0,1,3,1 = turn off the hip motor
+MCH_ANGLE,0,3,1,
+MCH_BATT_POWER,0,3,1,
+MCH_SHUTDOWN,0,1,3,
 MCH_SLEEP,0,1,3,
-MCH_COMMAND_CURRENT,0,1,3,desired current to the hip motor = ID_MCH_COMMAND_CURRENT+ ID_MCH_STIFFNESS*hip_angle + ID_MCH_DAMPNESS*hip_angle_rate 
-MCH_STIFFNESS,0,1,3,see above (ID_MCH_COMMAND_CURRENT)
-MCH_DAMPNESS,0,1,3,see above (ID_MCH_COMMAND_CURRENT)
-MCH_ANG_RATE,0,3,1,slightly filtered derivative of ID_MCH_ANGLE
+MCH_COMMAND_CURRENT,0,1,3,
+MCH_STIFFNESS,0,1,3,
+MCH_DAMPNESS,0,1,3,
+MCH_ANG_RATE,0,3,1,
 MCH_STATUS,0,3,1,
-MCH_EXECUTION_TIME,0,3,1,time taken to execute all the functions in one row of the scheduler (software_setup.c in hip board) ( should be less than the tick time of the board; eg 0.5 ms for hip motor board)
-MCH_MAX_EXECUTION_TIME,0,3,1,maximum recorded value of the ID_MCH_EXECUTION_TIME since the start of the robot
+MCH_EXECUTION_TIME,0,3,1,
+MCH_MAX_EXECUTION_TIME,0,3,1,
 MCH_EMPTY_TX1,0,1,3,
 MCH_EMPTY_TX2,0,1,3,
-MCH_BATT_CURRENT,0,3,1,current in the hip board
+MCH_BATT_CURRENT,0,3,1,
 MCH_BATT_VOLTAGE,0,3,1,
 MCH_HBRIDGE_TEMP,0,3,1,
 MCH_EMPTY_RX1,0,3,1,
 MCH_EMPTY_RX2,0,3,1,
 MCH_EMPTY_RX3,0,3,1,
 #Outer Foot MC,,,,
-MCFO_MOTOR_POSITION,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_MOTOR_VELOCITY,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_MOTOR_CURRENT,0,4,1,can_id for Outer Feet board-- check similar can_id; starting with MCH
-MCFO_MOTOR_TARGET_CURRENT,0,1,4,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_RIGHT_ANKLE_ANGLE,0,4,1,ankle joint angle in radians (zero when foot is turned all the way up)
-MCFO_RIGHT_LS,0,4,1,1 = right foot is turned all the way up
-MCFO_LEFT_LS,0,4,1,1 = left foot is turned all the way up
-MCFO_RIGHT_HS,0,4,1,1 = right foot is touching the ground; 0= foot in air
-MCFO_LEFT_HS,0,4,1,1 = left foot is touching the ground; 0= foot in air
-MCFO_SHUTDOWN,0,1,4,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_SLEEP,0,1,4,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_BATT_POWER,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_COMMAND_CURRENT,0,1,4,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_STIFFNESS,0,1,4,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_DAMPNESS,0,1,4,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_STATUS,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_LEFT_HEEL_SENSE,0,4,1,analog value from foot contact sensor (high when foot is touching the ground; low when foot is in air)
-MCFO_RIGHT_HEEL_SENSE,0,4,1,analog value from foot contact sensor (high when foot is touching the ground; low when foot is in air) 
-MCFO_EXECUTION_TIME,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_MAX_EXECUTION_TIME,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_HS_STATE,0,1,4,??? HS means heel strike
+MCFO_MOTOR_POSITION,0,4,1,
+MCFO_MOTOR_VELOCITY,0,4,1,
+MCFO_MOTOR_CURRENT,0,4,1,
+MCFO_MOTOR_TARGET_CURRENT,0,1,4,
+MCFO_RIGHT_ANKLE_ANGLE,0,4,1,
+MCFO_RIGHT_LS,0,4,1,
+MCFO_LEFT_LS,0,4,1,
+MCFO_RIGHT_HS,0,4,1,
+MCFO_LEFT_HS,0,4,1,
+MCFO_SHUTDOWN,0,1,4,
+MCFO_SLEEP,0,1,4,
+MCFO_BATT_POWER,0,4,1,
+MCFO_COMMAND_CURRENT,0,1,4,
+MCFO_STIFFNESS,0,1,4,
+MCFO_DAMPNESS,0,1,4,
+MCFO_STATUS,0,4,1,
+MCFO_LEFT_HEEL_SENSE,0,4,1,
+MCFO_RIGHT_HEEL_SENSE,0,4,1,
+MCFO_EXECUTION_TIME,0,4,1,
+MCFO_MAX_EXECUTION_TIME,0,4,1,
+MCFO_HS_STATE,0,1,4,
 MCFO_EMPTY_TX2,0,1,4,
-MCFO_BATT_CURRENT,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_BATT_VOLTAGE,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_HBRIDGE_TEMP,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
-MCFO_OUTER_HS,0,4,1,??? HS means heel strike
-MCFO_RIGHT_ANKLE_RATE,0,4,1,slightly filtered derivative of the ID_MCFO_RIGHT_ANKLE_ANGLE
+MCFO_BATT_CURRENT,0,4,1,
+MCFO_BATT_VOLTAGE,0,4,1,
+MCFO_HBRIDGE_TEMP,0,4,1,
+MCFO_OUTER_HS,0,4,1,
+MCFO_RIGHT_ANKLE_RATE,0,4,1,
 MCFO_EMPTY_RX3,0,4,1,
 #Inner Foot MC,,,,
-MCFI_MOTOR_VELOCITY,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_MOTOR_CURRENT,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_MOTOR_POSITION,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_MOTOR_TARGET_CURRENT,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_MID_ANKLE_ANGLE,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
-MCFI_RIGHT_LS,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
-MCFI_LEFT_LS,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
-MCFI_RIGHT_HS,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
-MCFI_LEFT_HS,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
-MCFI_BATT_POWER,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_SHUTDOWN,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_SLEEP,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_COMMAND_CURRENT,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_STIFFNESS,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_DAMPNESS,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_STATUS,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_LEFT_HEEL_SENSE,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
-MCFI_RIGHT_HEEL_SENSE,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
-MCFI_EXECUTION_TIME,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_MAX_EXECUTION_TIME,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_HS_STATE,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCFO
+MCFI_MOTOR_VELOCITY,0,5,1,
+MCFI_MOTOR_CURRENT,0,5,1,
+MCFI_MOTOR_POSITION,0,5,1,
+MCFI_MOTOR_TARGET_CURRENT,0,1,5,
+MCFI_MID_ANKLE_ANGLE,0,5,1,
+MCFI_RIGHT_LS,0,5,1,
+MCFI_LEFT_LS,0,5,1,
+MCFI_RIGHT_HS,0,5,1,
+MCFI_LEFT_HS,0,5,1,
+MCFI_BATT_POWER,0,5,1,
+MCFI_SHUTDOWN,0,1,5,
+MCFI_SLEEP,0,1,5,
+MCFI_COMMAND_CURRENT,0,1,5,
+MCFI_STIFFNESS,0,1,5,
+MCFI_DAMPNESS,0,1,5,
+MCFI_STATUS,0,5,1,
+MCFI_LEFT_HEEL_SENSE,0,5,1,
+MCFI_RIGHT_HEEL_SENSE,0,5,1,
+MCFI_EXECUTION_TIME,0,5,1,
+MCFI_MAX_EXECUTION_TIME,0,5,1,
+MCFI_HS_STATE,0,1,5,
 MCFI_EMPTY_TX2,0,1,5,
-MCFI_BATT_CURRENT,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_BATT_VOLTAGE,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_HBRIDGE_TEMP,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
-MCFI_INNER_HS,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
-MCFI_ANKLE_RATE,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
+MCFI_BATT_CURRENT,0,5,1,
+MCFI_BATT_VOLTAGE,0,5,1,
+MCFI_HBRIDGE_TEMP,0,5,1,
+MCFI_INNER_HS,0,5,1,
+MCFI_ANKLE_RATE,0,5,1,
 MCFI_EMPTY_RX3,0,5,1,
 #COL color sensor board,,,,
-COL_STATUS,0,9,1,IDs for the currently non existent color sensing; camera board tried on Ranger in 2010
-COL_FRONT_WHITE,0,9,1,see above
-COL_FRONT_RED,0,9,1,see above
-COL_FRONT_GREEN,0,9,1,see above
-COL_FRONT_BLUE,0,9,1,see above
-COL_EXECUTION_TIME,0,9,1,see above
-COL_MAX_EXECUTION_TIME,0,9,1,see above
-ERROR_COL,0,9,1,see above
-COL_EMPTY2,0,9,1,see above
-COL_EMPTY3,0,9,1,see above
+COL_STATUS,0,9,1,
+COL_FRONT_WHITE,0,9,1,
+COL_FRONT_RED,0,9,1,
+COL_FRONT_GREEN,0,9,1,
+COL_FRONT_BLUE,0,9,1,
+COL_EXECUTION_TIME,0,9,1,
+COL_MAX_EXECUTION_TIME,0,9,1,
+ERROR_COL,0,9,1,
+COL_EMPTY2,0,9,1,
+COL_EMPTY3,0,9,1,
 #Outer (Old) Steering MC,,,,
-MCSO_LEFT_ANKLE_ANGLE,0,6,1;4,IDs for the currently non existent outer steering motor controller board tried on ranger before 2010
-MCSO_LEFT_ANKLE_RATE,0,6,1,see above
-MCSO_EMPTY_TX1,0,1,6,see above
-MCSO_EMPTY_TX2,0,1,6,see above
-MCSO_STATUS,0,6,1,see above
-MCSO_COLOR_BACK_WHITE,0,6,1,see above
-MCSO_COLOR_BACK_RED,0,6,1,see above
-MCSO_COLOR_BACK_GREEN,0,6,1,see above
-MCSO_COLOR_BACK_BLUE,0,6,1,see above
-MCSO_EXECUTION_TIME,0,6,1,see above
-MCSO_MAX_EXECUTION_TIME,0,6,1,see above
+MCSO_LEFT_ANKLE_ANGLE,0,6,1;4,
+MCSO_LEFT_ANKLE_RATE,0,6,1,
+MCSO_EMPTY_TX1,0,1,6,
+MCSO_EMPTY_TX2,0,1,6,
+MCSO_STATUS,0,6,1,
+MCSO_COLOR_BACK_WHITE,0,6,1,
+MCSO_COLOR_BACK_RED,0,6,1,
+MCSO_COLOR_BACK_GREEN,0,6,1,
+MCSO_COLOR_BACK_BLUE,0,6,1,
+MCSO_EXECUTION_TIME,0,6,1,
+MCSO_MAX_EXECUTION_TIME,0,6,1,
 #Inner (New) Steering MC,,,,
-MCSI_MOTOR_CURRENT,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
-MCSI_MOTOR_TARGET_CURRENT,0,1,7,can_id for steering board -- check similar can_id; starting with MCH
-MCSI_STEER_ANGLE,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
-MCSI_BATT_POWER,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
-MCSI_SHUTDOWN,0,1,7,can_id for steering board -- check similar can_id; starting with MCH
-MCSI_SLEEP,0,1,7,can_id for steering board -- check similar can_id; starting with MCH
-MCSI_COMMAND_ANG,0,1,7,steering angle commanded to the steering board
-MCSI_PROP_COEFF,0,1,7,(march 2013) position coefficient in the PI controller currently used for low-level steering (in the Steering board)
-MCSI_INT_COEFF,0,1,7,(march 2013) integral coefficient in the PI controller currently used for low-level steering (in the Steering board)
-MCSI_STATUS,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
-MCSI_EXECUTION_TIME,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
-MCSI_MAX_EXECUTION_TIME,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
+MCSI_MOTOR_CURRENT,0,7,1,
+MCSI_MOTOR_TARGET_CURRENT,0,1,7,
+MCSI_STEER_ANGLE,0,7,1,
+MCSI_BATT_POWER,0,7,1,
+MCSI_SHUTDOWN,0,1,7,
+MCSI_SLEEP,0,1,7,
+MCSI_COMMAND_CURRENT,0,1,7,
+MCSI_STIFFNESS,0,1,7,
+MCSI_DAMPNESS,0,1,7,
+MCSI_STATUS,0,7,1,
+MCSI_EXECUTION_TIME,0,7,1,
+MCSI_MAX_EXECUTION_TIME,0,7,1,
 MCSI_EMPTY_TX1,0,1,7,
 MCSI_EMPTY_TX2,0,1,7,
-MCSI_BATT_CURRENT,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
-MCSI_BATT_VOLTAGE,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
-MCSI_HBRIDGE_TEMP,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
+MCSI_BATT_CURRENT,0,7,1,
+MCSI_BATT_VOLTAGE,0,7,1,
+MCSI_HBRIDGE_TEMP,0,7,1,
 MCSI_EMPTY_RX1,0,7,1,
 MCSI_EMPTY_RX2,0,7,1,
 MCSI_EMPTY_RX3,0,7,1,
 #User Interface,,,,
-UI_SET_LCD_QUAD_1,0,1,8,data displayed in the 1st quadrant of the LCD display ????
+UI_SET_LCD_QUAD_1,0,1,8,
 UI_SET_LCD_QUAD_2,0,1,8,
 UI_SET_LCD_QUAD_3,0,1,8,
 UI_SET_LCD_QUAD_4,0,1,8,
-UI_SET_LED_1,0,1,8,ids for the LEDs in the UI board. 
+UI_SET_LED_1,0,1,8,
 UI_SET_LED_2,0,1,8,
 UI_SET_LED_3,0,1,8,
 UI_SET_LED_4,0,1,8,
 UI_SET_LED_5,0,1,8,
 UI_SET_LED_6,0,1,8,
-UI_SET_BUZZER_FREQ,0,1,8,produces the sound! (used to play alma mater)
-UI_SET_BUZZER_AMPL,0,1,8,produces the sound! (used to play alma mater)
-UI_ROLL,0,8,1,(euler angle from imu) for-aft angle of the robot from gravity vector
-UI_PITCH,0,8,1,(euler angle from imu)
-UI_YAW,0,8,1,(euler angle from imu)
-UI_ANG_RATE_X,0,8,1,angular velocity in rad/sec (for-aft) from imu  (see the axes marked on the imu)
-UI_ANG_RATE_Y,0,8,1,imu angle rate (not exactly equal to thederivative of ID_UI_PITCH)
-UI_ANG_RATE_Z,0,8,1,imu rangle rate
+UI_SET_BUZZER_FREQ,0,1,8,
+UI_SET_BUZZER_AMPL,0,1,8,
+UI_ROLL,0,8,1,
+UI_PITCH,0,8,1,
+UI_YAW,0,8,1,
+UI_ANG_RATE_X,0,8,1,
+UI_ANG_RATE_Y,0,8,1,
+UI_ANG_RATE_Z,0,8,1,
 UI_BUTTONS,0,8,1,
-UI_RC_0,0,8,1,most left i/o pin on the UI board (used for steering command from RC; right joystick)
-UI_RC_1,0,8,1,(used to receive signal from RC; left joystick)
-UI_RC_2,0,8,1,(used to receive signal from RC; signal coming from a knob on the right of RC transmitter; used to switch between the camera and the RC)
-UI_RC_3,0,8,1,most right i/o pin on the UI board; camera gives its output here. 
-UI_EXECUTION_TIME,0,8,1,can_id for the UI board -- check similar can_id; starting with MCH
-UI_MAX_EXECUTION_TIME,0,8,1,can_id for the UI board -- check similar can_id; starting with MCH
+UI_RC_0,0,8,1,
+UI_RC_1,0,8,1,
+UI_RC_2,0,8,1,
+UI_RC_3,0,8,1,
+UI_EXECUTION_TIME,0,8,1,
+UI_MAX_EXECUTION_TIME,0,8,1,
 UI_AUDIO,0,1,8,
 UI_EMPTY_TX2,0,1,8,
 UI_STATUS,0,8,1,
