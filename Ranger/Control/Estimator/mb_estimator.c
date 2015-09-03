@@ -19,15 +19,15 @@ typedef struct {
 	float y0; // Estimate at time k
 	float y1; // Estimate at time k-1
 	float y2; // Estimate at time k-2
-	unsigned long t0; // time k
+	CAN_ID canId; // CAN ID for the sensor
 } FilterData;
 
 /* Global variables */
 bool INITIALIZE_ESTIMATOR = true;   // Should the estimator be initialized?
 
 /* Filter cut-off frequencies */
-static const float FILTER_CUTOFF_FAST = 0.002 * 30; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
-static const float FILTER_CUTOFF_SLOW = 0.002 * 10; // (2*period in sec)*(cutoff frequency in Hz) -- Used by foot contact sensors
+static const float FILTER_CUTOFF_FAST = 0.004 * 30; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
+static const float FILTER_CUTOFF_SLOW = 0.004 * 10; // (2*period in sec)*(cutoff frequency in Hz) -- Used by foot contact sensors
 
 /* Local constant parameters */
 static const float GYRO_RATE_BIAS = -0.009324229372422;  // Measured August 29, 2015. Should be checked monthly.
@@ -42,7 +42,7 @@ static FilterCoeff FC_SLOW;  // For contact sensors
 static FilterData FD_OUTER_LEG_ANGLE; // absolute angle of the outer legs
 static FilterData FD_UI_ANG_RATE_X;  // stance leg angular rate
 static FilterData FD_MCH_ANG_RATE;  // hip angle rate
-static FilterData FD_MCFO_RIGHT_ANKLE_RATE ;  // outer ankle rate
+static FilterData FD_MCFO_RIGHT_ANKLE_RATE;  // outer ankle rate
 static FilterData FD_MCFI_ANKLE_RATE;  // inner ankle rate
 
 /* Butterworth filters on contact sensors */
@@ -70,7 +70,7 @@ float LABVIEW_WALK_HIP_OFFSET;  //How much the swing leg should lead the stance 
 float LABVIEW_WALK_ANK_PUSH; // magnitude of the push-off during walking  normalized to be on the range 0 to 1
 float LABVIEW_WALK_CRIT_STANCE_ANGLE; // the critical stance leg angle when push-off should occur
 float LABVIEW_WALK_HIP_STEP_ANGLE; //	Target angle for the hip to reach by the end of the step
-float LABVIEW_WALK_SCISSOR_GAIN;  
+float LABVIEW_WALK_SCISSOR_GAIN;
 float LABVIEW_WALK_SCISSOR_OFFSET;
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
@@ -96,7 +96,6 @@ ContactMode STATE_contactMode = CONTACT_FL;
 
 /* Initializes the filter to a single value. */
 void setFilterData(FilterData * FD, CAN_ID canId) {
-	unsigned long t = mb_io_get_time(canId);  // Time stamp on data
 	float z = mb_io_get_float(canId);  // Value of the data
 	FD->z0 = z;
 	FD->z1 = z;
@@ -104,7 +103,7 @@ void setFilterData(FilterData * FD, CAN_ID canId) {
 	FD->y0 = z;
 	FD->y1 = z;
 	FD->y2 = z;
-	FD->t0 = t;
+	FD->canId = canId;
 }
 
 /* Updates the Butterworth filter based on new sensor data. The filter runs
@@ -112,44 +111,25 @@ void setFilterData(FilterData * FD, CAN_ID canId) {
  * @param canId = the CAN ID for the data channel of interest
  * @return y = the filtered data at the current time step
  */
-float runFilter(FilterCoeff * FC, FilterData * FD, CAN_ID canId) {
+float runFilter(FilterCoeff * FC, FilterData * FD) {
 
-	unsigned long t;  // Time stamp on data
-	float z;  // Value of the data
-	int tDiff;  // Diference between current data time and last data time
+	float z = mb_io_get_float(FD->canId);
 
-	t = mb_io_get_time(canId);
-	z = mb_io_get_float(canId);
-	tDiff = (int) (t - (FD->t0));
+	// Update sensor history:
+	FD->z2 = FD->z1;
+	FD->z1 = FD->z0;
+	FD->z0 = z;
+	// Update estimate history:
+	FD->y2 = FD->y1;
+	FD->y1 = FD->y0;
+	// Compute new estimate:
+	FD->y0 =
+	    (FC->b0) * (FD->z0) +
+	    (FC->b1) * (FD->z1) +
+	    (FC->b2) * (FD->z2) -
+	    (FC->a1) * (FD->y1) -
+	    (FC->a2) * (FD->y2);
 
-	// Error checking on timing:
-	if (tDiff > 30 || tDiff < 0) { // Something went wrong
-		mb_error_occurred(ERROR_EST_FILTER_TIME_VIOLATION);
-		setFilterData(FD, canId);  // Reset the filter
-		return z;
-	} else if (tDiff == 0) { // No new data - return old estimate
-		return FD->y0;
-	}
-
-	// March forward in time until we reach the present:
-	do {
-		// Update sensor history:
-		FD->z2 = FD->z1;
-		FD->z1 = FD->z0;
-		FD->z0 = z;
-		// Update estimate history:
-		FD->y2 = FD->y1;
-		FD->y1 = FD->y0;
-		// Update time history;
-		FD->t0 = FD->t0 + 1; //increment the time
-		// Compute new estimate:
-		FD->y0 =
-		    (FC->b0) * (FD->z0) +
-		    (FC->b1) * (FD->z1) +
-		    (FC->b2) * (FD->z2) -
-		    (FC->a1) * (FD->y1) -
-		    (FC->a2) * (FD->y2);
-	} while (FD->t0 < t);
 	return (FD->y0);
 }
 
@@ -159,41 +139,41 @@ void runAllFilters(void) {
 	float y;  // Store the estimate
 
 	// outer leg absolute orientation
-	y = runFilter(&FC_FAST, &FD_OUTER_LEG_ANGLE, ID_UI_ROLL);
+	y = runFilter(&FC_FAST, &FD_OUTER_LEG_ANGLE);
 	y = y - GYRO_ROLL_BIAS;  // correct for bias term in the gyro
 	mb_io_set_float(ID_EST_STATE_TH0, y);
 	STATE_th0 = y; // Send robot orientation to the control and estimation code
 
 	// Outer leg absolute orientation rate
-	y = runFilter(&FC_FAST, &FD_UI_ANG_RATE_X, ID_UI_ANG_RATE_X);
+	y = runFilter(&FC_FAST, &FD_UI_ANG_RATE_X);
 	y = y - GYRO_RATE_BIAS;   // correct for gyro bias
 	mb_io_set_float(ID_EST_STATE_DTH0, y);
 	STATE_dth0 = y; // Send robot orientation rate to the control and estimation code
 
 	// Hip Angular Rate:
-	y = runFilter(&FC_FAST, &FD_MCH_ANG_RATE, ID_MCH_ANG_RATE);
+	y = runFilter(&FC_FAST, &FD_MCH_ANG_RATE);
 	mb_io_set_float(ID_E_MCH_ANG_RATE, y);
 	STATE_dqh = y;
 
 	// Outer Ankle Rate:
-	y = runFilter(&FC_FAST, &FD_MCFO_RIGHT_ANKLE_RATE, ID_MCFO_RIGHT_ANKLE_RATE);
+	y = runFilter(&FC_FAST, &FD_MCFO_RIGHT_ANKLE_RATE);
 	mb_io_set_float(ID_E_MCFO_RIGHT_ANKLE_RATE, y);
 	STATE_dq0 = y;
 
 	// Inner Ankle Rate:
-	y = runFilter(&FC_FAST, &FD_MCFI_ANKLE_RATE, ID_MCFI_ANKLE_RATE);
+	y = runFilter(&FC_FAST, &FD_MCFI_ANKLE_RATE);
 	mb_io_set_float(ID_E_MCFI_ANKLE_RATE, y);
 	STATE_dq1 = y;
 
 	// Outer feet contact filter:
-	y = runFilter(&FC_SLOW, &FD_MCFO_RIGHT_HEEL_SENSE, ID_MCFO_RIGHT_HEEL_SENSE);
-	y = y + runFilter(&FC_SLOW, &FD_MCFO_LEFT_HEEL_SENSE, ID_MCFO_LEFT_HEEL_SENSE);
+	y = runFilter(&FC_SLOW, &FD_MCFO_RIGHT_HEEL_SENSE);
+	y = y + runFilter(&FC_SLOW, &FD_MCFO_LEFT_HEEL_SENSE);
 	mb_io_set_float(ID_EST_CONTACT_OUTER, y);
 	STATE_c0 = y > CONTACT_VALUE_THRESHOLD;
 
 	// Inner feet contact filter
-	y = runFilter(&FC_SLOW, &FD_MCFI_RIGHT_HEEL_SENSE, ID_MCFI_RIGHT_HEEL_SENSE);
-	y = y + runFilter(&FC_SLOW, &FD_MCFI_LEFT_HEEL_SENSE, ID_MCFI_LEFT_HEEL_SENSE);
+	y = runFilter(&FC_SLOW, &FD_MCFI_RIGHT_HEEL_SENSE);
+	y = y + runFilter(&FC_SLOW, &FD_MCFI_LEFT_HEEL_SENSE);
 	mb_io_set_float(ID_EST_CONTACT_INNER, y);
 	STATE_c1 = y > CONTACT_VALUE_THRESHOLD;
 
@@ -305,7 +285,7 @@ void mb_estimator_update(void) {
 
 		// Reset the contact sensor filters
 		setFilterData(&FD_MCFO_LEFT_HEEL_SENSE, ID_MCFO_LEFT_HEEL_SENSE);
-		setFilterData(&FD_MCFO_RIGHT_HEEL_SENSE, ID_MCFI_RIGHT_HEEL_SENSE);
+		setFilterData(&FD_MCFO_RIGHT_HEEL_SENSE, ID_MCFO_RIGHT_HEEL_SENSE);
 		setFilterData(&FD_MCFI_LEFT_HEEL_SENSE, ID_MCFI_LEFT_HEEL_SENSE);
 		setFilterData(&FD_MCFI_RIGHT_HEEL_SENSE, ID_MCFI_RIGHT_HEEL_SENSE);
 
