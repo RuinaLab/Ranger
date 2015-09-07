@@ -249,6 +249,10 @@ CTRL_TEST_W7,0,1,0,test write to labview
 CTRL_TEST_W8,0,1,0,test write to labview
 CTRL_TEST_W9,0,1,0,test write to labview
 #,,,,
+#GaitController,,,,
+GAIT_WALK_IDX,0,1,0,Report the index of the gait parameters being used
+GAIT_USE_MDP_DATA,1,0,1,true (1) if the robot should use gait parameters from the MDP   and     false(0) if it should use defaults from LabVIEW
+#,,,,
 #Labview,,,,
 LV_START,,,,
 LV_CH_0,,,,

@@ -4,7 +4,8 @@
 #include <input_output.h>
 #include <motorControl.h>
 #include <walkControl.h>
-#include "robotParameters.h"
+#include <robotParameters.h>
+#include <gaitControl.h>
 
 typedef enum {
 	Glide_Out,   // Outer feet on the ground, inner feet swing through with scissor gait
@@ -14,11 +15,17 @@ typedef enum {
 	Flight
 } WalkFsmMode;
 
-/* Current and previous finite state machine modes. Initialized in 
+/* Current and previous finite state machine modes. Initialized in
  * walkControl_entry()  */
 static WalkFsmMode WALK_FSM_MODE;  // What to run now
 static WalkFsmMode WALK_FSM_MODE_PREV;  // What we ran last time
 
+/* The current set of gait parameters */
+static float CtrlWalk_ankPush;
+static float CtrlWalk_critAngle;
+static float CtrlWalk_hipHold;
+static float CtrlWalk_hipGain;
+static float CtrlWalk_hipOffset;
 
 /* This function is called once per loop, and checks the
  * sensors that are used to trigger transitions between
@@ -31,7 +38,7 @@ void updateWalkFsm(void) {
 	} else {  // Run the normal walking finite state machine
 		switch (WALK_FSM_MODE_PREV) {
 		case Glide_Out:
-			if (STATE_th0 < LABVIEW_WALK_CRIT_STANCE_ANGLE) {
+			if (STATE_th0 < CtrlWalk_critAngle) {
 				WALK_FSM_MODE = Push_Out;
 			} break;
 		case Push_Out:
@@ -39,7 +46,7 @@ void updateWalkFsm(void) {
 				WALK_FSM_MODE = Glide_Inn;
 			} break;
 		case Glide_Inn:
-			if (STATE_th1 < LABVIEW_WALK_CRIT_STANCE_ANGLE) {
+			if (STATE_th1 < CtrlWalk_critAngle) {
 				WALK_FSM_MODE = Push_Inn;
 			} break;
 		case Push_Inn:
@@ -76,14 +83,29 @@ void setWalkFsmLed(void) {
 	}
 }
 
+/* Updates the data that are used by the walking controller,
+ * and determines whether to read from LabVIEW or from the MDP
+ * gait controller */
+void readGaitData(void) {
+	if (LABVIEW_GAIT_USE_MDP_DATA) {
+		CtrlWalk_ankPush = GAIT_WALK_ANK_PUSH;
+		CtrlWalk_critAngle = GAIT_WALK_CRIT_STANCE_ANGLE;
+		CtrlWalk_hipHold = GAIT_WALK_HIP_STEP_ANGLE;
+		CtrlWalk_hipGain = GAIT_WALK_SCISSOR_GAIN;
+		CtrlWalk_hipOffset = GAIT_WALK_SCISSOR_OFFSET;
+	} else {
+		CtrlWalk_ankPush = LABVIEW_WALK_ANK_PUSH;
+		CtrlWalk_critAngle = LABVIEW_WALK_CRIT_STANCE_ANGLE;
+		CtrlWalk_hipHold = LABVIEW_WALK_HIP_STEP_ANGLE;
+		CtrlWalk_hipGain = LABVIEW_WALK_SCISSOR_GAIN;
+		CtrlWalk_hipOffset = LABVIEW_WALK_SCISSOR_OFFSET;
+	}
+}
+
 
 /* Sends commands to the motors based on the current state of the
  * walking finite state machine */
 void sendMotorCommands(void) {
-
-	/* Read controller parameters directly from labview for now */
-	float push = LABVIEW_WALK_ANK_PUSH;  //magnitude of the push-off during walking, normalized to be on the range [0,1]
-	float angle = LABVIEW_WALK_HIP_STEP_ANGLE ;  //Target angle for the hip to hold during push-off
 
 	switch (WALK_FSM_MODE_PREV) {
 	case Glide_Out:
@@ -93,8 +115,8 @@ void sendMotorCommands(void) {
 		break;
 	case Push_Out:
 		flipDown_ankInn();
-		pushOff_ankOut(push);
-		hipHold(angle);
+		pushOff_ankOut(CtrlWalk_ankPush);
+		hipHold(CtrlWalk_hipHold);
 		break;
 	case Glide_Inn:
 		flipUp_ankOut();
@@ -103,8 +125,8 @@ void sendMotorCommands(void) {
 		break;
 	case Push_Inn:
 		flipDown_ankOut();
-		pushOff_ankInn(push);
-		hipHold(angle);
+		pushOff_ankInn(CtrlWalk_ankPush);
+		hipHold(CtrlWalk_hipHold);
 		break;
 	case Flight:  // In the air, get ready for Glide_Out
 		holdStance_ankOut();
@@ -167,7 +189,7 @@ void pushOff_ankInn(float push) {
  * Does scissor tracking on the hip, using labview gains.  */
 void hipGlide(void) {
 	trackScissor_hip(
-	    LABVIEW_WALK_SCISSOR_GAIN, LABVIEW_WALK_SCISSOR_OFFSET,
+	    CtrlWalk_hipGain, CtrlWalk_hipOffset,
 	    LABVIEW_HIP_KP, LABVIEW_HIP_KD);
 }
 
@@ -247,8 +269,9 @@ void walkControl_entry(void) {
 /* This is the main function for walking. All walking controls
  * are called from here */
 void walkControl_main(void) {
-	updateWalkFsm();
-	setWalkFsmLed();
-	sendMotorCommands();
+	updateWalkFsm();   // Figures out the walking FSM mode
+	setWalkFsmLed();   // Sets the LEDs for the user
+	readGaitData();  // Read gait parameters from the high-level gait controller
+	sendMotorCommands();  // Run the controller - send commands to motors
 }
 

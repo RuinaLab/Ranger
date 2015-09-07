@@ -26,3 +26,4 @@ mb_io_data[ID_CTRL_TEST_R6].payload.ful.f = 0.000000;
 mb_io_data[ID_CTRL_TEST_R7].payload.ful.f = 0.000000; 
 mb_io_data[ID_CTRL_TEST_R8].payload.ful.f = 0.000000; 
 mb_io_data[ID_CTRL_TEST_R9].payload.ful.f = 0.000000; 
+mb_io_data[ID_GAIT_USE_MDP_DATA].payload.ful.f = 1.000000; 

@@ -32,6 +32,8 @@ File 6,1,<..\..\Controller\motorControl.c><motorControl.c>
 File 6,1,<..\..\Controller\RangerMath.c><RangerMath.c>
 File 6,1,<..\..\Controller\unit_test.c><unit_test.c>
 File 6,1,<..\..\Controller\walkControl.c><walkControl.c>
+File 6,1,<..\..\Controller\gaitControl.c><gaitControl.c>
+File 6,1,<..\..\Controller\gaitControlData.c><gaitControlData.c>
 
 
 Options 1,0,0  // Target 'LPC3250 Int RAM'

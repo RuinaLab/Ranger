@@ -234,6 +234,8 @@ typedef enum can_ids{
 	ID_CTRL_TEST_W7 = 222,	 // 0 1 0 // test write to labview
 	ID_CTRL_TEST_W8 = 223,	 // 0 1 0 // test write to labview
 	ID_CTRL_TEST_W9 = 224,	 // 0 1 0 // test write to labview
+	ID_GAIT_WALK_IDX = 225,	 // 0 1 0 // Report the index of the gait parameters being used
+	ID_GAIT_USE_MDP_DATA = 226,	 // 1 0 1 // true (1) if the robot should use gait parameters from the MDP   and     false(0) if it should use defaults from LabVIEW
 	ID_LV_START,	 //    // 
 	ID_LV_CH_0,	 //    // 
 	ID_LV_CH_1,	 //    // 
