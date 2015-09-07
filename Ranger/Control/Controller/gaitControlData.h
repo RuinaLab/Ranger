@@ -10,8 +10,8 @@ extern const float GAITDATA_WALK_SCISSOR_GAIN[];
 extern const float GAITDATA_WALK_SCISSOR_OFFSET[];
 
 /* These variables are used to determine which index to use */
-extern const float GAITDATA_LOWRATE;
-extern const float GAITDATA_UPPRATE;
+extern const float GAITDATA_SLOPE;   
+extern const float GAITDATA_CONST;
 extern const int GAITDATA_NBINS;
 
 #endif

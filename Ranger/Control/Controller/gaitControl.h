@@ -9,4 +9,8 @@ extern float GAIT_WALK_HIP_STEP_ANGLE;
 extern float GAIT_WALK_SCISSOR_GAIN;
 extern float GAIT_WALK_SCISSOR_OFFSET;
 
+/* Entry-point functions */
+void gaitControl_entry(void);
+void gaitControl_main(void);
+
 #endif // __GAITCONTROL_H__

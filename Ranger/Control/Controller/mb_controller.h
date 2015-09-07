@@ -5,6 +5,7 @@
 extern const int LED_WALK_FSM; // Top right
 extern const int LED_CONTACT;  // middle left
 extern const int LED_UI_FSM;  // Top left
+extern const int LED_GAIT_FSM; // middle right
 
 /* Name the UI buttons.
  * button 0 is the left-most button,

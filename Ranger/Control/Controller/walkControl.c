@@ -14,8 +14,10 @@ typedef enum {
 	Flight
 } WalkFsmMode;
 
-static WalkFsmMode WALK_FSM_MODE = Glide_Out;  // What to run now
-static WalkFsmMode WALK_FSM_MODE_PREV = Glide_Out;  // What we ran last time
+/* Current and previous finite state machine modes. Initialized in 
+ * walkControl_entry()  */
+static WalkFsmMode WALK_FSM_MODE;  // What to run now
+static WalkFsmMode WALK_FSM_MODE_PREV;  // What we ran last time
 
 
 /* This function is called once per loop, and checks the

@@ -4,6 +4,7 @@
 #include <mb_estimator.h>
 #include <unit_test.h>
 #include <walkControl.h>
+#include <gaitControl.h>
 
 /* Currespond to buttons on UI board */
 typedef enum {
@@ -16,9 +17,10 @@ static UiFsmMode UI_FSM_MODE = StandBy;  // What to run now
 static UiFsmMode UI_FSM_MODE_PREV = StandBy;  // What we ran last time
 
 /* Name the LEDs */
-const int LED_WALK_FSM = 1;
-const int LED_CONTACT = 4;
-const int LED_UI_FSM = 5;
+const int LED_WALK_FSM = 1;  // Top right
+const int LED_CONTACT = 4;  // middle left
+const int LED_UI_FSM = 5;   // Top left
+const int LED_GAIT_FSM = 2; // middle right
 
 /* Name the UI buttons.
  * button 0 is the left-most button,
@@ -67,8 +69,10 @@ void mb_controller_update(void) {
 	case WalkCtrl:
 		set_UI_LED(LED_UI_FSM, 'b');
 		if (UI_FSM_MODE_PREV != WalkCtrl) {
+			gaitControl_entry();
 			walkControl_entry();  // Run the initialization function for the walking FSM
 		}
+		gaitControl_main();
 		walkControl_main();  // Run the main walk function
 	}
 
