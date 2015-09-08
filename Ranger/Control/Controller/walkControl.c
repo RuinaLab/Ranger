@@ -44,6 +44,7 @@ void updateWalkFsm(void) {
 		case Push_Out:
 			if (STATE_c1) {  // If inner feet hit the ground
 				WALK_FSM_MODE = Glide_Inn;
+				computeHeelStrikeGeometry();  // Update the collision data
 			} break;
 		case Glide_Inn:
 			if (STATE_th1 < CtrlWalk_critAngle) {
@@ -52,6 +53,7 @@ void updateWalkFsm(void) {
 		case Push_Inn:
 			if (STATE_c0) {  // If outer feet hit the ground
 				WALK_FSM_MODE = Glide_Out;
+				computeHeelStrikeGeometry();  // Update the collision data
 			} break;
 		case Flight:
 			if (STATE_c0) {  // If outer feet hit the ground
@@ -87,6 +89,7 @@ void setWalkFsmLed(void) {
  * and determines whether to read from LabVIEW or from the MDP
  * gait controller */
 void readGaitData(void) {
+
 	if (LABVIEW_GAIT_USE_MDP_DATA) {
 		CtrlWalk_ankPush = GAIT_WALK_ANK_PUSH;
 		CtrlWalk_critAngle = GAIT_WALK_CRIT_STANCE_ANGLE;
@@ -107,6 +110,8 @@ void readGaitData(void) {
  * walking finite state machine */
 void sendMotorCommands(void) {
 
+	float push = CtrlWalk_ankPush;   
+
 	switch (WALK_FSM_MODE_PREV) {
 	case Glide_Out:
 		holdStance_ankOut();
@@ -115,7 +120,7 @@ void sendMotorCommands(void) {
 		break;
 	case Push_Out:
 		flipDown_ankInn();
-		pushOff_ankOut(CtrlWalk_ankPush);
+		pushOff_ankOut(push);
 		hipHold(CtrlWalk_hipHold);
 		break;
 	case Glide_Inn:
@@ -125,7 +130,7 @@ void sendMotorCommands(void) {
 		break;
 	case Push_Inn:
 		flipDown_ankOut();
-		pushOff_ankInn(CtrlWalk_ankPush);
+		pushOff_ankInn(push);
 		hipHold(CtrlWalk_hipHold);
 		break;
 	case Flight:  // In the air, get ready for Glide_Out

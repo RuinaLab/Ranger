@@ -26,9 +26,13 @@ typedef struct {
 bool INITIALIZE_ESTIMATOR = true;   // Should the estimator be initialized?
 
 /* Filter cut-off frequencies */
-static const float FILTER_CUTOFF_FAST = 0.004 * 30.0; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
-static const float FILTER_CUTOFF_SLOW = 0.004 * 10.0; // (2*period in sec)*(cutoff frequency in Hz) -- Used by foot contact sensors
-static const float FILTER_CUTOFF_VERY_SLOW = 0.004 * 2.0; //  (2*period in sec)*(cutoff frequency in Hz) -- Used by steering motor
+static const float CLOCK_CYCLE_DURATION = 0.002;   // Ranger runs the main brain at 500Hz
+static const float FILTER_CUTOFF_FAST = 2 * CLOCK_CYCLE_DURATION * 30.0; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
+static const float FILTER_CUTOFF_SLOW = 2 * CLOCK_CYCLE_DURATION * 10.0; // (2*period in sec)*(cutoff frequency in Hz) -- Used by foot contact sensors
+static const float FILTER_CUTOFF_VERY_SLOW = 2 * CLOCK_CYCLE_DURATION * 2.0; //  (2*period in sec)*(cutoff frequency in Hz) -- Used by steering motor
+
+/* First-Order filter, once per step, on robot orientation */
+static const float ORIENTATION_GYRO_UPDATE_GAIN = 0.1;  //  0 -> no update, 1 -> full reset at heel-strike
 
 /* Local constant parameters */
 static const float GYRO_RATE_BIAS = -0.009324229372422;  // Measured August 29, 2015. Should be checked monthly.
@@ -95,6 +99,11 @@ float STATE_dth1;  // absolute orientation rate of inner legs
 float STATE_dphi0;  // absolute orientation rate of outer feet
 float STATE_dphi1;  // absolute orientation rate of inner feet
 float STATE_psi;  // Steering angle
+float STATE_velCom;  // horizontal component of the center of mass velocity
+
+/* Variables for sensor fusion on the outer leg angle */
+static float STATE_th0_gyro;  // outer leg angle, based on integral of the gyro
+static float STATE_th0_imu;  // outer leg angle, based on the IMU internal sensor fusion
 
 /* Contact configuration */
 bool STATE_c0;
@@ -148,8 +157,8 @@ void runAllFilters(void) {
 	// outer leg absolute orientation
 	y = runFilter(&FC_FAST, &FD_OUTER_LEG_ANGLE);
 	y = y - GYRO_ROLL_BIAS;  // correct for bias term in the gyro
-	mb_io_set_float(ID_EST_STATE_TH0, y);
-	STATE_th0 = y; // Send robot orientation to the control and estimation code
+	mb_io_set_float(ID_EST_STATE_TH0_IMU, y);
+	STATE_th0_imu = y; // Send robot orientation to the control and estimation code
 
 	// Outer leg absolute orientation rate
 	y = runFilter(&FC_FAST, &FD_UI_ANG_RATE_X);
@@ -215,6 +224,30 @@ void setFilterCoeff(FilterCoeff * FC, float r) {
 }
 
 
+/* Sub-function, called by getCenterOfMassHorizontalVelocity()
+ * to do the actual kinematics. */
+float getComVel(float qStance, float qSwing, float dqStance, float dqSwing) {
+	float cStance = Cos(qStance);
+	float cSwing = Cos(qSwing);
+	float vStance = dqStance * cStance * (PARAM_c - PARAM_l);
+	float vSwing = PARAM_c * dqSwing * cSwing - dqStance * PARAM_l * cStance;
+	return 0.5 * (vStance + vSwing);
+}
+
+/* Computes the horizontal component of the velocity
+ * of the center of mass of the robot. Returns zero if the robot
+ * is not in single stance. */
+float getCenterOfMassHorizontalVelocity(void) {
+	switch (STATE_contactMode) {
+	case CONTACT_S0:
+		return getComVel(STATE_th0, STATE_th1, STATE_dth0, STATE_dth1);
+	case CONTACT_S1:
+		return getComVel(STATE_th1, STATE_th0, STATE_dth1, STATE_dth0);
+	default:
+		return 0.0;
+	}
+}
+
 /* Updates the robot's state.
  * Joint angles are read directly from the sensors
  * Robot angle (th0) is updated by runIntegral_outerLegAngle
@@ -251,7 +284,12 @@ void updateRobotState(void) {
 		STATE_contactMode = CONTACT_DS;
 	} else {                           // Flight
 		STATE_contactMode = CONTACT_FL;
+		resetRobotOrientation();  // use imu sensor fusion to reset the robot orientation
 	}
+
+	// Do a bit of harder math to figure out the horizontal component of the CoM velocity
+	STATE_velCom = getCenterOfMassHorizontalVelocity();  // self documenting
+	mb_io_set_float(ID_EST_STATE_VELCOM, STATE_velCom);
 
 }
 
@@ -274,8 +312,82 @@ void updateParameters(void) {
 	LABVIEW_WALK_HIP_STEP_ANGLE = mb_io_get_float(ID_CTRL_WALK_HIP_STEP_ANGLE); //	Target angle for the hip to reach by the end of the step
 	LABVIEW_WALK_SCISSOR_GAIN = mb_io_get_float(ID_CTRL_WALK_HIP_STEP_ANGLE);
 	LABVIEW_WALK_SCISSOR_OFFSET = mb_io_get_float(ID_CTRL_WALK_HIP_STEP_ANGLE);
-    LABVIEW_GAIT_USE_MDP_DATA = mb_io_get_float(ID_GAIT_USE_MDP_DATA) > 0.5;  // True if walking controller should use MDP generated gait data.
+	LABVIEW_GAIT_USE_MDP_DATA = mb_io_get_float(ID_GAIT_USE_MDP_DATA) > 0.5;  // True if walking controller should use MDP generated gait data.
 }
+
+/* Computes the change in the angle of the outer legs of the robot
+ * that is expected due to the integral of the IMU rate signal over
+ * the last time step */
+float getIntegralRateGyro(void) {
+	static float dth0_last = 0.0;
+	float dth0_gyro = mb_io_get_float(ID_UI_ANG_RATE_X);
+	float trapz = 0.5 * CLOCK_CYCLE_DURATION * (dth0_last + dth0_gyro);  // Trapazoid integration
+	dth0_last = dth0_gyro;
+	return trapz;
+}
+
+
+/* Reset the integral of the rate gyro to match the estimate based on the
+ * internal sensor fusion of the IMU */
+void resetRobotOrientation(void){
+	STATE_th0_gyro = STATE_th0_imu;	
+}
+
+/* Update the robot orientation by integral of the rate gyro */
+void updateRobotOrientation(void){
+	STATE_th0_gyro = STATE_th0_gyro + getIntegralRateGyro();
+	mb_io_set_float(ID_EST_STATE_TH0_GYRO, STATE_th0_gyro);
+
+	// For now, just set the robot state to be the imu internal sensor fusion:
+	STATE_th0 = STATE_th0_imu;
+	mb_io_set_float(ID_EST_STATE_TH0, STATE_th0);
+}
+
+
+/* Once per set this function is called to partially reset the integral of the rate gyro
+ * based on the geometry at heel-strike */
+ void heelStrikeGyroReset(float th0_heelStrike){
+ 	float a = ORIENTATION_GYRO_UPDATE_GAIN;
+	STATE_th0_gyro = a*th0_heelStrike + (1-a)*STATE_th0_gyro;
+}
+
+
+/* Sets the estimate for the step length and the stance leg angle, assuming that the robot
+ * is in double stance. This is designed to be called once per step, by the walking finite
+ * state machine. */
+void computeHeelStrikeGeometry(void) {
+
+	float Slope = 0.0;  // Assume flat ground for now
+	float x, y; // scalar distances, in coordinate system aligned with outer legs
+
+	float Phi = PARAM_Phi;
+	float l = PARAM_l;
+	float d = PARAM_d;
+	float qh, q0, q1; // robot joint angles
+	float stepLength, stepAngle;
+	qh = mb_io_get_float(ID_MCH_ANGLE); // hip angle - between legs
+	q0 = mb_io_get_float(ID_MCFO_RIGHT_ANKLE_ANGLE);  // outer ankle angle
+	q1 = mb_io_get_float(ID_MCFI_MID_ANKLE_ANGLE);  // inner ankle angle
+
+	/* Ranger geometry:
+	 * [x;y] = vector from outer foot virtual center to the inner foot
+	 * virtual center, in a frame that is rotated such that qr = 0
+	 * These functions were determined using computer math. The code can
+	 * be found in:
+	 * templates/Estimator/legAngleEstimator/Derive_Eqns.m
+	 */
+	x = l * Sin(qh) - d * Sin(Phi - q1 + qh) + d * Sin(Phi - q0);
+	y = l + d * Cos(Phi - q1 + qh) - l * Cos(qh) - d * Cos(Phi - q0);
+
+	stepLength = Sqrt(x * x + y * y);  // Distance between two contact points
+	stepAngle = -(Atan(y / x) + Slope);   // angle of the outer legs
+
+	mb_io_set_float(ID_EST_LAST_STEP_LENGTH, stepLength);
+	mb_io_set_float(ID_EST_LAST_STEP_ANGLE, stepAngle);
+
+	heelStrikeGyroReset(stepAngle);  // Reset the gyro estiamte for angles at heel-strike
+}
+
 
 
 /***************** ENTRY-POINT FUNCTION CALL  *****************************
@@ -306,12 +418,17 @@ void mb_estimator_update(void) {
 		// Steering motor stuff:
 		setFilterData(&FD_MCSI_STEER_ANGLE, ID_MCSI_STEER_ANGLE);
 
+		// Robot orientation estimation
+		resetRobotOrientation();
+		getIntegralRateGyro();   // Run integral to log the current state of the rate gyro
+
 		// Remember that we've initialized everything properly
 		INITIALIZE_ESTIMATOR = false;
 	}
 
 	// Run the butterworth filters:
 	runAllFilters();
+	updateRobotOrientation();
 
 	// Update the state variables:  (absolute orientation and rate)
 	updateRobotState();

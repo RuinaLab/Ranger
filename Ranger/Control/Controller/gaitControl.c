@@ -27,9 +27,10 @@ float GAIT_WALK_IDX;   // used for debugging - says which gait parameters are be
 
 /* This function is called once per walking step at mid-stance
  * It computes the new set of gait data that is used by the
- * walking controller */
-void updateGaitData(float w) {
-	int binIdx = (int)(w * GAITDATA_SLOPE + GAITDATA_CONST);
+ * walking controller  */
+void updateGaitData() {
+	float v = STATE_velCom;  // velocity of center of mass at mid-stance
+	int binIdx = (int)(v * GAITDATA_SLOPE + GAITDATA_CONST);
 	if (binIdx < 0) binIdx = 0;
 	if (binIdx > (GAITDATA_NBINS - 1)) binIdx = GAITDATA_NBINS;
 
@@ -55,7 +56,7 @@ void updateGaitFsm(void) {
 		case PreMid_Out:
 			if (STATE_th0 < 0.0) {
 				GAIT_FSM_MODE = PostMid_Out;
-				updateGaitData(STATE_dth0);
+				updateGaitData();
 			} break;
 		case PostMid_Out:
 			if (STATE_c1) { // Inner feet hit ground
@@ -64,7 +65,7 @@ void updateGaitFsm(void) {
 		case PreMid_Inn:
 			if (STATE_th1 < 0.0) {
 				GAIT_FSM_MODE = PostMid_Inn;
-				updateGaitData(STATE_dth1);
+				updateGaitData();
 			} break;
 		case PostMid_Inn:
 			if (STATE_c0) { // Inner feet hit ground
@@ -106,7 +107,7 @@ void setGaitFsmLed(void) {
  * for the robot to begin walking. It is used for initialization. */
 void gaitControl_entry(void) {
 
-	updateGaitData(0.0);  // initialize the gait data
+	updateGaitData(); 
 
 	// Always start with the outer feet in stance, and the inner feet tracking a scissor gait
 	GAIT_FSM_MODE = PreMid_Out;

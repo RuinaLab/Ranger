@@ -40,6 +40,7 @@ extern float STATE_dth0;  // absolute orientation rate of outer legs
 extern float STATE_dth1;  // absolute orientation rate of inner legs
 extern float STATE_dphi0;  // absolute orientation rate of outer feet
 extern float STATE_dphi1;  // absolute orientation rate of inner feet
+extern float STATE_velCom;  // horizontal component of the center of mass velocity
 
 typedef enum {
 	CONTACT_S0,
@@ -52,6 +53,10 @@ typedef enum {
 extern bool STATE_c0; // true if outer feet are in contact
 extern bool STATE_c1; // true if inner feet are in contact
 extern ContactMode STATE_contactMode;  // stores current contact mode
+
+/* Updates called by other files:  */
+void computeHeelStrikeGeometry(void); // Updates the last step length and stance leg angle
+void resetRobotOrientation(void);  // Forces the gyro integral to match the imu internal estimate
 
 /* Entry-point function */
 void mb_estimator_update(void);

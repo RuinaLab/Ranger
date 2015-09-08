@@ -207,6 +207,11 @@ EST_STATE_DTH1,0,1,0,abs rate inner legs
 EST_STATE_DPHI0,0,1,0,abs rate outer feet
 EST_STATE_DPHI1,0,1,0,abs rate inner feet
 EST_STATE_PSI,0,1,0,Steering angle  in radians
+EST_STATE_TH0_GYRO,0,1,0,outer leg angle based on integral of rate gyro
+EST_STATE_TH0_IMU,0,1,0,outer leg angle based on IMU sensor fusion 
+EST_STATE_VELCOM,0,1,0,horizontal component of the center of mass velocity
+EST_LAST_STEP_LENGTH,0,1,0,step length that was computed at the previous heel-strike
+EST_LAST_STEP_ANGLE,0,1,0,the absolute angle of the outer leg that was computed at the previous heel-strike
 #,,,,
 #ControllerParameters,,,,
 CTRL_HIP_KP,25,0,1,
