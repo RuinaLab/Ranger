@@ -27,7 +27,7 @@ bool INITIALIZE_ESTIMATOR = true;   // Should the estimator be initialized?
 
 /* Filter cut-off frequencies */
 static const float CLOCK_CYCLE_DURATION = 0.002;   // Ranger runs the main brain at 500Hz
-static const float FILTER_CUTOFF_FAST = 2 * CLOCK_CYCLE_DURATION * 30.0; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
+static const float FILTER_CUTOFF_FAST = 2 * CLOCK_CYCLE_DURATION * 25.0; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
 static const float FILTER_CUTOFF_SLOW = 2 * CLOCK_CYCLE_DURATION * 10.0; // (2*period in sec)*(cutoff frequency in Hz) -- Used by foot contact sensors
 static const float FILTER_CUTOFF_VERY_SLOW = 2 * CLOCK_CYCLE_DURATION * 2.0; //  (2*period in sec)*(cutoff frequency in Hz) -- Used by steering motor
 
@@ -37,7 +37,7 @@ static const float ORIENTATION_GYRO_UPDATE_GAIN = 0.1;  //  0 -> no update, 1 ->
 /* Local constant parameters */
 static const float GYRO_RATE_BIAS = -0.009324229372422;  // Measured August 29, 2015. Should be checked monthly.
 static const float GYRO_ROLL_BIAS = -0.02;  // Measured September 1, 2015.
-static const float CONTACT_VALUE_THRESHOLD = 2500.0;  // Threshold for detecting contact on the feet
+static const float CONTACT_VALUE_THRESHOLD = 850.0;  // Threshold for detecting contact on the feet. Roughly 700 in swing, 7000 in stance
 
 /* Butterworth filter coefficients */
 static FilterCoeff FC_FAST;  // For joint sensors

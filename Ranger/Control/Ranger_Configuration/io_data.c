@@ -2,7 +2,7 @@
 mb_io_data[ID_CTRL_HIP_KP].payload.ful.f = 25.000000; 
 mb_io_data[ID_CTRL_HIP_KD].payload.ful.f = 3.000000; 
 mb_io_data[ID_CTRL_ANK_PUSH_KP].payload.ful.f = 20.000000; 
-mb_io_data[ID_CTRL_ANK_PUSH_KD].payload.ful.f = 3.000000; 
+mb_io_data[ID_CTRL_ANK_PUSH_KD].payload.ful.f = 1.500000; 
 mb_io_data[ID_CTRL_ANK_STANCE_KP].payload.ful.f = 15.000000; 
 mb_io_data[ID_CTRL_ANK_STANCE_KD].payload.ful.f = 1.000000; 
 mb_io_data[ID_CTRL_ANK_SWING_KP].payload.ful.f = 20.000000; 
