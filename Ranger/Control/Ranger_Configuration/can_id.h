@@ -205,7 +205,7 @@ typedef enum can_ids{
 	ID_CTRL_HIP_KP = 193,	 // 25 0 1 // 
 	ID_CTRL_HIP_KD = 194,	 // 3 0 1 // 
 	ID_CTRL_ANK_PUSH_KP = 195,	 // 20 0 1 // 
-	ID_CTRL_ANK_PUSH_KD = 196,	 // 1.5 0 1 // 
+	ID_CTRL_ANK_PUSH_KD = 196,	 // 2 0 1 // 
 	ID_CTRL_ANK_STANCE_KP = 197,	 // 15 0 1 // 
 	ID_CTRL_ANK_STANCE_KD = 198,	 // 1 0 1 // 
 	ID_CTRL_ANK_SWING_KP = 199,	 // 20 0 1 // 

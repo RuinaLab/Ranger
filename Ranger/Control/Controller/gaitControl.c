@@ -56,7 +56,7 @@ void updateGaitFsm(void) {
 		case PreMid_Out:
 			if (STATE_th0 < 0.0) {
 				GAIT_FSM_MODE = PostMid_Out;
-				//// HACK ////updateGaitData();
+				updateGaitData();      // Update the controller at mid-stance on the outer legs
 			} break;
 		case PostMid_Out:
 			if (STATE_c1) { // Inner feet hit ground
@@ -65,7 +65,6 @@ void updateGaitFsm(void) {
 		case PreMid_Inn:
 			if (STATE_th1 < 0.0) {
 				GAIT_FSM_MODE = PostMid_Inn;
-				updateGaitData();//// HACK //// --> Only update controller on outer feet --      updateGaitData();
 			} break;
 		case PostMid_Inn:
 			if (STATE_c0) { // Inner feet hit ground
