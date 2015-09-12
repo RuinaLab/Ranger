@@ -16,7 +16,7 @@ float getTime() {
  * them over the CAN bus to LabVIEW, on channels:
  * 	ID_CTRL_TEST_W0, *_W1, *_W2 */
 void test_waveFunctions() {
-	float period = 1.0;
+	float period = 2.0;
 	float min = -0.5;
 	float max = 2.2;
 	float time = getTime();
@@ -24,6 +24,7 @@ void test_waveFunctions() {
 	mb_io_set_float(ID_CTRL_TEST_W0, SquareWave(time, period, min, max));
 	mb_io_set_float(ID_CTRL_TEST_W1, TriangleWave(time, period, min, max));
 	mb_io_set_float(ID_CTRL_TEST_W2, SineWave(time, period, min, max));
+	mb_io_set_float(ID_CTRL_TEST_W3, SawToothWave(time, period, min, max));
 }
 
 
@@ -332,6 +333,25 @@ void debug_steeringMotors(void) {
 	mb_io_set_float(ID_MCSI_DAMPNESS, mb_io_get_float(ID_CTRL_TEST_R2));
 }
 
+/* --21-- Tests the variable-grid linear interpolation on Ranger by
+ * sending a periodic waveform to be plotted in labview. W0 plots a
+ * saw-tooth wave and w1 plots the test function. The result should be
+ * a sine wave */
+ void test_linInterpVar(void){
+ 	static float T[] = {0.0, 0.1,  0.3,  0.4,  0.45, 0.5, 0.9,   0.98,  1.0};  // Time vector
+ 	static float Y[] = {0.0, 0.59, 0.95, 0.59, 0.31, 0.0, -0.59, -0.13, 0.0};  // Function 
+ 	static int nGrid = 9;   // <-- BE VERY CAREFUL WITH THIS - don't want to get a segfault...
+
+ 	float period = 2.0;
+	float min = 0.0;
+	float max = 1.0;
+	float time = getTime();
+	float timeWrap = SawToothWave(time, period, min, max);
+	float func = LinInterpVar(timeWrap,T,Y,nGrid);
+
+	mb_io_set_float(ID_CTRL_TEST_W0, timeWrap);
+	mb_io_set_float(ID_CTRL_TEST_W1, func);
+ }
 
 
 /* Entry-point function for all unit tests */
@@ -343,6 +363,7 @@ void runUnitTest(void) {
 
 	/**** Ranger Math ****/
 	case 1: test_waveFunctions(); break;
+	case 21: test_linInterpVar(); break;
 
 	/**** Low-Level Motor Control ****/
 	case 2: test_trackAbs_ankle(); break;

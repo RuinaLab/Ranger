@@ -1,12 +1,41 @@
 #include "RangerMath.h"
 
 /* Global constants */
-const float PI = 3.141592653589793;  //    = PI 
+const float PI = 3.141592653589793;  //    = PI
 const float TWO_PI = 6.283185307179586;  //    2*PI
 const float SQRT_TWO = 1.414213562373095;   //   sqrt(2)
 const float INV_TWO_PI = 0.159154943091895; //    = 1/(2*PI)
 const float HALF_PI = 1.570796326794897;   //   = PI/2
 const float DEG_TO_RAD = 0.017453292519943;    //    = PI/180
+
+
+/* Performs linear interpolation to evalute y = f(x) at point x,
+  given the arrays Y = f(X). If X is out of bounds, then it will.
+  be coerced. It is assumed that X is monotonically increasing
+  and with possibly variable spacing. */
+float LinInterpVar(float x, float* X, float* Y, int nGrid) {
+  float alpha; // fraction of the way through the interval
+  int k0, k1;    // indicies of the bounding grid points
+
+  // Special case - only one grid point
+  if (nGrid == 1) {
+    return Y[0];
+  }
+
+  x = Clamp(x, X[0], X[nGrid - 1]);  // Clamp x to be in the valid domain
+
+  // Use dumb linear search to find the correct indicies
+  for (k1 = 1; k1 < nGrid; k1 ++) {
+    if (x < X[k1]) break;
+  }
+  k0 = k1 - 1;
+
+  // Interpolation:
+  alpha = (x - X[k0])/(X[k1] - X[k0]);
+  return (1.0-alpha)*Y[k0] + alpha*Y[k1];
+
+}
+
 
 /* Perform quadratic interpolation to evalute y = f(x) at point x,
   given the arrays Y = f(X). If X is out of bounds, then it will.
@@ -20,12 +49,7 @@ float QuadInterp(float x,
   float d0, d1, d2;  // di = x-xi
   int k0, k1, k2;    // indicies of the three grid-points
 
-// Coerce x to be in bounds:
-  if (x < X[0]) {
-    return X[0];
-  } else if (x >= X[nGrid - 1]) {
-    return X[nGrid - 1];
-  }
+  x = Clamp(x, X[0], X[nGrid - 1]);  // Clamp x to be in the valid domain
 
 // Figure out which grid-points to use:
   k0 = 2 * (int)((x - X[0]) * hCstGrid);
@@ -247,9 +271,9 @@ float Clamp(float x, float min, float max){
 
 
 /* Square Wave, with equal time spend at min and max. */
-float SquareWave(float time, float period, float min, float max){
-  float phase = Fmod(time,period)/period; 
-  if (phase < 0.5){
+float SquareWave(float time, float period, float min, float max) {
+  float phase = Fmod(time, period) / period;
+  if (phase < 0.5) {
     return min;
   } else {
     return max;
@@ -258,19 +282,28 @@ float SquareWave(float time, float period, float min, float max){
 
 
 /* Sine Wave, with user-defined period, min, and max values */
-float SineWave(float time, float period, float min, float max){
-  float arg = TWO_PI*time/period;
-  return 0.5*(min+max) + 0.5*(max-min)*Sin(arg);
+float SineWave(float time, float period, float min, float max) {
+  float arg = TWO_PI * time / period;
+  return 0.5 * (min + max) + 0.5 * (max - min) * Sin(arg);
 }
 
 
 /* Triangle Wave, with user-defined period, min, and max values */
-float TriangleWave(float time, float period, float min, float max){
-  float slope = (max-min)/period;
-  float phase = Fmod(time,period)/period;
-  if (phase < 0.5){ // Rising side
-    return 2.0*phase*slope + min; 
+float TriangleWave(float time, float period, float min, float max) {
+  float slope = (max - min) / period;
+  float phase;
+  time = Fmod(time, period);
+  phase = time / period;
+  if (phase < 0.5) { // Rising side
+    return 2.0 * phase * slope * period + min;
   } else { // falling side
-    return -2.0*(phase-0.5)*slope + max;
+    return -2.0 * (phase - 0.5) * slope * period + max;
   }
+}
+
+/* SawTooth Wave, with user-defined period, min, and max values */
+float SawToothWave(float time, float period, float min, float max) {
+  float slope = (max - min) / period;
+  time = Fmod(time, period);
+  return slope * time + min;
 }

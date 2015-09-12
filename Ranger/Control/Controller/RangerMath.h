@@ -10,6 +10,8 @@ extern const float INV_TWO_PI;
 extern const float HALF_PI;
 extern const float DEG_TO_RAD;
 
+float LinInterpVar(float x, float* X, float*Y, int nGrid); // Linear interpolation over a variable-spacing data set
+
 float Sin(float);
 float Cos(float);
 float Tan(float);
@@ -22,5 +24,6 @@ float Clamp(float x, float min, float max);
 float SquareWave(float time, float period, float min, float max);
 float SineWave(float time, float period, float min, float max);
 float TriangleWave(float time, float period, float min, float max);
+float SawToothWave(float time, float period, float min, float max);
 
 #endif // __RANGERMATH_H__
