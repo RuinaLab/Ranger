@@ -31,7 +31,7 @@ static const float FILTER_CUTOFF_FAST = 2 * CLOCK_CYCLE_DURATION * 25.0; // (2*p
 static const float FILTER_CUTOFF_SLOW = 2 * CLOCK_CYCLE_DURATION * 10.0; // (2*period in sec)*(cutoff frequency in Hz) -- Used by foot contact sensors
 static const float FILTER_CUTOFF_VERY_SLOW = 2 * CLOCK_CYCLE_DURATION * 2.0; //  (2*period in sec)*(cutoff frequency in Hz) -- Used by steering motor
 
-/* First-Order filter, once per step, on robot orientation */
+/* First-Order filter, once per step */
 static const float ORIENTATION_GYRO_UPDATE_GAIN = 0.1;  //  0 -> no update, 1 -> full reset at heel-strike
 
 /* Local constant parameters */

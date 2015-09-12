@@ -14,6 +14,8 @@ typedef enum {
 
 static GaitFsmMode GAIT_FSM_MODE = PreMid_Out;
 
+static float LAST_MID_STANCE_SPEED = 0.0;
+
 /* Parameters that are updated once per step and read by the estimator,
  * which then passes them to the walking controller. They are initialized
  * in gaitControl_entry() */
@@ -29,8 +31,15 @@ float GAIT_WALK_IDX;   // used for debugging - says which gait parameters are be
  * It computes the new set of gait data that is used by the
  * walking controller  */
 void updateGaitData() {
-	float v = STATE_velCom;  // velocity of center of mass at mid-stance
-	int binIdx = (int)(v * GAITDATA_SLOPE + GAITDATA_CONST);
+	int binIdx;   // Which bin to use for control
+	float v;  // velocity of center of mass at mid-stance
+
+	// Use the average mid-stance speed over the last two steps to cancel out asymetries in the robot
+	// v = 0.5*STATE_velCom + 0.5*LAST_MID_STANCE_SPEED; 
+	v = STATE_velCom;  ////HACK////
+	LAST_MID_STANCE_SPEED = STATE_velCom;
+
+	binIdx = (int)(v * GAITDATA_SLOPE + GAITDATA_CONST);
 	if (binIdx < 0) binIdx = 0;
 	if (binIdx > (GAITDATA_NBINS - 1)) binIdx = GAITDATA_NBINS;
 
@@ -65,6 +74,7 @@ void updateGaitFsm(void) {
 		case PreMid_Inn:
 			if (STATE_th1 < 0.0) {
 				GAIT_FSM_MODE = PostMid_Inn;
+				updateGaitData();      // Update the controller at mid-stance on the outer legs
 			} break;
 		case PostMid_Inn:
 			if (STATE_c0) { // Inner feet hit ground
@@ -106,7 +116,8 @@ void setGaitFsmLed(void) {
  * for the robot to begin walking. It is used for initialization. */
 void gaitControl_entry(void) {
 
-	updateGaitData(); 
+	updateGaitData();
+	LAST_MID_STANCE_SPEED = 0.0;
 
 	// Always start with the outer feet in stance, and the inner feet tracking a scissor gait
 	GAIT_FSM_MODE = PreMid_Out;

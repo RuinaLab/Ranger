@@ -12,8 +12,8 @@ Group (Module Code)
 Group (Estimator)
 Group (Controller)
 
-File 1,2,<.\src\LPC32x0.s><LPC32x0.s>
 File 3,1,<.\src\mb_hardware_setup.c><mb_hardware_setup.c>
+File 3,2,<.\src\LPC32x0.s><LPC32x0.s>
 File 3,1,<.\src\mb_software_setup.c><mb_software_setup.c>
 File 3,1,<.\src\main.c><main.c>
 File 3,1,<.\src\mb_data_nexus.c><mb_data_nexus.c>
