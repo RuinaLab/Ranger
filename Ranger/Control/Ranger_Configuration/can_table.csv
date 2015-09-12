@@ -212,6 +212,7 @@ EST_STATE_TH0_IMU,0,1,0,outer leg angle based on IMU sensor fusion
 EST_STATE_VELCOM,0,1,0,horizontal component of the center of mass velocity
 EST_LAST_STEP_LENGTH,0,1,0,step length that was computed at the previous heel-strike
 EST_LAST_STEP_ANGLE,0,1,0,the absolute angle of the outer leg that was computed at the previous heel-strike
+EST_TOTAL_BATT_POWER,0,1,0,add up the battery power being consumed by all boards
 #,,,,
 #ControllerParameters,,,,
 CTRL_HIP_KP,25,0,1,
@@ -255,7 +256,6 @@ CTRL_TEST_W8,0,1,0,test write to labview
 CTRL_TEST_W9,0,1,0,test write to labview
 #,,,,
 #GaitController,,,,
-GAIT_WALK_IDX,0,1,0,Report the index of the gait parameters being used
 GAIT_USE_MDP_DATA,1,0,1,true (1) if the robot should use gait parameters from the MDP   and     false(0) if it should use defaults from LabVIEW
 #,,,,
 #Labview,,,,

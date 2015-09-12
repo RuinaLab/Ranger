@@ -14,8 +14,6 @@ typedef enum {
 
 static GaitFsmMode GAIT_FSM_MODE = PreMid_Out;
 
-static float LAST_MID_STANCE_SPEED = 0.0;
-
 /* Parameters that are updated once per step and read by the estimator,
  * which then passes them to the walking controller. They are initialized
  * in gaitControl_entry() */
@@ -31,25 +29,12 @@ float GAIT_WALK_IDX;   // used for debugging - says which gait parameters are be
  * It computes the new set of gait data that is used by the
  * walking controller  */
 void updateGaitData() {
-	int binIdx;   // Which bin to use for control
-	float v;  // velocity of center of mass at mid-stance
-
-	// Use the average mid-stance speed over the last two steps to cancel out asymetries in the robot
-	// v = 0.5*STATE_velCom + 0.5*LAST_MID_STANCE_SPEED; 
-	v = STATE_velCom;  ////HACK////
-	LAST_MID_STANCE_SPEED = STATE_velCom;
-
-	binIdx = (int)(v * GAITDATA_SLOPE + GAITDATA_CONST);
-	if (binIdx < 0) binIdx = 0;
-	if (binIdx > (GAITDATA_NBINS - 1)) binIdx = GAITDATA_NBINS;
-
-	GAIT_WALK_ANK_PUSH = GAITDATA_WALK_ANK_PUSH[binIdx];
-	GAIT_WALK_CRIT_STANCE_ANGLE = GAITDATA_WALK_CRIT_STANCE_ANGLE[binIdx];
-	GAIT_WALK_HIP_STEP_ANGLE = GAITDATA_WALK_HIP_STEP_ANGLE[binIdx];
-	GAIT_WALK_SCISSOR_GAIN = GAITDATA_WALK_SCISSOR_GAIN[binIdx];
-	GAIT_WALK_SCISSOR_OFFSET = GAITDATA_WALK_SCISSOR_OFFSET[binIdx];
-
-	mb_io_set_float(ID_GAIT_WALK_IDX, binIdx);   // Tell labview which gait parameter set we're using
+	// Linear interpolation over data
+	GAIT_WALK_ANK_PUSH = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_ANK_PUSH, GAITDATA_NGRID);
+	GAIT_WALK_CRIT_STANCE_ANGLE = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_CRIT_STANCE_ANGLE, GAITDATA_NGRID);
+	GAIT_WALK_HIP_STEP_ANGLE = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_HIP_STEP_ANGLE, GAITDATA_NGRID);
+	GAIT_WALK_SCISSOR_GAIN = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_SCISSOR_GAIN, GAITDATA_NGRID);
+	GAIT_WALK_SCISSOR_OFFSET = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_SCISSOR_OFFSET, GAITDATA_NGRID);
 }
 
 
@@ -117,7 +102,6 @@ void setGaitFsmLed(void) {
 void gaitControl_entry(void) {
 
 	updateGaitData();
-	LAST_MID_STANCE_SPEED = 0.0;
 
 	// Always start with the outer feet in stance, and the inner feet tracking a scissor gait
 	GAIT_FSM_MODE = PreMid_Out;

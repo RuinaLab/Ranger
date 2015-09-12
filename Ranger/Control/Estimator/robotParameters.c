@@ -13,6 +13,6 @@ const float PARAM_inv_hip_motor_const = 0.841750841750842; // (Amp/Nm)  ==  (1.0
 const float PARAM_inv_ank_motor_const = 1.633986928104575; // (Amp/Nm)  ==  (1.0)/(P.Km*P.Ga) == (1.0)/(0.018*34)
 
 /* Parameters and set-points for walking sub-functions */
-const float PARAM_ctrl_ank_flipTarget = 0.2;  // relative ankle angle when foot is flipped up. Hard stop at 0.0.
+const float PARAM_ctrl_ank_flipTarget = 0.4;  // relative ankle angle when foot is flipped up. Hard stop at 0.0.
 const float PARAM_ctrl_ank_holdLevel = 0.0;  // absolute foot angle for the stance foot to hold during the step
 const float PARAM_ctrl_ank_pushTarget = -1.0;  // absolute foot angle when foot is flipped down for push-off.
