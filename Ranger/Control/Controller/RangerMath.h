@@ -18,6 +18,7 @@ float Tan(float);
 float Atan(float);
 float Tanh(float);
 float Sqrt(float);
+float Abs(float x);
 float Fmod(float x, float den);
 float Clamp(float x, float min, float max);
 

@@ -68,7 +68,10 @@ void test_trackRel_ankle() {
  * will produce the torque to cancel out the effect of the
  * spring at that angle. If the hip is set to track cancel the
  * measured state (not the target state), then you can use
- * R1 and R2 to send kp and kd gains respectively.*/
+ * R1 and R2 to send kp and kd gains respectively.
+ * 
+ * --> In flight mode, gravity compensation is disabled, since
+ * it is not clear where the reaction torque is coming from.   */
 void test_hipCompensation_flight() {
 	float target = mb_io_get_float(ID_CTRL_TEST_R0);
 	float kp = mb_io_get_float(ID_CTRL_TEST_R1);

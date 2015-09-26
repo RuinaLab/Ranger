@@ -16,3 +16,6 @@ const float PARAM_inv_ank_motor_const = 1.633986928104575; // (Amp/Nm)  ==  (1.0
 const float PARAM_ctrl_ank_flipTarget = 0.4;  // relative ankle angle when foot is flipped up. Hard stop at 0.0.
 const float PARAM_ctrl_ank_holdLevel = 0.0;  // absolute foot angle for the stance foot to hold during the step
 const float PARAM_ctrl_ank_pushTarget = -1.0;  // absolute foot angle when foot is flipped down for push-off.
+
+/* Other stuff */
+const float PARAM_critical_fall_leg_angle = 0.785398163397448; // 45 deg = pi/4  <--> if either ansolute leg angle exceeds this angle, then go to stand-by immediately

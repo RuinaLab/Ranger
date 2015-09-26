@@ -36,7 +36,7 @@ float hip_gravity_compensation(float qRefHip) {
 		qRefSwing = STATE_th1 - qRefHip;
 		return -uGravity * Sin(qRefSwing);
 	case CONTACT_DS:
-		return uGravity * Sin(0.5 * qRefHip);
+		return 0.0;    // Do nothing 
 	default:
 		return 0.0;
 	}

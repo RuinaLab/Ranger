@@ -1,9 +1,6 @@
 #include "estimator.h"
 #include <math.h>   // tan()
 
-#define SQRT_TWO 1.414213562373095
-#define PI 3.141592653589793
-
 /* Computes the coefficients for a second-order low-pass butterworth filter
  * @param r = ratio of cut-off frequncy to half of the sample frequency.
  * valid domain:  0.01 < r < 0.99   (coerced if out of bounds)

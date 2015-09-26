@@ -60,7 +60,7 @@ static FilterData FD_MCFI_RIGHT_HEEL_SENSE;
 /* Butterworth filter on steering angle */
 static FilterData FD_MCSI_STEER_ANGLE;
 
-/* Parameters from Labview */
+// /* Parameters from Labview */
 bool LABVIEW_HIP_COMPENSATION_TARGET; // Hip compensation at the target (true) or measured state (false)
 bool LABVIEW_HIP_GRAVITY_COMPENSATION;  // enable gravity compensation in hip?
 bool LABVIEW_HIP_SPRING_COMPENSATION; // enable spring compensation in hip?
@@ -84,6 +84,7 @@ float LABVIEW_WALK_SCISSOR_OFFSET;
 bool LABVIEW_GAIT_USE_MDP_DATA;  // True if walking controller should use MDP generated gait data.
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
+bool STATE_IS_FALLEN = false;   // Is the robot in a fallen state?
 float STATE_qh;  // hip angle
 float STATE_q0;  // outer ankle angle
 float STATE_q1;  // inner ankle angle
@@ -400,6 +401,25 @@ void sendTotalPower(void){
 	mb_io_set_float(ID_EST_TOTAL_BATT_POWER, power);
 }
 
+/* Checks to see if the robot fell down, by measuring the absolute angle of both legs
+ * If the absolute value of the legs are outside of the bounds, then it sets the
+ * IS_FALLEN flag to true  */
+ void checkIfRobotFellDown(void){
+
+ 	STATE_IS_FALLEN = false;
+
+ 	// Check outer legs:
+ 	if (Abs(STATE_th0) > PARAM_critical_fall_leg_angle){
+ 		STATE_IS_FALLEN = true; return;
+ 	}
+
+ 	// Check inner legs:
+ 	if (Abs(STATE_th1) > PARAM_critical_fall_leg_angle){
+ 		STATE_IS_FALLEN = true; return;
+ 	}
+
+ }
+
 
 /***************** ENTRY-POINT FUNCTION CALL  *****************************
  *                                                                        *
@@ -448,6 +468,8 @@ void mb_estimator_update(void) {
 	// Update controller parameters from LabVIEW
 	updateParameters();
 
+	// Check if the robot fell down
+	checkIfRobotFellDown();
 
 	return;
 }

@@ -254,6 +254,14 @@ float Sqrt(float x) {
 }
 
 
+/* Simple implementation of abs() */
+float Abs(float x){
+  if (x<0.0){
+    return -x;
+  } else {
+    return x;
+  }
+}
 
 /* Simple implementation of fmod() */
 float Fmod(float x, float den) {

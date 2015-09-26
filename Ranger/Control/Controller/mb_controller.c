@@ -37,15 +37,19 @@ void update_ui_fsm_state(void) {
 	UI_FSM_MODE_PREV = UI_FSM_MODE;
 
 	// Check UI buttons to update control mode
-	if (detect_UI_button_input(BUTTON_UNIT_TEST)) {
-		UI_FSM_MODE = UnitTest; 	// Run unit test
+	if (STATE_IS_FALLEN || detect_UI_button_input(BUTTON_STAND_BY)) {
+		UI_FSM_MODE = StandBy;    // go to stand-by
+		return;
 	}
 	if (detect_UI_button_input(BUTTON_WALK_CONTROL)) {
 		UI_FSM_MODE = WalkCtrl;   // Start the walking controller
+		return;
 	}
-	if (detect_UI_button_input(BUTTON_STAND_BY)) {
-		UI_FSM_MODE = StandBy;    // go to stand-by
+	if (detect_UI_button_input(BUTTON_UNIT_TEST)) {
+		UI_FSM_MODE = UnitTest; 	// Run unit test
+		return;
 	}
+
 
 }
 

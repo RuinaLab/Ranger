@@ -3,9 +3,6 @@
 
 #include <stdbool.h>
 
-extern bool HIP_GRAVITY_COMPENSATION;
-extern bool HIP_SPRING_COMPENSATION;
-
 void disable_motors(void);  // Shuts down all motors
 void disable_hip(void); // shuts down hip motor
 void disable_ankOut(void); // Shuts down the outer ankles

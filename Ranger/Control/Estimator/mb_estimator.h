@@ -5,6 +5,7 @@
 
 extern bool INITIALIZE_ESTIMATOR; // Should the estimator be initialized?
 
+
 /* Parameters set by LabVIEW */
 extern bool LABVIEW_HIP_COMPENSATION_TARGET; // Hip compensation at the target (true) or measured state (false)
 extern bool LABVIEW_HIP_GRAVITY_COMPENSATION;
@@ -26,6 +27,7 @@ extern float LABVIEW_WALK_SCISSOR_OFFSET;
 extern bool LABVIEW_GAIT_USE_MDP_DATA;  // True if walking controller should use MDP generated gait data.
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
+extern bool STATE_IS_FALLEN;  // Is the robot in a fallen state?
 extern float STATE_qh;  // hip angle
 extern float STATE_q0;  // outer ankle angle
 extern float STATE_q1;  // inner ankle angle
@@ -41,6 +43,7 @@ extern float STATE_dth1;  // absolute orientation rate of inner legs
 extern float STATE_dphi0;  // absolute orientation rate of outer feet
 extern float STATE_dphi1;  // absolute orientation rate of inner feet
 extern float STATE_velCom;  // horizontal component of the center of mass velocity
+extern float STATE_psi;  // Steering angle
 
 typedef enum {
 	CONTACT_S0,
