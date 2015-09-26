@@ -158,45 +158,45 @@ void runAllFilters(void) {
 	// outer leg absolute orientation
 	y = runFilter(&FC_FAST, &FD_OUTER_LEG_ANGLE);
 	y = y - GYRO_ROLL_BIAS;  // correct for bias term in the gyro
-	mb_io_set_float(ID_EST_STATE_TH0_IMU, y);
+	////HACK////  mb_io_set_float(ID_EST_STATE_TH0_IMU, y);
 	STATE_th0_imu = y; // Send robot orientation to the control and estimation code
 
 	// Outer leg absolute orientation rate
 	y = runFilter(&FC_FAST, &FD_UI_ANG_RATE_X);
 	y = y - GYRO_RATE_BIAS;   // correct for gyro bias
-	mb_io_set_float(ID_EST_STATE_DTH0, y);
+	////HACK////  mb_io_set_float(ID_EST_STATE_DTH0, y);
 	STATE_dth0 = y; // Send robot orientation rate to the control and estimation code
 
 	// Hip Angular Rate:
 	y = runFilter(&FC_FAST, &FD_MCH_ANG_RATE);
-	mb_io_set_float(ID_E_MCH_ANG_RATE, y);
+	////HACK////  mb_io_set_float(ID_E_MCH_ANG_RATE, y);
 	STATE_dqh = y;
 
 	// Outer Ankle Rate:
 	y = runFilter(&FC_FAST, &FD_MCFO_RIGHT_ANKLE_RATE);
-	mb_io_set_float(ID_E_MCFO_RIGHT_ANKLE_RATE, y);
+	////HACK////  mb_io_set_float(ID_E_MCFO_RIGHT_ANKLE_RATE, y);
 	STATE_dq0 = y;
 
 	// Inner Ankle Rate:
 	y = runFilter(&FC_FAST, &FD_MCFI_ANKLE_RATE);
-	mb_io_set_float(ID_E_MCFI_ANKLE_RATE, y);
+	////HACK////  mb_io_set_float(ID_E_MCFI_ANKLE_RATE, y);
 	STATE_dq1 = y;
 
 	// Outer feet contact filter:
 	y = runFilter(&FC_SLOW, &FD_MCFO_RIGHT_HEEL_SENSE);
 	y = y + runFilter(&FC_SLOW, &FD_MCFO_LEFT_HEEL_SENSE);
-	mb_io_set_float(ID_EST_CONTACT_OUTER, y);
+	////HACK////  mb_io_set_float(ID_EST_CONTACT_OUTER, y);
 	STATE_c0 = y > CONTACT_VALUE_THRESHOLD;
 
 	// Inner feet contact filter
 	y = runFilter(&FC_SLOW, &FD_MCFI_RIGHT_HEEL_SENSE);
 	y = y + runFilter(&FC_SLOW, &FD_MCFI_LEFT_HEEL_SENSE);
-	mb_io_set_float(ID_EST_CONTACT_INNER, y);
+	////HACK////  mb_io_set_float(ID_EST_CONTACT_INNER, y);
 	STATE_c1 = y > CONTACT_VALUE_THRESHOLD;
 
 	// Steering angle
 	y = runFilter(&FC_VERY_SLOW, &FD_MCSI_STEER_ANGLE);
-	mb_io_set_float(ID_EST_STATE_PSI, y);
+	////HACK////  mb_io_set_float(ID_EST_STATE_PSI, y);
 	STATE_psi = y;
 
 }
@@ -269,12 +269,12 @@ void updateRobotState(void) {
 	STATE_dphi1 = STATE_dqh + STATE_dth0 - STATE_dq1; // absolute orientation rate of inner feet
 
 	// Send back across network of data logging and diagnostics:
-	mb_io_set_float(ID_EST_STATE_TH1, STATE_th1);
-	mb_io_set_float(ID_EST_STATE_PHI0, STATE_phi0);
-	mb_io_set_float(ID_EST_STATE_PHI1, STATE_phi1);
-	mb_io_set_float(ID_EST_STATE_DTH1, STATE_dth1);
-	mb_io_set_float(ID_EST_STATE_DPHI0, STATE_dphi0);
-	mb_io_set_float(ID_EST_STATE_DPHI1, STATE_dphi1);
+	////HACK////  mb_io_set_float(ID_EST_STATE_TH1, STATE_th1);
+	////HACK////  mb_io_set_float(ID_EST_STATE_PHI0, STATE_phi0);
+	////HACK////  mb_io_set_float(ID_EST_STATE_PHI1, STATE_phi1);
+	////HACK////  mb_io_set_float(ID_EST_STATE_DTH1, STATE_dth1);
+	////HACK////  mb_io_set_float(ID_EST_STATE_DPHI0, STATE_dphi0);
+	////HACK////  mb_io_set_float(ID_EST_STATE_DPHI1, STATE_dphi1);
 
 	// Figure out the contact mode:
 	if (STATE_c0 && !STATE_c1) { // Single stance outer
@@ -290,7 +290,7 @@ void updateRobotState(void) {
 
 	// Do a bit of harder math to figure out the horizontal component of the CoM velocity
 	STATE_velCom = getCenterOfMassHorizontalVelocity();  // self documenting
-	mb_io_set_float(ID_EST_STATE_VELCOM, STATE_velCom);
+	////HACK////  mb_io_set_float(ID_EST_STATE_VELCOM, STATE_velCom);
 
 }
 
@@ -337,11 +337,11 @@ void resetRobotOrientation(void){
 /* Update the robot orientation by integral of the rate gyro */
 void updateRobotOrientation(void){
 	STATE_th0_gyro = STATE_th0_gyro + getIntegralRateGyro();
-	mb_io_set_float(ID_EST_STATE_TH0_GYRO, STATE_th0_gyro);
+	////HACK////  mb_io_set_float(ID_EST_STATE_TH0_GYRO, STATE_th0_gyro);
 
 	// For now, just set the robot state to be the imu internal sensor fusion:
-	STATE_th0 = STATE_th0_imu;
-	mb_io_set_float(ID_EST_STATE_TH0, STATE_th0);
+	STATE_th0 = STATE_th0_imu;  ////HACK////
+	////HACK////  mb_io_set_float(ID_EST_STATE_TH0, STATE_th0);
 }
 
 
@@ -383,8 +383,8 @@ void computeHeelStrikeGeometry(void) {
 	stepLength = Sqrt(x * x + y * y);  // Distance between two contact points
 	stepAngle = -(Atan(y / x) + Slope);   // angle of the outer legs
 
-	mb_io_set_float(ID_EST_LAST_STEP_LENGTH, stepLength);
-	mb_io_set_float(ID_EST_LAST_STEP_ANGLE, stepAngle);
+	////HACK////  mb_io_set_float(ID_EST_LAST_STEP_LENGTH, stepLength);
+	////HACK////  mb_io_set_float(ID_EST_LAST_STEP_ANGLE, stepAngle);
 
 	heelStrikeGyroReset(stepAngle);  // Reset the gyro estiamte for angles at heel-strike
 }
@@ -398,7 +398,7 @@ void sendTotalPower(void){
 	power = power + mb_io_get_float(ID_MCFO_BATT_POWER);
 	power = power + mb_io_get_float(ID_MCFI_BATT_POWER);
 	power = power + mb_io_get_float(ID_CSR_MCU_POWER);  // All overhead power
-	mb_io_set_float(ID_EST_TOTAL_BATT_POWER, power);
+	////HACK////  mb_io_set_float(ID_EST_TOTAL_BATT_POWER, power);
 }
 
 /* Checks to see if the robot fell down, by measuring the absolute angle of both legs

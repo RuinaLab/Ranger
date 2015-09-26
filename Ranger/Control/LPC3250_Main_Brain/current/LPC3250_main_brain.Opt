@@ -22,21 +22,21 @@ GRPOPT 6,(Controller),1,0,0
 
 OPTFFF 3,1,1,0,0,0,0,0,<.\src\mb_hardware_setup.c><mb_hardware_setup.c> 
 OPTFFF 3,2,2,0,0,0,0,0,<.\src\LPC32x0.s><LPC32x0.s> 
-OPTFFF 3,3,1,1207959552,0,1,12,0,<.\src\mb_software_setup.c><mb_software_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,25,0,0,0,25,0,0,0,163,5,0,0,154,1,0,0 }
+OPTFFF 3,3,1,721420288,0,13,16,0,<.\src\mb_software_setup.c><mb_software_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,25,0,0,0,25,0,0,0,163,5,0,0,154,1,0,0 }
 OPTFFF 3,4,1,0,0,0,0,0,<.\src\main.c><main.c> 
 OPTFFF 3,5,1,0,0,0,0,0,<.\src\mb_data_nexus.c><mb_data_nexus.c> 
 OPTFFF 4,6,1,704643072,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_scheduler\mb_scheduler.c><mb_scheduler.c> 
-OPTFFF 4,7,1,134217728,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_ssp_dma2\mb_ssp_dma.c><mb_ssp_dma.c> 
-OPTFFF 4,8,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_heartbeat\mb_heartbeat.c><mb_heartbeat.c> 
+OPTFFF 4,7,1,1107296256,0,463,463,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_ssp_dma2\mb_ssp_dma.c><mb_ssp_dma.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,100,0,0,0,100,0,0,0,238,5,0,0,229,1,0,0 }
+OPTFFF 4,8,1,117440512,0,10,30,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_heartbeat\mb_heartbeat.c><mb_heartbeat.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,75,0,0,0,75,0,0,0,213,5,0,0,204,1,0,0 }
 OPTFFF 4,9,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_bluetooth\mb_bluetooth.c><mb_bluetooth.c> 
 OPTFFF 4,10,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c><a9_clock.c> 
 OPTFFF 4,11,1,939524096,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c> 
 OPTFFF 4,12,1,67108864,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c> 
-OPTFFF 5,13,1,0,0,310,321,0,<..\..\Estimator\mb_estimator.c><mb_estimator.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,52,0,0,0,52,0,0,0,210,3,0,0,132,1,0,0 }
+OPTFFF 5,13,1,0,0,398,409,0,<..\..\Estimator\mb_estimator.c><mb_estimator.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,52,0,0,0,52,0,0,0,210,3,0,0,132,1,0,0 }
 OPTFFF 5,14,1,0,0,0,0,0,<..\..\Estimator\robotParameters.c><robotParameters.c> 
-OPTFFF 6,15,1,352321536,0,1,7,0,<..\..\Controller\mb_controller.c><mb_controller.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,98,5,0,0,184,1,0,0 }
+OPTFFF 6,15,1,2,0,92,103,0,<..\..\Controller\mb_controller.c><mb_controller.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,98,5,0,0,184,1,0,0 }
 OPTFFF 6,16,1,553648128,0,0,0,0,<..\..\Controller\input_output.c><input_output.c> 
-OPTFFF 6,17,1,0,0,46,57,0,<..\..\Controller\motorControl.c><motorControl.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,125,0,0,0,125,0,0,0,7,6,0,0,254,1,0,0 }
+OPTFFF 6,17,1,0,0,55,57,0,<..\..\Controller\motorControl.c><motorControl.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,125,0,0,0,125,0,0,0,7,6,0,0,254,1,0,0 }
 OPTFFF 6,18,1,0,0,296,308,0,<..\..\Controller\RangerMath.c><RangerMath.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,100,0,0,0,100,0,0,0,238,5,0,0,229,1,0,0 }
 OPTFFF 6,19,1,0,0,336,347,0,<..\..\Controller\unit_test.c><unit_test.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,138,5,0,0,129,1,0,0 }
 OPTFFF 6,20,1,0,0,37,56,0,<..\..\Controller\walkControl.c><walkControl.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,25,0,0,0,25,0,0,0,163,5,0,0,154,1,0,0 }
@@ -44,7 +44,8 @@ OPTFFF 6,21,1,0,0,95,105,0,<..\..\Controller\gaitControl.c><gaitControl.c> { 44,
 OPTFFF 6,22,1,0,0,0,0,0,<..\..\Controller\gaitControlData.c><gaitControlData.c> 
 
 ExtF <C:\Users\Matt\Git\RangerCode\Ranger\Control\Controller\unit_test.h> 1,6,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,50,0,0,0,50,0,0,0,188,5,0,0,179,1,0,0 }
-ExtF <C:\Users\Matt\Git\RangerCode\Ranger\Control\Controller\motorControl.h> 1,8,0,{ 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,75,0,0,0,75,0,0,0,213,5,0,0,204,1,0,0 }
+ExtF <C:\Users\Matt\Git\RangerCode\Ranger\Control\Controller\motorControl.h> 1,11,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,75,0,0,0,75,0,0,0,213,5,0,0,204,1,0,0 }
+ExtF <C:\Users\Matt\Git\RangerCode\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_gbrl\stability.h> 1,18,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,50,0,0,0,50,0,0,0,188,5,0,0,179,1,0,0 }
 
 TARGOPT 1, (LPC3250 Int RAM)
  ADSCLK=13000000
