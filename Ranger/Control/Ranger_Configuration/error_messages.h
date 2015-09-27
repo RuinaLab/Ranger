@@ -1,5 +1,5 @@
 //Error messages for MB to display on the LCD
-char* mb_error_messages[111] = {
+char* mb_error_messages[112] = {
 	"ADCI_BAD_CHAN",
 	"ADCI_DNF",
 	"ADCI_FILT_OOB",
@@ -110,6 +110,7 @@ char* mb_error_messages[111] = {
 	"MC_NOT_RUNNING",
 	"AE_SPIKE",
 	"EST_FILTER_TIME_VIOLATION",
+	"EST_ROBOT_FALL",
 	"LAST_ERROR"
 };
 

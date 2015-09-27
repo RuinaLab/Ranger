@@ -21,6 +21,7 @@ const int LED_WALK_FSM = 1;  // Top right
 const int LED_CONTACT = 4;  // middle left
 const int LED_UI_FSM = 5;   // Top left
 const int LED_GAIT_FSM = 2; // middle right
+const int LED_DEBUG = 3;  // bottom right. Used for debugging code. Should be inactive during normal operation.
 
 /* Name the UI buttons.
  * button 0 is the left-most button,

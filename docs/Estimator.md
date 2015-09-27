@@ -8,13 +8,9 @@ The `ID_XXXXXX` is a paramter ID that is obtained from the can_table.csv file, o
 ### Notes:
 - Each sensor reading is assigned a time-stamp along with the data. This allows for data-logging, and allows for asynchronous communication.
 - This estimator is really just a series of Second-Order [Butterworth Filters](https://en.wikipedia.org/wiki/Butterworth_filter). A simple implementation can be found [here](https://github.com/MatthewPeterKelly/myJavaPkgs/blob/master/mpk_dsc/ButterworthFilter.java). 
-- Since the time-stamps are rounded to the nearest millisecond, the filter code uses that as the default sample rate. Any missing data is filled in using a zero-order-hold. The filter should be called about every 2ms, but in practice the time-stamps are anywhere from 1ms-4ms apart.
-
-### Anoop's Estimator:
-The code defines a bunch of functions for running Butterworth Filters, as well as piecewise-polynomial approximations to some simple analytic functions.
 
 ### Heel-strike detector:
-The code computes the mean-value of the contact sensors on the swing foot in the half of the swing before it hits the ground. The threshold is then adjusted based on this "nominal" value. 
+There is a contact sensor on each foot, that gives a raw value that is roughly proportional to how much force is on the foot. The sensors on each pair of feet are filtered, added together, and then thresholded to determine if a pair of feet are in contact with the ground.
 
 The contact sensor is actually an optical sensor that measures the deflection of the foot. There is a complicated geometric relation between the deflection and the load, so it is converted to a boolean value with a threshold. The contact detection works best when the foot is in the horizontal configuration.
 
@@ -30,13 +26,3 @@ The contact sensor is actually an optical sensor that measures the deflection of
 
 ### Sign Convention:
 - `ID_MCH_ANGLE`- Hip angle, positive when the inner legs are swung forward  
-
-### Yawen's Estimator:
-- Added the function mb_estimator_update to the schedule (list of tasks to be executed) in mb_software_setup (which gets called every ...)
-- mb_estimator_update runs a second order Butterworth filter to filter out data for hip angle rate and motor velocity.
-- The second order butterworth filter computes an estimated value at each time stamp based on the current measured value and the measured/estimated values at the past two time stamps. 
-- Although the main brain runs every 2 ms, the time interval between two sampled may not always be exactly 2 ms. Since the smallest count of time is 1, we will
-make the butterworth filter operate at the 1ms sampling time. The missing data is assumed to be the same as the previous data (this is called zero order hold).
-- The set of coefficients used in the butterworth filter equation are calculated according to the ratio of cut_off frequency to half of the sampling frequency (Nyquist frequency). In our case, the sampling frequency is 1 kHz, and the cut_off frequency is set to be 50 Hz, the ratio is calcuated as 50Hz/500Hz=0.1.
-    
-

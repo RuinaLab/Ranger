@@ -42,8 +42,9 @@ extern float STATE_dth0;  // absolute orientation rate of outer legs
 extern float STATE_dth1;  // absolute orientation rate of inner legs
 extern float STATE_dphi0;  // absolute orientation rate of outer feet
 extern float STATE_dphi1;  // absolute orientation rate of inner feet
+extern float STATE_psi;  // Steering angle    (Currently unused due to BROKEN STEERING ANGLE SENSOR)
+extern float STATE_posCom;  // horizontal component of the center of mass position
 extern float STATE_velCom;  // horizontal component of the center of mass velocity
-extern float STATE_psi;  // Steering angle
 
 typedef enum {
 	CONTACT_S0,
