@@ -1,0 +1,1992 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+<title>Static Call Graph - [.\Flash\keil_framework_2194.axf]</title></head>
+<body><HR>
+<H1>Static Call Graph for image .\Flash\keil_framework_2194.axf</H1><HR>
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, RVCT4.0 [Build 524]: Last Updated: Thu Feb 21 19:05:59 2013
+<BR><P>
+<H3>Maximum Stack Usage =        296 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+Call chain for Maximum Stack Depth:</H3>
+main &rArr; init_software &rArr; qdc_tmr0_init &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<P>
+<H3>
+Functions with no stack information
+</H3><UL>
+ <LI><a href="#[bc47b4]">Reset_Handler</a>
+ <LI><a href="#[bc473c]">FIQ_Handler</a>
+ <LI><a href="#[bc49d0]">Undef_Handler</a>
+ <LI><a href="#[bc4994]">SWI_Handler</a>
+ <LI><a href="#[bc4958]">PAbt_Handler</a>
+ <LI><a href="#[bc491c]">DAbt_Handler</a>
+ <LI><a href="#[bc48e0]">IRQ_Handler</a>
+ <LI><a href="#[bb97ec]">__switch$$</a>
+ <LI><a href="#[bb97b0]">__switch$$</a>
+</UL>
+</UL>
+<P>
+<H3>
+Mutually Recursive functions
+</H3> <LI><a href="#[bc3698]">mutex_lock</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[bc3698]">mutex_lock</a><BR>
+ <LI><a href="#[141c3a8]">_float_round</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[141c3a8]">_float_round</a><BR>
+ <LI><a href="#[bc49d0]">Undef_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[bc49d0]">Undef_Handler</a><BR>
+ <LI><a href="#[bc4994]">SWI_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[bc4994]">SWI_Handler</a><BR>
+ <LI><a href="#[bc4958]">PAbt_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[bc4958]">PAbt_Handler</a><BR>
+ <LI><a href="#[bc491c]">DAbt_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[bc491c]">DAbt_Handler</a><BR>
+ <LI><a href="#[bc48e0]">IRQ_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[bc48e0]">IRQ_Handler</a><BR>
+</UL>
+<P>
+<H3>
+Function Pointers
+</H3><UL>
+ <LI><a href="#[bc3620]">voidvoid</a>
+ <LI><a href="#[bc3710]">intvoid</a>
+ <LI><a href="#[bc2b94]">voidint</a>
+ <LI><a href="#[bc3620]">voidvoid</a>
+ <LI><a href="#[bc3710]">intvoid</a>
+ <LI><a href="#[bc47b4]">Reset_Handler</a>
+ <LI><a href="#[bc49d0]">Undef_Handler</a>
+ <LI><a href="#[bc4994]">SWI_Handler</a>
+ <LI><a href="#[bc4958]">PAbt_Handler</a>
+ <LI><a href="#[bc491c]">DAbt_Handler</a>
+ <LI><a href="#[bc48e0]">IRQ_Handler</a>
+ <LI><a href="#[bc473c]">FIQ_Handler</a>
+ <LI><a href="#[141e130]">__main</a>
+ <LI><a href="#[bc4d18]">main</a>
+ <LI><a href="#[bc4070]">asched_get_timestamp</a>
+ <LI><a href="#[bc185c]">dn_error_transmit</a>
+ <LI><a href="#[bc1898]">dn_blue_heartbeat</a>
+ <LI><a href="#[bc17a8]">dn_get_motor_vel_rads</a>
+ <LI><a href="#[bc17e4]">dn_get_motor_pos_rads</a>
+ <LI><a href="#[bc16b8]">dn_get_raw_motor_current</a>
+ <LI><a href="#[bc176c]">dn_get_p0</a>
+ <LI><a href="#[bc1730]">dn_get_p1</a>
+ <LI><a href="#[bc167c]">dn_get_raw_right_hs</a>
+ <LI><a href="#[bc16f4]">dn_get_raw_left_hs</a>
+ <LI><a href="#[bbff84]">dn_rx_timestamp</a>
+ <LI><a href="#[bc04ac]">can_rx_setter_float_dummy</a>
+ <LI><a href="#[bc0470]">can_rx_setter_int_dummy</a>
+ <LI><a href="#[bc1424]">mc_set_command_current</a>
+ <LI><a href="#[bc13ac]">mc_set_stiffness</a>
+ <LI><a href="#[bc13e8]">mc_set_dampness</a>
+ <LI><a href="#[bbfed0]">mc_set_target_current</a>
+ <LI><a href="#[bbff48]">mc_set_shutdown</a>
+ <LI><a href="#[bbff0c]">mc_set_sleep</a>
+ <LI><a href="#[bc3878]">error_get_time</a>
+ <LI><a href="#[bc383c]">error_get_info</a>
+ <LI><a href="#[bc4070]">asched_get_timestamp</a>
+ <LI><a href="#[bc17e4]">dn_get_motor_pos_rads</a>
+ <LI><a href="#[bc17a8]">dn_get_motor_vel_rads</a>
+ <LI><a href="#[bc00b0]">dn_get_motor_current</a>
+ <LI><a href="#[bc1820]">dn_get_ankle_pos_rads</a>
+ <LI><a href="#[bc0308]">dn_get_ankle_vel_rads</a>
+ <LI><a href="#[bc0290]">dn_get_battery_power</a>
+ <LI><a href="#[bbfffc]">dn_get_right_ls</a>
+ <LI><a href="#[bc0128]">dn_get_left_ls</a>
+ <LI><a href="#[bc0038]">dn_get_right_hs</a>
+ <LI><a href="#[bc0164]">dn_get_left_hs</a>
+ <LI><a href="#[bbffc0]">dn_get_status</a>
+ <LI><a href="#[bc02cc]">dn_get_battery_current</a>
+ <LI><a href="#[bc0254]">dn_get_battery_voltage</a>
+ <LI><a href="#[bc01dc]">dn_get_hbridge_temp</a>
+ <LI><a href="#[bc0074]">dn_get_right_heel_sense</a>
+ <LI><a href="#[bc01a0]">dn_get_left_heel_sense</a>
+ <LI><a href="#[bc0218]">dn_get_execution_time</a>
+ <LI><a href="#[bc00ec]">dn_get_max_execution_time</a>
+ <LI><a href="#[bbfa5c]">can_rx1_isr</a>
+ <LI><a href="#[bbfb10]">adcx_isr</a>
+ <LI><a href="#[bbfb4c]">adci_isr</a>
+ <LI><a href="#[bc25b8]">timer1_isr</a>
+ <LI><a href="#[bbfa98]">can_error_isr</a>
+ <LI><a href="#[bbfad4]">ae_isr</a>
+ <LI><a href="#[bb97ec]">__switch$$</a>
+ <LI><a href="#[bb97ec]">__switch$$</a>
+ <LI><a href="#[bb97ec]">__switch$$</a>
+ <LI><a href="#[bb97ec]">__switch$$</a>
+ <LI><a href="#[bb97ec]">__switch$$</a>
+ <LI><a href="#[bb97b0]">__switch$$</a>
+ <LI><a href="#[bb97b0]">__switch$$</a>
+ <LI><a href="#[bb97b0]">__switch$$</a>
+ <LI><a href="#[bb97b0]">__switch$$</a>
+ <LI><a href="#[bb97b0]">__switch$$</a>
+ <LI><a href="#[bc1fdc]">task_every_row</a>
+ <LI><a href="#[bc1cd0]">can_tx_angle</a>
+ <LI><a href="#[bc15c8]">dn_sched_done</a>
+ <LI><a href="#[bc1fdc]">task_every_row</a>
+ <LI><a href="#[bc1910]">can_tx_rate</a>
+ <LI><a href="#[bc15c8]">dn_sched_done</a>
+ <LI><a href="#[bc1fdc]">task_every_row</a>
+ <LI><a href="#[bc18d4]">can_tx_right_heel_sense</a>
+ <LI><a href="#[bc15c8]">dn_sched_done</a>
+ <LI><a href="#[bc1fdc]">task_every_row</a>
+ <LI><a href="#[bc1af0]">can_tx_hs_right</a>
+ <LI><a href="#[bc15c8]">dn_sched_done</a>
+ <LI><a href="#[bc1fdc]">task_every_row</a>
+ <LI><a href="#[bc1b2c]">can_tx_hs_left</a>
+ <LI><a href="#[bc15c8]">dn_sched_done</a>
+ <LI><a href="#[bc1fdc]">task_every_row</a>
+ <LI><a href="#[bc1988]">can_tx_motor_pos</a>
+ <LI><a href="#[bc15c8]">dn_sched_done</a>
+ <LI><a href="#[bc1fdc]">task_every_row</a>
+ <LI><a href="#[bc1ab4]">can_tx_left_heel_sense</a>
+ <LI><a href="#[bc15c8]">dn_sched_done</a>
+ <LI><a href="#[bc1fdc]">task_every_row</a>
+ <LI><a href="#[bc1c58]">can_tx_batt_power</a>
+ <LI><a href="#[bc15c8]">dn_sched_done</a>
+ <LI><a href="#[bc1fdc]">task_every_row</a>
+ <LI><a href="#[bc1fa0]">run_occasionally</a>
+ <LI><a href="#[bc15c8]">dn_sched_done</a>
+ <LI><a href="#[bc3620]">voidvoid</a>
+ <LI><a href="#[bc3710]">intvoid</a>
+ <LI><a href="#[bc2b94]">voidint</a>
+ <LI><a href="#[bc3620]">voidvoid</a>
+ <LI><a href="#[bc3710]">intvoid</a>
+</UL>
+<P>
+<H3>
+Global Symbols
+</H3>
+<P><STRONG><a name="[bc47b4]"></a>Reset_Handler</STRONG> (ARM, 0 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[141e130]"></a>__main</STRONG> (ARM, 0 bytes, Stack size unknown bytes, entry.o(.ARM.Collect$$$$00000000))
+
+<P><STRONG><a name="[141caec]"></a>_main_stk</STRONG> (ARM, 0 bytes, Stack size unknown bytes, entry2.o(.ARM.Collect$$$$00000001))
+
+<P><STRONG><a name="[141c9fc]"></a>_main_scatterload</STRONG> (ARM, 0 bytes, Stack size unknown bytes, entry5.o(.ARM.Collect$$$$00000004))
+<BR><BR>[Calls]<UL><LI><a href="#[141c1c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+</UL>
+
+<P><STRONG><a name="[141c9c0]"></a>__main_after_scatterload</STRONG> (ARM, 0 bytes, Stack size unknown bytes, entry5.o(.ARM.Collect$$$$00000004))
+<BR><BR>[Called By]<UL><LI><a href="#[141c1c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+</UL>
+
+<P><STRONG><a name="[141c8d0]"></a>_main_init</STRONG> (ARM, 0 bytes, Stack size unknown bytes, entry7.o(.ARM.Collect$$$$00000007))
+
+<P><STRONG><a name="[141e928]"></a>can_rx_push</STRONG> (ARM, 72 bytes, Stack size 0 bytes, can.o(.emb_text))
+<BR><BR>[Called By]<UL><LI><a href="#[bbfa5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx1_isr
+<LI><a href="#[141e4b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx4_isr
+<LI><a href="#[141e4f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx3_isr
+<LI><a href="#[141e52c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx2_isr
+</UL>
+
+<P><STRONG><a name="[bc4d54]"></a>init</STRONG> (ARM, 28 bytes, Stack size 8 bytes, main.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bc4bb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_values
+<LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+<LI><a href="#[bc4c28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_interrupts
+<LI><a href="#[bc4c64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
+<LI><a href="#[bc4ca0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_can
+</UL>
+
+<P><STRONG><a name="[bc4d18]"></a>main</STRONG> (ARM, 64 bytes, Stack size 8 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 296<LI>Call Chain = main &rArr; init_software &rArr; qdc_tmr0_init &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4bb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_values
+<LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+<LI><a href="#[bc4c28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_interrupts
+<LI><a href="#[bc4c64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
+<LI><a href="#[bc4ca0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_can
+<LI><a href="#[bc4cdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;asched_run
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> entry7.o(.ARM.Collect$$$$00000007)
+</UL>
+<P><STRONG><a name="[bc4124]"></a>asched_init</STRONG> (ARM, 40 bytes, Stack size 0 bytes, async_scheduler.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+
+<P><STRONG><a name="[bc40e8]"></a>asched_tick</STRONG> (ARM, 144 bytes, Stack size 8 bytes, async_scheduler.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = asched_tick &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc25b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer1_isr
+</UL>
+
+<P><STRONG><a name="[bc40ac]"></a>asched_set_timestamp</STRONG> (ARM, 12 bytes, Stack size 0 bytes, async_scheduler.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bbff84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_rx_timestamp
+</UL>
+
+<P><STRONG><a name="[bc4cdc]"></a>asched_run</STRONG> (ARM, 100 bytes, Stack size 8 bytes, async_scheduler.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = asched_run
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4d18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[bc4070]"></a>asched_get_timestamp</STRONG> (ARM, 12 bytes, Stack size 0 bytes, async_scheduler.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc15c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_sched_done
+</UL>
+<BR>[Address Reference Count : 2]<UL><LI> software_setup.o(.text)
+<LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc3968]"></a>error_init</STRONG> (ARM, 48 bytes, Stack size 0 bytes, error.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+
+<P><STRONG><a name="[bc4034]"></a>error_occurred</STRONG> (ARM, 92 bytes, Stack size 8 bytes, error.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc365c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mutex_unlock
+<LI><a href="#[bc3698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mutex_lock
+<LI><a href="#[bc36d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mutex_check
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbae30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_write
+<LI><a href="#[bbae6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_read_buffer
+<LI><a href="#[bbc618]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_run_no_control
+<LI><a href="#[bbc7f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_pid_current
+<LI><a href="#[bbc834]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_pwm
+<LI><a href="#[bbd860]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adci_efilter_add
+<LI><a href="#[bbedb4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ls_get_state
+<LI><a href="#[bbedf0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_get_pos
+<LI><a href="#[bbfad4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_isr
+<LI><a href="#[bbfb10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_isr
+<LI><a href="#[bbfb4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adci_isr
+<LI><a href="#[bbfed0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_target_current
+<LI><a href="#[bc1244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_rate_update
+<LI><a href="#[bc12f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_rate_update
+<LI><a href="#[bc149c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_compliant_control
+<LI><a href="#[bc1514]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ls_init_switch
+<LI><a href="#[bc1604]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_safety
+<LI><a href="#[bc1dfc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_init_encoder
+<LI><a href="#[bc1e38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_init
+<LI><a href="#[bc1e74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_convert_all
+<LI><a href="#[bc1eec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_add_config
+<LI><a href="#[bc1f64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adci_convert_all
+<LI><a href="#[bc2b1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;floatvoid
+<LI><a href="#[bc2b94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;voidint
+<LI><a href="#[bc3620]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;voidvoid
+<LI><a href="#[bc3710]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;intvoid
+<LI><a href="#[bc40e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;asched_tick
+</UL>
+
+<P><STRONG><a name="[bc392c]"></a>error_occurred_irq</STRONG> (ARM, 92 bytes, Stack size 8 bytes, error.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = error_occurred_irq
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc365c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mutex_unlock
+<LI><a href="#[bc3698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mutex_lock
+<LI><a href="#[bc36d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mutex_check
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbfa98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_error_isr
+</UL>
+
+<P><STRONG><a name="[bc38f0]"></a>error_occurred_fiq</STRONG> (ARM, 92 bytes, Stack size 8 bytes, error.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bc365c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mutex_unlock
+<LI><a href="#[bc3698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mutex_lock
+<LI><a href="#[bc36d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mutex_check
+</UL>
+
+<P><STRONG><a name="[bc38b4]"></a>error_update</STRONG> (ARM, 388 bytes, Stack size 72 bytes, error.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = error_update
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bc3878]"></a>error_get_time</STRONG> (ARM, 32 bytes, Stack size 0 bytes, error.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc383c]"></a>error_get_info</STRONG> (ARM, 56 bytes, Stack size 0 bytes, error.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc3800]"></a>error_get_board</STRONG> (ARM, 12 bytes, Stack size 0 bytes, error.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc37c4]"></a>error_get_id</STRONG> (ARM, 28 bytes, Stack size 0 bytes, error.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc3788]"></a>error_get_frequency</STRONG> (ARM, 28 bytes, Stack size 0 bytes, error.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc374c]"></a>error_send_next</STRONG> (ARM, 132 bytes, Stack size 0 bytes, error.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[bc36d4]"></a>mutex_check</STRONG> (ARM, 8 bytes, Stack size 0 bytes, mutex.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc38f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_fiq
+<LI><a href="#[bc392c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_irq
+<LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+
+<P><STRONG><a name="[bc3698]"></a>mutex_lock</STRONG> (ARM, 24 bytes, Stack size 0 bytes, mutex.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[bc3698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mutex_lock
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc3698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mutex_lock
+<LI><a href="#[bc38f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_fiq
+<LI><a href="#[bc392c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_irq
+<LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+
+<P><STRONG><a name="[bc365c]"></a>mutex_unlock</STRONG> (ARM, 12 bytes, Stack size 0 bytes, mutex.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc38f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_fiq
+<LI><a href="#[bc392c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_irq
+<LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+
+<P><STRONG><a name="[bc2db0]"></a>float_to_fixed</STRONG> (ARM, 20 bytes, Stack size 8 bytes, utility.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = float_to_fixed
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc2978]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz
+<LI><a href="#[bc29b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbnf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbc780]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_ki
+<LI><a href="#[bbc7bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_kp
+<LI><a href="#[bbc8ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_unsafe_target_current
+<LI><a href="#[bbfed0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_target_current
+<LI><a href="#[bc13ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_stiffness
+<LI><a href="#[bc13e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_dampness
+<LI><a href="#[bc1424]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_command_current
+<LI><a href="#[bc1460]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_init
+<LI><a href="#[bc149c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_compliant_control
+</UL>
+
+<P><STRONG><a name="[bc2d74]"></a>int_to_fixed</STRONG> (ARM, 8 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc2d38]"></a>fixed_to_float</STRONG> (ARM, 20 bytes, Stack size 8 bytes, utility.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = fixed_to_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[bc29b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbnf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbc7f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_pid_current
+<LI><a href="#[bc1460]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_init
+</UL>
+
+<P><STRONG><a name="[bc2cfc]"></a>fixed_to_int</STRONG> (ARM, 8 bytes, Stack size 0 bytes, utility.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bbc7f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_pid_current
+</UL>
+
+<P><STRONG><a name="[bc2cc0]"></a>fixed_mult</STRONG> (ARM, 16 bytes, Stack size 0 bytes, utility.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bbc7f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_pid_current
+<LI><a href="#[bc1460]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_init
+<LI><a href="#[bc149c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_compliant_control
+</UL>
+
+<P><STRONG><a name="[bc2c84]"></a>fixed_mult_to_long</STRONG> (ARM, 20 bytes, Stack size 0 bytes, utility.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bbc7f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_pid_current
+</UL>
+
+<P><STRONG><a name="[bc2c48]"></a>linear_to_fixed</STRONG> (ARM, 52 bytes, Stack size 8 bytes, utility.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = linear_to_fixed
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc2978]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz
+<LI><a href="#[bc29b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbnf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbf228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_raw_battery_current
+<LI><a href="#[bbf2a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_raw_battery_voltage
+<LI><a href="#[bc16b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_raw_motor_current
+</UL>
+
+<P><STRONG><a name="[bc2c0c]"></a>fixed_abs</STRONG> (ARM, 12 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc3620]"></a>voidvoid</STRONG> (ARM, 8 bytes, Stack size 0 bytes, utility.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = voidvoid &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Address Reference Count : 2]<UL><LI> error.o(.data)
+<LI> heartbeat.o(.data)
+</UL>
+<P><STRONG><a name="[bc2bd0]"></a>voidvoid_noerror</STRONG> (ARM, 4 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc2b94]"></a>voidint</STRONG> (ARM, 8 bytes, Stack size 0 bytes, utility.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = voidint &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> utility.o(.data)
+</UL>
+<P><STRONG><a name="[bc2b58]"></a>voidint_noerror</STRONG> (ARM, 4 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc2b1c]"></a>floatvoid</STRONG> (ARM, 20 bytes, Stack size 8 bytes, utility.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+
+<P><STRONG><a name="[bc2ae0]"></a>floatvoid_noerror</STRONG> (ARM, 8 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc3710]"></a>intvoid</STRONG> (ARM, 20 bytes, Stack size 8 bytes, utility.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = intvoid &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Address Reference Count : 2]<UL><LI> error.o(.data)
+<LI> heartbeat.o(.data)
+</UL>
+<P><STRONG><a name="[bc2aa4]"></a>intvoid_noerror</STRONG> (ARM, 8 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc2a68]"></a>tic_toc_init</STRONG> (ARM, 12 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc2a2c]"></a>tic</STRONG> (ARM, 24 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc29f0]"></a>toc</STRONG> (ARM, 56 bytes, Stack size 8 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc4c64]"></a>init_hardware</STRONG> (ARM, 1172 bytes, Stack size 16 bytes, hardware_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = init_hardware
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4d18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[bc4d54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+</UL>
+
+<P><STRONG><a name="[bc25b8]"></a>timer1_isr</STRONG> (ARM, 40 bytes, Stack size 24 bytes, hardware_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = timer1_isr &rArr; asched_tick &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc40e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;asched_tick
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> interrupts.o(.text)
+</UL>
+<P><STRONG><a name="[bc1fdc]"></a>task_every_row</STRONG> (ARM, 72 bytes, Stack size 8 bytes, software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 132<LI>Call Chain = task_every_row &rArr; can_rx_dispatch_all &rArr; can_rx_dispatch_frame &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc1244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_rate_update
+<LI><a href="#[bc1280]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_angle_update
+<LI><a href="#[bc12f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_rate_update
+<LI><a href="#[bc1334]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_angle_update
+<LI><a href="#[bc1370]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mcu_led_update
+<LI><a href="#[bc149c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_compliant_control
+<LI><a href="#[bc14d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ls_update
+<LI><a href="#[bc158c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hb_beat
+<LI><a href="#[bc1604]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_safety
+<LI><a href="#[bc1d0c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx1
+<LI><a href="#[bc1d48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_dispatch_all
+<LI><a href="#[bc1dc0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_update
+<LI><a href="#[bc1e74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_convert_all
+<LI><a href="#[bc1eb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_conversion_wait
+<LI><a href="#[bc1f64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adci_convert_all
+<LI><a href="#[bc38b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_update
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[bc1fa0]"></a>run_occasionally</STRONG> (ARM, 256 bytes, Stack size 8 bytes, software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = run_occasionally &rArr; dn_outer_feet_motor_encoder_rezero &rArr; __aeabi_dadd &rArr; _double_addcore &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc1640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_outer_feet_motor_encoder_rezero
+<LI><a href="#[bc18d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_right_heel_sense
+<LI><a href="#[bc1910]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_rate
+<LI><a href="#[bc194c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_motor_vel
+<LI><a href="#[bc19c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_motor_current
+<LI><a href="#[bc1a00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_max_exec_time
+<LI><a href="#[bc1a3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_ls_right
+<LI><a href="#[bc1a78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_ls_left
+<LI><a href="#[bc1b68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_hbridge_temp
+<LI><a href="#[bc1ba4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_exec_time
+<LI><a href="#[bc1be0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_board_status
+<LI><a href="#[bc1c1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_batt_voltage
+<LI><a href="#[bc1c94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_batt_current
+<LI><a href="#[bc374c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_send_next
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[bc4bec]"></a>init_software</STRONG> (ARM, 388 bytes, Stack size 64 bytes, software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = init_software &rArr; qdc_tmr0_init &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc11cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_init
+<LI><a href="#[bc13ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_stiffness
+<LI><a href="#[bc13e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_dampness
+<LI><a href="#[bc1424]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_command_current
+<LI><a href="#[bc1460]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_init
+<LI><a href="#[bc1514]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ls_init_switch
+<LI><a href="#[bc1550]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hb_init
+<LI><a href="#[bc1dfc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_init_encoder
+<LI><a href="#[bc1e38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_init
+<LI><a href="#[bc1eec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_add_config
+<LI><a href="#[bc1f28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adci_init
+<LI><a href="#[bc3968]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_init
+<LI><a href="#[bc4124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;asched_init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4d18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[bc4d54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+</UL>
+
+<P><STRONG><a name="[bc4bb0]"></a>init_values</STRONG> (ARM, 32 bytes, Stack size 8 bytes, software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = init_values &rArr; qdc_tmr0_cap23_set_angle_float &rArr; __aeabi_ldivmod &rArr; __aeabi_uldivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc1208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_set_angle_float
+<LI><a href="#[bc12bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_set_angle_float
+<LI><a href="#[bc1820]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_ankle_pos_rads
+<LI><a href="#[bc1d84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_wait
+<LI><a href="#[bc1dc0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_update
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4d18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[bc4d54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+</UL>
+
+<P><STRONG><a name="[bc4ca0]"></a>init_can</STRONG> (ARM, 800 bytes, Stack size 16 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = init_can &rArr; can_set_tx_descriptor_ii
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0380]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_set_tx_descriptor_ii
+<LI><a href="#[bc03bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_set_tx_descriptor_fi
+<LI><a href="#[bc03f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_set_rx_descriptor_ii
+<LI><a href="#[bc0434]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_set_rx_descriptor_fi
+<LI><a href="#[bc04e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_set_descriptors
+<LI><a href="#[bc0524]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4d18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[bc4d54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+</UL>
+
+<P><STRONG><a name="[bc1988]"></a>can_tx_motor_pos</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_motor_pos &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[bc194c]"></a>can_tx_motor_vel</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_motor_vel &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[bc19c4]"></a>can_tx_motor_current</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_motor_current &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[bc1cd0]"></a>can_tx_angle</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_angle &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[bc1910]"></a>can_tx_rate</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_rate &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[bc1c58]"></a>can_tx_batt_power</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_batt_power &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[bc1a3c]"></a>can_tx_ls_right</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_ls_right &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[bc1a78]"></a>can_tx_ls_left</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_ls_left &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[bc1af0]"></a>can_tx_hs_right</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_hs_right &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[bc1b2c]"></a>can_tx_hs_left</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_hs_left &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[bc1be0]"></a>can_tx_board_status</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_board_status &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[bc1c94]"></a>can_tx_batt_current</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_batt_current &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[bc1c1c]"></a>can_tx_batt_voltage</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_batt_voltage &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[bc1b68]"></a>can_tx_hbridge_temp</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_hbridge_temp &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[bc1ab4]"></a>can_tx_left_heel_sense</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_left_heel_sense &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[bc18d4]"></a>can_tx_right_heel_sense</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_right_heel_sense &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[bc1ba4]"></a>can_tx_exec_time</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_exec_time &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[bc1a00]"></a>can_tx_max_exec_time</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_tx_max_exec_time &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[bc4c28]"></a>init_interrupts</STRONG> (ARM, 200 bytes, Stack size 0 bytes, interrupts.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc4d18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[bc4d54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+</UL>
+
+<P><STRONG><a name="[bc0128]"></a>dn_get_left_ls</STRONG> (ARM, 24 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = dn_get_left_ls &rArr; ls_get_state &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbedb4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ls_get_state
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbfffc]"></a>dn_get_right_ls</STRONG> (ARM, 24 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = dn_get_right_ls &rArr; ls_get_state &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbedb4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ls_get_state
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc17e4]"></a>dn_get_motor_pos_rads</STRONG> (ARM, 4 bytes, Stack size 0 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_motor_pos_rads &rArr; qdc_tmr0_cap01_get_angle_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbebd4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_get_angle_float
+</UL>
+<BR>[Address Reference Count : 2]<UL><LI> software_setup.o(.text)
+<LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc1820]"></a>dn_get_ankle_pos_rads</STRONG> (ARM, 36 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = dn_get_ankle_pos_rads &rArr; ae_get_pos &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbedf0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_get_pos
+<LI><a href="#[bbef58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4bb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_values
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc1604]"></a>dn_safety</STRONG> (ARM, 268 bytes, Stack size 24 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = dn_safety &rArr; ls_get_state &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbebd4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_get_angle_float
+<LI><a href="#[bbec10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mcu_led_red_blink
+<LI><a href="#[bbed78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_direction_control
+<LI><a href="#[bbedb4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ls_get_state
+<LI><a href="#[bbedf0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_get_pos
+<LI><a href="#[bbef1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_frsub
+<LI><a href="#[bbef58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bc1898]"></a>dn_blue_heartbeat</STRONG> (ARM, 8 bytes, Stack size 0 bytes, data_nexus.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[bbec88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mcu_led_blue_blink
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbf318]"></a>dn_green_heartbeat</STRONG> (ARM, 8 bytes, Stack size 0 bytes, data_nexus.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bbec4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mcu_led_green_blink
+</UL>
+
+<P><STRONG><a name="[bbf2dc]"></a>dn_red_heartbeat</STRONG> (ARM, 8 bytes, Stack size 0 bytes, data_nexus.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bbec10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mcu_led_red_blink
+</UL>
+
+<P><STRONG><a name="[bc0254]"></a>dn_get_battery_voltage</STRONG> (ARM, 28 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_battery_voltage
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbee68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adci_get_result
+<LI><a href="#[bbef58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbf2a0]"></a>dn_get_raw_battery_voltage</STRONG> (ARM, 32 bytes, Stack size 8 bytes, data_nexus.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bbee68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adci_get_result
+<LI><a href="#[bc2c48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linear_to_fixed
+</UL>
+
+<P><STRONG><a name="[bbf264]"></a>dn_get_hbridge_raw_temp</STRONG> (ARM, 8 bytes, Stack size 0 bytes, data_nexus.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bbee68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adci_get_result
+</UL>
+
+<P><STRONG><a name="[bc01dc]"></a>dn_get_hbridge_temp</STRONG> (ARM, 20 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_hbridge_temp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbee68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adci_get_result
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc16b8]"></a>dn_get_raw_motor_current</STRONG> (ARM, 32 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = dn_get_raw_motor_current &rArr; linear_to_fixed
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbee2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_get_result
+<LI><a href="#[bc2c48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linear_to_fixed
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc00b0]"></a>dn_get_motor_current</STRONG> (ARM, 28 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_motor_current
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbee2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_get_result
+<LI><a href="#[bbef58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc02cc]"></a>dn_get_battery_current</STRONG> (ARM, 32 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_battery_current
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbee2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_get_result
+<LI><a href="#[bbef58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbf228]"></a>dn_get_raw_battery_current</STRONG> (ARM, 32 bytes, Stack size 8 bytes, data_nexus.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bbee2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_get_result
+<LI><a href="#[bc2c48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linear_to_fixed
+</UL>
+
+<P><STRONG><a name="[bc0290]"></a>dn_get_battery_power</STRONG> (ARM, 48 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_battery_power
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbee2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_get_result
+<LI><a href="#[bbee68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adci_get_result
+<LI><a href="#[bbef58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc167c]"></a>dn_get_raw_right_hs</STRONG> (ARM, 52 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_raw_right_hs
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbee2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_get_result
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc16f4]"></a>dn_get_raw_left_hs</STRONG> (ARM, 52 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_raw_left_hs
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbee2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_get_result
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc0038]"></a>dn_get_right_hs</STRONG> (ARM, 20 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = dn_get_right_hs &rArr; ls_get_state &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbedb4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ls_get_state
+<LI><a href="#[bbeea4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc0164]"></a>dn_get_left_hs</STRONG> (ARM, 20 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = dn_get_left_hs &rArr; ls_get_state &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbedb4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ls_get_state
+<LI><a href="#[bbeea4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc01a0]"></a>dn_get_left_heel_sense</STRONG> (ARM, 20 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_left_heel_sense
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbee2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_get_result
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc0074]"></a>dn_get_right_heel_sense</STRONG> (ARM, 20 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_right_heel_sense
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbee2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adcx_get_result
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc176c]"></a>dn_get_p0</STRONG> (ARM, 24 bytes, Stack size 0 bytes, data_nexus.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc1730]"></a>dn_get_p1</STRONG> (ARM, 24 bytes, Stack size 0 bytes, data_nexus.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc185c]"></a>dn_error_transmit</STRONG> (ARM, 8 bytes, Stack size 0 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = dn_error_transmit &rArr; can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc17a8]"></a>dn_get_motor_vel_rads</STRONG> (ARM, 4 bytes, Stack size 0 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_motor_vel_rads &rArr; qdc_tmr0_cap01_get_rate_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbeb98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_get_rate_float
+</UL>
+<BR>[Address Reference Count : 2]<UL><LI> software_setup.o(.text)
+<LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc0308]"></a>dn_get_ankle_vel_rads</STRONG> (ARM, 4 bytes, Stack size 0 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_ankle_vel_rads &rArr; qdc_tmr0_cap23_get_rate_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbeb5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_get_rate_float
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbf1ec]"></a>dn_get_left_ankle_pos_rads</STRONG> (ARM, 12 bytes, Stack size 0 bytes, data_nexus.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbf1b0]"></a>dn_set_left_ankle_pos_rads</STRONG> (ARM, 12 bytes, Stack size 0 bytes, data_nexus.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc1640]"></a>dn_outer_feet_motor_encoder_rezero</STRONG> (ARM, 240 bytes, Stack size 16 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = dn_outer_feet_motor_encoder_rezero &rArr; __aeabi_dadd &rArr; _double_addcore &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbeb5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_get_rate_float
+<LI><a href="#[bbebd4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_get_angle_float
+<LI><a href="#[bbedf0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_get_pos
+<LI><a href="#[bbeee0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fsub
+<LI><a href="#[bbef58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+<LI><a href="#[bbef94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[bbefd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[bbf00c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<LI><a href="#[bbf048]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[bc12bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_set_angle_float
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[bbf174]"></a>dn_get_ankle_position</STRONG> (ARM, 24 bytes, Stack size 8 bytes, data_nexus.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bbedf0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_get_pos
+</UL>
+
+<P><STRONG><a name="[bbff84]"></a>dn_rx_timestamp</STRONG> (ARM, 4 bytes, Stack size 0 bytes, data_nexus.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[bc40ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;asched_set_timestamp
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbffc0]"></a>dn_get_status</STRONG> (ARM, 8 bytes, Stack size 0 bytes, data_nexus.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbf138]"></a>dn_get_dummy_1</STRONG> (ARM, 4 bytes, Stack size 0 bytes, data_nexus.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bbecc4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_get_stiffness
+</UL>
+
+<P><STRONG><a name="[bbf0fc]"></a>dn_get_dummy_2</STRONG> (ARM, 4 bytes, Stack size 0 bytes, data_nexus.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bbed00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_get_dampness
+</UL>
+
+<P><STRONG><a name="[bbf0c0]"></a>dn_get_dummy_3</STRONG> (ARM, 4 bytes, Stack size 0 bytes, data_nexus.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bbed3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_get_command_current
+</UL>
+
+<P><STRONG><a name="[bbf084]"></a>dn_get_dummy_4</STRONG> (ARM, 8 bytes, Stack size 0 bytes, data_nexus.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc15c8]"></a>dn_sched_done</STRONG> (ARM, 76 bytes, Stack size 16 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = dn_sched_done
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4070]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;asched_get_timestamp
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[bc0218]"></a>dn_get_execution_time</STRONG> (ARM, 28 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_execution_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbeea4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<LI><a href="#[bbef58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc00ec]"></a>dn_get_max_execution_time</STRONG> (ARM, 28 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = dn_get_max_execution_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbeea4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<LI><a href="#[bbef58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc1550]"></a>hb_init</STRONG> (ARM, 12 bytes, Stack size 0 bytes, heartbeat.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+
+<P><STRONG><a name="[bc158c]"></a>hb_beat</STRONG> (ARM, 72 bytes, Stack size 16 bytes, heartbeat.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = hb_beat
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bbde3c]"></a>hb_get_count</STRONG> (ARM, 52 bytes, Stack size 0 bytes, heartbeat.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc1f28]"></a>adci_init</STRONG> (ARM, 200 bytes, Stack size 24 bytes, adc_internal.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = adci_init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+
+<P><STRONG><a name="[bbd89c]"></a>adci_convert_next</STRONG> (ARM, 124 bytes, Stack size 0 bytes, adc_internal.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc1f64]"></a>adci_convert_all</STRONG> (ARM, 144 bytes, Stack size 8 bytes, adc_internal.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = adci_convert_all &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bbd860]"></a>adci_efilter_add</STRONG> (ARM, 88 bytes, Stack size 16 bytes, adc_internal.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+
+<P><STRONG><a name="[bbfb4c]"></a>adci_isr</STRONG> (ARM, 240 bytes, Stack size 40 bytes, adc_internal.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = adci_isr &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> interrupts.o(.text)
+</UL>
+<P><STRONG><a name="[bbee68]"></a>adci_get_result</STRONG> (ARM, 20 bytes, Stack size 0 bytes, adc_internal.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bbf264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_hbridge_raw_temp
+<LI><a href="#[bbf2a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_raw_battery_voltage
+<LI><a href="#[bc01dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_hbridge_temp
+<LI><a href="#[bc0254]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_battery_voltage
+<LI><a href="#[bc0290]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_battery_power
+</UL>
+
+<P><STRONG><a name="[bbd824]"></a>adci_get_raw</STRONG> (ARM, 16 bytes, Stack size 0 bytes, adc_internal.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbd7e8]"></a>adci_get_filter</STRONG> (ARM, 16 bytes, Stack size 0 bytes, adc_internal.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc1514]"></a>ls_init_switch</STRONG> (ARM, 84 bytes, Stack size 8 bytes, limit_switch.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = ls_init_switch &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+
+<P><STRONG><a name="[bc14d8]"></a>ls_update</STRONG> (ARM, 124 bytes, Stack size 24 bytes, limit_switch.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = ls_update
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bbedb4]"></a>ls_get_state</STRONG> (ARM, 56 bytes, Stack size 8 bytes, limit_switch.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = ls_get_state &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbfffc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_right_ls
+<LI><a href="#[bc0038]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_right_hs
+<LI><a href="#[bc0128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_left_ls
+<LI><a href="#[bc0164]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_left_hs
+<LI><a href="#[bc1604]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_safety
+</UL>
+
+<P><STRONG><a name="[bc1460]"></a>mc_init</STRONG> (ARM, 332 bytes, Stack size 56 bytes, motor_controller.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = mc_init &rArr; __aeabi_fdiv
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbc5dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
+<LI><a href="#[bbef1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_frsub
+<LI><a href="#[bbef58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[bc2cc0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixed_mult
+<LI><a href="#[bc2d38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixed_to_float
+<LI><a href="#[bc2db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+
+<P><STRONG><a name="[bbfed0]"></a>mc_set_target_current</STRONG> (ARM, 72 bytes, Stack size 8 bytes, motor_controller.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = mc_set_target_current &rArr; float_to_fixed
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc2db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+<LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbc8ac]"></a>mc_set_unsafe_target_current</STRONG> (ARM, 20 bytes, Stack size 8 bytes, motor_controller.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bc2db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+</UL>
+
+<P><STRONG><a name="[bbc870]"></a>mc_update_watchdog</STRONG> (ARM, 72 bytes, Stack size 0 bytes, motor_controller.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbc834]"></a>mc_set_pwm</STRONG> (ARM, 384 bytes, Stack size 40 bytes, motor_controller.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = mc_set_pwm &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbc7f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_pid_current
+</UL>
+
+<P><STRONG><a name="[bbc7f8]"></a>mc_pid_current</STRONG> (ARM, 880 bytes, Stack size 40 bytes, motor_controller.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = mc_pid_current &rArr; mc_set_pwm &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbc564]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mcu_led_green_on
+<LI><a href="#[bbc5a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mcu_led_green_off
+<LI><a href="#[bbc834]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_pwm
+<LI><a href="#[bc2c84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixed_mult_to_long
+<LI><a href="#[bc2cc0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixed_mult
+<LI><a href="#[bc2cfc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixed_to_int
+<LI><a href="#[bc2d38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixed_to_float
+<LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc149c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_compliant_control
+</UL>
+
+<P><STRONG><a name="[bc149c]"></a>mc_compliant_control</STRONG> (ARM, 148 bytes, Stack size 24 bytes, motor_controller.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = mc_compliant_control &rArr; mc_pid_current &rArr; mc_set_pwm &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbc7f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_pid_current
+<LI><a href="#[bc2cc0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixed_mult
+<LI><a href="#[bc2db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+<LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bc1424]"></a>mc_set_command_current</STRONG> (ARM, 44 bytes, Stack size 8 bytes, motor_controller.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = mc_set_command_current &rArr; float_to_fixed
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc2db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbed3c]"></a>mc_get_command_current</STRONG> (ARM, 12 bytes, Stack size 0 bytes, motor_controller.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[bbf0c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_dummy_3
+</UL>
+
+<P><STRONG><a name="[bc13ac]"></a>mc_set_stiffness</STRONG> (ARM, 28 bytes, Stack size 8 bytes, motor_controller.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = mc_set_stiffness &rArr; float_to_fixed
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc2db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbecc4]"></a>mc_get_stiffness</STRONG> (ARM, 12 bytes, Stack size 0 bytes, motor_controller.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[bbf138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_dummy_1
+</UL>
+
+<P><STRONG><a name="[bbc7bc]"></a>mc_set_kp</STRONG> (ARM, 64 bytes, Stack size 8 bytes, motor_controller.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bc2db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+</UL>
+
+<P><STRONG><a name="[bbc780]"></a>mc_set_ki</STRONG> (ARM, 80 bytes, Stack size 16 bytes, motor_controller.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bbc5dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[bc2db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+</UL>
+
+<P><STRONG><a name="[bc13e8]"></a>mc_set_dampness</STRONG> (ARM, 28 bytes, Stack size 8 bytes, motor_controller.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = mc_set_dampness &rArr; float_to_fixed
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc2db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbed00]"></a>mc_get_dampness</STRONG> (ARM, 12 bytes, Stack size 0 bytes, motor_controller.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[bbf0fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_dummy_2
+</UL>
+
+<P><STRONG><a name="[bbed78]"></a>mc_direction_control</STRONG> (ARM, 28 bytes, Stack size 0 bytes, motor_controller.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc1604]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_safety
+</UL>
+
+<P><STRONG><a name="[bbc744]"></a>mc_get_parameters</STRONG> (ARM, 8 bytes, Stack size 0 bytes, motor_controller.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbc708]"></a>mc_get_pwm</STRONG> (ARM, 12 bytes, Stack size 0 bytes, motor_controller.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbff48]"></a>mc_set_shutdown</STRONG> (ARM, 20 bytes, Stack size 0 bytes, motor_controller.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbff0c]"></a>mc_set_sleep</STRONG> (ARM, 20 bytes, Stack size 0 bytes, motor_controller.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bbc6cc]"></a>mc_get_mech_mult</STRONG> (ARM, 12 bytes, Stack size 0 bytes, motor_controller.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbc690]"></a>mc_get_therm_mult</STRONG> (ARM, 12 bytes, Stack size 0 bytes, motor_controller.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbc654]"></a>mc_get_integral</STRONG> (ARM, 12 bytes, Stack size 0 bytes, motor_controller.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbc618]"></a>mc_run_no_control</STRONG> (ARM, 152 bytes, Stack size 16 bytes, motor_controller.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+
+<P><STRONG><a name="[bc1dfc]"></a>ae_init_encoder</STRONG> (ARM, 124 bytes, Stack size 16 bytes, abs_enc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = ae_init_encoder &rArr; __aeabi_ddiv &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bbbcb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[bbbcf4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2iz
+<LI><a href="#[bbef58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+<LI><a href="#[bbef94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+
+<P><STRONG><a name="[bc1dc0]"></a>ae_update</STRONG> (ARM, 140 bytes, Stack size 8 bytes, abs_enc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = ae_update
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+<LI><a href="#[bc4bb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_values
+</UL>
+
+<P><STRONG><a name="[bbedf0]"></a>ae_get_pos</STRONG> (ARM, 52 bytes, Stack size 8 bytes, abs_enc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = ae_get_pos &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbf174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_ankle_position
+<LI><a href="#[bc1604]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_safety
+<LI><a href="#[bc1640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_outer_feet_motor_encoder_rezero
+<LI><a href="#[bc1820]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_ankle_pos_rads
+</UL>
+
+<P><STRONG><a name="[bc1d84]"></a>ae_wait</STRONG> (ARM, 20 bytes, Stack size 0 bytes, abs_enc.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc4bb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_values
+</UL>
+
+<P><STRONG><a name="[bbfad4]"></a>ae_isr</STRONG> (ARM, 224 bytes, Stack size 48 bytes, abs_enc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = ae_isr &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> interrupts.o(.text)
+</UL>
+<P><STRONG><a name="[bbb7cc]"></a>mcu_led_init</STRONG> (ARM, 24 bytes, Stack size 0 bytes, mcu_led.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbb790]"></a>mcu_led_red_off</STRONG> (ARM, 20 bytes, Stack size 0 bytes, mcu_led.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbb754]"></a>mcu_led_blue_off</STRONG> (ARM, 20 bytes, Stack size 0 bytes, mcu_led.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbc5a0]"></a>mcu_led_green_off</STRONG> (ARM, 20 bytes, Stack size 0 bytes, mcu_led.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bbc7f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_pid_current
+</UL>
+
+<P><STRONG><a name="[bc1370]"></a>mcu_led_update</STRONG> (ARM, 124 bytes, Stack size 0 bytes, mcu_led.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bbc564]"></a>mcu_led_green_on</STRONG> (ARM, 20 bytes, Stack size 0 bytes, mcu_led.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bbc7f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_pid_current
+</UL>
+
+<P><STRONG><a name="[bbec4c]"></a>mcu_led_green_blink</STRONG> (ARM, 32 bytes, Stack size 0 bytes, mcu_led.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[bbf318]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_green_heartbeat
+</UL>
+
+<P><STRONG><a name="[bbb718]"></a>mcu_led_blue_on</STRONG> (ARM, 20 bytes, Stack size 0 bytes, mcu_led.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbec88]"></a>mcu_led_blue_blink</STRONG> (ARM, 32 bytes, Stack size 0 bytes, mcu_led.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc1898]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_blue_heartbeat
+</UL>
+
+<P><STRONG><a name="[bbb6dc]"></a>mcu_led_red_on</STRONG> (ARM, 20 bytes, Stack size 0 bytes, mcu_led.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbec10]"></a>mcu_led_red_blink</STRONG> (ARM, 32 bytes, Stack size 0 bytes, mcu_led.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bbf2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_red_heartbeat
+<LI><a href="#[bc1604]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_safety
+</UL>
+
+<P><STRONG><a name="[bbb6a0]"></a>mcu_led_green_toggle</STRONG> (ARM, 32 bytes, Stack size 0 bytes, mcu_led.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbb664]"></a>mcu_led_red_toggle</STRONG> (ARM, 32 bytes, Stack size 0 bytes, mcu_led.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbb628]"></a>mcu_led_blue_toggle</STRONG> (ARM, 32 bytes, Stack size 0 bytes, mcu_led.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbb5ec]"></a>mcu_led_all_on</STRONG> (ARM, 36 bytes, Stack size 0 bytes, mcu_led.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbb5b0]"></a>mcu_led_all_off</STRONG> (ARM, 36 bytes, Stack size 0 bytes, mcu_led.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbb574]"></a>mcu_led_all_toggle</STRONG> (ARM, 72 bytes, Stack size 0 bytes, mcu_led.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbaf5c]"></a>adcx_register_write</STRONG> (ARM, 40 bytes, Stack size 0 bytes, adc_external.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbaf20]"></a>adcx_convert_cfg</STRONG> (ARM, 72 bytes, Stack size 0 bytes, adc_external.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbaee4]"></a>adcx_convert_next</STRONG> (ARM, 132 bytes, Stack size 0 bytes, adc_external.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbaea8]"></a>adcx_register_read</STRONG> (ARM, 56 bytes, Stack size 0 bytes, adc_external.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbae6c]"></a>adcx_read_buffer</STRONG> (ARM, 56 bytes, Stack size 8 bytes, adc_external.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+
+<P><STRONG><a name="[bbfb10]"></a>adcx_isr</STRONG> (ARM, 336 bytes, Stack size 40 bytes, adc_external.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = adcx_isr &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> interrupts.o(.text)
+</UL>
+<P><STRONG><a name="[bc1e74]"></a>adcx_convert_all</STRONG> (ARM, 148 bytes, Stack size 0 bytes, adc_external.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = adcx_convert_all &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bbae30]"></a>adcx_write</STRONG> (ARM, 40 bytes, Stack size 16 bytes, adc_external.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+
+<P><STRONG><a name="[bbee2c]"></a>adcx_get_result</STRONG> (ARM, 16 bytes, Stack size 0 bytes, adc_external.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bbf228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_raw_battery_current
+<LI><a href="#[bc0074]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_right_heel_sense
+<LI><a href="#[bc00b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_motor_current
+<LI><a href="#[bc01a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_left_heel_sense
+<LI><a href="#[bc0290]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_battery_power
+<LI><a href="#[bc02cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_battery_current
+<LI><a href="#[bc167c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_raw_right_hs
+<LI><a href="#[bc16b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_raw_motor_current
+<LI><a href="#[bc16f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_raw_left_hs
+</UL>
+
+<P><STRONG><a name="[bc1e38]"></a>adcx_init</STRONG> (ARM, 136 bytes, Stack size 8 bytes, adc_external.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = adcx_init &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+
+<P><STRONG><a name="[bc1eec]"></a>adcx_add_config</STRONG> (ARM, 48 bytes, Stack size 0 bytes, adc_external.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = adcx_add_config &rArr; error_occurred
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+
+<P><STRONG><a name="[bc1eb0]"></a>adcx_conversion_wait</STRONG> (ARM, 52 bytes, Stack size 0 bytes, adc_external.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bc12bc]"></a>qdc_tmr0_cap01_set_angle_float</STRONG> (ARM, 56 bytes, Stack size 8 bytes, qdc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = qdc_tmr0_cap01_set_angle_float &rArr; __aeabi_ldivmod &rArr; __aeabi_uldivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc2978]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz
+<LI><a href="#[141dbcc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
+<LI><a href="#[141dcf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ldivmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_outer_feet_motor_encoder_rezero
+<LI><a href="#[bc4bb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_values
+</UL>
+
+<P><STRONG><a name="[bba6b0]"></a>qdc_tmr0_cap01_set_angle_fixed</STRONG> (ARM, 40 bytes, Stack size 8 bytes, qdc.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[141dbcc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
+<LI><a href="#[141dcf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ldivmod
+</UL>
+
+<P><STRONG><a name="[bc1208]"></a>qdc_tmr0_cap23_set_angle_float</STRONG> (ARM, 56 bytes, Stack size 8 bytes, qdc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = qdc_tmr0_cap23_set_angle_float &rArr; __aeabi_ldivmod &rArr; __aeabi_uldivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc2978]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz
+<LI><a href="#[141dbcc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
+<LI><a href="#[141dcf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ldivmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4bb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_values
+</UL>
+
+<P><STRONG><a name="[bba674]"></a>qdc_tmr0_cap23_set_angle_fixed</STRONG> (ARM, 40 bytes, Stack size 8 bytes, qdc.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[141dbcc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
+<LI><a href="#[141dcf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ldivmod
+</UL>
+
+<P><STRONG><a name="[bba638]"></a>qdc_tmr0_cap01_get_angle_fixed</STRONG> (ARM, 12 bytes, Stack size 0 bytes, qdc.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbebd4]"></a>qdc_tmr0_cap01_get_angle_float</STRONG> (ARM, 32 bytes, Stack size 8 bytes, qdc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = qdc_tmr0_cap01_get_angle_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1604]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_safety
+<LI><a href="#[bc1640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_outer_feet_motor_encoder_rezero
+<LI><a href="#[bc17e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_motor_pos_rads
+</UL>
+
+<P><STRONG><a name="[bba5fc]"></a>qdc_tmr0_cap01_get_rate_fixed</STRONG> (ARM, 12 bytes, Stack size 0 bytes, qdc.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbeb98]"></a>qdc_tmr0_cap01_get_rate_float</STRONG> (ARM, 32 bytes, Stack size 8 bytes, qdc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = qdc_tmr0_cap01_get_rate_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc17a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_motor_vel_rads
+</UL>
+
+<P><STRONG><a name="[bba5c0]"></a>qdc_tmr0_cap23_get_angle_fixed</STRONG> (ARM, 12 bytes, Stack size 0 bytes, qdc.o(.text), UNUSED)
+
+<P><STRONG><a name="[bba584]"></a>qdc_tmr0_cap23_get_angle_float</STRONG> (ARM, 32 bytes, Stack size 8 bytes, qdc.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+
+<P><STRONG><a name="[bba548]"></a>qdc_tmr0_cap23_get_rate_fixed</STRONG> (ARM, 12 bytes, Stack size 0 bytes, qdc.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbeb5c]"></a>qdc_tmr0_cap23_get_rate_float</STRONG> (ARM, 32 bytes, Stack size 8 bytes, qdc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = qdc_tmr0_cap23_get_rate_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc0308]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_ankle_vel_rads
+<LI><a href="#[bc1640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_outer_feet_motor_encoder_rezero
+</UL>
+
+<P><STRONG><a name="[bc12f8]"></a>qdc_tmr0_cap01_rate_update</STRONG> (ARM, 548 bytes, Stack size 40 bytes, qdc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = qdc_tmr0_cap01_rate_update &rArr; __aeabi_idivmod &rArr; __aeabi_uidivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+<LI><a href="#[141daa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_lasr
+<LI><a href="#[141de24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bc1244]"></a>qdc_tmr0_cap23_rate_update</STRONG> (ARM, 548 bytes, Stack size 40 bytes, qdc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = qdc_tmr0_cap23_rate_update &rArr; __aeabi_idivmod &rArr; __aeabi_uidivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc4034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+<LI><a href="#[141daa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_lasr
+<LI><a href="#[141de24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bc1334]"></a>qdc_tmr0_cap01_angle_update</STRONG> (ARM, 52 bytes, Stack size 16 bytes, qdc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = qdc_tmr0_cap01_angle_update
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141daa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_lasr
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bc1280]"></a>qdc_tmr0_cap23_angle_update</STRONG> (ARM, 52 bytes, Stack size 16 bytes, qdc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = qdc_tmr0_cap23_angle_update
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141daa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_lasr
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bc11cc]"></a>qdc_tmr0_init</STRONG> (ARM, 1224 bytes, Stack size 96 bytes, qdc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = qdc_tmr0_init &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bba50c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2uiz
+<LI><a href="#[bbbcb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[bbef58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+<LI><a href="#[bbef94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[bbefd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[bbf048]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[bc2978]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz
+<LI><a href="#[bc29b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbnf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4bec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_software
+</UL>
+
+<P><STRONG><a name="[bb9fa8]"></a>can_rx_setter_double_dummy</STRONG> (ARM, 4 bytes, Stack size 0 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc04ac]"></a>can_rx_setter_float_dummy</STRONG> (ARM, 4 bytes, Stack size 0 bytes, can_types.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bc0470]"></a>can_rx_setter_int_dummy</STRONG> (ARM, 4 bytes, Stack size 0 bytes, can_types.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> can_setup.o(.text)
+</UL>
+<P><STRONG><a name="[bb9f6c]"></a>can_rx_setter_short_dummy</STRONG> (ARM, 4 bytes, Stack size 0 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bb9f30]"></a>can_tx_getter_double_dummy</STRONG> (ARM, 20 bytes, Stack size 0 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bb9ef4]"></a>can_tx_getter_float_dummy</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bb9eb8]"></a>can_tx_getter_int_dummy</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bb9e7c]"></a>can_tx_getter_short_dummy</STRONG> (ARM, 8 bytes, Stack size 0 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bb9e40]"></a>can_set_tx_descriptor_d</STRONG> (ARM, 52 bytes, Stack size 0 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bb9e04]"></a>can_set_tx_descriptor_ff</STRONG> (ARM, 72 bytes, Stack size 4 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc0380]"></a>can_set_tx_descriptor_ii</STRONG> (ARM, 72 bytes, Stack size 4 bytes, can_types.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = can_set_tx_descriptor_ii
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4ca0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_can
+</UL>
+
+<P><STRONG><a name="[bc03bc]"></a>can_set_tx_descriptor_fi</STRONG> (ARM, 72 bytes, Stack size 4 bytes, can_types.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = can_set_tx_descriptor_fi
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4ca0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_can
+</UL>
+
+<P><STRONG><a name="[bb9dc8]"></a>can_set_tx_descriptor_iss</STRONG> (ARM, 80 bytes, Stack size 8 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bb9d8c]"></a>can_set_tx_descriptor_rtr</STRONG> (ARM, 44 bytes, Stack size 0 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bb9d50]"></a>can_set_rx_descriptor_d</STRONG> (ARM, 48 bytes, Stack size 0 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bb9d14]"></a>can_set_rx_descriptor_ff</STRONG> (ARM, 56 bytes, Stack size 0 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc03f8]"></a>can_set_rx_descriptor_ii</STRONG> (ARM, 56 bytes, Stack size 0 bytes, can_types.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc4ca0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_can
+</UL>
+
+<P><STRONG><a name="[bc0434]"></a>can_set_rx_descriptor_fi</STRONG> (ARM, 56 bytes, Stack size 0 bytes, can_types.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc4ca0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_can
+</UL>
+
+<P><STRONG><a name="[bb9cd8]"></a>can_set_rx_descriptor_iss</STRONG> (ARM, 72 bytes, Stack size 4 bytes, can_types.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc0524]"></a>can_init</STRONG> (ARM, 48 bytes, Stack size 0 bytes, can.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc4ca0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_can
+</UL>
+
+<P><STRONG><a name="[141e8ec]"></a>can_tx1_push_frame</STRONG> (ARM, 96 bytes, Stack size 8 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc1d0c]"></a>can_tx1</STRONG> (ARM, 340 bytes, Stack size 16 bytes, can.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = can_tx1
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+<LI><a href="#[141e61c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit_frame
+</UL>
+
+<P><STRONG><a name="[141e8b0]"></a>can_tx2_push_frame</STRONG> (ARM, 96 bytes, Stack size 8 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e874]"></a>can_tx2</STRONG> (ARM, 352 bytes, Stack size 16 bytes, can.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = can_tx2
+</UL>
+<BR>[Called By]<UL><LI><a href="#[141e61c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit_frame
+</UL>
+
+<P><STRONG><a name="[141e838]"></a>can_tx3_push_frame</STRONG> (ARM, 96 bytes, Stack size 8 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e7fc]"></a>can_tx3</STRONG> (ARM, 352 bytes, Stack size 16 bytes, can.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = can_tx3
+</UL>
+<BR>[Called By]<UL><LI><a href="#[141e61c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit_frame
+</UL>
+
+<P><STRONG><a name="[141e7c0]"></a>can_tx4_push_frame</STRONG> (ARM, 96 bytes, Stack size 8 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e784]"></a>can_tx4</STRONG> (ARM, 352 bytes, Stack size 16 bytes, can.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = can_tx4
+</UL>
+<BR>[Called By]<UL><LI><a href="#[141e61c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit_frame
+</UL>
+
+<P><STRONG><a name="[141e748]"></a>can_tx_get_frame_count_1</STRONG> (ARM, 84 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e70c]"></a>can_tx_get_frame_count_2</STRONG> (ARM, 84 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e6d0]"></a>can_tx_get_frame_count_3</STRONG> (ARM, 112 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e694]"></a>can_tx_get_frame_count_4</STRONG> (ARM, 84 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e658]"></a>can_tx_set_chan_cfg</STRONG> (ARM, 32 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e61c]"></a>can_transmit_frame</STRONG> (ARM, 404 bytes, Stack size 12 bytes, can.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc1d0c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx1
+<LI><a href="#[141e784]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx4
+<LI><a href="#[141e7fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx3
+<LI><a href="#[141e874]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx2
+</UL>
+<BR>[Called By]<UL><LI><a href="#[141e5e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit_alt
+</UL>
+
+<P><STRONG><a name="[141e5e0]"></a>can_transmit_alt</STRONG> (ARM, 400 bytes, Stack size 32 bytes, can.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141e25c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_common_memcpy1_8_arm
+<LI><a href="#[141e61c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit_frame
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc0344]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit
+<LI><a href="#[141e5a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_dispatch_frame
+</UL>
+
+<P><STRONG><a name="[bc0344]"></a>can_transmit</STRONG> (ARM, 16 bytes, Stack size 0 bytes, can.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = can_transmit &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141e5e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit_alt
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc185c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_error_transmit
+<LI><a href="#[bc18d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_right_heel_sense
+<LI><a href="#[bc1910]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_rate
+<LI><a href="#[bc194c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_motor_vel
+<LI><a href="#[bc1988]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_motor_pos
+<LI><a href="#[bc19c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_motor_current
+<LI><a href="#[bc1a00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_max_exec_time
+<LI><a href="#[bc1a3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_ls_right
+<LI><a href="#[bc1a78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_ls_left
+<LI><a href="#[bc1ab4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_left_heel_sense
+<LI><a href="#[bc1af0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_hs_right
+<LI><a href="#[bc1b2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_hs_left
+<LI><a href="#[bc1b68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_hbridge_temp
+<LI><a href="#[bc1ba4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_exec_time
+<LI><a href="#[bc1be0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_board_status
+<LI><a href="#[bc1c1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_batt_voltage
+<LI><a href="#[bc1c58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_batt_power
+<LI><a href="#[bc1c94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_batt_current
+<LI><a href="#[bc1cd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_angle
+</UL>
+
+<P><STRONG><a name="[141e5a4]"></a>can_rx_dispatch_frame</STRONG> (ARM, 400 bytes, Stack size 24 bytes, can.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = can_rx_dispatch_frame &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141e25c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_common_memcpy1_8_arm
+<LI><a href="#[141e5e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit_alt
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1d48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_dispatch_all
+</UL>
+
+<P><STRONG><a name="[141e568]"></a>can_rx_pop_frame</STRONG> (ARM, 232 bytes, Stack size 12 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc1d48]"></a>can_rx_dispatch_all</STRONG> (ARM, 236 bytes, Stack size 40 bytes, can.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 124<LI>Call Chain = can_rx_dispatch_all &rArr; can_rx_dispatch_frame &rArr; can_transmit_alt &rArr; can_transmit_frame &rArr; can_tx1
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141e5a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_dispatch_frame
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1fdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task_every_row
+</UL>
+
+<P><STRONG><a name="[bbfa5c]"></a>can_rx1_isr</STRONG> (ARM, 44 bytes, Stack size 24 bytes, can.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = can_rx1_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141e928]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_push
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> interrupts.o(.text)
+</UL>
+<P><STRONG><a name="[141e52c]"></a>can_rx2_isr</STRONG> (ARM, 44 bytes, Stack size 24 bytes, can.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[141e928]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_push
+</UL>
+
+<P><STRONG><a name="[141e4f0]"></a>can_rx3_isr</STRONG> (ARM, 44 bytes, Stack size 24 bytes, can.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[141e928]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_push
+</UL>
+
+<P><STRONG><a name="[141e4b4]"></a>can_rx4_isr</STRONG> (ARM, 44 bytes, Stack size 24 bytes, can.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[141e928]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_push
+</UL>
+
+<P><STRONG><a name="[141e478]"></a>can_rx_get_frame_count_1</STRONG> (ARM, 84 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e43c]"></a>can_rx_get_frame_count_2</STRONG> (ARM, 92 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e400]"></a>can_rx_get_frame_count_3</STRONG> (ARM, 84 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e3c4]"></a>can_rx_get_frame_count_4</STRONG> (ARM, 84 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc04e8]"></a>can_rx_set_descriptors</STRONG> (ARM, 16 bytes, Stack size 0 bytes, can.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc4ca0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_can
+</UL>
+
+<P><STRONG><a name="[141e388]"></a>can_rx_set_chan_cfg</STRONG> (ARM, 24 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e34c]"></a>can_get_error_1</STRONG> (ARM, 84 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e310]"></a>can_get_error_2</STRONG> (ARM, 84 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e2d4]"></a>can_get_error_3</STRONG> (ARM, 84 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[141e298]"></a>can_get_error_4</STRONG> (ARM, 84 bytes, Stack size 0 bytes, can.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbfa98]"></a>can_error_isr</STRONG> (ARM, 200 bytes, Stack size 40 bytes, can.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = can_error_isr &rArr; error_occurred_irq
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bc392c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_irq
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> interrupts.o(.text)
+</UL>
+<P><STRONG><a name="[141de60]"></a>__aeabi_idiv</STRONG> (ARM, 0 bytes, Stack size 16 bytes, idiv.o(.text), UNUSED)
+
+<P><STRONG><a name="[141de24]"></a>__aeabi_idivmod</STRONG> (ARM, 60 bytes, Stack size 16 bytes, idiv.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = __aeabi_idivmod &rArr; __aeabi_uidivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141c768]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_rate_update
+<LI><a href="#[bc12f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_rate_update
+</UL>
+
+<P><STRONG><a name="[141dcf8]"></a>__aeabi_ldivmod</STRONG> (ARM, 168 bytes, Stack size 32 bytes, ldiv.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = __aeabi_ldivmod &rArr; __aeabi_uldivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141c678]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bba674]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_set_angle_fixed
+<LI><a href="#[bba6b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_set_angle_fixed
+<LI><a href="#[bc1208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_set_angle_float
+<LI><a href="#[bc12bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_set_angle_float
+</UL>
+
+<P><STRONG><a name="[141dbcc]"></a>__aeabi_llsl</STRONG> (ARM, 40 bytes, Stack size 0 bytes, llshl.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bba674]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_set_angle_fixed
+<LI><a href="#[bba6b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_set_angle_fixed
+<LI><a href="#[bc1208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_set_angle_float
+<LI><a href="#[bc12bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_set_angle_float
+<LI><a href="#[141c678]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<LI><a href="#[141d35c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_addcore
+</UL>
+
+<P><STRONG><a name="[141db90]"></a>_ll_shift_l</STRONG> (ARM, 0 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
+
+<P><STRONG><a name="[141daa0]"></a>__aeabi_lasr</STRONG> (ARM, 40 bytes, Stack size 0 bytes, llsshr.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc1244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_rate_update
+<LI><a href="#[bc1280]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_angle_update
+<LI><a href="#[bc12f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_rate_update
+<LI><a href="#[bc1334]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_angle_update
+</UL>
+
+<P><STRONG><a name="[141da64]"></a>_ll_sshift_r</STRONG> (ARM, 0 bytes, Stack size 0 bytes, llsshr.o(.text), UNUSED)
+
+<P><STRONG><a name="[141d71c]"></a>__aeabi_fadd</STRONG> (ARM, 16 bytes, Stack size 0 bytes, fadd.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[141d758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_addcore
+</UL>
+
+<P><STRONG><a name="[bbeee0]"></a>__aeabi_fsub</STRONG> (ARM, 20 bytes, Stack size 0 bytes, fadd.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __aeabi_fsub &rArr; _float_addcore
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141d758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_addcore
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_outer_feet_motor_encoder_rezero
+</UL>
+
+<P><STRONG><a name="[bbef1c]"></a>__aeabi_frsub</STRONG> (ARM, 32 bytes, Stack size 0 bytes, fadd.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __aeabi_frsub &rArr; _float_addcore
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141d758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_addcore
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1460]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_init
+<LI><a href="#[bc1604]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_safety
+</UL>
+
+<P><STRONG><a name="[bbef58]"></a>__aeabi_fmul</STRONG> (ARM, 136 bytes, Stack size 0 bytes, fmul.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc00b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_motor_current
+<LI><a href="#[bc00ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_max_execution_time
+<LI><a href="#[bc0218]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_execution_time
+<LI><a href="#[bc0254]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_battery_voltage
+<LI><a href="#[bc0290]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_battery_power
+<LI><a href="#[bc02cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_battery_current
+<LI><a href="#[bc11cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_init
+<LI><a href="#[bc1460]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_init
+<LI><a href="#[bc1604]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_safety
+<LI><a href="#[bc1640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_outer_feet_motor_encoder_rezero
+<LI><a href="#[bc1820]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_ankle_pos_rads
+<LI><a href="#[bc1dfc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_init_encoder
+</UL>
+
+<P><STRONG><a name="[bbc5dc]"></a>__aeabi_fdiv</STRONG> (ARM, 140 bytes, Stack size 8 bytes, fdiv.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __aeabi_fdiv
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141d6a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_epilogue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbc780]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_ki
+<LI><a href="#[bc1460]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_init
+</UL>
+
+<P><STRONG><a name="[bc29b4]"></a>__ARM_scalbnf</STRONG> (ARM, 12 bytes, Stack size 0 bytes, fscalb.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc11cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_init
+<LI><a href="#[bc2c48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linear_to_fixed
+<LI><a href="#[bc2d38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixed_to_float
+<LI><a href="#[bc2db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+</UL>
+
+<P><STRONG><a name="[141d44c]"></a>scalbnf</STRONG> (ARM, 0 bytes, Stack size 0 bytes, fscalb.o(.text), UNUSED)
+
+<P><STRONG><a name="[bbf00c]"></a>__aeabi_dadd</STRONG> (ARM, 80 bytes, Stack size 24 bytes, dadd.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = __aeabi_dadd &rArr; _double_addcore &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141d35c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_addcore
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_outer_feet_motor_encoder_rezero
+</UL>
+
+<P><STRONG><a name="[141d320]"></a>__aeabi_dsub</STRONG> (ARM, 80 bytes, Stack size 24 bytes, dadd.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[141d35c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_addcore
+</UL>
+
+<P><STRONG><a name="[141d2e4]"></a>__aeabi_drsub</STRONG> (ARM, 80 bytes, Stack size 24 bytes, dadd.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[141d35c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_addcore
+</UL>
+
+<P><STRONG><a name="[bbefd0]"></a>__aeabi_dmul</STRONG> (ARM, 360 bytes, Stack size 80 bytes, dmul.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141d26c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc11cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_init
+<LI><a href="#[bc1640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_outer_feet_motor_encoder_rezero
+</UL>
+
+<P><STRONG><a name="[bbbcb8]"></a>__aeabi_ddiv</STRONG> (ARM, 380 bytes, Stack size 72 bytes, ddiv.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = __aeabi_ddiv &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141d26c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc11cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_init
+<LI><a href="#[bc1dfc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_init_encoder
+</UL>
+
+<P><STRONG><a name="[bc293c]"></a>__aeabi_i2f</STRONG> (ARM, 28 bytes, Stack size 0 bytes, fflti.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[141d6a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_epilogue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bba584]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_get_angle_float
+<LI><a href="#[bbc780]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_set_ki
+<LI><a href="#[bbeb5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_get_rate_float
+<LI><a href="#[bbeb98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_get_rate_float
+<LI><a href="#[bbebd4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_get_angle_float
+<LI><a href="#[bc0074]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_right_heel_sense
+<LI><a href="#[bc00b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_motor_current
+<LI><a href="#[bc01a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_left_heel_sense
+<LI><a href="#[bc01dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_hbridge_temp
+<LI><a href="#[bc0254]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_battery_voltage
+<LI><a href="#[bc0290]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_battery_power
+<LI><a href="#[bc02cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_battery_current
+<LI><a href="#[bc1460]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mc_init
+<LI><a href="#[bc1604]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_safety
+<LI><a href="#[bc1640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_outer_feet_motor_encoder_rezero
+<LI><a href="#[bc1820]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_ankle_pos_rads
+<LI><a href="#[bc1dfc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_init_encoder
+<LI><a href="#[bc2d38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixed_to_float
+</UL>
+
+<P><STRONG><a name="[bbeea4]"></a>__aeabi_ui2f</STRONG> (ARM, 16 bytes, Stack size 0 bytes, ffltui.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[141d6a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_epilogue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc0038]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_right_hs
+<LI><a href="#[bc00ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_max_execution_time
+<LI><a href="#[bc0164]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_left_hs
+<LI><a href="#[bc0218]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_get_execution_time
+</UL>
+
+<P><STRONG><a name="[bc2978]"></a>__aeabi_f2iz</STRONG> (ARM, 64 bytes, Stack size 0 bytes, ffixi.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc11cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_init
+<LI><a href="#[bc1208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap23_set_angle_float
+<LI><a href="#[bc12bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_cap01_set_angle_float
+<LI><a href="#[bc2c48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linear_to_fixed
+<LI><a href="#[bc2db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+</UL>
+
+<P><STRONG><a name="[bba50c]"></a>__aeabi_f2uiz</STRONG> (ARM, 52 bytes, Stack size 0 bytes, ffixui.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc11cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_init
+</UL>
+
+<P><STRONG><a name="[bbbcf4]"></a>__aeabi_d2iz</STRONG> (ARM, 116 bytes, Stack size 16 bytes, dfixi.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_d2iz
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141c588]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc1dfc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_init_encoder
+</UL>
+
+<P><STRONG><a name="[bbef94]"></a>__aeabi_f2d</STRONG> (ARM, 56 bytes, Stack size 0 bytes, f2d.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bc11cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_init
+<LI><a href="#[bc1640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_outer_feet_motor_encoder_rezero
+<LI><a href="#[bc1dfc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ae_init_encoder
+</UL>
+
+<P><STRONG><a name="[bbf048]"></a>__aeabi_d2f</STRONG> (ARM, 92 bytes, Stack size 16 bytes, d2f.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_d2f
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141d6a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_epilogue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc11cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qdc_tmr0_init
+<LI><a href="#[bc1640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dn_outer_feet_motor_encoder_rezero
+</UL>
+
+<P><STRONG><a name="[141c7a4]"></a>__aeabi_uidiv</STRONG> (ARM, 0 bytes, Stack size 4 bytes, uidiv.o(.text), UNUSED)
+
+<P><STRONG><a name="[141c768]"></a>__aeabi_uidivmod</STRONG> (ARM, 60 bytes, Stack size 4 bytes, uidiv.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = __aeabi_uidivmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[141de24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
+</UL>
+
+<P><STRONG><a name="[141c678]"></a>__aeabi_uldivmod</STRONG> (ARM, 144 bytes, Stack size 32 bytes, uldiv.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_uldivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141c588]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
+<LI><a href="#[141dbcc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
+</UL>
+<BR>[Called By]<UL><LI><a href="#[141dcf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ldivmod
+</UL>
+
+<P><STRONG><a name="[141c588]"></a>__aeabi_llsr</STRONG> (ARM, 36 bytes, Stack size 0 bytes, llushr.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[bbbcf4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2iz
+<LI><a href="#[141c678]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<LI><a href="#[141d35c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_addcore
+</UL>
+
+<P><STRONG><a name="[141c54c]"></a>_ll_ushift_r</STRONG> (ARM, 0 bytes, Stack size 0 bytes, llushr.o(.text), UNUSED)
+
+<P><STRONG><a name="[141c498]"></a>__I$use$fp</STRONG> (ARM, 0 bytes, Stack size 0 bytes, iusefp.o(.text), UNUSED)
+
+<P><STRONG><a name="[141c3a8]"></a>_float_round</STRONG> (ARM, 24 bytes, Stack size 0 bytes, fepilogue.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[141c3a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_round
+</UL>
+<BR>[Called By]<UL><LI><a href="#[141c3a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_round
+<LI><a href="#[141d6a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_epilogue
+</UL>
+
+<P><STRONG><a name="[141d6a4]"></a>_float_epilogue</STRONG> (ARM, 84 bytes, Stack size 0 bytes, fepilogue.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[141c3a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_round
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbc5dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
+<LI><a href="#[bbeea4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<LI><a href="#[bbf048]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[bc293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[141d758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_addcore
+</UL>
+
+<P><STRONG><a name="[141c2b8]"></a>_double_round</STRONG> (ARM, 84 bytes, Stack size 20 bytes, depilogue.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = _double_round
+</UL>
+<BR>[Called By]<UL><LI><a href="#[141d26c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+</UL>
+
+<P><STRONG><a name="[141d26c]"></a>_double_epilogue</STRONG> (ARM, 204 bytes, Stack size 28 bytes, depilogue.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141c2b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbbcb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[bbefd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[141d35c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_addcore
+</UL>
+
+<P><STRONG><a name="[141c1c8]"></a>__scatterload</STRONG> (ARM, 40 bytes, Stack size 0 bytes, init.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[141c9c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main_after_scatterload
+</UL>
+<BR>[Called By]<UL><LI><a href="#[141c9fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
+</UL>
+
+<P><STRONG><a name="[141c18c]"></a>__scatterload_rt2</STRONG> (ARM, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
+
+<P><STRONG><a name="[141bca0]"></a>__decompress</STRONG> (ARM, 0 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
+
+<P><STRONG><a name="[141bc64]"></a>__decompress1</STRONG> (ARM, 112 bytes, Stack size unknown bytes, __dczerorl2.o(.text), UNUSED)
+
+<P><STRONG><a name="[bc473c]"></a>FIQ_Handler</STRONG> (ARM, 0 bytes, Stack size unknown bytes, qdc_2x_fiq_handler.o(FIQ_HANDLER))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[141e25c]"></a>__ARM_common_memcpy1_8_arm</STRONG> (ARM, 68 bytes, Stack size 0 bytes, can.o(i.__ARM_common_memcpy1_8_arm))
+<BR><BR>[Called By]<UL><LI><a href="#[141e5a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_dispatch_frame
+<LI><a href="#[141e5e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_transmit_alt
+</UL>
+
+<P><STRONG><a name="[141be08]"></a>__scatterload_copy</STRONG> (ARM, 24 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[141be08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_copy
+</UL>
+<BR>[Called By]<UL><LI><a href="#[141be08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_copy
+</UL>
+
+<P><STRONG><a name="[141bdcc]"></a>__scatterload_null</STRONG> (ARM, 4 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
+
+<P><STRONG><a name="[141bd90]"></a>__scatterload_zeroinit</STRONG> (ARM, 24 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
+<P>
+<H3>
+Local Symbols
+</H3>
+<P><STRONG><a name="[bc49d0]"></a>Undef_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[bc49d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Undef_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc49d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Undef_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[bc4994]"></a>SWI_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[bc4994]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SWI_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4994]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SWI_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[bc4958]"></a>PAbt_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[bc4958]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PAbt_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc4958]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PAbt_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[bc491c]"></a>DAbt_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[bc491c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DAbt_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc491c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DAbt_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[bc48e0]"></a>IRQ_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[bc48e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IRQ_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bc48e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IRQ_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[bb97ec]"></a>__switch$$</STRONG> (ARM, 0 bytes, Stack size unknown bytes, can.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> can.o(.text)
+</UL>
+<P><STRONG><a name="[bb97b0]"></a>__switch$$</STRONG> (ARM, 0 bytes, Stack size unknown bytes, can.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> can.o(.text)
+</UL>
+<P><STRONG><a name="[141d758]"></a>_float_addcore</STRONG> (ARM, 164 bytes, Stack size 8 bytes, fadd.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = _float_addcore
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141d6a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_epilogue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbeee0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fsub
+<LI><a href="#[bbef1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_frsub
+<LI><a href="#[141d71c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fadd
+</UL>
+
+<P><STRONG><a name="[141d35c]"></a>_double_addcore</STRONG> (ARM, 428 bytes, Stack size 64 bytes, dadd.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = _double_addcore &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[141c588]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
+<LI><a href="#[141d26c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+<LI><a href="#[141dbcc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
+</UL>
+<BR>[Called By]<UL><LI><a href="#[bbf00c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<LI><a href="#[141d2e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
+<LI><a href="#[141d320]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
+</UL>
+<P>
+<H3>
+Undefined Global Symbols
+</H3><HR></body></html>

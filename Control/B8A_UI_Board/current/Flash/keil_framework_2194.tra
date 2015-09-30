@@ -1,0 +1,42 @@
+*** Creating Trace Output File '.\Flash\keil_framework_2194.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '".\flash\startup.o"'
+### List of Objects: adding '".\flash\async_scheduler.o"'
+### List of Objects: adding '".\flash\error.o"'
+### List of Objects: adding '".\flash\mutex.o"'
+### List of Objects: adding '".\flash\utility.o"'
+### List of Objects: adding '".\flash\main.o"'
+### List of Objects: adding '".\flash\data_nexus.o"'
+### List of Objects: adding '".\flash\retarget.o"'
+### List of Objects: adding '".\flash\interrupts.o"'
+### List of Objects: adding '".\flash\hardware_setup.o"'
+### List of Objects: adding '".\flash\software_setup.o"'
+### List of Objects: adding '".\flash\can_setup.o"'
+### List of Objects: adding '".\flash\heartbeat.o"'
+### List of Objects: adding '".\flash\can_types.o"'
+### List of Objects: adding '".\flash\ui_led.o"'
+### List of Objects: adding '".\flash\button.o"'
+### List of Objects: adding '".\flash\buzzer.o"'
+### List of Objects: adding '".\flash\lcd.o"'
+### List of Objects: adding '".\flash\microstrain_imu.o"'
+### List of Objects: adding '".\flash\mcu_led.o"'
+### List of Objects: adding '".\flash\ui_sync_led.o"'
+### List of Objects: adding '".\flash\rc_receive.o"'
+### List of Objects: adding '".\flash\can.o"'
+### List of Objects: adding '".\flash\song.o"'
+### ADS-LD Command completed:
+--device DARMP ".\flash\startup.o" ".\flash\async_scheduler.o" ".\flash\error.o" ".\flash\mutex.o" ".\flash\utility.o" ".\flash\main.o" ".\flash\data_nexus.o" ".\flash\retarget.o" ".\flash\interrupts.o" ".\flash\hardware_setup.o" ".\flash\software_setup.o" ".\flash\can_setup.o" ".\flash\heartbeat.o" ".\flash\can_types.o" ".\flash\ui_led.o" ".\flash\button.o" ".\flash\buzzer.o" ".\flash\lcd.o" ".\flash\microstrain_imu.o" ".\flash\mcu_led.o" ".\flash\ui_sync_led.o" ".\flash\rc_receive.o" ".\flash\can.o" ".\flash\song.o" --library_type=microlib --strict --scatter ".\Flash\keil_framework_2194.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\Flash\keil_framework_2194.map" -o ".\Flash\keil_framework_2194.axf"### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: '.\Flash\keil_framework_2194.axf'
+### ADS-LD Command File: '.\Flash\keil_framework_2194.lnp'
+### Checking for dirty Components...
+### Creating CmdFile '.\Flash\keil_framework_2194.lnp', Handle=0x0000026C
+### Writing '.lnp' file
+### ADS-LD Command file '.\Flash\keil_framework_2194.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.

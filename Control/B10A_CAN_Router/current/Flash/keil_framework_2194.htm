@@ -1,0 +1,854 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+<title>Static Call Graph - [.\Flash\keil_framework_2194.axf]</title></head>
+<body><HR>
+<H1>Static Call Graph for image .\Flash\keil_framework_2194.axf</H1><HR>
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, RVCT4.0 [Build 524]: Last Updated: Fri Mar 29 14:13:33 2013
+<BR><P>
+<H3>Maximum Stack Usage =        160 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+Call chain for Maximum Stack Depth:</H3>
+run_occasionally &rArr; csr_send_battery_power &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<P>
+<H3>
+Functions with no stack information
+</H3><UL>
+ <LI><a href="#[b676d0]">Reset_Handler</a>
+ <LI><a href="#[b678b0]">Undef_Handler</a>
+ <LI><a href="#[b67874]">SWI_Handler</a>
+ <LI><a href="#[b67838]">PAbt_Handler</a>
+ <LI><a href="#[b677fc]">IRQ_Handler</a>
+</UL>
+</UL>
+<P>
+<H3>
+Mutually Recursive functions
+</H3> <LI><a href="#[b5c8e8]">_float_round</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[b5c8e8]">_float_round</a><BR>
+ <LI><a href="#[b678b0]">Undef_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[b678b0]">Undef_Handler</a><BR>
+ <LI><a href="#[b67874]">SWI_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[b67874]">SWI_Handler</a><BR>
+ <LI><a href="#[b67838]">PAbt_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[b67838]">PAbt_Handler</a><BR>
+ <LI><a href="#[b677fc]">IRQ_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[b677fc]">IRQ_Handler</a><BR>
+</UL>
+<P>
+<H3>
+Function Pointers
+</H3><UL>
+ <LI><a href="#[b676d0]">Reset_Handler</a>
+ <LI><a href="#[b678b0]">Undef_Handler</a>
+ <LI><a href="#[b67874]">SWI_Handler</a>
+ <LI><a href="#[b67838]">PAbt_Handler</a>
+ <LI><a href="#[b67658]">DAbt_Handler</a>
+ <LI><a href="#[b677fc]">IRQ_Handler</a>
+ <LI><a href="#[b6761c]">FIQ_Handler</a>
+ <LI><a href="#[b5d8d8]">__main</a>
+ <LI><a href="#[b649d0]">main</a>
+ <LI><a href="#[b63c38]">csr_elapsed_ms</a>
+ <LI><a href="#[b63878]">router_error_transmit</a>
+ <LI><a href="#[b64340]">timer0_isr</a>
+ <LI><a href="#[b63c74]">can_error_isr</a>
+ <LI><a href="#[b63e18]">run_every_line</a>
+ <LI><a href="#[b63ddc]">run_occasionally</a>
+ <LI><a href="#[b63e18]">run_every_line</a>
+ <LI><a href="#[b63e18]">run_every_line</a>
+ <LI><a href="#[b63e18]">run_every_line</a>
+ <LI><a href="#[b63e18]">run_every_line</a>
+ <LI><a href="#[b63e18]">run_every_line</a>
+ <LI><a href="#[b63e18]">run_every_line</a>
+ <LI><a href="#[b63e18]">run_every_line</a>
+ <LI><a href="#[b63e18]">run_every_line</a>
+ <LI><a href="#[b63e18]">run_every_line</a>
+ <LI><a href="#[b61dc0]">voidvoid</a>
+ <LI><a href="#[b61dfc]">intvoid</a>
+ <LI><a href="#[b61dc0]">voidvoid</a>
+ <LI><a href="#[b61dfc]">intvoid</a>
+</UL>
+<P>
+<H3>
+Global Symbols
+</H3>
+<P><STRONG><a name="[b676d0]"></a>Reset_Handler</STRONG> (ARM, 0 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[b5d8d8]"></a>__main</STRONG> (ARM, 0 bytes, Stack size unknown bytes, entry.o(.ARM.Collect$$$$00000000))
+
+<P><STRONG><a name="[b5cce4]"></a>_main_stk</STRONG> (ARM, 0 bytes, Stack size unknown bytes, entry2.o(.ARM.Collect$$$$00000001))
+
+<P><STRONG><a name="[b5cbf4]"></a>_main_scatterload</STRONG> (ARM, 0 bytes, Stack size unknown bytes, entry5.o(.ARM.Collect$$$$00000004))
+<BR><BR>[Calls]<UL><LI><a href="#[b5c708]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+</UL>
+
+<P><STRONG><a name="[b5cbb8]"></a>__main_after_scatterload</STRONG> (ARM, 0 bytes, Stack size unknown bytes, entry5.o(.ARM.Collect$$$$00000004))
+<BR><BR>[Called By]<UL><LI><a href="#[b5c708]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+</UL>
+
+<P><STRONG><a name="[b5cac8]"></a>_main_init</STRONG> (ARM, 0 bytes, Stack size unknown bytes, entry7.o(.ARM.Collect$$$$00000007))
+
+<P><STRONG><a name="[b6761c]"></a>FIQ_Handler</STRONG> (ARM, 68 bytes, Stack size 32 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = FIQ_Handler &rArr; csr_ssp_isr &rArr; csr_clock_tick &rArr; csr_send_can_time_packets
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b64778]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_ssp_isr
+<LI><a href="#[b647b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can_rx4_fiq
+<LI><a href="#[b647f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can_rx3_fiq
+<LI><a href="#[b6482c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can_rx2_fiq
+<LI><a href="#[b64868]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can_rx1_fiq
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[b64a0c]"></a>init</STRONG> (ARM, 16 bytes, Stack size 8 bytes, main.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b646c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setup_software
+<LI><a href="#[b64700]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setup_hardware
+</UL>
+
+<P><STRONG><a name="[b649d0]"></a>main</STRONG> (ARM, 52 bytes, Stack size 8 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = main &rArr; route_frames &rArr; csr_route_frame &rArr; csr_can4_tx_push_frame
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b646c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setup_software
+<LI><a href="#[b64700]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setup_hardware
+<LI><a href="#[b6473c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;route_frames
+<LI><a href="#[b648a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can4_tx
+<LI><a href="#[b648e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can3_tx
+<LI><a href="#[b6491c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can2_tx
+<LI><a href="#[b64958]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can1_tx
+<LI><a href="#[b64994]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;asched_run
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> entry7.o(.ARM.Collect$$$$00000007)
+</UL>
+<P><STRONG><a name="[b67658]"></a>DAbt_Handler</STRONG> (ARM, 172 bytes, Stack size 8 bytes, hardware_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = DAbt_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[b64340]"></a>timer0_isr</STRONG> (ARM, 40 bytes, Stack size 24 bytes, hardware_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = timer0_isr &rArr; asched_tick
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b64304]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;asched_tick
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[b64700]"></a>setup_hardware</STRONG> (ARM, 1580 bytes, Stack size 24 bytes, hardware_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = setup_hardware
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b649d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[b64a0c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+</UL>
+
+<P><STRONG><a name="[b63e18]"></a>run_every_line</STRONG> (ARM, 32 bytes, Stack size 8 bytes, software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = run_every_line &rArr; error_update &rArr; error_push
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b63800]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_update_can_loading
+<LI><a href="#[b6383c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_timestamp_transmit
+<LI><a href="#[b63a1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hb_beat
+<LI><a href="#[b63a58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_update
+<LI><a href="#[b63cb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;b10a_update_mcu_leds
+<LI><a href="#[b63cec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;b10a_update_can_leds
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b63ddc]"></a>run_occasionally</STRONG> (ARM, 160 bytes, Stack size 8 bytes, software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = run_occasionally &rArr; csr_send_battery_power &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b638f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can4_load_transmit
+<LI><a href="#[b6392c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can3_load_transmit
+<LI><a href="#[b63968]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can2_load_transmit
+<LI><a href="#[b639a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can1_load_transmit
+<LI><a href="#[b63a94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_send_next
+<LI><a href="#[b63b0c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_voltage
+<LI><a href="#[b63b48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_power
+<LI><a href="#[b63b84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_current
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b63da0]"></a>heartbeat_blink_blue</STRONG> (ARM, 8 bytes, Stack size 0 bytes, software_setup.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b63d28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;b10a_mcu_blue_led_blink
+</UL>
+
+<P><STRONG><a name="[b646c4]"></a>setup_software</STRONG> (ARM, 268 bytes, Stack size 8 bytes, software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = setup_software &rArr; csr_global_variable_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b638b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_data_nexus_init
+<LI><a href="#[b639e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hb_init
+<LI><a href="#[b63ad0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_init
+<LI><a href="#[b63bc0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_routing_table_init
+<LI><a href="#[b63bfc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_global_variable_init
+<LI><a href="#[b63d64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;asched_init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b649d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[b64a0c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init
+</UL>
+
+<P><STRONG><a name="[b63cb0]"></a>b10a_update_mcu_leds</STRONG> (ARM, 140 bytes, Stack size 0 bytes, b10a_router_leds.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b63e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_every_line
+</UL>
+
+<P><STRONG><a name="[b63134]"></a>b10a_blink_red_can_led</STRONG> (ARM, 52 bytes, Stack size 0 bytes, b10a_router_leds.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b629b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_update_can_errors
+<LI><a href="#[b63800]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_update_can_loading
+</UL>
+
+<P><STRONG><a name="[b630f8]"></a>b10a_blink_green_can_led</STRONG> (ARM, 52 bytes, Stack size 0 bytes, b10a_router_leds.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b63800]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_update_can_loading
+</UL>
+
+<P><STRONG><a name="[b630bc]"></a>b10a_mcu_red_led_blink</STRONG> (ARM, 12 bytes, Stack size 0 bytes, b10a_router_leds.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b62450]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_pop_ssp_frame
+<LI><a href="#[b64778]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_ssp_isr
+</UL>
+
+<P><STRONG><a name="[b63080]"></a>b10a_mcu_green_led_blink</STRONG> (ARM, 12 bytes, Stack size 0 bytes, b10a_router_leds.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b62450]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_pop_ssp_frame
+</UL>
+
+<P><STRONG><a name="[b63d28]"></a>b10a_mcu_blue_led_blink</STRONG> (ARM, 12 bytes, Stack size 0 bytes, b10a_router_leds.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b63da0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;heartbeat_blink_blue
+</UL>
+
+<P><STRONG><a name="[b63cec]"></a>b10a_update_can_leds</STRONG> (ARM, 304 bytes, Stack size 0 bytes, b10a_router_leds.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b63e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_every_line
+</UL>
+
+<P><STRONG><a name="[b638b4]"></a>router_data_nexus_init</STRONG> (ARM, 16 bytes, Stack size 0 bytes, data_nexus.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[b62720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_ring_init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b646c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setup_software
+</UL>
+
+<P><STRONG><a name="[b6473c]"></a>route_frames</STRONG> (ARM, 80 bytes, Stack size 16 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = route_frames &rArr; csr_route_frame &rArr; csr_can4_tx_push_frame
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b62414]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_route_frame
+<LI><a href="#[b62450]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_pop_ssp_frame
+<LI><a href="#[b6248c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can_rx_pop_frame
+<LI><a href="#[b626e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_ring_pop
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b649d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[b63878]"></a>router_error_transmit</STRONG> (ARM, 136 bytes, Stack size 16 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = router_error_transmit &rArr; can_ring_push
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b6239c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_get_time
+<LI><a href="#[b623d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_get_info
+<LI><a href="#[b626a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_ring_push
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[b639a4]"></a>router_can1_load_transmit</STRONG> (ARM, 152 bytes, Stack size 24 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = router_can1_load_transmit &rArr; can_ring_push
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b626a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_ring_push
+<LI><a href="#[b6284c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<LI><a href="#[b63c38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_elapsed_ms
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63ddc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[b63968]"></a>router_can2_load_transmit</STRONG> (ARM, 152 bytes, Stack size 24 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = router_can2_load_transmit &rArr; can_ring_push
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b626a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_ring_push
+<LI><a href="#[b6284c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<LI><a href="#[b63c38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_elapsed_ms
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63ddc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[b6392c]"></a>router_can3_load_transmit</STRONG> (ARM, 152 bytes, Stack size 24 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = router_can3_load_transmit &rArr; can_ring_push
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b626a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_ring_push
+<LI><a href="#[b6284c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<LI><a href="#[b63c38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_elapsed_ms
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63ddc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[b638f0]"></a>router_can4_load_transmit</STRONG> (ARM, 152 bytes, Stack size 24 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = router_can4_load_transmit &rArr; can_ring_push
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b626a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_ring_push
+<LI><a href="#[b6284c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<LI><a href="#[b63c38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_elapsed_ms
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63ddc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[b6383c]"></a>router_timestamp_transmit</STRONG> (ARM, 132 bytes, Stack size 16 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = router_timestamp_transmit &rArr; can_ring_push
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b626a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_ring_push
+<LI><a href="#[b62888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[b63c38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_elapsed_ms
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_every_line
+</UL>
+
+<P><STRONG><a name="[b629b4]"></a>router_update_can_errors</STRONG> (ARM, 144 bytes, Stack size 16 bytes, data_nexus.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b6275c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_get_error_4
+<LI><a href="#[b62798]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_get_error_3
+<LI><a href="#[b627d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_get_error_2
+<LI><a href="#[b62810]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_get_error_1
+<LI><a href="#[b63134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;b10a_blink_red_can_led
+</UL>
+
+<P><STRONG><a name="[b63b84]"></a>csr_send_battery_current</STRONG> (ARM, 208 bytes, Stack size 16 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = csr_send_battery_current &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b626a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_ring_push
+<LI><a href="#[b62888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[b62900]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[b6293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[b62978]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[b63c38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_elapsed_ms
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63ddc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[b63b0c]"></a>csr_send_battery_voltage</STRONG> (ARM, 172 bytes, Stack size 24 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = csr_send_battery_voltage &rArr; can_ring_push
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b626a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_ring_push
+<LI><a href="#[b62888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[b628c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
+<LI><a href="#[b63c38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_elapsed_ms
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63ddc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[b63b48]"></a>csr_send_battery_power</STRONG> (ARM, 224 bytes, Stack size 24 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = csr_send_battery_power &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b626a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_ring_push
+<LI><a href="#[b62888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[b62900]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[b6293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[b62978]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[b63c38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_elapsed_ms
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63ddc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[b63800]"></a>router_update_can_loading</STRONG> (ARM, 404 bytes, Stack size 8 bytes, data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = router_update_can_loading
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b630f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;b10a_blink_green_can_led
+<LI><a href="#[b63134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;b10a_blink_red_can_led
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_every_line
+</UL>
+
+<P><STRONG><a name="[b639e0]"></a>hb_init</STRONG> (ARM, 12 bytes, Stack size 0 bytes, heartbeat.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b646c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setup_software
+</UL>
+
+<P><STRONG><a name="[b63a1c]"></a>hb_beat</STRONG> (ARM, 72 bytes, Stack size 16 bytes, heartbeat.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = hb_beat
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_every_line
+</UL>
+
+<P><STRONG><a name="[b61e38]"></a>hb_get_count</STRONG> (ARM, 52 bytes, Stack size 0 bytes, heartbeat.o(.text), UNUSED)
+
+<P><STRONG><a name="[b61064]"></a>float_to_fixed</STRONG> (ARM, 20 bytes, Stack size 8 bytes, utility.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b60d58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz
+<LI><a href="#[b60d94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbnf
+</UL>
+
+<P><STRONG><a name="[b61028]"></a>int_to_fixed</STRONG> (ARM, 8 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[b60fec]"></a>fixed_to_float</STRONG> (ARM, 20 bytes, Stack size 8 bytes, utility.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b60d94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbnf
+<LI><a href="#[b62888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+</UL>
+
+<P><STRONG><a name="[b60fb0]"></a>fixed_to_int</STRONG> (ARM, 8 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[b60f74]"></a>fixed_mult</STRONG> (ARM, 16 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[b60f38]"></a>fixed_mult_to_long</STRONG> (ARM, 20 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[b60efc]"></a>linear_to_fixed</STRONG> (ARM, 52 bytes, Stack size 8 bytes, utility.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b60d58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2iz
+<LI><a href="#[b60d94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbnf
+</UL>
+
+<P><STRONG><a name="[b60ec0]"></a>fixed_abs</STRONG> (ARM, 12 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[b61dc0]"></a>voidvoid</STRONG> (ARM, 8 bytes, Stack size 0 bytes, utility.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[b60d1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Address Reference Count : 2]<UL><LI> heartbeat.o(.data)
+<LI> error.o(.data)
+</UL>
+<P><STRONG><a name="[b60e84]"></a>voidint</STRONG> (ARM, 8 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b60d1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+
+<P><STRONG><a name="[b60e48]"></a>floatvoid</STRONG> (ARM, 20 bytes, Stack size 8 bytes, utility.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b60d1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+
+<P><STRONG><a name="[b61dfc]"></a>intvoid</STRONG> (ARM, 20 bytes, Stack size 8 bytes, utility.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = intvoid
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b60d1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Address Reference Count : 2]<UL><LI> heartbeat.o(.data)
+<LI> error.o(.data)
+</UL>
+<P><STRONG><a name="[b60e0c]"></a>tic</STRONG> (ARM, 24 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[b60dd0]"></a>toc</STRONG> (ARM, 28 bytes, Stack size 0 bytes, utility.o(.text), UNUSED)
+
+<P><STRONG><a name="[b63d64]"></a>asched_init</STRONG> (ARM, 40 bytes, Stack size 0 bytes, async_scheduler.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b646c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setup_software
+</UL>
+
+<P><STRONG><a name="[b64304]"></a>asched_tick</STRONG> (ARM, 144 bytes, Stack size 8 bytes, async_scheduler.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = asched_tick
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b60d1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b64340]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer0_isr
+</UL>
+
+<P><STRONG><a name="[b60740]"></a>asched_set_timestamp</STRONG> (ARM, 12 bytes, Stack size 0 bytes, async_scheduler.o(.text), UNUSED)
+
+<P><STRONG><a name="[b64994]"></a>asched_run</STRONG> (ARM, 100 bytes, Stack size 8 bytes, async_scheduler.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = asched_run
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b649d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[b60704]"></a>asched_get_timestamp</STRONG> (ARM, 12 bytes, Stack size 0 bytes, async_scheduler.o(.text), UNUSED)
+
+<P><STRONG><a name="[b63ad0]"></a>error_init</STRONG> (ARM, 16 bytes, Stack size 0 bytes, error.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b646c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setup_software
+</UL>
+
+<P><STRONG><a name="[b60d1c]"></a>error_occurred</STRONG> (ARM, 44 bytes, Stack size 0 bytes, error.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b5f0c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_push_ssp_frame
+<LI><a href="#[b60e48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;floatvoid
+<LI><a href="#[b60e84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;voidint
+<LI><a href="#[b61dc0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;voidvoid
+<LI><a href="#[b61dfc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;intvoid
+<LI><a href="#[b62450]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_pop_ssp_frame
+<LI><a href="#[b64304]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;asched_tick
+</UL>
+
+<P><STRONG><a name="[b5fda4]"></a>error_occurred_irq</STRONG> (ARM, 44 bytes, Stack size 0 bytes, error.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b63c74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_error_isr
+</UL>
+
+<P><STRONG><a name="[b5fd68]"></a>error_occurred_fiq</STRONG> (ARM, 44 bytes, Stack size 0 bytes, error.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b64778]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_ssp_isr
+<LI><a href="#[b647b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can_rx4_fiq
+<LI><a href="#[b647f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can_rx3_fiq
+<LI><a href="#[b6482c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can_rx2_fiq
+<LI><a href="#[b64868]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can_rx1_fiq
+</UL>
+
+<P><STRONG><a name="[b5fd2c]"></a>error_push</STRONG> (ARM, 148 bytes, Stack size 16 bytes, error.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = error_push
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63a58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_update
+</UL>
+
+<P><STRONG><a name="[b63a58]"></a>error_update</STRONG> (ARM, 180 bytes, Stack size 24 bytes, error.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = error_update &rArr; error_push
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5fd2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_push
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_every_line
+</UL>
+
+<P><STRONG><a name="[b5fcf0]"></a>error_pop</STRONG> (ARM, 84 bytes, Stack size 0 bytes, error.o(.text), UNUSED)
+
+<P><STRONG><a name="[b6239c]"></a>error_get_time</STRONG> (ARM, 12 bytes, Stack size 0 bytes, error.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b63878]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_error_transmit
+</UL>
+
+<P><STRONG><a name="[b623d8]"></a>error_get_info</STRONG> (ARM, 36 bytes, Stack size 0 bytes, error.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b63878]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_error_transmit
+</UL>
+
+<P><STRONG><a name="[b63a94]"></a>error_send_next</STRONG> (ARM, 120 bytes, Stack size 8 bytes, error.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = error_send_next
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63ddc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_occasionally
+</UL>
+
+<P><STRONG><a name="[b63bfc]"></a>csr_global_variable_init</STRONG> (ARM, 80 bytes, Stack size 16 bytes, csr_ssp.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = csr_global_variable_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5d554]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b646c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setup_software
+</UL>
+
+<P><STRONG><a name="[b64778]"></a>csr_ssp_isr</STRONG> (ARM, 536 bytes, Stack size 24 bytes, csr_ssp.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = csr_ssp_isr &rArr; csr_clock_tick &rArr; csr_send_can_time_packets
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5f048]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_clock_tick
+<LI><a href="#[b5fd68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_fiq
+<LI><a href="#[b630bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;b10a_mcu_red_led_blink
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b6761c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FIQ_Handler
+</UL>
+
+<P><STRONG><a name="[b62450]"></a>csr_pop_ssp_frame</STRONG> (ARM, 696 bytes, Stack size 24 bytes, csr_ssp.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = csr_pop_ssp_frame
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b60d1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+<LI><a href="#[b63080]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;b10a_mcu_green_led_blink
+<LI><a href="#[b630bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;b10a_mcu_red_led_blink
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b6473c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;route_frames
+</UL>
+
+<P><STRONG><a name="[b5f0c0]"></a>csr_push_ssp_frame</STRONG> (ARM, 316 bytes, Stack size 8 bytes, csr_ssp.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = csr_push_ssp_frame
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b60d1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b62414]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_route_frame
+</UL>
+
+<P><STRONG><a name="[b5eb5c]"></a>csr_synchronize_arm9</STRONG> (ARM, 396 bytes, Stack size 24 bytes, csr_clock.o(.text), UNUSED)
+
+<P><STRONG><a name="[b5eb20]"></a>csr_send_can_time_packets</STRONG> (ARM, 252 bytes, Stack size 4 bytes, csr_clock.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = csr_send_can_time_packets
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5f048]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_clock_tick
+</UL>
+
+<P><STRONG><a name="[b5f048]"></a>csr_clock_tick</STRONG> (ARM, 56 bytes, Stack size 0 bytes, csr_clock.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = csr_clock_tick &rArr; csr_send_can_time_packets
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5eb20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_can_time_packets
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b64778]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_ssp_isr
+</UL>
+
+<P><STRONG><a name="[b63c38]"></a>csr_elapsed_ms</STRONG> (ARM, 12 bytes, Stack size 0 bytes, csr_clock.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b6383c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_timestamp_transmit
+<LI><a href="#[b638f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can4_load_transmit
+<LI><a href="#[b6392c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can3_load_transmit
+<LI><a href="#[b63968]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can2_load_transmit
+<LI><a href="#[b639a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can1_load_transmit
+<LI><a href="#[b63b0c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_voltage
+<LI><a href="#[b63b48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_power
+<LI><a href="#[b63b84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_current
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[b63bc0]"></a>csr_routing_table_init</STRONG> (ARM, 884 bytes, Stack size 0 bytes, csr_router.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b646c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setup_software
+</UL>
+
+<P><STRONG><a name="[b62414]"></a>csr_route_frame</STRONG> (ARM, 248 bytes, Stack size 24 bytes, csr_router.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = csr_route_frame &rArr; csr_can4_tx_push_frame
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5e5f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can4_tx_push_frame
+<LI><a href="#[b5e634]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can3_tx_push_frame
+<LI><a href="#[b5e670]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can2_tx_push_frame
+<LI><a href="#[b5e6ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_can1_tx_push_frame
+<LI><a href="#[b5f0c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_push_ssp_frame
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b6473c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;route_frames
+</UL>
+
+<P><STRONG><a name="[b6248c]"></a>csr_can_rx_pop_frame</STRONG> (ARM, 88 bytes, Stack size 4 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = csr_can_rx_pop_frame
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b6473c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;route_frames
+</UL>
+
+<P><STRONG><a name="[b64868]"></a>csr_can_rx1_fiq</STRONG> (ARM, 272 bytes, Stack size 16 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = csr_can_rx1_fiq
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5fd68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_fiq
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b6761c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FIQ_Handler
+</UL>
+
+<P><STRONG><a name="[b6482c]"></a>csr_can_rx2_fiq</STRONG> (ARM, 272 bytes, Stack size 16 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = csr_can_rx2_fiq
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5fd68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_fiq
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b6761c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FIQ_Handler
+</UL>
+
+<P><STRONG><a name="[b647f0]"></a>csr_can_rx3_fiq</STRONG> (ARM, 272 bytes, Stack size 16 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = csr_can_rx3_fiq
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5fd68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_fiq
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b6761c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FIQ_Handler
+</UL>
+
+<P><STRONG><a name="[b647b4]"></a>csr_can_rx4_fiq</STRONG> (ARM, 268 bytes, Stack size 16 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = csr_can_rx4_fiq
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5fd68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_fiq
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b6761c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FIQ_Handler
+</UL>
+
+<P><STRONG><a name="[b5e6ac]"></a>csr_can1_tx_push_frame</STRONG> (ARM, 96 bytes, Stack size 8 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = csr_can1_tx_push_frame
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b62414]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_route_frame
+</UL>
+
+<P><STRONG><a name="[b64958]"></a>csr_can1_tx</STRONG> (ARM, 340 bytes, Stack size 16 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = csr_can1_tx
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b649d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[b5e670]"></a>csr_can2_tx_push_frame</STRONG> (ARM, 96 bytes, Stack size 8 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = csr_can2_tx_push_frame
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b62414]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_route_frame
+</UL>
+
+<P><STRONG><a name="[b6491c]"></a>csr_can2_tx</STRONG> (ARM, 368 bytes, Stack size 16 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = csr_can2_tx
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b649d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[b5e634]"></a>csr_can3_tx_push_frame</STRONG> (ARM, 96 bytes, Stack size 8 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = csr_can3_tx_push_frame
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b62414]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_route_frame
+</UL>
+
+<P><STRONG><a name="[b648e0]"></a>csr_can3_tx</STRONG> (ARM, 352 bytes, Stack size 16 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = csr_can3_tx
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b649d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[b5e5f8]"></a>csr_can4_tx_push_frame</STRONG> (ARM, 96 bytes, Stack size 8 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = csr_can4_tx_push_frame
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b62414]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_route_frame
+</UL>
+
+<P><STRONG><a name="[b648a4]"></a>csr_can4_tx</STRONG> (ARM, 352 bytes, Stack size 16 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = csr_can4_tx
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b649d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[b62810]"></a>can_get_error_1</STRONG> (ARM, 68 bytes, Stack size 0 bytes, csr_can_tx.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b629b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_update_can_errors
+</UL>
+
+<P><STRONG><a name="[b627d4]"></a>can_get_error_2</STRONG> (ARM, 68 bytes, Stack size 0 bytes, csr_can_tx.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b629b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_update_can_errors
+</UL>
+
+<P><STRONG><a name="[b62798]"></a>can_get_error_3</STRONG> (ARM, 68 bytes, Stack size 0 bytes, csr_can_tx.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b629b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_update_can_errors
+</UL>
+
+<P><STRONG><a name="[b6275c]"></a>can_get_error_4</STRONG> (ARM, 68 bytes, Stack size 0 bytes, csr_can_tx.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b629b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_update_can_errors
+</UL>
+
+<P><STRONG><a name="[b63c74]"></a>can_error_isr</STRONG> (ARM, 644 bytes, Stack size 40 bytes, csr_can_tx.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = can_error_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5fda4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;error_occurred_irq
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[b62720]"></a>can_ring_init</STRONG> (ARM, 20 bytes, Stack size 0 bytes, can_ring.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b638b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_data_nexus_init
+</UL>
+
+<P><STRONG><a name="[b626a8]"></a>can_ring_push</STRONG> (ARM, 80 bytes, Stack size 8 bytes, can_ring.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = can_ring_push
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b6383c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_timestamp_transmit
+<LI><a href="#[b63878]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_error_transmit
+<LI><a href="#[b638f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can4_load_transmit
+<LI><a href="#[b6392c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can3_load_transmit
+<LI><a href="#[b63968]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can2_load_transmit
+<LI><a href="#[b639a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can1_load_transmit
+<LI><a href="#[b63b0c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_voltage
+<LI><a href="#[b63b48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_power
+<LI><a href="#[b63b84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_current
+</UL>
+
+<P><STRONG><a name="[b626e4]"></a>can_ring_pop</STRONG> (ARM, 84 bytes, Stack size 0 bytes, can_ring.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b6473c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;route_frames
+</UL>
+
+<P><STRONG><a name="[b5d608]"></a>__aeabi_memset</STRONG> (ARM, 24 bytes, Stack size 0 bytes, memseta.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b5d4a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_memset$wrapper
+<LI><a href="#[b5d554]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
+</UL>
+
+<P><STRONG><a name="[b5d5cc]"></a>__aeabi_memset4</STRONG> (ARM, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+
+<P><STRONG><a name="[b5d590]"></a>__aeabi_memset8</STRONG> (ARM, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+
+<P><STRONG><a name="[b5d554]"></a>__aeabi_memclr</STRONG> (ARM, 8 bytes, Stack size 0 bytes, memseta.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[b5d608]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63bfc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_global_variable_init
+</UL>
+
+<P><STRONG><a name="[b5d518]"></a>__aeabi_memclr4</STRONG> (ARM, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+
+<P><STRONG><a name="[b5d4dc]"></a>__aeabi_memclr8</STRONG> (ARM, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+
+<P><STRONG><a name="[b5d4a0]"></a>_memset$wrapper</STRONG> (ARM, 36 bytes, Stack size 4 bytes, memseta.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b5d608]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
+</UL>
+
+<P><STRONG><a name="[b628c4]"></a>__aeabi_fmul</STRONG> (ARM, 136 bytes, Stack size 0 bytes, fmul.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b63b0c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_voltage
+</UL>
+
+<P><STRONG><a name="[b60d94]"></a>__ARM_scalbnf</STRONG> (ARM, 12 bytes, Stack size 0 bytes, fscalb.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b60efc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linear_to_fixed
+<LI><a href="#[b60fec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixed_to_float
+<LI><a href="#[b61064]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+</UL>
+
+<P><STRONG><a name="[b5d2c0]"></a>scalbnf</STRONG> (ARM, 0 bytes, Stack size 0 bytes, fscalb.o(.text), UNUSED)
+
+<P><STRONG><a name="[b6293c]"></a>__aeabi_dmul</STRONG> (ARM, 360 bytes, Stack size 80 bytes, dmul.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5d1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63b48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_power
+<LI><a href="#[b63b84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_current
+</UL>
+
+<P><STRONG><a name="[b62888]"></a>__aeabi_i2f</STRONG> (ARM, 28 bytes, Stack size 0 bytes, fflti.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[b5d0e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_epilogue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b60fec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixed_to_float
+<LI><a href="#[b6383c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_timestamp_transmit
+<LI><a href="#[b63b0c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_voltage
+<LI><a href="#[b63b48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_power
+<LI><a href="#[b63b84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_current
+</UL>
+
+<P><STRONG><a name="[b6284c]"></a>__aeabi_ui2f</STRONG> (ARM, 16 bytes, Stack size 0 bytes, ffltui.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[b5d0e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_epilogue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b638f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can4_load_transmit
+<LI><a href="#[b6392c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can3_load_transmit
+<LI><a href="#[b63968]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can2_load_transmit
+<LI><a href="#[b639a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;router_can1_load_transmit
+</UL>
+
+<P><STRONG><a name="[b60d58]"></a>__aeabi_f2iz</STRONG> (ARM, 64 bytes, Stack size 0 bytes, ffixi.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b60efc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linear_to_fixed
+<LI><a href="#[b61064]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;float_to_fixed
+</UL>
+
+<P><STRONG><a name="[b62900]"></a>__aeabi_f2d</STRONG> (ARM, 56 bytes, Stack size 0 bytes, f2d.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b63b48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_power
+<LI><a href="#[b63b84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_current
+</UL>
+
+<P><STRONG><a name="[b62978]"></a>__aeabi_d2f</STRONG> (ARM, 92 bytes, Stack size 16 bytes, d2f.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_d2f
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5d0e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_epilogue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b63b48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_power
+<LI><a href="#[b63b84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csr_send_battery_current
+</UL>
+
+<P><STRONG><a name="[b5c9d8]"></a>__I$use$fp</STRONG> (ARM, 0 bytes, Stack size 0 bytes, iusefp.o(.text), UNUSED)
+
+<P><STRONG><a name="[b5c8e8]"></a>_float_round</STRONG> (ARM, 24 bytes, Stack size 0 bytes, fepilogue.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[b5c8e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_round
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5c8e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_round
+<LI><a href="#[b5d0e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_epilogue
+</UL>
+
+<P><STRONG><a name="[b5d0e0]"></a>_float_epilogue</STRONG> (ARM, 84 bytes, Stack size 0 bytes, fepilogue.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[b5c8e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_round
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b6284c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
+<LI><a href="#[b62888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[b62978]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+</UL>
+
+<P><STRONG><a name="[b5c7f8]"></a>_double_round</STRONG> (ARM, 84 bytes, Stack size 20 bytes, depilogue.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = _double_round
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5d1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+</UL>
+
+<P><STRONG><a name="[b5d1d0]"></a>_double_epilogue</STRONG> (ARM, 204 bytes, Stack size 28 bytes, depilogue.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = _double_epilogue &rArr; _double_round
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5c7f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b6293c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+</UL>
+
+<P><STRONG><a name="[b5c708]"></a>__scatterload</STRONG> (ARM, 40 bytes, Stack size 0 bytes, init.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[b5cbb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main_after_scatterload
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5cbf4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
+</UL>
+
+<P><STRONG><a name="[b5c6cc]"></a>__scatterload_rt2</STRONG> (ARM, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
+
+<P><STRONG><a name="[b5c348]"></a>__scatterload_copy</STRONG> (ARM, 24 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b5c348]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_copy
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5c348]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_copy
+</UL>
+
+<P><STRONG><a name="[b5c30c]"></a>__scatterload_null</STRONG> (ARM, 4 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
+
+<P><STRONG><a name="[b5c2d0]"></a>__scatterload_zeroinit</STRONG> (ARM, 24 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
+<P>
+<H3>
+Local Symbols
+</H3>
+<P><STRONG><a name="[b678b0]"></a>Undef_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[b678b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Undef_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b678b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Undef_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[b67874]"></a>SWI_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[b67874]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SWI_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b67874]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SWI_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[b67838]"></a>PAbt_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[b67838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PAbt_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b67838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PAbt_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[b677fc]"></a>IRQ_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[b677fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IRQ_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b677fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IRQ_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL><P>
+<H3>
+Undefined Global Symbols
+</H3><HR></body></html>
