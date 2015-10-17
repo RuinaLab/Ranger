@@ -357,6 +357,13 @@ void debug_steeringMotors(void) {
  }
 
 
+ /* --22-- Tests the pseudo-random number sampler on Ranger
+  * by simply writing random numbers to w0 as fast as possible */
+ void test_fastRand(void){
+ 	mb_io_set_float(ID_CTRL_TEST_W0, FastRand());
+ }
+
+
 /* Entry-point function for all unit tests */
 void runUnitTest(void) {
 
@@ -367,6 +374,7 @@ void runUnitTest(void) {
 	/**** Ranger Math ****/
 	case 1: test_waveFunctions(); break;
 	case 21: test_linInterpVar(); break;
+	case 22: test_fastRand(); break;
 
 	/**** Low-Level Motor Control ****/
 	case 2: test_trackAbs_ankle(); break;
