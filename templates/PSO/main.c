@@ -17,12 +17,12 @@
 #define POP_COUNT 15  // Number of particles
 #define ITER_COUNT 20 // Number of generations to complete
 
-static const float omega = 0.6;  // particle velocity damping
-static const float alpha = 0.4;  // local search parameter
-static const float beta = 0.6;  // global search parameter
+static const float omega = 0.3;  // particle velocity damping
+static const float alpha = 0.5;  // local search parameter
+static const float beta = 0.7;  // global search parameter
 
-static const float xLow[DIM_STATE] = { -2.0, -5.0};
-static const float xUpp[DIM_STATE] = {6.0, 0.5};
+static const float xLow[DIM_STATE] = { -1.0, -1.0};
+static const float xUpp[DIM_STATE] = {1.0, 1.0};
 
 static float xGlobalBest[DIM_STATE]; // Store the best particle location
 static float fGlobalBest = FLT_MAX;  // best particle value (attempting to minimize)
@@ -56,18 +56,18 @@ float objectiveFunction(float* x) {
 /******************************************************************
  *                    Initialize Particle                         *
  ******************************************************************
- * Initializes each particle at a random position in the search space
- * and then assigns a "velocity" that will move it to another random
- * point in the search space.
+ * Initializes each particle at a random position and velocity in
+ * the search space.
  */
 void initializeParticle(Particle* p) {
-	float r1 = FastRand();
-	float r2 = FastRand();
 	int i;
+		float r1, r2;
 	for (i = 0; i < DIM_STATE; i++) {
+		r1 = FastRand();
+		r2 = FastRand();
 		p->x[i] = xLow[i] + (xUpp[i] - xLow[i]) * r1;
 		p->xBest[i] = p->x[i];
-		p->v[i] = (xLow[i] + (xUpp[i] - xLow[i]) * r2) - p->x[i];
+		p->v[i] = -(xUpp[i] - xLow[i]) + 2 * (xUpp[i] - xLow[i]) * r2;
 	}
 	p->f = objectiveFunction(p->x);
 	p->fBest = p->f;
@@ -81,26 +81,43 @@ void initializeParticle(Particle* p) {
  * to see if the new point is an improvement.
  */
 void updateParticle(Particle* p) {
+	float r1, r2;
 
 	// Compute the new point
-	int i = 0;
-	float r1 = FastRand();
-	float r2 = FastRand();
-	for (i = 0; i < DIM_STATE; i++) {
-		p->v[i] = omega * p->v[i] +
-		          alpha * r1 * (p->xBest[i] - p->x[i]) +
-		          beta * r2 * (xGlobalBest[i] - p->x[i]);
-		p->x[i] = p->x[i] + p->v[i];
+	int dim = 0;
+	for (dim = 0; dim < DIM_STATE; dim++) {
+		r1 = FastRand();
+		r2 = FastRand();
+		p->v[dim] = omega * p->v[dim] + 
+		            alpha * r1 * (p->xBest[dim] - p->x[dim]) +
+		            beta * r2 * (xGlobalBest[dim] - p->x[dim]);
+		p->x[dim] = p->x[dim] + p->v[dim];
+
+		// //// HACK ////
+		// CODE ONLY WORKS WHEN THE FOLLOWING LINE IS UNCOMMENTED
+		// MEMORY VIOLATION SUSPECTED. FIX SOON.
+		// printf("[%3.3f, %3.3f]\n",0.0,0.0);
+
+
+
 	}
 	p->f = objectiveFunction(p->x);
 
 	// Check if the new point is an improvement
 	if (p->f < p->fBest) {
 		p->fBest = p->f;
-		for (i = 0; i < DIM_STATE; i++) {
-			p->xBest[i] = p->x[i];
+		for (dim = 0; dim < DIM_STATE; dim++) {
+			p->xBest[dim] = p->x[dim];
 		}
 	}
+
+	// //// HACK ////
+	// printf("(");
+	// for (dim = 0; dim < DIM_STATE; dim++) {
+	// 	if (dim > 0) printf(", ");
+	// 	printf("%4.4f", xGlobalBest[dim]);
+	// }
+	// printf(")\n");
 
 }
 
@@ -131,19 +148,41 @@ int main( int argc, const char ** argv ) {
 
 	Particle population[POP_COUNT];
 
+
+
+
+
+//// THIS CODE IS BROKEN!!!
+// Probably a memory error somewhere.
+
+
+
+
+
+
+
+
+
+
 // Top-level iteration loop
 	int iter;
 	int ind;
+	int dim;
 	for (iter = 0; iter < ITER_COUNT; iter++) {
 		for (ind = 0; ind < POP_COUNT; ind++) {
-			if (iter == 0) { // Initialization!
+			if (iter == 0) {
 				initializeParticle(&population[ind]);
-			} else {   // generation loop
+			} else {
 				updateParticle(&population[ind]);
 			}
 			updateGlobal(&population[ind]);  // Check for the new global best
 		}
-		printf("iter: %2d,  fBest: %4.4f \n", iter, fGlobalBest);
+		printf("iter: %2d,  fBest: %4.4f,  xBest: [", iter, fGlobalBest);
+		for (dim = 0; dim < DIM_STATE; dim++) {
+			if (dim > 0) printf(", ");
+			printf("%4.4f", xGlobalBest[dim]);
+		}
+		printf("]\n");
 	}
 
 	printf("Done!\n");
