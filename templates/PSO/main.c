@@ -41,13 +41,12 @@ typedef struct {
  ******************************************************************/
 float objectiveFunction(float* x) {
 	int i; // counter to loop over each dimension
-	float f;  // value of the objective function
+	float f = 0;  // value of the objective function
 
 	// Simple quadratic bowl:
 	for (i = 0; i < DIM_STATE; i++) {
 		f = f + x[i] * x[i];
 	}
-
 	return f;
 }
 
@@ -92,14 +91,6 @@ void updateParticle(Particle* p) {
 		            alpha * r1 * (p->xBest[dim] - p->x[dim]) +
 		            beta * r2 * (xGlobalBest[dim] - p->x[dim]);
 		p->x[dim] = p->x[dim] + p->v[dim];
-
-		// //// HACK ////
-		// CODE ONLY WORKS WHEN THE FOLLOWING LINE IS UNCOMMENTED
-		// MEMORY VIOLATION SUSPECTED. FIX SOON.
-		// printf("[%3.3f, %3.3f]\n",0.0,0.0);
-
-
-
 	}
 	p->f = objectiveFunction(p->x);
 
@@ -110,15 +101,6 @@ void updateParticle(Particle* p) {
 			p->xBest[dim] = p->x[dim];
 		}
 	}
-
-	// //// HACK ////
-	// printf("(");
-	// for (dim = 0; dim < DIM_STATE; dim++) {
-	// 	if (dim > 0) printf(", ");
-	// 	printf("%4.4f", xGlobalBest[dim]);
-	// }
-	// printf(")\n");
-
 }
 
 
@@ -142,27 +124,11 @@ void updateGlobal(Particle* p) {
 /******************************************************************
  *                       Main Entry-Point                         *
  ******************************************************************/
-int main( int argc, const char ** argv ) {
+int main(void) {
 
 	printf("Running particle swarm optimization...\n");
 
 	Particle population[POP_COUNT];
-
-
-
-
-
-//// THIS CODE IS BROKEN!!!
-// Probably a memory error somewhere.
-
-
-
-
-
-
-
-
-
 
 // Top-level iteration loop
 	int iter;
@@ -177,10 +143,10 @@ int main( int argc, const char ** argv ) {
 			}
 			updateGlobal(&population[ind]);  // Check for the new global best
 		}
-		printf("iter: %2d,  fBest: %4.4f,  xBest: [", iter, fGlobalBest);
+		printf("iter: %2d,  fBest: %10.4g,  xBest: [", iter, fGlobalBest);
 		for (dim = 0; dim < DIM_STATE; dim++) {
 			if (dim > 0) printf(", ");
-			printf("%4.4f", xGlobalBest[dim]);
+			printf("%10.4g", xGlobalBest[dim]);
 		}
 		printf("]\n");
 	}
