@@ -13,16 +13,16 @@
 #include <float.h>
 #include "RangerMath.h"  // FastRand()
 
-#define DIM_STATE 2  // Dimension of the search space
-#define POP_COUNT 15  // Number of particles
-#define ITER_COUNT 20 // Number of generations to complete
+#define DIM_STATE 6  // Dimension of the search space
+#define POP_COUNT 12  // Number of particles 
+#define ITER_COUNT 25 // Number of generations to complete
 
-static const float omega = 0.3;  // particle velocity damping
-static const float alpha = 0.5;  // local search parameter
-static const float beta = 0.7;  // global search parameter
+static const float omega = 0.5;  // particle velocity damping
+static const float alpha = 0.7;  // local search parameter
+static const float beta = 0.9;  // global search parameter
 
-static const float xLow[DIM_STATE] = { -1.0, -1.0};
-static const float xUpp[DIM_STATE] = {1.0, 1.0};
+static const float xLow[DIM_STATE] = { -6.0, -1.0, -0.1, -0.4, -2, -3};
+static const float xUpp[DIM_STATE] = {0.1, 5.0, 7.0, 1.0, 10, 3};
 
 static float xGlobalBest[DIM_STATE]; // Store the best particle location
 static float fGlobalBest = FLT_MAX;  // best particle value (attempting to minimize)
@@ -45,8 +45,12 @@ float objectiveFunction(float* x) {
 
 	// Simple quadratic bowl:
 	for (i = 0; i < DIM_STATE; i++) {
-		f = f + x[i] * x[i];
+		f += x[i] * x[i];
 	}
+
+	// Add noise to make optimization more difficult:
+	//f = f + 0.4*(0.5-FastRand());   // uniform, bounded, zero mean noise
+
 	return f;
 }
 
