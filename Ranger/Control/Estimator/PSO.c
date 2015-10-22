@@ -14,29 +14,28 @@
 #include "RangerMath.h"  // FastRand()
 #include "PSO.h"
 
-#define DIM_STATE 6 // Dimension of the search space for optimization
-#define POP_COUNT 12  // Number of particles 
+#define DIM_STATE 15 // Dimension of the search space for optimization
+#define POP_COUNT 11  // Number of particles 
 
-float omega = 0.5;  // particle velocity damping
+float omega = 0.7;  // particle velocity damping
 float alpha = 0.7;  // local search parameter
 float beta = 0.9;  // global search parameter
 
 bool PSO_RUN = false;  // Actively run particle swarm optimization?
 
 /* Bounds on the initial search space */
-const float xLow[DIM_STATE] = { -6.0, -1.0, -0.1, -0.4, -2, -3};
-const float xUpp[DIM_STATE] = {0.1, 5.0, 7.0, 1.0, 10, 3};
+const float xLow[DIM_STATE] = { -6.0, -1.0, -0.1, -0.4, -2, -3, -1, -2, -1, -2, -4, -1, -3, -4, -5};
+const float xUpp[DIM_STATE] = {0.1, 5.0, 7.0, 1.0, 10, 3, 7, 8, 9, 2.1, 1.1, 1.2, 2.3, 3.4, 1.5};
 
-typedef struct {
-	float x[DIM_STATE];  // Current location of the particle
-	float xBest[DIM_STATE];  // best ever location of the particle
-	float f; // Current value of the particle
-	float fBest; // best ever value of the particle
-	float v[DIM_STATE]; // velocity of the particle
-} Particle;
+/* Arrays to store the population data */
+float x[POP_COUNT][DIM_STATE];  // Current location of the particle
+float v[POP_COUNT][DIM_STATE];  // best ever location of the particle
+float f[POP_COUNT];  // Current value of the particle
+float xBest[POP_COUNT][DIM_STATE]; // best ever value of the particle
+float fBest[POP_COUNT]; // velocity of the particle
 
-Particle population[POP_COUNT]; // Population of particles for the search
-int idxPopBest = 0;  // Index of the populations best-ever particle
+/* Index for pointing to key parts of the arrays */
+int idxPopGlobal = 0;  // Index of the populations best-ever particle
 int idxPopSelect = 0;  // Index of the particle that is currently selected
 bool initComplete = false;  // Has the entire population been initialized?
 
@@ -46,7 +45,7 @@ bool initComplete = false;  // Has the entire population been initialized?
 
 /* Clears the particle swarm and restarts the optimization */
 void psoReset(void) {
-	idxPopBest = 0;
+	idxPopGlobal = 0;
 	idxPopSelect = 0;
 	initComplete = false;
 }
@@ -55,7 +54,7 @@ void psoReset(void) {
  * zero if the population has not been initialized. */
 float psoGetGlobalBest(void) {
 	if (initComplete) {
-		return population[idxPopBest].fBest;
+		return fBest[idxPopGlobal];
 	} else {
 		return 0.0;
 	}
@@ -65,7 +64,7 @@ float psoGetGlobalBest(void) {
  * zero if the population has not been initialized. */
 float psoGetSelectBest(void) {
 	if (initComplete) {
-		return population[idxPopSelect].fBest;
+		return fBest[idxPopSelect];
 	} else {
 		return 0.0;
 	}
@@ -75,14 +74,14 @@ float psoGetSelectBest(void) {
  * zero if the population has not been initialized. */
 float psoGetSelectObjVal(void) {
 	if (initComplete) {
-		return population[idxPopSelect].f;
+		return f[idxPopSelect];
 	} else {
 		return 0.0;
 	}
 }
 
 /* Returns the index of the currently selected particle */
-int psoGetParticleId(void){
+int psoGetParticleId(void) {
 	return idxPopSelect;
 }
 
@@ -92,12 +91,13 @@ int psoGetParticleId(void){
 float objectiveFunction() {
 	int dim; // counter to loop over each dimension
 	float val;
+	int idx = idxPopSelect; // Index of the currently selected particle
 	float f = 0.0;  // value of the objective function
 
 	// Simple quadratic bowl:
 	for (dim = 0; dim < DIM_STATE; dim++) {
-		val = population[idxPopSelect].x[dim];
-		f += val*val;
+		val = x[idx][dim];
+		f += val * val;
 	}
 
 	return f;
@@ -112,18 +112,22 @@ float objectiveFunction() {
  * the search space.
  */
 void initializeParticle() {
-	int dim;
 	int idx = idxPopSelect; // Index of the currently selected particle
+	int dim;
 	float r1, r2;
 	for (dim = 0; dim < DIM_STATE; dim++) {
 		r1 = FastRand();
 		r2 = FastRand();
-		population[idx].x[dim] = xLow[dim] + (xUpp[dim] - xLow[dim]) * r1;
-		population[idx].xBest[dim] = population[idx].x[dim];
-		population[idx].v[dim] = -(xUpp[dim] - xLow[dim]) + 2 * (xUpp[dim] - xLow[dim]) * r2;
+		x[idx][dim] = xLow[dim] + (xUpp[dim] - xLow[dim]) * r1;
+		v[idx][dim] = -(xUpp[dim] - xLow[dim]) + 2 * (xUpp[dim] - xLow[dim]) * r2;
 	}
-	population[idx].f = objectiveFunction();
-	population[idx].fBest = population[idx].f;
+	f[idx] = objectiveFunction();
+
+	// This point is the new best point by definition:
+	fBest[idx] = f[idx];
+	for (dim = 0; dim < DIM_STATE; dim++) {
+		xBest[idx][dim] = x[idx][dim];
+	}
 }
 
 
@@ -142,18 +146,18 @@ void updateParticle() {
 	for (dim = 0; dim < DIM_STATE; dim++) {
 		r1 = FastRand();
 		r2 = FastRand();
-		population[idx].v[dim] = omega * population[idx].v[dim] +
-		                         alpha * r1 * (population[idx].xBest[dim] - population[idx].x[dim]) +
-		                         beta * r2 * (population[idxPopBest].xBest[dim] - population[idx].x[dim]);
-		population[idx].x[dim] = population[idx].x[dim] + population[idx].v[dim];
+		v[idx][dim] = omega * v[idx][dim] +
+		              alpha * r1 * (xBest[idx][dim] - x[idx][dim]) +
+		              beta * r2 * (xBest[idxPopGlobal][dim] - x[idx][dim]);
+		x[idx][dim] = x[idx][dim] + v[idx][dim];
 	}
-	population[idx].f = objectiveFunction();
+	f[idx] = objectiveFunction();
 
 	// Check if the new point is an improvement
-	if (population[idx].f < population[idx].fBest) {
-		population[idx].fBest = population[idx].f;
+	if (f[idx] < fBest[idx]) {
+		fBest[idx] = f[idx];
 		for (dim = 0; dim < DIM_STATE; dim++) {
-			population[idx].xBest[dim] = population[idx].x[dim];
+			xBest[idx][dim] = x[idx][dim];
 		}
 	}
 }
@@ -166,14 +170,14 @@ void particleSwarmOptimization(void) {
 
 		// Update particle:
 		if (initComplete) {
-			initializeParticle();
-		} else {
 			updateParticle();
+		} else {
+			initializeParticle();
 		}
 
 		// Check to see if the current point is better than the global best
-		if (population[idxPopSelect].fBest < population[idxPopBest].fBest) {
-			idxPopBest = idxPopSelect;
+		if (fBest[idxPopSelect] < fBest[idxPopGlobal] ) {
+			idxPopGlobal = idxPopSelect;
 		}
 
 		// Advance the index to point to next particle, check initPop:

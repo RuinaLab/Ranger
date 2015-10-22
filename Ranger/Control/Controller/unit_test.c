@@ -69,7 +69,7 @@ void test_trackRel_ankle() {
  * spring at that angle. If the hip is set to track cancel the
  * measured state (not the target state), then you can use
  * R1 and R2 to send kp and kd gains respectively.
- * 
+ *
  * --> In flight mode, gravity compensation is disabled, since
  * it is not clear where the reaction torque is coming from.   */
 void test_hipCompensation_flight() {
@@ -340,54 +340,54 @@ void debug_steeringMotors(void) {
  * sending a periodic waveform to be plotted in labview. W0 plots a
  * saw-tooth wave and w1 plots the test function. The result should be
  * a sine wave */
- void test_linInterpVar(void){
- 	static float T[] = {0.0, 0.1,  0.3,  0.4,  0.45, 0.5, 0.9,   0.98,  1.0};  // Time vector
- 	static float Y[] = {0.0, 0.59, 0.95, 0.59, 0.31, 0.0, -0.59, -0.13, 0.0};  // Function 
- 	static int nGrid = 9;   // <-- BE VERY CAREFUL WITH THIS - don't want to get a segfault...
+void test_linInterpVar(void) {
+	static float T[] = {0.0, 0.1,  0.3,  0.4,  0.45, 0.5, 0.9,   0.98,  1.0};  // Time vector
+	static float Y[] = {0.0, 0.59, 0.95, 0.59, 0.31, 0.0, -0.59, -0.13, 0.0};  // Function
+	static int nGrid = 9;   // <-- BE VERY CAREFUL WITH THIS - don't want to get a segfault...
 
- 	float period = 2.0;
+	float period = 2.0;
 	float min = 0.0;
 	float max = 1.0;
 	float time = getTime();
 	float timeWrap = SawToothWave(time, period, min, max);
-	float func = LinInterpVar(timeWrap,T,Y,nGrid);
+	float func = LinInterpVar(timeWrap, T, Y, nGrid);
 
 	mb_io_set_float(ID_CTRL_TEST_W0, timeWrap);
 	mb_io_set_float(ID_CTRL_TEST_W1, func);
- }
+}
 
 
- /* --22-- Tests the pseudo-random number sampler on Ranger
-  * by simply writing random numbers to w0 as fast as possible */
- void test_fastRand(void){
- 	mb_io_set_float(ID_CTRL_TEST_W0, FastRand());
- }
+/* --22-- Tests the pseudo-random number sampler on Ranger
+ * by simply writing random numbers to w0 as fast as possible */
+void test_fastRand(void) {
+	mb_io_set_float(ID_CTRL_TEST_W0, FastRand());
+}
 
 
 /* --23-- Tests particle swarm optimization by running on a N-dimensional
- * Elliptic bowl. 
+ * Elliptic bowl.
  * 	R0 = 0 to run optimization = 1 to reset optimization
  * 	W0 = Global best obj fun
  * 	W1 = Local best obj fun
- *  W2 = Local obj fun  
+ *  W2 = Local obj fun
  * 	W3 = Index of the currently selected particle  */
- void test_particleSwarmOptimization(void){
- 	bool flagRun = mb_io_get_float(ID_CTRL_TEST_R0) < 0.5;
- 	if (flagRun){
- 		PSO_RUN = true;
- 	} else {
- 		PSO_RUN = false;
- 		psoReset();
- 	}
+void test_particleSwarmOptimization(void) {
+	bool flagRun = mb_io_get_float(ID_CTRL_TEST_R0) < 0.5;
+	if (flagRun) {
+		PSO_RUN = true;
+	} else {
+		PSO_RUN = false;
+		psoReset();
+	}
 
- 	//// The Key Line:
-	particleSwarmOptimization();  // PSO.c 	
- 	
- 	mb_io_set_float(ID_CTRL_TEST_W0, psoGetGlobalBest());
- 	mb_io_set_float(ID_CTRL_TEST_W1, psoGetSelectBest());
- 	mb_io_set_float(ID_CTRL_TEST_W2, psoGetSelectObjVal());
- 	mb_io_set_float(ID_CTRL_TEST_W3, (float) (psoGetParticleId()));
- }
+	//// The Key Line:
+	particleSwarmOptimization();  // PSO.c
+
+	mb_io_set_float(ID_CTRL_TEST_W0, psoGetGlobalBest());
+	mb_io_set_float(ID_CTRL_TEST_W1, psoGetSelectBest());
+	mb_io_set_float(ID_CTRL_TEST_W2, psoGetSelectObjVal());
+	
+}
 
 /* Entry-point function for all unit tests */
 void runUnitTest(void) {
