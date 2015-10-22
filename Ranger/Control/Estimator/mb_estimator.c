@@ -3,6 +3,7 @@
 #include <RangerMath.h>   // Tan(), bool
 #include <input_output.h> // LED functions
 #include <robotParameters.h>
+#include <PSO.h>
 
 typedef struct {
 	float a1;

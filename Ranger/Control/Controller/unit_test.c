@@ -3,7 +3,7 @@
 #include <motorControl.h>
 #include <RangerMath.h>
 #include <walkControl.h>
-
+#include <PSO.h>
 
 /*Simple function to return the robot time in seconds */
 float getTime() {
@@ -364,6 +364,31 @@ void debug_steeringMotors(void) {
  }
 
 
+/* --23-- Tests particle swarm optimization by running on a N-dimensional
+ * Elliptic bowl. 
+ * 	R0 = 0 to run optimization = 1 to reset optimization
+ * 	W0 = Global best obj fun
+ * 	W1 = Local best obj fun
+ *  W2 = Local obj fun  
+ * 	W3 = Index of the currently selected particle  */
+ void test_particleSwarmOptimization(void){
+ 	bool flagRun = mb_io_get_float(ID_CTRL_TEST_R0) < 0.5;
+ 	if (flagRun){
+ 		PSO_RUN = true;
+ 	} else {
+ 		PSO_RUN = false;
+ 		psoReset();
+ 	}
+
+ 	//// The Key Line:
+	particleSwarmOptimization();  // PSO.c 	
+ 	
+ 	mb_io_set_float(ID_CTRL_TEST_W0, psoGetGlobalBest());
+ 	mb_io_set_float(ID_CTRL_TEST_W1, psoGetSelectBest());
+ 	mb_io_set_float(ID_CTRL_TEST_W2, psoGetSelectObjVal());
+ 	mb_io_set_float(ID_CTRL_TEST_W3, (float) (psoGetParticleId()));
+ }
+
 /* Entry-point function for all unit tests */
 void runUnitTest(void) {
 
@@ -399,6 +424,9 @@ void runUnitTest(void) {
 
 	/**** Estimation ****/
 	case 17: test_doubleStanceContact();  break;
+
+	/**** Particle Swarm Optimization:  ****/
+	case 23: test_particleSwarmOptimization(); break;
 
 	/**** Debugging ****/
 	case 18: debug_directCurrentControl();  break;

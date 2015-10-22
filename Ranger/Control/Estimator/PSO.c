@@ -16,13 +16,12 @@
 
 #define DIM_STATE 6 // Dimension of the search space for optimization
 #define POP_COUNT 12  // Number of particles 
-#define ITER_COUNT 25 // Number of generations to complete
 
 float omega = 0.5;  // particle velocity damping
 float alpha = 0.7;  // local search parameter
 float beta = 0.9;  // global search parameter
 
-bool runPso = false;  // Actively run particle swarm optimization?
+bool PSO_RUN = false;  // Actively run particle swarm optimization?
 
 /* Bounds on the initial search space */
 const float xLow[DIM_STATE] = { -6.0, -1.0, -0.1, -0.4, -2, -3};
@@ -39,30 +38,67 @@ typedef struct {
 Particle population[POP_COUNT]; // Population of particles for the search
 int idxPopBest = 0;  // Index of the populations best-ever particle
 int idxPopSelect = 0;  // Index of the particle that is currently selected
-bool initPop = false;  // Has the entire population been initialized?
+bool initComplete = false;  // Has the entire population been initialized?
 
+/******************************************************************
+ *               Public Interface Functions                       *
+ ******************************************************************/
 
 /* Clears the particle swarm and restarts the optimization */
-void resetPso(void) {
+void psoReset(void) {
 	idxPopBest = 0;
 	idxPopSelect = 0;
-	initPop = false;
+	initComplete = false;
+}
+
+/* Returns the objective function value for the global best point. Returns
+ * zero if the population has not been initialized. */
+float psoGetGlobalBest(void) {
+	if (initComplete) {
+		return population[idxPopBest].fBest;
+	} else {
+		return 0.0;
+	}
+}
+
+/* Returns the best objective function value for the selected particle. Returns
+ * zero if the population has not been initialized. */
+float psoGetSelectBest(void) {
+	if (initComplete) {
+		return population[idxPopSelect].fBest;
+	} else {
+		return 0.0;
+	}
+}
+
+/* Returns the most recent objective function value. Returns
+ * zero if the population has not been initialized. */
+float psoGetSelectObjVal(void) {
+	if (initComplete) {
+		return population[idxPopSelect].f;
+	} else {
+		return 0.0;
+	}
+}
+
+/* Returns the index of the currently selected particle */
+int psoGetParticleId(void){
+	return idxPopSelect;
 }
 
 /******************************************************************
  *                    Objective Function                          *
  ******************************************************************/
-float objectiveFunction(float* x, int dimState) {
+float objectiveFunction() {
 	int dim; // counter to loop over each dimension
-	float f = 0;  // value of the objective function
+	float val;
+	float f = 0.0;  // value of the objective function
 
 	// Simple quadratic bowl:
-	for (dim = 0; dim < dimState; dim++) {
-		f += x[dim] * x[dim];
+	for (dim = 0; dim < DIM_STATE; dim++) {
+		val = population[idxPopSelect].x[dim];
+		f += val*val;
 	}
-
-	// Add noise to make optimization more difficult:
-	//f = f + 0.4*(0.5-FastRand());   // uniform, bounded, zero mean noise
 
 	return f;
 }
@@ -86,7 +122,7 @@ void initializeParticle() {
 		population[idx].xBest[dim] = population[idx].x[dim];
 		population[idx].v[dim] = -(xUpp[dim] - xLow[dim]) + 2 * (xUpp[dim] - xLow[dim]) * r2;
 	}
-	population[idx].f = objectiveFunction(population[idx].x, DIM_STATE);
+	population[idx].f = objectiveFunction();
 	population[idx].fBest = population[idx].f;
 }
 
@@ -111,7 +147,7 @@ void updateParticle() {
 		                         beta * r2 * (population[idxPopBest].xBest[dim] - population[idx].x[dim]);
 		population[idx].x[dim] = population[idx].x[dim] + population[idx].v[dim];
 	}
-	population[idx].f = objectiveFunction(population[idx].x, DIM_STATE);
+	population[idx].f = objectiveFunction();
 
 	// Check if the new point is an improvement
 	if (population[idx].f < population[idx].fBest) {
@@ -126,10 +162,10 @@ void updateParticle() {
  *                       Main Entry-Point                         *
  ******************************************************************/
 void particleSwarmOptimization(void) {
-	if (runPso) {
+	if (PSO_RUN) {
 
 		// Update particle:
-		if (initPop) {
+		if (initComplete) {
 			initializeParticle();
 		} else {
 			updateParticle();
@@ -144,7 +180,7 @@ void particleSwarmOptimization(void) {
 		idxPopSelect++;
 		if (idxPopSelect >= POP_COUNT) {
 			idxPopSelect = 0;
-			initPop = true; // We've ran through the population at least once
+			initComplete = true; // We've ran through the population at least once
 		}
 
 	}

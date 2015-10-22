@@ -7,9 +7,14 @@ extern float omega;  // particle velocity damping
 extern float alpha;  // local search parameter
 extern float beta;  // global search parameter
 
-extern bool runPso;  // Use to toggle the optimization
+extern bool PSO_RUN;  // Use to toggle the optimization
 
-void resetPso(void); // Resets the optimization
+void psoReset(void); // Resets the optimization
+float psoGetGlobalBest(void);  // Return global best obj. fun. value
+float psoGetSelectBest(void);  // Return selected best obj. fun. value
+float psoGetSelectObjVal(void); // Returns the most recent value of the objective function
+int psoGetParticleId(void); // Returns the index of the current particle
+
 void particleSwarmOptimization(void); // Main optimization call
 
 #endif  // __PSO_H__
