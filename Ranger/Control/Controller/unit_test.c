@@ -375,7 +375,7 @@ void test_fastRand(void) {
  * 	W1 = Local best obj fun
  *  W2 = Local obj fun
  * 	W3 = Index of the currently selected particle  */
-void test_particleSwarmOptimization(void) {
+void test_pso_quadBowl(void) {
 
 	static bool initComplete = false;
 
@@ -383,13 +383,13 @@ void test_particleSwarmOptimization(void) {
 	float omega = mb_io_get_float(ID_CTRL_TEST_R1);
 	float alpha = mb_io_get_float(ID_CTRL_TEST_R2);
 	float beta = mb_io_get_float(ID_CTRL_TEST_R3);
-	
+
 	/// Send problem statement on start-up
-	if (!initComplete){
-		objFun_set_quadraticBowl();  
+	if (!initComplete) {
+		objFun_set_quadraticBowl();
 		initComplete = true;
 	}
-	
+
 	// Let user adjust parameters in optimization if desired
 	if (omega > 0) {
 		PSO_OMEGA = omega;
@@ -414,6 +414,69 @@ void test_particleSwarmOptimization(void) {
 	mb_io_set_float(ID_CTRL_TEST_W2, psoGetSelectObjVal());
 
 }
+
+
+/* --24-- Tests particle swarm optimization by running on a N-dimensional
+ * Elliptic bowl. Puts a delay between query to the objective function
+ * and the actual evaluation of the objective function.
+ * 	R0 = 0 to run optimization = 1 to reset optimization
+ *  R1 = parameter omega
+ * 	R2 = parameter alpha
+ * 	R3 = parameter beta
+ * 	W0 = Global best obj fun
+ * 	W1 = Local best obj fun
+ *  W2 = Local obj fun
+ * 	W3 = Index of the currently selected particle  */
+void test_pso_quadBowlAsync(void) {
+
+	static bool initComplete = false;
+	static int callCounter = 0;
+
+	bool flagRun = mb_io_get_float(ID_CTRL_TEST_R0) < 0.5;
+	float omega = mb_io_get_float(ID_CTRL_TEST_R1);
+	float alpha = mb_io_get_float(ID_CTRL_TEST_R2);
+	float beta = mb_io_get_float(ID_CTRL_TEST_R3);
+
+	/// Send problem statement on start-up
+	if (!initComplete) {
+		objFun_set_quadraticBowl();
+		initComplete = true;
+	}
+
+	// Let user adjust parameters in optimization if desired
+	if (omega > 0) {
+		PSO_OMEGA = omega;
+	}
+	if (alpha > 0) {
+		PSO_ALPHA = alpha;
+	}
+	if (beta > 0) {
+		PSO_BETA = beta;
+	}
+
+	/// This is the key block - runs optimization
+	if (flagRun) {
+		if (callCounter == 0) {
+			pso_send_point();
+			callCounter++;
+		} else if (callCounter > 10) {
+			// Simulate objective function that takes 10 clock cycles
+			pso_eval_point();
+			callCounter = 0;
+		} else {
+			callCounter++;
+		}
+	} else {
+		psoReset();
+	}
+
+	mb_io_set_float(ID_CTRL_TEST_W0, psoGetGlobalBest());
+	mb_io_set_float(ID_CTRL_TEST_W1, psoGetSelectBest());
+	mb_io_set_float(ID_CTRL_TEST_W2, psoGetSelectObjVal());
+
+}
+
+
 
 /* Entry-point function for all unit tests */
 void runUnitTest(void) {
@@ -452,7 +515,8 @@ void runUnitTest(void) {
 	case 17: test_doubleStanceContact();  break;
 
 	/**** Particle Swarm Optimization:  ****/
-	case 23: test_particleSwarmOptimization(); break;
+	case 23: test_pso_quadBowl(); break;
+	case 24: test_pso_quadBowlAsync(); break;
 
 	/**** Debugging ****/
 	case 18: debug_directCurrentControl();  break;
