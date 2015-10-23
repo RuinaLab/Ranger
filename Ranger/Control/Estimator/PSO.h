@@ -3,9 +3,9 @@
 
 /* Header files for particle swarm optimization */
 
-extern float omega;  // particle velocity damping
-extern float alpha;  // local search parameter
-extern float beta;  // global search parameter
+extern float PSO_OMEGA;  // particle velocity damping
+extern float PSO_ALPHA;  // local search parameter
+extern float PSO_BETA;  // global search parameter
 
 extern bool PSO_RUN;  // Use to toggle the optimization
 

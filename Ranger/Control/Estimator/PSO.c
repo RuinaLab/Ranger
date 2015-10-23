@@ -14,18 +14,18 @@
 #include "RangerMath.h"  // FastRand()
 #include "PSO.h"
 
-#define DIM_STATE 15 // Dimension of the search space for optimization
+#define DIM_STATE 5 // Dimension of the search space for optimization
 #define POP_COUNT 11  // Number of particles 
 
-float omega = 0.7;  // particle velocity damping
-float alpha = 0.7;  // local search parameter
-float beta = 0.9;  // global search parameter
+float PSO_OMEGA = 0.7;  // particle velocity damping
+float PSO_ALPHA = 1.8;  // local search parameter
+float PSO_BETA = 1.5;  // global search parameter
 
 bool PSO_RUN = false;  // Actively run particle swarm optimization?
 
-/* Bounds on the initial search space */
-const float xLow[DIM_STATE] = { -6.0, -1.0, -0.1, -0.4, -2, -3, -1, -2, -1, -2, -4, -1, -3, -4, -5};
-const float xUpp[DIM_STATE] = {0.1, 5.0, 7.0, 1.0, 10, 3, 7, 8, 9, 2.1, 1.1, 1.2, 2.3, 3.4, 1.5};
+/* Strict bounds on the search space (coerced) */
+const float xLow[DIM_STATE] = { -6.0, -1.0, -0.1, -0.4, -2};
+const float xUpp[DIM_STATE] = {0.1, 5.0, 7.0, 1.0, 10};
 
 /* Arrays to store the population data */
 float x[POP_COUNT][DIM_STATE];  // Current location of the particle
@@ -139,6 +139,7 @@ void initializeParticle() {
  */
 void updateParticle() {
 	float r1, r2;
+	float xNew;
 	int idx = idxPopSelect; // Index of the currently selected particle
 
 	// Compute the new point
@@ -146,10 +147,11 @@ void updateParticle() {
 	for (dim = 0; dim < DIM_STATE; dim++) {
 		r1 = FastRand();
 		r2 = FastRand();
-		v[idx][dim] = omega * v[idx][dim] +
-		              alpha * r1 * (xBest[idx][dim] - x[idx][dim]) +
-		              beta * r2 * (xBest[idxPopGlobal][dim] - x[idx][dim]);
-		x[idx][dim] = x[idx][dim] + v[idx][dim];
+		v[idx][dim] = PSO_OMEGA * v[idx][dim] +
+		              PSO_ALPHA * r1 * (xBest[idx][dim] - x[idx][dim]) +
+		              PSO_BETA * r2 * (xBest[idxPopGlobal][dim] - x[idx][dim]);
+		xNew = x[idx][dim] + v[idx][dim];
+		x[idx][dim] = Clamp(xNew, xLow[dim], xUpp[dim]);
 	}
 	f[idx] = objectiveFunction();
 

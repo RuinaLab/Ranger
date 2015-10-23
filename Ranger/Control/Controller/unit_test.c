@@ -367,17 +367,34 @@ void test_fastRand(void) {
 /* --23-- Tests particle swarm optimization by running on a N-dimensional
  * Elliptic bowl.
  * 	R0 = 0 to run optimization = 1 to reset optimization
+ *  R1 = parameter omega
+ * 	R2 = parameter alpha
+ * 	R3 = parameter beta
  * 	W0 = Global best obj fun
  * 	W1 = Local best obj fun
  *  W2 = Local obj fun
  * 	W3 = Index of the currently selected particle  */
 void test_particleSwarmOptimization(void) {
 	bool flagRun = mb_io_get_float(ID_CTRL_TEST_R0) < 0.5;
+	float omega = mb_io_get_float(ID_CTRL_TEST_R1);
+	float alpha = mb_io_get_float(ID_CTRL_TEST_R2);
+	float beta = mb_io_get_float(ID_CTRL_TEST_R3);
+
 	if (flagRun) {
 		PSO_RUN = true;
 	} else {
 		PSO_RUN = false;
 		psoReset();
+	}
+
+	if (omega > 0) {
+		PSO_OMEGA = omega;
+	}
+	if (alpha > 0) {
+		PSO_ALPHA = alpha;
+	}
+	if (beta > 0) {
+		PSO_BETA = beta;
 	}
 
 	//// The Key Line:
@@ -386,7 +403,7 @@ void test_particleSwarmOptimization(void) {
 	mb_io_set_float(ID_CTRL_TEST_W0, psoGetGlobalBest());
 	mb_io_set_float(ID_CTRL_TEST_W1, psoGetSelectBest());
 	mb_io_set_float(ID_CTRL_TEST_W2, psoGetSelectObjVal());
-	
+
 }
 
 /* Entry-point function for all unit tests */

@@ -26,6 +26,7 @@ File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_
 File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c>
 File 5,1,<..\..\Estimator\mb_estimator.c><mb_estimator.c>
 File 5,1,<..\..\Estimator\robotParameters.c><robotParameters.c>
+File 5,1,<..\..\Estimator\PSO.c><PSO.c>
 File 6,1,<..\..\Controller\mb_controller.c><mb_controller.c>
 File 6,1,<..\..\Controller\input_output.c><input_output.c>
 File 6,1,<..\..\Controller\motorControl.c><motorControl.c>
