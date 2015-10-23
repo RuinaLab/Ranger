@@ -71,13 +71,13 @@ float quadraticBowl_eval(void) {
  * trajectory in time.
  *
  * The anke joint should track the following function of time:
- * 		q(t) = qLow + (qUpp-qLow)*(0.5+0.5*Sin(2*pi*t/period))
+ * 		q(t) = qLow + (qUpp-qLow)*(0.5+0.5*Cos(2*pi*t/period))
  *
- * 		qLow = 0.3;     
- * 		qUpp = 1.6;    
- * 		period = 1.4;   
- * 		kp = ??;  		
- * 		kd = ??; 		
+ * 		qLow = 0.3;
+ * 		qUpp = 1.6;
+ * 		period = 1.4;
+ * 		kp = ??;
+ * 		kd = ??;
  *
  * 		decVar = [qLow; qUpp; period; kp; kd]
  */
@@ -90,7 +90,7 @@ static float sineTrack_kp = 1.0;
 static float sineTrack_kd = 0.0;
 
 static float sineTrack_objVal = 0.0; // Accumulated objective function:
-static bool sineTrack_initComplete = false; 
+static bool sineTrack_initComplete = false;
 
 /* This function sets up the sineTrack optimization problem
  * and sends it to PSO to be optimized */
@@ -107,7 +107,7 @@ void objFun_set_sineTrack(void) {
 	xLow[1] = 1.3;  xUpp[1] = 2.1; //qUpp   --> 1.6
 	xLow[2] = 1.0;  xUpp[2] = 1.8; //period --> 1.4
 	xLow[3] = 1.0;  xUpp[3] = 10.0; //kp  --> 7 ?
-	xLow[4] = 0.0;  xUpp[4] = 2.0; //kd  --> 1 ?
+	xLow[4] = 0.0;  xUpp[4] = 1.0; //kd  --> 1 ?
 	setObjFunInfo(xLow, xUpp, nDim, nPop, objFunSend, objFunEval); // Send problem to PSO
 }
 
@@ -124,53 +124,68 @@ void sineTrack_send(float* x, int nDim) {
 
 /* This function reads the accumulation of the objective function
  * and then sends it back to pso. */
-float sineTrack_eval(void){
+float sineTrack_eval(void) {
 	return sineTrack_objVal;
 }
 
-/* Entry-point for the sineTrack optimization loop. Returns the 
+/* Entry-point for the sineTrack optimization loop. Returns the
  * target angle for the ankle joint. */
-float sineTrack_run(void){
+float sineTrack_run(void) {
 	static int loopCount = 0;
-	int loopCountMax = 700;  // period*loopFreq = (1.4s)*(500Hz)
+	int loopCountMax = 1000;  // period*loopFreq = (0.6s + 1.4s)*(500Hz)
 	float dt = 0.002;  // nominal clock cycle time 1/(500Hz)
-	float t = dt*loopCount;
+	float t = dt * loopCount - 0.6; // negative time for resetting motor angle
 	float qCmd;  // Target angle send to motors
 	float qMeasured = STATE_q1;  // Inner ankle angle (measured);
-	float qRef;  //  The "real" target angle 
+	float qRef;  //  The "real" target angle
 	float qErr;  // Difference between measured and reference;
 	float qLow = sineTrack_qLow;
 	float qUpp = sineTrack_qUpp;
 	float period = sineTrack_period;
 	float kp = sineTrack_kp;
 	float kd = sineTrack_kd;
+	float qLowRef = 0.3;
+	float qUppRef = 1.6;
+	float periodRef = 1.4;
+	float kpRef = 7;
+	float kdRef = 1;
 
 	// Send the problem to PSO when program first runs
-	if (!sineTrack_initComplete){
+	if (!sineTrack_initComplete) {
 		objFun_set_sineTrack();  // Send problem to pso
 		sineTrack_initComplete = true;
-	} 
+	}
 
 	// Check if we are at the beginning of an experiment
-	if (loopCount == 0){  //Beginning of experiment!
+	if (loopCount == 0) { //Beginning of experiment!
 		pso_send_point();  // Tell PSO to send a candidate controller
 		sineTrack_objVal = 0.0;  // Zero out obj fun accumulator
 	}
 
-	// Send commands to the motor controller
-	qCmd = qLow + (qUpp-qLow)*(0.5+0.5*Sin(TWO_PI*t/period));  
-	trackRel_ankInn(qCmd, kp, kd);  
+	// Send motor commands and measure errror
+	if (t < 0) { // Move the foot to a consistent starting angle
 
-	// Compute error between reference and measured
-	qRef = 0.3 + (1.6-0.3)*(0.5+0.5*Sin(TWO_PI*t/1.4)); 
-	qErr = qRef-qMeasured;
-	sineTrack_objVal += qErr*qErr; // Minimize the sum or squared error along trajectory
+		qRef = qUppRef;
+		trackRel_ankInn(qRef, kpRef, kdRef);
+
+	} else {  // Running experiment
+
+		// Send commands to the motor controller
+		qCmd = qLow + (qUpp - qLow) * (0.5 + 0.5 * Cos(TWO_PI * t / period));
+		trackRel_ankInn(qCmd, kp, kd);
+
+		// Compute error between reference and measured
+		qRef = qLowRef + (qUppRef - qLowRef) * (0.5 + 0.5 * Cos(TWO_PI * t / periodRef));
+		qErr = qRef - qMeasured;
+		sineTrack_objVal += qErr * qErr; // Minimize the sum or squared error along trajectory
+
+	}
 
 	// Check if we are at the end of an experiment
 	loopCount++;
-	if (loopCount >= loopCountMax){  // Then at end of experiment
+	if (loopCount >= loopCountMax) { // Then at end of experiment
 		pso_eval_point();  // Tell PSO to read the objective function now
-		loopCount = 0;  // Reset the loop counter --> trigger new experiment 
+		loopCount = 0;  // Reset the loop counter --> trigger new experiment
 	}
 
 	return qRef; // Send the target joint angle
