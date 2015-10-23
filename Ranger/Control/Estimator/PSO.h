@@ -9,6 +9,8 @@ extern float PSO_BETA;  // global search parameter
 
 extern bool PSO_RUN;  // Use to toggle the optimization
 
+void setObjFunInfo(float * xLow, float *xUpp, int nDim, int nPop, float (*objFun)(float* x, int nDim));
+
 void psoReset(void); // Resets the optimization
 float psoGetGlobalBest(void);  // Return global best obj. fun. value
 float psoGetSelectBest(void);  // Return selected best obj. fun. value

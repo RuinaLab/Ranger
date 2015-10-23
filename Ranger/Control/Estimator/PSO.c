@@ -1,5 +1,5 @@
 //============================================================================
-// Name        : main.c
+// Name        : PSO.c
 // Authors     : Matthew Kelly
 //
 // A simple implementation of particle swarm optimization intended to be used
@@ -9,18 +9,17 @@
 //
 //============================================================================
 
-#include <stdio.h>
-#include <float.h>
 #include "RangerMath.h"  // FastRand()
 #include "PSO.h"
+#include "objectiveFunction.h"
 
 #define DIM_STATE_MAX 20 // Max dimension of the search space for optimization
 #define POP_COUNT_MAX 25  // Max number of particles 
 
-float PSO_DIM_STATE = 5;  // dimension of the search space
-float PSO_POP_COUNT = 11;  // number of particles in the search
+float DIM_STATE;  // dimension of the search space
+float POP_COUNT;  // number of particles in the search
 
-float (*PSO_OBJ_FUN)(void);  // Pointer to the objective function
+float (*OBJ_FUN)(float* x, int nDim);  // Pointer to the objective function
 
 float PSO_OMEGA = 0.7;  // particle velocity damping
 float PSO_ALPHA = 1.8;  // local search parameter
@@ -29,8 +28,8 @@ float PSO_BETA = 1.5;  // global search parameter
 bool PSO_RUN = false;  // Actively run particle swarm optimization?
 
 /* Strict bounds on the search space (coerced) */
-const float xLow[] = { -6.0, -1.0, -0.1, -0.4, -2};
-const float xUpp[] = {0.1, 5.0, 7.0, 1.0, 10};
+float X_LOW[DIM_STATE_MAX];
+float X_UPP[DIM_STATE_MAX];
 
 /* Arrays to store the population data */
 float x[POP_COUNT_MAX][DIM_STATE_MAX];  // Current location of the particle
@@ -47,6 +46,31 @@ bool initComplete = false;  // Has the entire population been initialized?
 /******************************************************************
  *               Public Interface Functions                       *
  ******************************************************************/
+
+/* Sets the problem that will be solved by the optimization. This
+ * is typically called by one of the problem setting methods in
+ * objectiveFunction.c  */
+void setObjFunInfo(float * xLow, float *xUpp, int nDim, int nPop, float (*objFun)(float* x, int nDim)) {
+	int dim;
+	OBJ_FUN = objFun;
+	DIM_STATE = Clamp(nDim, 1, DIM_STATE_MAX);
+	POP_COUNT = Clamp(nPop, 1, POP_COUNT_MAX);
+
+	if (nDim != DIM_STATE) {
+		////TODO//// Send error message!
+	}
+	if (nPop != POP_COUNT) {
+		////TODO//// Send error message!
+	}
+
+	for (dim = 0; dim < DIM_STATE; dim++) {
+		X_LOW[dim] = xLow[dim];
+		X_UPP[dim] = xUpp[dim];
+	}
+}
+
+
+
 
 /* Clears the particle swarm and restarts the optimization */
 void psoReset(void) {
@@ -90,25 +114,6 @@ int psoGetParticleId(void) {
 	return idxPopSelect;
 }
 
-/******************************************************************
- *                    Objective Function                          *
- ******************************************************************/
-float objectiveFunction() {
-	int dim; // counter to loop over each dimension
-	float val;
-	int idx = idxPopSelect; // Index of the currently selected particle
-	float f = 0.0;  // value of the objective function
-
-	// Simple quadratic bowl:
-	for (dim = 0; dim < PSO_DIM_STATE; dim++) {
-		val = x[idx][dim];
-		f += val * val;
-	}
-
-	return f;
-}
-
-
 
 /******************************************************************
  *                    Initialize Particle                         *
@@ -120,19 +125,18 @@ void initializeParticle() {
 	int idx = idxPopSelect; // Index of the currently selected particle
 	int dim;
 	float r1, r2;
-	PSO_OBJ_FUN = &objectiveFunction;
 
-	for (dim = 0; dim < PSO_DIM_STATE; dim++) {
+	for (dim = 0; dim < DIM_STATE; dim++) {
 		r1 = FastRand();
 		r2 = FastRand();
-		x[idx][dim] = xLow[dim] + (xUpp[dim] - xLow[dim]) * r1;
-		v[idx][dim] = -(xUpp[dim] - xLow[dim]) + 2 * (xUpp[dim] - xLow[dim]) * r2;
+		x[idx][dim] = X_LOW[dim] + (X_UPP[dim] - X_LOW[dim]) * r1;
+		v[idx][dim] = -(X_UPP[dim] - X_LOW[dim]) + 2 * (X_UPP[dim] - X_LOW[dim]) * r2;
 	}
-	f[idx] = PSO_OBJ_FUN();
+	f[idx] = OBJ_FUN(x[idx], DIM_STATE);
 
 	// This point is the new best point by definition:
 	fBest[idx] = f[idx];
-	for (dim = 0; dim < PSO_DIM_STATE; dim++) {
+	for (dim = 0; dim < DIM_STATE; dim++) {
 		xBest[idx][dim] = x[idx][dim];
 	}
 }
@@ -150,24 +154,22 @@ void updateParticle() {
 	int dim = 0;  // counter to loop over each dimension of the search space
 	int idx = idxPopSelect; // Index of the currently selected particle
 
-	PSO_OBJ_FUN = &objectiveFunction;
-
 	// Compute the new point
-	for (dim = 0; dim < PSO_DIM_STATE; dim++) {
+	for (dim = 0; dim < DIM_STATE; dim++) {
 		r1 = FastRand();
 		r2 = FastRand();
 		v[idx][dim] = PSO_OMEGA * v[idx][dim] +
 		              PSO_ALPHA * r1 * (xBest[idx][dim] - x[idx][dim]) +
 		              PSO_BETA * r2 * (xBest[idxPopGlobal][dim] - x[idx][dim]);
 		xNew = x[idx][dim] + v[idx][dim];
-		x[idx][dim] = Clamp(xNew, xLow[dim], xUpp[dim]);
+		x[idx][dim] = Clamp(xNew, X_LOW[dim], X_UPP[dim]);
 	}
-	f[idx] = PSO_OBJ_FUN();
+	f[idx] = OBJ_FUN(x[idx], DIM_STATE);
 
 	// Check if the new point is an improvement
 	if (f[idx] < fBest[idx]) {
 		fBest[idx] = f[idx];
-		for (dim = 0; dim < PSO_DIM_STATE; dim++) {
+		for (dim = 0; dim < DIM_STATE; dim++) {
 			xBest[idx][dim] = x[idx][dim];
 		}
 	}
@@ -193,7 +195,7 @@ void particleSwarmOptimization(void) {
 
 		// Advance the index to point to next particle, check initPop:
 		idxPopSelect++;
-		if (idxPopSelect >= PSO_POP_COUNT) {
+		if (idxPopSelect >= POP_COUNT) {
 			idxPopSelect = 0;
 			initComplete = true; // We've ran through the population at least once
 		}

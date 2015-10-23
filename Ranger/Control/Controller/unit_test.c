@@ -1,9 +1,10 @@
 #include <mb_includes.h>
-#include <unit_test.h>
-#include <motorControl.h>
-#include <RangerMath.h>
-#include <walkControl.h>
-#include <PSO.h>
+#include "unit_test.h"
+#include "motorControl.h"
+#include "RangerMath.h"
+#include "walkControl.h"
+#include "PSO.h"
+#include "objectiveFunction.h"
 
 /*Simple function to return the robot time in seconds */
 float getTime() {
@@ -375,11 +376,19 @@ void test_fastRand(void) {
  *  W2 = Local obj fun
  * 	W3 = Index of the currently selected particle  */
 void test_particleSwarmOptimization(void) {
+
+	static bool initComplete = false;
+
 	bool flagRun = mb_io_get_float(ID_CTRL_TEST_R0) < 0.5;
 	float omega = mb_io_get_float(ID_CTRL_TEST_R1);
 	float alpha = mb_io_get_float(ID_CTRL_TEST_R2);
 	float beta = mb_io_get_float(ID_CTRL_TEST_R3);
-
+	
+	if (!initComplete){
+		objFun_set_quadraticBowl();  // Send problem statement
+		initComplete = true;
+	}
+	
 	if (flagRun) {
 		PSO_RUN = true;
 	} else {
