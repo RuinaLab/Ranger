@@ -19,13 +19,12 @@
 float DIM_STATE;  // dimension of the search space
 float POP_COUNT;  // number of particles in the search
 
-float (*OBJ_FUN)(float* x, int nDim);  // Pointer to the objective function
+void (*OBJ_FUN_SEND)(float* x, int nDim);  // send query to obj. fun.
+float (*OBJ_FUN_EVAL)(void);  // evaluate obj. fun.
 
 float PSO_OMEGA = 0.7;  // particle velocity damping
 float PSO_ALPHA = 1.8;  // local search parameter
 float PSO_BETA = 1.5;  // global search parameter
-
-bool PSO_RUN = false;  // Actively run particle swarm optimization?
 
 /* Strict bounds on the search space (coerced) */
 float X_LOW[DIM_STATE_MAX];
@@ -50,9 +49,12 @@ bool initComplete = false;  // Has the entire population been initialized?
 /* Sets the problem that will be solved by the optimization. This
  * is typically called by one of the problem setting methods in
  * objectiveFunction.c  */
-void setObjFunInfo(float * xLow, float *xUpp, int nDim, int nPop, float (*objFun)(float* x, int nDim)) {
+void setObjFunInfo(float * xLow, float *xUpp, int nDim, int nPop
+                   , void (*objFunSend)(float* x, int nDim), float (*objFunEval)(void)) {
+
 	int dim;
-	OBJ_FUN = objFun;
+	OBJ_FUN_SEND = objFunSend;
+	OBJ_FUN_EVAL = objFunEval;
 	DIM_STATE = Clamp(nDim, 1, DIM_STATE_MAX);
 	POP_COUNT = Clamp(nPop, 1, POP_COUNT_MAX);
 
@@ -68,8 +70,6 @@ void setObjFunInfo(float * xLow, float *xUpp, int nDim, int nPop, float (*objFun
 		X_UPP[dim] = xUpp[dim];
 	}
 }
-
-
 
 
 /* Clears the particle swarm and restarts the optimization */
@@ -116,89 +116,95 @@ int psoGetParticleId(void) {
 
 
 /******************************************************************
- *                    Initialize Particle                         *
+ *                       Main Entry-Point                         *
  ******************************************************************
- * Initializes each particle at a random position and velocity in
- * the search space.
+ *
+ * Many objective function calls take more than one clock cycle to
+ * compute, since they are tied to physical motions of the robot.
+ * In order to accomodate this, I've programmed an asynchronous
+ * objective function. Basically there is one call to get the next
+ * point, and another call to get the value of that point.
+ *
+ * pso_send_point()
+ * 	--> Call this first! It tells pso to compute the next search
+ *      query point, and send it to the objective function. The
+ * 		objective function then goes off and works on evaluating
+ * 		the point.
+ *
+ * pso_eval_point()
+ * 	--> Call this second! Be sure to only call this after the objective
+ * 		function has successfully evaluated the query point.
+ * 		calling this function will also increment the pointer in the
+ * 		optimization to the next particle.
  */
-void initializeParticle() {
-	int idx = idxPopSelect; // Index of the currently selected particle
-	int dim;
-	float r1, r2;
-
-	for (dim = 0; dim < DIM_STATE; dim++) {
-		r1 = FastRand();
-		r2 = FastRand();
-		x[idx][dim] = X_LOW[dim] + (X_UPP[dim] - X_LOW[dim]) * r1;
-		v[idx][dim] = -(X_UPP[dim] - X_LOW[dim]) + 2 * (X_UPP[dim] - X_LOW[dim]) * r2;
-	}
-	f[idx] = OBJ_FUN(x[idx], DIM_STATE);
-
-	// This point is the new best point by definition:
-	fBest[idx] = f[idx];
-	for (dim = 0; dim < DIM_STATE; dim++) {
-		xBest[idx][dim] = x[idx][dim];
-	}
-}
 
 
-/******************************************************************
- *                      Update Particle                           *
- ******************************************************************
- * Basically "time-steps the dynamics" for the particle and then checks
- * to see if the new point is an improvement.
- */
-void updateParticle() {
+/* Call this first! It computes a new query point for the search
+ * and sends it to the objective function for evaluation. */
+void pso_send_point(void) {
 	float r1, r2;
 	float xNew;
 	int dim = 0;  // counter to loop over each dimension of the search space
 	int idx = idxPopSelect; // Index of the currently selected particle
 
-	// Compute the new point
-	for (dim = 0; dim < DIM_STATE; dim++) {
-		r1 = FastRand();
-		r2 = FastRand();
-		v[idx][dim] = PSO_OMEGA * v[idx][dim] +
-		              PSO_ALPHA * r1 * (xBest[idx][dim] - x[idx][dim]) +
-		              PSO_BETA * r2 * (xBest[idxPopGlobal][dim] - x[idx][dim]);
-		xNew = x[idx][dim] + v[idx][dim];
-		x[idx][dim] = Clamp(xNew, X_LOW[dim], X_UPP[dim]);
-	}
-	f[idx] = OBJ_FUN(x[idx], DIM_STATE);
+	if (!initComplete) {  // Initialize the particle randomly in search space
+		for (dim = 0; dim < DIM_STATE; dim++) {
+			r1 = FastRand();
+			r2 = FastRand();
+			x[idx][dim] = X_LOW[dim] + (X_UPP[dim] - X_LOW[dim]) * r1;
+			v[idx][dim] = -(X_UPP[dim] - X_LOW[dim]) + 2 * (X_UPP[dim] - X_LOW[dim]) * r2;
+		}
 
-	// Check if the new point is an improvement
-	if (f[idx] < fBest[idx]) {
-		fBest[idx] = f[idx];
+	} else {   // Run the standard particle update equations
+
+		for (dim = 0; dim < DIM_STATE; dim++) {
+			r1 = FastRand();
+			r2 = FastRand();
+			v[idx][dim] = PSO_OMEGA * v[idx][dim] +
+			              PSO_ALPHA * r1 * (xBest[idx][dim] - x[idx][dim]) +
+			              PSO_BETA * r2 * (xBest[idxPopGlobal][dim] - x[idx][dim]);
+			xNew = x[idx][dim] + v[idx][dim];
+			x[idx][dim] = Clamp(xNew, X_LOW[dim], X_UPP[dim]);
+		}
+	}
+
+	OBJ_FUN_SEND(x[idx], DIM_STATE);   // Send query to objective function
+
+}
+
+
+/* Call this second! This should be called after the objective function has
+ * finished evaluating the query point. */
+void pso_eval_point(void) {
+	int dim = 0;  // counter to loop over each dimension of the search space
+	int idx = idxPopSelect; // Index of the currently selected particle
+	
+	f[idx] = OBJ_FUN_EVAL();    // Reads the obj fun evaluation of query point
+
+	// Update the local best
+	if (!initComplete) { // Still working on initialization
+		fBest[idx] = f[idx];  // current point is best by definition
 		for (dim = 0; dim < DIM_STATE; dim++) {
 			xBest[idx][dim] = x[idx][dim];
 		}
+	} else { // Initialization is complete
+		if (f[idx] < fBest[idx]) {  // check new point for improvement
+			fBest[idx] = f[idx];
+			for (dim = 0; dim < DIM_STATE; dim++) {
+				xBest[idx][dim] = x[idx][dim];
+			}
+		}
 	}
-}
 
-/******************************************************************
- *                       Main Entry-Point                         *
- ******************************************************************/
-void particleSwarmOptimization(void) {
-	if (PSO_RUN) {
+	// Update the global best:
+	if (fBest[idxPopSelect] < fBest[idxPopGlobal] ) {
+		idxPopGlobal = idxPopSelect;
+	}
 
-		// Update particle:
-		if (initComplete) {
-			updateParticle();
-		} else {
-			initializeParticle();
-		}
-
-		// Check to see if the current point is better than the global best
-		if (fBest[idxPopSelect] < fBest[idxPopGlobal] ) {
-			idxPopGlobal = idxPopSelect;
-		}
-
-		// Advance the index to point to next particle, check initPop:
-		idxPopSelect++;
-		if (idxPopSelect >= POP_COUNT) {
-			idxPopSelect = 0;
-			initComplete = true; // We've ran through the population at least once
-		}
-
+	// Advance the index to point to next particle, check initPop:
+	idxPopSelect++;
+	if (idxPopSelect >= POP_COUNT) {
+		idxPopSelect = 0;
+		initComplete = true; // We've ran through the population at least once
 	}
 }

@@ -384,18 +384,13 @@ void test_particleSwarmOptimization(void) {
 	float alpha = mb_io_get_float(ID_CTRL_TEST_R2);
 	float beta = mb_io_get_float(ID_CTRL_TEST_R3);
 	
+	/// Send problem statement on start-up
 	if (!initComplete){
-		objFun_set_quadraticBowl();  // Send problem statement
+		objFun_set_quadraticBowl();  
 		initComplete = true;
 	}
 	
-	if (flagRun) {
-		PSO_RUN = true;
-	} else {
-		PSO_RUN = false;
-		psoReset();
-	}
-
+	// Let user adjust parameters in optimization if desired
 	if (omega > 0) {
 		PSO_OMEGA = omega;
 	}
@@ -406,8 +401,13 @@ void test_particleSwarmOptimization(void) {
 		PSO_BETA = beta;
 	}
 
-	//// The Key Line:
-	particleSwarmOptimization();  // PSO.c
+	/// This is the key block - runs optimization
+	if (flagRun) {
+		pso_send_point();
+		pso_eval_point();
+	} else {
+		psoReset();
+	}
 
 	mb_io_set_float(ID_CTRL_TEST_W0, psoGetGlobalBest());
 	mb_io_set_float(ID_CTRL_TEST_W1, psoGetSelectBest());
