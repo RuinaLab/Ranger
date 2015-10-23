@@ -14,8 +14,13 @@
 #include "RangerMath.h"  // FastRand()
 #include "PSO.h"
 
-#define DIM_STATE 5 // Dimension of the search space for optimization
-#define POP_COUNT 11  // Number of particles 
+#define DIM_STATE_MAX 20 // Max dimension of the search space for optimization
+#define POP_COUNT_MAX 25  // Max number of particles 
+
+float PSO_DIM_STATE = 5;  // dimension of the search space
+float PSO_POP_COUNT = 11;  // number of particles in the search
+
+float (*PSO_OBJ_FUN)(void);  // Pointer to the objective function
 
 float PSO_OMEGA = 0.7;  // particle velocity damping
 float PSO_ALPHA = 1.8;  // local search parameter
@@ -24,15 +29,15 @@ float PSO_BETA = 1.5;  // global search parameter
 bool PSO_RUN = false;  // Actively run particle swarm optimization?
 
 /* Strict bounds on the search space (coerced) */
-const float xLow[DIM_STATE] = { -6.0, -1.0, -0.1, -0.4, -2};
-const float xUpp[DIM_STATE] = {0.1, 5.0, 7.0, 1.0, 10};
+const float xLow[] = { -6.0, -1.0, -0.1, -0.4, -2};
+const float xUpp[] = {0.1, 5.0, 7.0, 1.0, 10};
 
 /* Arrays to store the population data */
-float x[POP_COUNT][DIM_STATE];  // Current location of the particle
-float v[POP_COUNT][DIM_STATE];  // best ever location of the particle
-float f[POP_COUNT];  // Current value of the particle
-float xBest[POP_COUNT][DIM_STATE]; // best ever value of the particle
-float fBest[POP_COUNT]; // velocity of the particle
+float x[POP_COUNT_MAX][DIM_STATE_MAX];  // Current location of the particle
+float v[POP_COUNT_MAX][DIM_STATE_MAX];  // best ever location of the particle
+float f[POP_COUNT_MAX];  // Current value of the particle
+float xBest[POP_COUNT_MAX][DIM_STATE_MAX]; // best ever value of the particle
+float fBest[POP_COUNT_MAX]; // velocity of the particle
 
 /* Index for pointing to key parts of the arrays */
 int idxPopGlobal = 0;  // Index of the populations best-ever particle
@@ -95,7 +100,7 @@ float objectiveFunction() {
 	float f = 0.0;  // value of the objective function
 
 	// Simple quadratic bowl:
-	for (dim = 0; dim < DIM_STATE; dim++) {
+	for (dim = 0; dim < PSO_DIM_STATE; dim++) {
 		val = x[idx][dim];
 		f += val * val;
 	}
@@ -115,17 +120,19 @@ void initializeParticle() {
 	int idx = idxPopSelect; // Index of the currently selected particle
 	int dim;
 	float r1, r2;
-	for (dim = 0; dim < DIM_STATE; dim++) {
+	PSO_OBJ_FUN = &objectiveFunction;
+
+	for (dim = 0; dim < PSO_DIM_STATE; dim++) {
 		r1 = FastRand();
 		r2 = FastRand();
 		x[idx][dim] = xLow[dim] + (xUpp[dim] - xLow[dim]) * r1;
 		v[idx][dim] = -(xUpp[dim] - xLow[dim]) + 2 * (xUpp[dim] - xLow[dim]) * r2;
 	}
-	f[idx] = objectiveFunction();
+	f[idx] = PSO_OBJ_FUN();
 
 	// This point is the new best point by definition:
 	fBest[idx] = f[idx];
-	for (dim = 0; dim < DIM_STATE; dim++) {
+	for (dim = 0; dim < PSO_DIM_STATE; dim++) {
 		xBest[idx][dim] = x[idx][dim];
 	}
 }
@@ -140,11 +147,13 @@ void initializeParticle() {
 void updateParticle() {
 	float r1, r2;
 	float xNew;
+	int dim = 0;  // counter to loop over each dimension of the search space
 	int idx = idxPopSelect; // Index of the currently selected particle
 
+	PSO_OBJ_FUN = &objectiveFunction;
+
 	// Compute the new point
-	int dim = 0;
-	for (dim = 0; dim < DIM_STATE; dim++) {
+	for (dim = 0; dim < PSO_DIM_STATE; dim++) {
 		r1 = FastRand();
 		r2 = FastRand();
 		v[idx][dim] = PSO_OMEGA * v[idx][dim] +
@@ -153,12 +162,12 @@ void updateParticle() {
 		xNew = x[idx][dim] + v[idx][dim];
 		x[idx][dim] = Clamp(xNew, xLow[dim], xUpp[dim]);
 	}
-	f[idx] = objectiveFunction();
+	f[idx] = PSO_OBJ_FUN();
 
 	// Check if the new point is an improvement
 	if (f[idx] < fBest[idx]) {
 		fBest[idx] = f[idx];
-		for (dim = 0; dim < DIM_STATE; dim++) {
+		for (dim = 0; dim < PSO_DIM_STATE; dim++) {
 			xBest[idx][dim] = x[idx][dim];
 		}
 	}
@@ -184,7 +193,7 @@ void particleSwarmOptimization(void) {
 
 		// Advance the index to point to next particle, check initPop:
 		idxPopSelect++;
-		if (idxPopSelect >= POP_COUNT) {
+		if (idxPopSelect >= PSO_POP_COUNT) {
 			idxPopSelect = 0;
 			initComplete = true; // We've ran through the population at least once
 		}
