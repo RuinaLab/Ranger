@@ -457,11 +457,11 @@ void test_pso_quadBowlAsync(void) {
 	/// This is the key block - runs optimization
 	if (flagRun) {
 		if (callCounter == 0) {
-			pso_send_point();
+			pso_send_point();   // This must always be called first!
 			callCounter++;
 		} else if (callCounter > 10) {
 			// Simulate objective function that takes 10 clock cycles
-			pso_eval_point();
+			pso_eval_point();  // This must always be called second!
 			callCounter = 0;
 		} else {
 			callCounter++;
@@ -473,6 +473,48 @@ void test_pso_quadBowlAsync(void) {
 	mb_io_set_float(ID_CTRL_TEST_W0, psoGetGlobalBest());
 	mb_io_set_float(ID_CTRL_TEST_W1, psoGetSelectBest());
 	mb_io_set_float(ID_CTRL_TEST_W2, psoGetSelectObjVal());
+
+}
+
+
+
+/* --25-- Tests particle swarm optimization by searching for
+ * a controller that tracks a sine-wave with the robot's feet.
+ * 	R0 = 0 to run optimization = 1 to reset optimization
+ *  R1 = parameter omega
+ * 	R2 = parameter alpha
+ * 	R3 = parameter beta
+ * 	W0 = Global best obj fun
+ * 	W1 = Local best obj fun
+ *  W2 = Local obj fun
+ * 	W3 = Index of the currently selected particle  */
+void test_pso_sineTrack(void) {
+
+	float qRef;
+	bool flagRun = mb_io_get_float(ID_CTRL_TEST_R0) < 0.5;
+	float omega = mb_io_get_float(ID_CTRL_TEST_R1);
+	float alpha = mb_io_get_float(ID_CTRL_TEST_R2);
+	float beta = mb_io_get_float(ID_CTRL_TEST_R3);
+
+
+	// Let user adjust parameters in optimization if desired
+	if (omega > 0) {
+		PSO_OMEGA = omega;
+	}
+	if (alpha > 0) {
+		PSO_ALPHA = alpha;
+	}
+	if (beta > 0) {
+		PSO_BETA = beta;
+	}
+	/// This is the key line:
+	qRef = sineTrack_run();
+
+	// Send info back through LabVIEW
+	mb_io_set_float(ID_CTRL_TEST_W0, psoGetGlobalBest());
+	mb_io_set_float(ID_CTRL_TEST_W1, psoGetSelectBest());
+	mb_io_set_float(ID_CTRL_TEST_W2, psoGetSelectObjVal());
+	mb_io_set_float(ID_CTRL_TEST_W3, qRef);
 
 }
 
@@ -517,6 +559,7 @@ void runUnitTest(void) {
 	/**** Particle Swarm Optimization:  ****/
 	case 23: test_pso_quadBowl(); break;
 	case 24: test_pso_quadBowlAsync(); break;
+	case 25: test_pso_sineTrack(); break;
 
 	/**** Debugging ****/
 	case 18: debug_directCurrentControl();  break;
