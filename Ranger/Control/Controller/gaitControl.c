@@ -54,6 +54,7 @@ void updateGaitFsm(void) {
 			} break;
 		case PostMid_Out:
 			if (STATE_c1) { // Inner feet hit ground
+				heelStrikeTrigger();  // Tell estimtor that we've reached heel-strike
 				GAIT_FSM_MODE = PreMid_Inn;
 			} break;
 		case PreMid_Inn:
@@ -62,7 +63,8 @@ void updateGaitFsm(void) {
 				updateGaitData();      // Update the controller at mid-stance on the outer legs
 			} break;
 		case PostMid_Inn:
-			if (STATE_c0) { // Inner feet hit ground
+			if (STATE_c0) { // Outer feet hit ground
+				heelStrikeTrigger();  // Tell estimtor that we've reached heel-strike
 				GAIT_FSM_MODE = PreMid_Out;
 			} break;
 		}

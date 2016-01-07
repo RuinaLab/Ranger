@@ -45,6 +45,8 @@ extern float STATE_dphi1;  // absolute orientation rate of inner feet
 extern float STATE_psi;  // Steering angle    (Currently unused due to BROKEN STEERING ANGLE SENSOR)
 extern float STATE_posCom;  // horizontal component of the center of mass position
 extern float STATE_velCom;  // horizontal component of the center of mass velocity
+extern float STATE_lastStepLength;  // length of the last step (meters)
+extern float STATE_lastStepDuration;  // Duration of the last step (seconds)
 
 typedef enum {
 	CONTACT_S0,
@@ -61,9 +63,10 @@ extern ContactMode STATE_contactMode;  // stores current contact mode
 /* Updates called by other files:  */
 void computeHeelStrikeGeometry(void); // Updates the last step length and stance leg angle
 void resetRobotOrientation(void);  // Forces the gyro integral to match the imu internal estimate
+void heelStrikeTrigger(void); 
 
 /* Entry-point function */
-void mb_estimator_update(void);
+void mb_estimator_update(void); // Tell estimtor that we've reached heel-strike
 
 #endif  // __MB_ESTIMATOR_H__
 

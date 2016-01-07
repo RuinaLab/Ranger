@@ -187,6 +187,8 @@ CSR_MCU_CURRENT,0,2,1,
 CSR_EMPTY_RX4,0,2,1,
 CSR_EMPTY_RX5,0,2,1,
 #,,,,
+#  DO NOT EDIT ANYTHING ABOVE THIS LINE !!!!!!,,,,
+#,,,,
 #Main Brain,,,,
 MB_EXECUTION_TIME,0,1,0,Time required to finish the schedule
 ERROR_LABVIEW,0,1,0,Buffered errors for transmission to LabView/PC
@@ -213,6 +215,7 @@ EST_STATE_POSCOM,0,1,0,borizontal component of the center of mass position
 EST_STATE_VELCOM,0,1,0,horizontal component of the center of mass velocity
 EST_LAST_STEP_LENGTH,0,1,0,step length that was computed at the previous heel-strike
 EST_LAST_STEP_ANGLE,0,1,0,the absolute angle of the outer leg that was computed at the previous heel-strike
+EST_LAST_STEP_DURATION,0,1,0,Duration of the previous walking step.
 EST_TOTAL_BATT_POWER,0,1,0,add up the battery power being consumed by all boards
 #,,,,
 #ControllerParameters,,,,

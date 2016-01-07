@@ -7,6 +7,17 @@
 //
 //============================================================================
 
+/* NOTES:
+ * 	Each objective function has three components. The first is an initialization routine
+ * 	that is called once to give the optimization method information about the problem and
+ * 	allocate memory. The second and third are a send/receive (read/write) paid. This 
+ * 	allows the objective function to be run asymchronously from the optimization, which 
+ * 	is important when the objective function evaluation requires data logging from the 
+ * 	robot, spanning tens to thousands of ticks. The optimization basically sends a query 
+ * 	point to the objective function, and then the objective function will publish a result
+ * 	at some arbitrary point in the future.
+ */
+
 #include "RangerMath.h"
 #include "PSO.h"
 #include "objectiveFunction.h"

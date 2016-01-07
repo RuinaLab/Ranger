@@ -103,10 +103,13 @@ float STATE_dphi1;  // absolute orientation rate of inner feet
 float STATE_psi;  // Steering angle    (Currently unused due to BROKEN STEERING ANGLE SENSOR)
 float STATE_posCom;  // horizontal component of the center of mass position
 float STATE_velCom;  // horizontal component of the center of mass velocity
+float STATE_lastStepLength;  // length of the last step (meters)
+float STATE_lastStepDuration;  // Duration of the last step (seconds)
 
 /* Variables for sensor fusion on the outer leg angle */
 static float STATE_th0_gyro;  // outer leg angle, based on integral of the gyro
 static float STATE_th0_imu;  // outer leg angle, based on the IMU internal sensor fusion
+static float STATE_lastStepTimeMs;  //  cpu clock time at last heel strike.
 
 /* Contact configuration */
 bool STATE_c0;
@@ -269,7 +272,7 @@ void updateComKinematics(void) {
 	}
 	// Send updates to the estimator and also to LabVIEW
 	STATE_posCom = pos;
-	STATE_velCom = vel; 
+	STATE_velCom = vel;
 	mb_io_set_float(ID_EST_STATE_POSCOM, pos);
 	mb_io_set_float(ID_EST_STATE_VELCOM, vel);
 }
@@ -358,13 +361,14 @@ void resetRobotOrientation(void) {
 	STATE_th0_gyro = STATE_th0_imu;
 }
 
+
 /* Update the robot orientation by integral of the rate gyro */
 void updateRobotOrientation(void) {
 	STATE_th0_gyro = STATE_th0_gyro + getIntegralRateGyro();
 	mb_io_set_float(ID_EST_STATE_TH0_GYRO, STATE_th0_gyro);
 
 	// For now, just set the robot state to be the imu internal sensor fusion:
-	STATE_th0 = 1.0*STATE_th0_imu + 0.0*STATE_th0_gyro;  ////HACK////  Only use the IMU's internal estimate for now.
+	STATE_th0 = 1.0 * STATE_th0_imu + 0.0 * STATE_th0_gyro; ////HACK////  Only use the IMU's internal estimate for now.
 	mb_io_set_float(ID_EST_STATE_TH0, STATE_th0);
 }
 
@@ -410,7 +414,18 @@ void computeHeelStrikeGeometry(void) {
 	mb_io_set_float(ID_EST_LAST_STEP_LENGTH, stepLength);
 	mb_io_set_float(ID_EST_LAST_STEP_ANGLE, stepAngle);
 
+	STATE_lastStepLength = stepLength;
+
 	heelStrikeGyroReset(stepAngle);  // Reset the gyro estiamte for angles at heel-strike
+}
+
+
+/*  Tell estimtor that we've reached heel-strike. (Send time update)  */
+void heelStrikeTrigger(void) {
+	float newTime = mb_io_get_float(ID_TIMESTAMP);  // In milliseconds
+	STATE_lastStepDuration = 0.001 * (newTime - STATE_lastStepTimeMs); // Duration of the last step (seconds)
+	STATE_lastStepTimeMs = newTime;
+	mb_io_set_float(ID_EST_LAST_STEP_DURATION, STATE_lastStepDuration);
 }
 
 
@@ -480,6 +495,12 @@ void mb_estimator_update(void) {
 		// Robot orientation estimation
 		resetRobotOrientation();
 		getIntegralRateGyro();   // Run integral to log the current state of the rate gyro
+
+		// Set "once per step" variables:
+		STATE_lastStepLength = 0.0;    // Initialize to zero, for lack of a better plan
+		STATE_lastStepTimeMs = mb_io_get_float(ID_TIMESTAMP);  //  cpu clock time at last heel strike.
+		STATE_lastStepDuration = 0.0;  // Duration of the last step (seconds)
+
 
 		// Remember that we've initialized everything properly
 		INITIALIZE_ESTIMATOR = false;

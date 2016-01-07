@@ -77,7 +77,7 @@ void mb_controller_update(void) {
 			gaitControl_entry();
 			walkControl_entry();  // Run the initialization function for the walking FSM
 		}
-		gaitControl_main();
+		gaitControl_main();  // High level - set gains, ect.
 		walkControl_main();  // Run the main walk function
 	}
 

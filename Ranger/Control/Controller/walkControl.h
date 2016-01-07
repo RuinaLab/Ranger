@@ -2,7 +2,7 @@
 #define __WALKCONTROL_H__
 
 /* Functions to be called during walking. All use gains from LabVIEW
- * and controller setpoints from robotParameters. */
+ * and/or controller setpoints from robotParameters. */
 void holdStance_ankOut(void);  // Call to hold the outer foot level on the ground
 void holdStance_ankInn(void);  // Call to hold the inner foot level on the ground
 void flipUp_ankOut(void);  // Flips the outer feet up for swing phase

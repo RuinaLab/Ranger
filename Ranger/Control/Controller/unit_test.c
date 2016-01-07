@@ -519,13 +519,35 @@ void test_pso_sineTrack(void) {
 }
 
 
+/* --26--  TO DO:  how to run test and what it should do if working properly */
+void test_stepEventData(void) {
+	static ContactMode lastMode = CONTACT_FL;
+
+	/// Both feet held level, hip free.
+	float kp_ank = 7.0;
+	float kd_ank = 1.0;
+	trackAbs_ankOut(0.0, kp_ank, kd_ank);
+	trackAbs_ankInn(0.0, kp_ank, kd_ank);
+	disable_hip();
+
+	/// Figure out contact mode stuff
+	if (lastMode == CONTACT_S0 || lastMode == CONTACT_S1){ // if we were in single stance
+		if (STATE_contactMode != lastMode){  // and now are not
+			heelStrikeTrigger();
+		}
+	}
+	lastMode = STATE_contactMode;
+}
+
+
+
 
 /* Entry-point function for all unit tests */
 void runUnitTest(void) {
 
 	int testId = (int) (mb_io_get_float(ID_CTRL_UNIT_TEST_ID));
 
-	switch (testId) {
+	switch (testId) {   // Default (on initialization == 0 == do nothing)
 
 	/**** Ranger Math ****/
 	case 1: test_waveFunctions(); break;
@@ -555,6 +577,7 @@ void runUnitTest(void) {
 
 	/**** Estimation ****/
 	case 17: test_doubleStanceContact();  break;
+	case 26: test_stepEventData(); break;
 
 	/**** Particle Swarm Optimization:  ****/
 	case 23: test_pso_quadBowl(); break;
