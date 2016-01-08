@@ -25,40 +25,17 @@ float GAIT_WALK_SCISSOR_GAIN;
 float GAIT_WALK_SCISSOR_OFFSET;
 float GAIT_WALK_IDX;   // used for debugging - says which gait parameters are being used
 
-/* The current working set of data, either from the optimization or from defaults */
-int GD_NGRID;
-float GD_KNOTS[GAITDATA_NGRID];
-float GD_ANK_PUSH[GAITDATA_NGRID];
-float GD_CRIT_ANGLE[GAITDATA_NGRID];
-float GD_HIP_ANGLE[GAITDATA_NGRID];
-float GD_SCISSOR_GAIN[GAITDATA_NGRID];
-float GD_SCISSOR_OFFSET[GAITDATA_NGRID];
-
-/* Load the default data set into the working data set */
-void resetGaitData(void) {
-	int i;  // counter
-	GD_NGRID = (int)( GAITDATA_NGRID );
-	for (i = 0; i < GAITDATA_NGRID; i++) {
-		GD_KNOTS[i] = (float)( GAITDATA_SPEED_KNOT_POINTS[i] );
-		GD_ANK_PUSH[i] =  (float)( GAITDATA_WALK_ANK_PUSH[i] );
-		GD_CRIT_ANGLE[i] =  (float)( GAITDATA_WALK_CRIT_STANCE_ANGLE[i] );
-		GD_HIP_ANGLE[i] =  (float)( GAITDATA_WALK_HIP_STEP_ANGLE[i] );
-		GD_SCISSOR_GAIN[i] =  (float)( GAITDATA_WALK_SCISSOR_GAIN[i] );
-		GD_SCISSOR_OFFSET[i] =  (float)( GAITDATA_WALK_SCISSOR_OFFSET[i] );
-	}
-}
-
 
 /* This function is called once per walking step at mid-stance
  * It computes the new set of gait data that is used by the
  * walking controller  */
-void updateGaitParam() {
+void updateGaitData() {
 	// Linear interpolation over data
-	GAIT_WALK_ANK_PUSH = LinInterpVar(STATE_velCom, GD_KNOTS, GD_ANK_PUSH, GD_NGRID);
-	GAIT_WALK_CRIT_STANCE_ANGLE = LinInterpVar(STATE_velCom, GD_KNOTS, GD_CRIT_ANGLE, GD_NGRID);
-	GAIT_WALK_HIP_STEP_ANGLE = LinInterpVar(STATE_velCom, GD_KNOTS, GD_HIP_ANGLE, GD_NGRID);
-	GAIT_WALK_SCISSOR_GAIN = LinInterpVar(STATE_velCom, GD_KNOTS, GD_SCISSOR_GAIN, GD_NGRID);
-	GAIT_WALK_SCISSOR_OFFSET = LinInterpVar(STATE_velCom, GD_KNOTS, GD_SCISSOR_OFFSET, GAITDATA_NGRID);
+	GAIT_WALK_ANK_PUSH = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_ANK_PUSH, GAITDATA_NGRID);
+	GAIT_WALK_CRIT_STANCE_ANGLE = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_CRIT_STANCE_ANGLE, GAITDATA_NGRID);
+	GAIT_WALK_HIP_STEP_ANGLE = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_HIP_STEP_ANGLE, GAITDATA_NGRID);
+	GAIT_WALK_SCISSOR_GAIN = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_SCISSOR_GAIN, GAITDATA_NGRID);
+	GAIT_WALK_SCISSOR_OFFSET = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_SCISSOR_OFFSET, GAITDATA_NGRID);
 }
 
 
@@ -74,7 +51,7 @@ void updateGaitFsm(void) {
 		case PreMid_Out:
 			if (STATE_th0 < 0.0) {
 				GAIT_FSM_MODE = PostMid_Out;
-				updateGaitParam();      // Update the controller at mid-stance on the outer legs
+				updateGaitData();      // Update the controller at mid-stance on the outer legs
 			} break;
 		case PostMid_Out:
 			if (STATE_c1) { // Inner feet hit ground
@@ -84,7 +61,7 @@ void updateGaitFsm(void) {
 		case PreMid_Inn:
 			if (STATE_th1 < 0.0) {
 				GAIT_FSM_MODE = PostMid_Inn;
-				updateGaitParam();      // Update the controller at mid-stance on the outer legs
+				updateGaitData();      // Update the controller at mid-stance on the outer legs
 			} break;
 		case PostMid_Inn:
 			if (STATE_c0) { // Outer feet hit ground
@@ -127,9 +104,7 @@ void setGaitFsmLed(void) {
  * for the robot to begin walking. It is used for initialization. */
 void gaitControl_entry(void) {
 
-	resetGaitData();  // Load default data 
-	updateGaitParam(); // Interpolate gait parameters 
-	optimizeGait_entry();  // Initialize optimization algorithm
+	updateGaitData(); // Read gait parameters from file
 
 	// Always start with the outer feet in stance, and the inner feet tracking a scissor gait
 	GAIT_FSM_MODE = PreMid_Out;
@@ -141,6 +116,5 @@ void gaitControl_entry(void) {
 void gaitControl_main(void) {
 	updateGaitFsm();
 	setGaitFsmLed();
-	optimizeGait_main();  // Call optimization on the gait (analysis)
 }
 
