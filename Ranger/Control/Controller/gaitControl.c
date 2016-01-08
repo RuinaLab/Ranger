@@ -4,6 +4,7 @@
 #include <input_output.h>
 #include <gaitControl.h>
 #include <gaitControlData.h>
+#include <optimizeGait.h>
 
 typedef enum {
 	PreMid_Out,   // Outer feet on the ground, inner feet swing through with scissor gait
@@ -54,7 +55,7 @@ void updateGaitFsm(void) {
 			} break;
 		case PostMid_Out:
 			if (STATE_c1) { // Inner feet hit ground
-				heelStrikeTrigger();  // Tell estimtor that we've reached heel-strike
+				triggerHeelStrikeUpdate();  // Tell estimtor that we've reached heel-strike
 				GAIT_FSM_MODE = PreMid_Inn;
 			} break;
 		case PreMid_Inn:
@@ -64,7 +65,7 @@ void updateGaitFsm(void) {
 			} break;
 		case PostMid_Inn:
 			if (STATE_c0) { // Outer feet hit ground
-				heelStrikeTrigger();  // Tell estimtor that we've reached heel-strike
+				triggerHeelStrikeUpdate();  // Tell estimtor that we've reached heel-strike
 				GAIT_FSM_MODE = PreMid_Out;
 			} break;
 		}
@@ -103,7 +104,8 @@ void setGaitFsmLed(void) {
  * for the robot to begin walking. It is used for initialization. */
 void gaitControl_entry(void) {
 
-	updateGaitData();
+	updateGaitData(); // Read gait parameters from file
+	optimizeGait_entry();  // Initialize optimization algorithm
 
 	// Always start with the outer feet in stance, and the inner feet tracking a scissor gait
 	GAIT_FSM_MODE = PreMid_Out;
@@ -115,5 +117,6 @@ void gaitControl_entry(void) {
 void gaitControl_main(void) {
 	updateGaitFsm();
 	setGaitFsmLed();
+	optimizeGait_main();  // Call optimization on the gait (analysis)
 }
 

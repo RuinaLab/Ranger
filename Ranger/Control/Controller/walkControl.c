@@ -44,7 +44,6 @@ void updateWalkFsm(void) {
 		case Push_Out:
 			if (STATE_c1) {  // If inner feet hit the ground
 				WALK_FSM_MODE = Glide_Inn;
-				computeHeelStrikeGeometry();  // Update the collision data
 			} break;
 		case Glide_Inn:
 			if (STATE_th1 < CtrlWalk_critAngle) {
@@ -53,7 +52,6 @@ void updateWalkFsm(void) {
 		case Push_Inn:
 			if (STATE_c0) {  // If outer feet hit the ground
 				WALK_FSM_MODE = Glide_Out;
-				computeHeelStrikeGeometry();  // Update the collision data
 			} break;
 		case Flight:
 			if (STATE_c0) {  // If outer feet hit the ground

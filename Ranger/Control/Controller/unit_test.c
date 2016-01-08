@@ -5,6 +5,7 @@
 #include "walkControl.h"
 #include "PSO.h"
 #include "objectiveFunction.h"
+#include <optimizeGait.h>
 
 /*Simple function to return the robot time in seconds */
 float getTime() {
@@ -533,7 +534,7 @@ void test_stepEventData(void) {
 	/// Figure out contact mode stuff
 	if (lastMode == CONTACT_S0 || lastMode == CONTACT_S1){ // if we were in single stance
 		if (STATE_contactMode != lastMode){  // and now are not
-			heelStrikeTrigger();
+			triggerHeelStrikeUpdate();
 		}
 	}
 	lastMode = STATE_contactMode;

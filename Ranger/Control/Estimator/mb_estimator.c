@@ -4,6 +4,7 @@
 #include <input_output.h> // LED functions
 #include <robotParameters.h>
 #include <PSO.h>
+#include <optimizeGait.h>
 
 typedef struct {
 	float a1;
@@ -383,8 +384,9 @@ void heelStrikeGyroReset(float th0_heelStrike) {
 
 /* Sets the estimate for the step length and the stance leg angle, assuming that the robot
  * is in double stance. This is designed to be called once per step, by the walking finite
- * state machine. */
-void computeHeelStrikeGeometry(void) {
+ * state machine. Returns the step length. Posts other data as STATE variables and to CAN 
+ * bus.*/
+float computeHeelStrikeGeometry(void) {
 
 	float Slope = 0.0;  // Assume flat ground for now
 	float x, y; // scalar distances, in coordinate system aligned with outer legs
@@ -417,15 +419,28 @@ void computeHeelStrikeGeometry(void) {
 	STATE_lastStepLength = stepLength;
 
 	heelStrikeGyroReset(stepAngle);  // Reset the gyro estiamte for angles at heel-strike
+	return stepLength;
 }
 
+/* This function is called by gaitControl during walking, whenever there is a heel-strike,
+ * which should occur whenever the foot strikes the ground during walking. */
+void triggerHeelStrikeUpdate(void){
+	float newStepTime;
+	float stepDuration;
+	float stepLength;
 
-/*  Tell estimtor that we've reached heel-strike. (Send time update)  */
-void heelStrikeTrigger(void) {
-	float newTime = mb_io_get_float(ID_TIMESTAMP);  // In milliseconds
-	STATE_lastStepDuration = 0.001 * (newTime - STATE_lastStepTimeMs); // Duration of the last step (seconds)
-	STATE_lastStepTimeMs = newTime;
-	mb_io_set_float(ID_EST_LAST_STEP_DURATION, STATE_lastStepDuration);
+	/// STEP LENGTH:
+	stepLength = computeHeelStrikeGeometry();
+
+	/// STEP DURATION:
+	newStepTime = mb_io_get_float(ID_TIMESTAMP);  // In milliseconds
+	stepDuration = 0.001 * (newStepTime - STATE_lastStepTimeMs); // Duration of the last step (seconds)
+	STATE_lastStepDuration = stepDuration;
+	STATE_lastStepTimeMs = newStepTime;
+	mb_io_set_float(ID_EST_LAST_STEP_DURATION, stepDuration);	
+
+	/// Update the objective function:
+	logStepData(stepDuration, stepLength);
 }
 
 

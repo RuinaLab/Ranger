@@ -61,9 +61,8 @@ extern bool STATE_c1; // true if inner feet are in contact
 extern ContactMode STATE_contactMode;  // stores current contact mode
 
 /* Updates called by other files:  */
-void computeHeelStrikeGeometry(void); // Updates the last step length and stance leg angle
 void resetRobotOrientation(void);  // Forces the gyro integral to match the imu internal estimate
-void heelStrikeTrigger(void); 
+void triggerHeelStrikeUpdate(void); // Call whenever heel-strike occurs
 
 /* Entry-point function */
 void mb_estimator_update(void); // Tell estimtor that we've reached heel-strike

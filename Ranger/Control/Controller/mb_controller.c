@@ -5,6 +5,7 @@
 #include <unit_test.h>
 #include <walkControl.h>
 #include <gaitControl.h>
+#include <optimizeGait.h>
 
 /* Currespond to buttons on UI board */
 typedef enum {
@@ -26,13 +27,15 @@ const int LED_DEBUG = 3;  // bottom right. Used for debugging code. Should be in
 /* Name the UI buttons.
  * button 0 is the left-most button,
  * button 5 is the right-most button    */
+ const int BUTTON_ACCEPT_TRIAL = 0;  // Accepts a trial (updates the controller)
 const int BUTTON_UNIT_TEST = 3;
 const int BUTTON_WALK_CONTROL = 4;
 const int BUTTON_STAND_BY = 5;
 
 /* Checks the buttons on the UI board for high-level
  * commands to change the mode of the user-interface
- * finite-state-machine.        */
+ * finite-state-machine. Note that options are listed
+ * by priority (because of return statements)       */
 void update_ui_fsm_state(void) {
 
 	UI_FSM_MODE_PREV = UI_FSM_MODE;
@@ -50,7 +53,10 @@ void update_ui_fsm_state(void) {
 		UI_FSM_MODE = UnitTest; 	// Run unit test
 		return;
 	}
-
+	if (detect_UI_button_input(BUTTON_ACCEPT_TRIAL)) {
+		acceptTrial();  // Tells optimization to accept trial and update data.
+		return;
+	}
 
 }
 

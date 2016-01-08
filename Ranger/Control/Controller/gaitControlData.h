@@ -10,6 +10,7 @@ extern float GAITDATA_WALK_CRIT_STANCE_ANGLE[];
 extern float GAITDATA_WALK_HIP_STEP_ANGLE[];
 extern float GAITDATA_WALK_SCISSOR_GAIN[];
 extern float GAITDATA_WALK_SCISSOR_OFFSET[];
+extern float GAITDATA_TARGET_SPEED;
 
 #endif
 
