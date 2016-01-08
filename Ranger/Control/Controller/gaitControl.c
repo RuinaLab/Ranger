@@ -116,5 +116,6 @@ void gaitControl_entry(void) {
 void gaitControl_main(void) {
 	updateGaitFsm();
 	setGaitFsmLed();
+	optimizeGait_main();
 }
 
