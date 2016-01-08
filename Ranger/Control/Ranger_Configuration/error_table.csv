@@ -114,3 +114,4 @@ MC,NOT_RUNNING,0,MC is not running due to off sleep shutdown thermal or mechanic
 AE,SPIKE,0,A spike was detected and limited. 
 EST,FILTER_TIME_VIOLATION,0,An invalid time-stamp was passed to the butterworth filter.
 EST,ROBOT_FALL,0,Estimator detected that the robot fell down. Aborting walk  --   force transition to stand-by
+EST,INCOMPLETE_TRIAL,0,You accepted a trial before the minimum required number of steps!!!
