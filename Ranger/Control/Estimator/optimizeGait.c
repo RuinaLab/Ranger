@@ -7,6 +7,26 @@
 #include <gaitControl.h>
 #include <gaitControlData.h>
 
+/* MECHANICS OF OPTIMIZATION TRIALS 
+ *
+ * Whenever the robot is walking it is quietly evaluating the gait in the background. 
+ * A trial begins when the robot transitions from flight phase (in walk mode) to single
+ * stance, since this is how walking is initiated. The objective function then logs 
+ * data for a preset number of steps, and then ignores all subsequent steps. A trial 
+ * is completed when the robot either falls down or is picked up. At this point, the
+ * user has a choice. If he/she does nothing, then the objective function will be 
+ * cleared when the robot shuts down, or starts walking again. On the other hand, if the
+ * user presses the ACCEPT button (currently button 0), then the optimization will log
+ * the trial, sending the data to the optimization algorithm. The optimization will then 
+ * sample a new point, and then update the controller parameters to match this new point.
+ * This way, when a new trial starts it will be evaluating the next point in the search.
+ *
+ * When the robot transitions back to "standby" mode, the current set of walk parameters 
+ * are returned to default, but the optimization data remains, and returning to a walk 
+ * mode will continue the optimization where it left off.
+ *
+ */
+
 static int STEP_COUNT = 0;
 static const int N_STEP_TRANSIENT = 2;  // Ignore the first few steps to reject transients
 static const int N_STEP_TRIAL = 10; // Include this many steps in objective function
@@ -44,13 +64,9 @@ void resetObjective(void) {
  * be called by mb_controller.c. It tells the optimization to accept the current
  * trial, if valid. */
 void acceptTrial(void) {
-	if (STEP_COUNT >= N_STEP_TRIAL) {  // Make sure that we've completed enough steps
 		
 		//TODO:  Tally up the objective function   J = sum((SPEED-target).^2);
 
-	} else {
-		mb_error_occurred(ERROR_EST_INCOMPLETE_TRIAL); // Send off an error message
-	}
 }
 
 /* This function is called by the estimator each time that a step occurs */
