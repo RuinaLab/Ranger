@@ -9,6 +9,8 @@
 
 /* MECHANICS OF OPTIMIZATION TRIALS 
  *
+ * Before starting a new trial, press the Accept button once to start optimization.
+ * 
  * Whenever the robot is walking it is quietly evaluating the gait in the background. 
  * A trial begins when the robot transitions from flight phase (in walk mode) to single
  * stance, since this is how walking is initiated. The objective function then logs 
@@ -32,6 +34,8 @@ static const int N_STEP_TRANSIENT = 2;  // Ignore the first few steps to reject 
 static const int N_STEP_TRIAL = 10; // Include this many steps in objective function
 
 static float SPEED[N_STEP_TRIAL];
+
+static bool FLAG_INIT = false;
 
 
 //TODO:  Add mechanics for objective function
@@ -61,11 +65,19 @@ void resetObjective(void) {
  *******************************************************************************/
 
 /* This function is triggered by a button press on the top level UI, designed to
- * be called by mb_controller.c. It tells the optimization to accept the current
- * trial, if valid. */
+ * be called by mb_controller.c. If an optimization is not running, then throw out
+ * the current objective function, and call for a new particle (update controller).
+ * Otherwise, accept the current objective function. Tell PSO to evaluate the 
+ * objective, and then call for a new particle. */
 void acceptTrial(void) {
-		
-		//TODO:  Tally up the objective function   J = sum((SPEED-target).^2);
+		if (FLAG_INIT){
+			// Send data
+		} else {
+			// Initialize optimization
+			FLAG_INIT = true;
+		}
+
+		// Get a new point
 
 }
 
@@ -87,11 +99,7 @@ void logStepData(double duration, double length) {
 
 /* This function is called once, as soon as the button is pressed
  * for the robot to begin walking. It is used for initialization. */
-void optimizeGait_entry(void) {
-
-	// TODO:  Log the default controller value (for resets and initialization)
-
-}
+void optimizeGait_entry(void) {}
 
 
 /* This is the main function for walking. All walking controls
