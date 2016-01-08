@@ -7,6 +7,9 @@ extern const int LED_CONTACT;  // middle left
 extern const int LED_UI_FSM;  // Top left
 extern const int LED_GAIT_FSM; // middle right
 extern const int LED_DEBUG;  // bottom right.  Used for debugging code. Should be inactive during normal operation.
+extern bool FSM_LED_FLAG;
+
+extern char walkLedColor; // Indicates what sort of walking is happening.
 
 /* Name the UI buttons.
  * button 0 is the left-most button,

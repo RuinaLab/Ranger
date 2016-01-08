@@ -76,20 +76,22 @@ void updateGaitFsm(void) {
 /* Turns on a specific led for each state of the walking FSM.
  * No LED indicates that the mode is flight. */
 void setGaitFsmLed(void) {
-	if (STATE_contactMode != CONTACT_FL) { // Only update lights when feet on ground
-		switch (GAIT_FSM_MODE) {
-		case PreMid_Out:
-			set_UI_LED(LED_GAIT_FSM, 'r');
-			break;
-		case PostMid_Out:
-			set_UI_LED(LED_GAIT_FSM, 'o');
-			break;
-		case PreMid_Inn:
-			set_UI_LED(LED_GAIT_FSM, 'b');
-			break;
-		case PostMid_Inn:
-			set_UI_LED(LED_GAIT_FSM, 'p');
-			break;
+	if (FSM_LED_FLAG) {
+		if (STATE_contactMode != CONTACT_FL) { // Only update lights when feet on ground
+			switch (GAIT_FSM_MODE) {
+			case PreMid_Out:
+				set_UI_LED(LED_GAIT_FSM, 'r');
+				break;
+			case PostMid_Out:
+				set_UI_LED(LED_GAIT_FSM, 'o');
+				break;
+			case PreMid_Inn:
+				set_UI_LED(LED_GAIT_FSM, 'b');
+				break;
+			case PostMid_Inn:
+				set_UI_LED(LED_GAIT_FSM, 'p');
+				break;
+			}
 		}
 	}
 }

@@ -342,6 +342,7 @@ void updateParameters(void) {
 	LABVIEW_WALK_SCISSOR_GAIN = mb_io_get_float(ID_CTRL_WALK_HIP_STEP_ANGLE);
 	LABVIEW_WALK_SCISSOR_OFFSET = mb_io_get_float(ID_CTRL_WALK_HIP_STEP_ANGLE);
 	LABVIEW_GAIT_USE_MDP_DATA = mb_io_get_float(ID_GAIT_USE_MDP_DATA) > 0.5;  // True if walking controller should use MDP generated gait data.
+	FSM_LED_FLAG = mb_io_get_float(ID_CTRL_FSM_LED) > 0.5;  // True if FSM LEDs should be turned on
 }
 
 /* Computes the change in the angle of the outer legs of the robot

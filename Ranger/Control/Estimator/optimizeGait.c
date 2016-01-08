@@ -142,10 +142,15 @@ void acceptTrial(void) {
 void logStepData(double duration, double length) {
 	if (STEP_COUNT >= 0) { // Then we've passed out of the transient period
 		if (STEP_COUNT < N_STEP_TRIAL) { // Then we have not yet completed the trial
+			walkLedColor = 'y';
 			if (duration != 0) {  // No divide by zero errors!  (keep default=0 if so)
 				SPEED[STEP_COUNT] = length / duration;   // Log the speed data
 			}
+		} else {
+			walkLedColor = 'b';
 		}
+	} else {
+		walkLedColor = 'r';
 	}
 	STEP_COUNT++;
 }

@@ -23,11 +23,14 @@ const int LED_CONTACT = 4;  // middle left
 const int LED_UI_FSM = 5;   // Top left
 const int LED_GAIT_FSM = 2; // middle right
 const int LED_DEBUG = 3;  // bottom right. Used for debugging code. Should be inactive during normal operation.
+bool FSM_LED_FLAG = false;  // Show lights for FSM?
+
+char walkLedColor = 'b';
 
 /* Name the UI buttons.
  * button 0 is the left-most button,
  * button 5 is the right-most button    */
- const int BUTTON_ACCEPT_TRIAL = 0;  // Accepts a trial (updates the controller)
+const int BUTTON_ACCEPT_TRIAL = 0;  // Accepts a trial (updates the controller)
 const int BUTTON_UNIT_TEST = 3;
 const int BUTTON_WALK_CONTROL = 4;
 const int BUTTON_STAND_BY = 5;
@@ -78,7 +81,7 @@ void mb_controller_update(void) {
 		runUnitTest();
 		break;
 	case WalkCtrl:
-		set_UI_LED(LED_UI_FSM, 'b');
+		set_UI_LED(LED_UI_FSM, walkLedColor);
 		if (UI_FSM_MODE_PREV != WalkCtrl) {
 			gaitControl_entry();
 			walkControl_entry();  // Run the initialization function for the walking FSM
@@ -87,17 +90,19 @@ void mb_controller_update(void) {
 		walkControl_main();  // Run the main walk function
 	}
 
-	// Set LED for contact flags:
-	switch (STATE_contactMode) {
-	case CONTACT_S0:
-		set_UI_LED(LED_CONTACT, 'r');
-		break;
-	case CONTACT_S1:
-		set_UI_LED(LED_CONTACT, 'b');
-		break;
-	case CONTACT_DS:
-		set_UI_LED(LED_CONTACT, 'p');
-		break;
+	if (FSM_LED_FLAG) {
+		// Set LED for contact flags
+		switch (STATE_contactMode) {
+		case CONTACT_S0:
+			set_UI_LED(LED_CONTACT, 'r');
+			break;
+		case CONTACT_S1:
+			set_UI_LED(LED_CONTACT, 'b');
+			break;
+		case CONTACT_DS:
+			set_UI_LED(LED_CONTACT, 'p');
+			break;
+		}
 	}
 
 } // mb_controller_update()

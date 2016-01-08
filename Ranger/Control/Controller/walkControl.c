@@ -56,8 +56,8 @@ void updateWalkFsm(void) {
 		case Flight:
 			if (STATE_c0) {  // If outer feet hit the ground
 				WALK_FSM_MODE = Glide_Out;
-			// } else if (STATE_c1) { // If inner feet hit the ground
-			// 	WALK_FSM_MODE = Glide_Inn;
+				// } else if (STATE_c1) { // If inner feet hit the ground
+				// 	WALK_FSM_MODE = Glide_Inn;
 			} break;
 		}
 	}
@@ -67,19 +67,21 @@ void updateWalkFsm(void) {
 /* Turns on a specific led for each state of the walking FSM.
  * No LED indicates that the mode is flight. */
 void setWalkFsmLed(void) {
-	switch (WALK_FSM_MODE_PREV) {
-	case Glide_Out:
-		set_UI_LED(LED_WALK_FSM , 'r');
-		break;
-	case Push_Out:
-		set_UI_LED(LED_WALK_FSM , 'o');
-		break;
-	case Glide_Inn:
-		set_UI_LED(LED_WALK_FSM , 'b');
-		break;
-	case Push_Inn:
-		set_UI_LED(LED_WALK_FSM , 'p');
-		break;
+	if (FSM_LED_FLAG) {
+		switch (WALK_FSM_MODE_PREV) {
+		case Glide_Out:
+			set_UI_LED(LED_WALK_FSM , 'r');
+			break;
+		case Push_Out:
+			set_UI_LED(LED_WALK_FSM , 'o');
+			break;
+		case Glide_Inn:
+			set_UI_LED(LED_WALK_FSM , 'b');
+			break;
+		case Push_Inn:
+			set_UI_LED(LED_WALK_FSM , 'p');
+			break;
+		}
 	}
 }
 
@@ -108,7 +110,7 @@ void readGaitData(void) {
  * walking finite state machine */
 void sendMotorCommands(void) {
 
-	float push = CtrlWalk_ankPush;   
+	float push = CtrlWalk_ankPush;
 
 	switch (WALK_FSM_MODE_PREV) {
 	case Glide_Out:
