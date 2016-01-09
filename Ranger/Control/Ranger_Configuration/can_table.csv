@@ -200,6 +200,7 @@ E_MCFO_RIGHT_ANKLE_RATE ,0,1,0,estimated rate of the outer ankles (STATE=dq0)
 E_MCFI_ANKLE_RATE,0,1,0,estimated rate of the inner ankles (STATE = dq1)
 EST_CONTACT_OUTER,0,1,0,Filtered sum of both outer foot contact sensors
 EST_CONTACT_INNER,0,1,0,Filtered sum of both inner foot contact sensors
+EST_STATE_CONTACTMODE,0,1,0,0 = S0    1 = S1    2 = DS      3 = FL
 EST_STATE_TH0,0,1,0,abs angle outer legs
 EST_STATE_TH1,0,1,0,abs angle inner legs
 EST_STATE_PHI0,0,1,0,abs angle outer feet
