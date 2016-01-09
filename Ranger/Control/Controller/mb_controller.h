@@ -24,6 +24,7 @@ extern char walkLedColor; // Indicates what sort of walking is happening.
  * button 0 is the left-most button,
  * button 5 is the right-most button    */
 extern const int BUTTON_ACCEPT_TRIAL;// = 0;  // Accepts a trial (updates the controller)
+extern const int BUTTON_REJECT_TRIAL;  // Reject a trial (environment caused failure)
 extern const int BUTTON_UNIT_TEST;// = 3;
 extern const int BUTTON_WALK_CONTROL;// = 4;
 extern const int BUTTON_STAND_BY;// = 5;

@@ -12,12 +12,6 @@
 #include <can_id.h>
 #include <board_id.h>
 
-#include <mod_mb_gbrl\learning.h> //Online Learning Algorithm
-#include <mod_mb_gbrl\reward.h> //Reward Function Estimator
-#include <mod_mb_gbrl\stability.h> //Stability Estimator
-
-#include <mod_mb_uphill\mb_uphill.h> //Uphill Walking controls
-
 #include <mb_hardware_setup.h>
 #include <mb_software_setup.h>
 #include <mb_data_nexus.h>

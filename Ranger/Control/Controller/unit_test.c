@@ -532,8 +532,8 @@ void test_stepEventData(void) {
 	disable_hip();
 
 	/// Figure out contact mode stuff
-	if (lastMode == CONTACT_S0 || lastMode == CONTACT_S1){ // if we were in single stance
-		if (STATE_contactMode != lastMode){  // and now are not
+	if (lastMode == CONTACT_S0 || lastMode == CONTACT_S1) { // if we were in single stance
+		if (STATE_contactMode != lastMode) { // and now are not
 			triggerHeelStrikeUpdate();
 		}
 	}
@@ -541,6 +541,10 @@ void test_stepEventData(void) {
 }
 
 
+/* --27-- Make the buzzer beep on the UI board */
+void test_uiPlaySong(void) {
+	mb_io_set_float(ID_UI_SET_BUZZER_AMPL, 1); // Plays a song...
+}
 
 
 /* Entry-point function for all unit tests */
@@ -589,6 +593,9 @@ void runUnitTest(void) {
 	case 18: debug_directCurrentControl();  break;
 	case 19: debug_singleStanceOuter();  break;
 	case 20: debug_steeringMotors(); break;
+
+	/**** UI Board ****/
+	case 27: test_uiPlaySong(); break;
 
 	}
 }

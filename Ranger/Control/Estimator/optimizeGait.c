@@ -45,7 +45,6 @@ typedef enum {
 	INIT,        // Use has not yet activated optimization. Do nothing
 	PRE_TRIAL,   // Just started walking, still in transient. Dump data.
 	TRIAL,       // Main body of the walking trial. Log data.
-	POST_TRIAL,  // Trial has been successfully completed. Dump data, keep walking.
 	FLYING       // User picked up the robot.
 } OptimizeFsmMode;
 
@@ -170,7 +169,8 @@ void objFun_runningAvg(void) {
  *******************************************************************************/
 
 void updateOptimizeFsm(void) {
-	static bool DataSent = false;
+	static bool ButtonPressed  = false;
+	// buzzer_beep(false);
 
 	switch (OPTIMIZE_FSM_MODE) {
 
@@ -178,7 +178,6 @@ void updateOptimizeFsm(void) {
 		if (detect_UI_button_input(BUTTON_ACCEPT_TRIAL)) {
 			objFun_set_optimizeGait();    // Set up optimization problem
 			resetObjective();	// Clears objective and sets up for new trial
-			DataSent = false;
 			pso_send_point();   // Tell PSO to send a new point (Updates controller)
 			OPTIMIZE_FSM_MODE = PRE_TRIAL;
 		}
@@ -194,27 +193,28 @@ void updateOptimizeFsm(void) {
 
 	case TRIAL:
 		if (STEP_COUNT >= N_STEP_TRIAL) {
-			OPTIMIZE_FSM_MODE = POST_TRIAL;
+			pso_eval_point();   // Evaluate objective function (send to PSO)
+			pso_send_point();   // Tell PSO to send a new point (Updates controller)
+			resetObjective();	// Clears objective and sets up for new trial
+			OPTIMIZE_FSM_MODE = PRE_TRIAL;
+			// buzzer_beep(true);  // start the buzzer
 		} else if (STATE_contactMode == CONTACT_FL) {
 			OPTIMIZE_FSM_MODE = FLYING;
 		}
 		break;
 
-	case POST_TRIAL:
-		if (STATE_contactMode == CONTACT_FL) {
-			OPTIMIZE_FSM_MODE = FLYING;
-		}
-		break;
-
 	case FLYING:
-		if (detect_UI_button_input(BUTTON_ACCEPT_TRIAL) && !DataSent) {
+		if (detect_UI_button_input(BUTTON_ACCEPT_TRIAL) && !ButtonPressed) {
 			pso_eval_point();   // Evaluate objective function (send to PSO)
 			pso_send_point();   // Tell PSO to send a new point (Updates controller)
-			DataSent = true;
+			ButtonPressed = true;
 		}
-		if ( STATE_contactMode != CONTACT_FL ) { // Trial failed due to environment (person walked in front of robot)
+		if (detect_UI_button_input(BUTTON_REJECT_TRIAL)) {
+			ButtonPressed = true;
+		}
+		if (ButtonPressed && STATE_contactMode == !CONTACT_FL) { // Trial failed due to environment (person walked in front of robot)
 			resetObjective();	// Clears objective and sets up for new trial
-			DataSent = false;
+			ButtonPressed  = false;
 			OPTIMIZE_FSM_MODE = PRE_TRIAL;
 		}
 		break;
@@ -239,10 +239,6 @@ void updateOptimizeLed(void) {
 
 	case TRIAL:
 		set_UI_LED(LED_UI_FSM, 'y');
-		break;
-
-	case POST_TRIAL:
-		set_UI_LED(LED_UI_FSM, 'b');
 		break;
 
 	case FLYING:

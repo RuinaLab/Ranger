@@ -11,6 +11,11 @@ void clear_UI_LED(void);
 void clear_UI_LCD(int);
 void set_UI_LED(int, char); 
 
+// Buzzer stuff
+extern float BUZZER_BEEP_TIME_SECONDS;
+extern int BUZZER_BEEP_FREQ_HZ;
+void buzzer_beep(bool turnOn);  // Turn on a buzzer! 
+
 // Test function:
 void test_input_output(void); 
 

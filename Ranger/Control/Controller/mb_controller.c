@@ -24,6 +24,7 @@ char walkLedColor = 'b';
  * button 0 is the left-most button,
  * button 5 is the right-most button    */
 const int BUTTON_ACCEPT_TRIAL = 0;  // Accepts a trial (updates the controller)
+const int BUTTON_REJECT_TRIAL = 1;  // Reject a trial (environment caused failure)
 const int BUTTON_UNIT_TEST = 3;
 const int BUTTON_WALK_CONTROL = 4;
 const int BUTTON_STAND_BY = 5;
