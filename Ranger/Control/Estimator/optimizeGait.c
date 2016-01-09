@@ -36,22 +36,15 @@ static const int N_STEP_TRIAL = 10; // Include this many steps in objective func
 
 static const int N_POPULATION = 11;  // population to use in optimization
 
-static float SPEED[N_STEP_TRIAL];
+float MIN_STEP_DURATION = 0.1;  // Trial fails if steps are shorter than this
+
+// static float SPEED[N_STEP_TRIAL];
 static float COST[N_STEP_TRIAL];
 
 float OBJ_FUN_RUNNING_AVG = 0;
 
-typedef enum {
-	INIT,        // Use has not yet activated optimization. Do nothing
-	PRE_TRIAL,   // Just started walking, still in transient. Dump data.
-	TRIAL,       // Main body of the walking trial. Log data.
-	FLYING       // User picked up the robot.
-} OptimizeFsmMode;
 
-
-static OptimizeFsmMode OPTIMIZE_FSM_MODE = INIT;
-
-
+OptimizeFsmMode OPTIMIZE_FSM_MODE = INIT;
 
 
 /*******************************************************************************
@@ -138,7 +131,7 @@ void resetObjective(void) {
 	mb_io_set_float(ID_OPTIM_STEP_COUNT, STEP_COUNT);
 
 	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
-		SPEED[stepCountIdx] = speed;
+		// SPEED[stepCountIdx] = speed;
 		COST[stepCountIdx] = stepCostFun(speed);
 	}
 }
@@ -175,10 +168,14 @@ void updateOptimizeFsm(void) {
 	switch (OPTIMIZE_FSM_MODE) {
 
 	case INIT:
-		if (detect_UI_button_input(BUTTON_ACCEPT_TRIAL)) {
+		if (detect_UI_button_input(BUTTON_ACCEPT_TRIAL) && !ButtonPressed) {
 			objFun_set_optimizeGait();    // Set up optimization problem
-			resetObjective();	// Clears objective and sets up for new trial
 			pso_send_point();   // Tell PSO to send a new point (Updates controller)
+			ButtonPressed = true;
+		}
+		if (ButtonPressed && STATE_contactMode == !CONTACT_FL) { // Trial failed due to environment (person walked in front of robot)
+			resetObjective();	// Clears objective and sets up for new trial
+			ButtonPressed  = false;
 			OPTIMIZE_FSM_MODE = PRE_TRIAL;
 		}
 		break;
@@ -261,8 +258,13 @@ void logStepData(double duration, double length) {
 		speed = length / duration;  // Log the speed data
 	}
 	if (OPTIMIZE_FSM_MODE == TRIAL) {
-		SPEED[STEP_COUNT] = speed;
+		// SPEED[STEP_COUNT] = speed;
 		COST[STEP_COUNT] = stepCostFun(speed);
+	}
+	if (duration < MIN_STEP_DURATION){
+		// This only happens before falling down. Force trial to end by triggering flight state in optimization
+		OPTIMIZE_FSM_MODE = FLYING;
+		mb_error_occurred(ERROR_OPTIM_STUTTER_STEP);
 	}
 
 	objFun_runningAvg(); // Update the cost function's running average.

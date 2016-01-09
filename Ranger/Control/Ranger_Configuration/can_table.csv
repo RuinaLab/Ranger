@@ -229,6 +229,7 @@ OPTIM_STEP_COUNT,0,1,0,Steps in the current optimization walk. Transient steps a
 OPTIM_ACTIVE_PARTICLE,0,1,0,PSO population particle active
 OPTIM_CURRENT_GENERATION,0,1,0,
 OPTIM_OBJ_FUN_SPEED,0,1,0,average speed over the last step as determined by the objective function
+OPTIM_FSM_MODE,0,1,0,0 = INIT    1 = PRE_TRIAL    2 = TRIAL    3 = FLYING   
 #,,,,
 #ControllerParameters,,,,
 CTRL_HIP_KP,25,0,1,
