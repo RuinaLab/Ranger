@@ -50,18 +50,18 @@ static bool FLAG_INIT = false;
  * the is sent by the optimizer and saves it to memory. */
 void objFun_send(float* x, int nDim) {
 	/// Update the middle value on each data channel. Assume that the other values [0] and [2] are good enough
-	GAITDATA_WALK_ANK_PUSH[1] = x[0];
-	GAITDATA_WALK_CRIT_STANCE_ANGLE[1] = x[1];
-	GAITDATA_WALK_HIP_STEP_ANGLE[1] = x[2];
-	GAITDATA_WALK_SCISSOR_GAIN[1] = x[3];
-	GAITDATA_WALK_SCISSOR_OFFSET[1] = x[4];
+	GAITDATA_WALK_SCISSOR_OFFSET[1] = x[0];
+	GAITDATA_WALK_SCISSOR_GAIN[1] = x[1];
+	GAITDATA_WALK_ANK_PUSH[1] = x[2];
+	GAITDATA_WALK_CRIT_STANCE_ANGLE[1] = x[3];
+	GAITDATA_WALK_HIP_STEP_ANGLE[1] = x[4];
 
 	/// Send out over CAN network
-	mb_io_set_float(ID_OPTIM_WALK_ANK_PUSH, x[0]);
-	mb_io_set_float(ID_OPTIM_WALK_CRIT_STANCE_ANGLE, x[1]);
-	mb_io_set_float(ID_OPTIM_WALK_HIP_STEP_ANGLE, x[2]);
-	mb_io_set_float(ID_OPTIM_WALK_SCISSOR_GAIN, x[3]);
-	mb_io_set_float(ID_OPTIM_WALK_SCISSOR_OFFSET, x[4]);
+	mb_io_set_float(ID_OPTIM_WALK_SCISSOR_OFFSET, x[0]);
+	mb_io_set_float(ID_OPTIM_WALK_SCISSOR_GAIN, x[1]);
+	mb_io_set_float(ID_OPTIM_WALK_ANK_PUSH, x[2]);
+	mb_io_set_float(ID_OPTIM_WALK_CRIT_STANCE_ANGLE, x[3]);
+	mb_io_set_float(ID_OPTIM_WALK_HIP_STEP_ANGLE, x[4]);
 }
 
 
@@ -153,6 +153,9 @@ void logStepData(double duration, double length) {
 		walkLedColor = 'r';
 	}
 	STEP_COUNT++;
+	if (!FLAG_INIT){
+		walkLedColor = 'b';  // Signal for normal walk mode if not yet running optimization.
+	}
 }
 
 
