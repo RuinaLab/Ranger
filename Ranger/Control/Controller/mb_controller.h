@@ -29,6 +29,9 @@ extern const int BUTTON_UNIT_TEST;// = 3;
 extern const int BUTTON_WALK_CONTROL;// = 4;
 extern const int BUTTON_STAND_BY;// = 5;
 
+/* Call to to force standby if stutter step occurs */
+void stutterStepDetected(void);
+
 // Entry-point function for all controller stuff
 void mb_controller_update(void);
 

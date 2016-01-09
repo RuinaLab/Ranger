@@ -54,6 +54,12 @@ void update_ui_fsm_state(void) {
 }
 
 
+/* Abort walking if we detect a stutter step */
+void stutterStepDetected(void){
+	UI_FSM_MODE = StandBy; 
+}
+
+
 /*  ENTRY-POINT FUNCTION FOR ALL CONTROL CODE */
 void mb_controller_update(void) {
 

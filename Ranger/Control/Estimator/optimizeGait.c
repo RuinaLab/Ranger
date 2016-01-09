@@ -36,7 +36,6 @@ static const int N_STEP_TRIAL = 10; // Include this many steps in objective func
 
 static const int N_POPULATION = 11;  // population to use in optimization
 
-float MIN_STEP_DURATION = 0.1;  // Trial fails if steps are shorter than this
 
 // static float SPEED[N_STEP_TRIAL];
 static float COST[N_STEP_TRIAL];
@@ -251,6 +250,14 @@ void updateOptimizeLed(void) {
  *                    PUBLIC INTERFACE FUNCTIONS                               *
  *******************************************************************************/
 
+/* This is called by the estimator, whenever it detects a stutter step. We will
+ * consider such trials a failure, implemented by immediately switching to the
+ * FLYING mode in the FSM */
+void optimize_stutterStepDetected(void) {
+	OPTIMIZE_FSM_MODE = FLYING;
+}
+
+
 /* This function is called by the estimator each time that a step occurs */
 void logStepData(double duration, double length) {
 	float speed = 0;
@@ -260,11 +267,6 @@ void logStepData(double duration, double length) {
 	if (OPTIMIZE_FSM_MODE == TRIAL) {
 		// SPEED[STEP_COUNT] = speed;
 		COST[STEP_COUNT] = stepCostFun(speed);
-	}
-	if (duration < MIN_STEP_DURATION){
-		// This only happens before falling down. Force trial to end by triggering flight state in optimization
-		OPTIMIZE_FSM_MODE = FLYING;
-		mb_error_occurred(ERROR_OPTIM_STUTTER_STEP);
 	}
 
 	objFun_runningAvg(); // Update the cost function's running average.

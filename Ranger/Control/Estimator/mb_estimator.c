@@ -36,6 +36,9 @@ static const float FILTER_CUTOFF_VERY_SLOW = 2 * CLOCK_CYCLE_DURATION * 2.0; // 
 /* First-Order filter, once per step */
 static const float ORIENTATION_GYRO_UPDATE_GAIN = 0.1;  //  0 -> no update, 1 -> full reset at heel-strike
 
+/* Check for stutter steps */
+static const float MIN_STEP_DURATION = 0.1;  // Trial fails if steps are shorter than this
+
 /* Local constant parameters */
 static const float GYRO_RATE_BIAS = -0.009324229372422;  // Measured August 29, 2015. Should be checked monthly.
 static const float GYRO_ROLL_BIAS = -0.01; // Seems to work better with -0.01, although -0.02 was measured September 1, 2015.
@@ -447,6 +450,13 @@ void triggerHeelStrikeUpdate(void){
 
 	/// Update the objective function:
 	logStepData(stepDuration, stepLength);
+
+	/// Check for stutter step
+	if (stepDuration < MIN_STEP_DURATION){
+		stutterStepDetected();
+		optimize_stutterStepDetected();
+		mb_error_occurred(ERROR_EST_STUTTER_STEP);
+	}
 }
 
 
