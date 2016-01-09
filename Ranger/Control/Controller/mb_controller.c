@@ -7,15 +7,8 @@
 #include <gaitControl.h>
 #include <optimizeGait.h>
 
-/* Currespond to buttons on UI board */
-typedef enum {
-	UnitTest,
-	WalkCtrl,
-	StandBy
-} UiFsmMode;
-
-static UiFsmMode UI_FSM_MODE = StandBy;  // What to run now
-static UiFsmMode UI_FSM_MODE_PREV = StandBy;  // What we ran last time
+UiFsmMode UI_FSM_MODE = StandBy;  // What to run now
+UiFsmMode UI_FSM_MODE_PREV = StandBy;  // What we ran last time
 
 /* Name the LEDs */
 const int LED_WALK_FSM = 1;  // Top right
@@ -77,7 +70,6 @@ void mb_controller_update(void) {
 		runUnitTest();
 		break;
 	case WalkCtrl:
-		set_UI_LED(LED_UI_FSM, walkLedColor);
 		if (UI_FSM_MODE_PREV != WalkCtrl) {
 			gaitControl_entry();
 			walkControl_entry();  // Run the initialization function for the walking FSM

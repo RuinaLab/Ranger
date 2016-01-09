@@ -1,6 +1,15 @@
 #ifndef __MB_CONTROLLER_H__
 #define __MB_CONTROLLER_H__
 
+/* Currespond to buttons on UI board */
+typedef enum {
+	UnitTest,
+	WalkCtrl,
+	StandBy
+} UiFsmMode;
+
+extern UiFsmMode UI_FSM_MODE;  // What to run now
+
 /* Name the LEDs */
 extern const int LED_WALK_FSM; // Top right
 extern const int LED_CONTACT;  // middle left

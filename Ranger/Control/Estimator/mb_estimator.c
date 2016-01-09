@@ -305,7 +305,8 @@ void updateRobotState(void) {
 	mb_io_set_float(ID_EST_STATE_DPHI0, STATE_dphi0);
 	mb_io_set_float(ID_EST_STATE_DPHI1, STATE_dphi1);
 
-	mb_io_set_float(ID_EST_STATE_CONTACTMODE,STATE_contactMode);
+	mb_io_set_float(ID_EST_STATE_CONTACTMODE, STATE_contactMode); // contact mode (e.g. flying, s0...)
+	mb_io_set_float(ID_EST_UI_FSM_MODE, UI_FSM_MODE); // mb_controller FSM (e.g. StandBy, WalkCtrl,...)
 
 	// Figure out the contact mode:
 	if (STATE_c0 && !STATE_c1) { // Single stance outer

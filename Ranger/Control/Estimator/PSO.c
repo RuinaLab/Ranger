@@ -8,7 +8,7 @@
 // it to the libraries on the robot itself.
 //
 //============================================================================
-
+#include "mb_includes.h"
 #include "RangerMath.h"  // FastRand()
 #include "PSO.h"
 #include "objectiveFunction.h"
@@ -41,6 +41,7 @@ float fBest[POP_COUNT_MAX]; // velocity of the particle
 int idxPopGlobal = 0;  // Index of the populations best-ever particle
 int idxPopSelect = 0;  // Index of the particle that is currently selected
 bool initComplete = false;  // Has the entire population been initialized?
+int currentGeneration = 0;
 
 /******************************************************************
  *               Public Interface Functions                       *
@@ -206,5 +207,10 @@ void pso_eval_point(void) {
 	if (idxPopSelect >= POP_COUNT) {
 		idxPopSelect = 0;
 		initComplete = true; // We've ran through the population at least once
+
+		currentGeneration++;
+		mb_io_set_float(ID_OPTIM_CURRENT_GENERATION, currentGeneration);
 	}
+
+	mb_io_set_float(ID_OPTIM_ACTIVE_PARTICLE, idxPopSelect);
 }

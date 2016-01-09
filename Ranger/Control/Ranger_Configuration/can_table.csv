@@ -201,6 +201,7 @@ E_MCFI_ANKLE_RATE,0,1,0,estimated rate of the inner ankles (STATE = dq1)
 EST_CONTACT_OUTER,0,1,0,Filtered sum of both outer foot contact sensors
 EST_CONTACT_INNER,0,1,0,Filtered sum of both inner foot contact sensors
 EST_STATE_CONTACTMODE,0,1,0,0 = S0    1 = S1    2 = DS      3 = FL
+EST_UI_FSM_MODE,0,1,0,0 = Unit test     1 = WalkCtrl      2 = StandBy
 EST_STATE_TH0,0,1,0,abs angle outer legs
 EST_STATE_TH1,0,1,0,abs angle inner legs
 EST_STATE_PHI0,0,1,0,abs angle outer feet
@@ -223,6 +224,10 @@ OPTIM_WALK_CRIT_STANCE_ANGLE,0,1,0,the critical stance angle when push-off shoul
 OPTIM_WALK_HIP_STEP_ANGLE ,0,1,0,Target angle for the hip to hold during push-off
 OPTIM_WALK_SCISSOR_GAIN,0,1,0,
 OPTIM_WALK_SCISSOR_OFFSET,0,1,0,
+OPTIM_OBJ_FUN_RUNNING_AVG,0,1,0,Running average of the cost function for all the logged steps taken so far.
+OPTIM_STEP_COUNT,0,1,0,Steps in the current optimization walk. Transient steps are negative.
+OPTIM_ACTIVE_PARTICLE,0,1,0,PSO population particle active
+OPTIM_CURRENT_GENERATION,0,1,0,
 #,,,,
 #ControllerParameters,,,,
 CTRL_HIP_KP,25,0,1,

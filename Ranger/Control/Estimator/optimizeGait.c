@@ -37,6 +37,9 @@ static const int N_STEP_TRIAL = 10; // Include this many steps in objective func
 static const int N_POPULATION = 11;  // population to use in optimization
 
 static float SPEED[N_STEP_TRIAL];
+static float COST[N_STEP_TRIAL];
+
+float OBJ_FUN_RUNNING_AVG = 0;
 
 typedef enum {
 	INIT,        // Use has not yet activated optimization. Do nothing
@@ -81,12 +84,14 @@ void objFun_send(float* x, int nDim) {
 float objFun_eval(void) {
 	int stepCountIdx;  // counter
 	float objVal = 0;
-	float err;
 	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
-		err = SPEED[stepCountIdx] - GAITDATA_TARGET_SPEED;
-		objVal += err * err;
+		objVal += COST[stepCountIdx];
 	}
-	return objVal;
+	objVal = objVal / ( (float) N_STEP_TRIAL );
+
+	mb_io_set_float(ID_OPTIM_OBJ_FUN_RUNNING_AVG, objVal ); // Report to LabView.
+
+	                return objVal;
 }
 
 
@@ -123,9 +128,33 @@ void objFun_set_optimizeGait(void) {
 void resetObjective(void) {
 	int stepCountIdx;  // counter
 	STEP_COUNT = -N_STEP_TRANSIENT;
+
+	mb_io_set_float(ID_OPTIM_STEP_COUNT, STEP_COUNT);
+
 	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
 		SPEED[stepCountIdx] = 0.0;
 	}
+}
+
+/* Running average of the cost of the steps so far. If it's past the recorded steps,
+ * just return the final average of the trial. */
+void objFun_runningAvg(void) {
+	int stepCountIdx;  // counter
+	static float objAvg = 0;
+	if ( STEP_COUNT < 0) { // If we're in the "transient" steps, return 0.
+		OBJ_FUN_RUNNING_AVG = 0;
+	} else if ( STEP_COUNT >= N_STEP_TRIAL) { // If we're past the trial steps, return the final average of the trial.
+		OBJ_FUN_RUNNING_AVG = objAvg;
+	} else { // Return the running average so far.
+		objAvg = 0;
+		for (stepCountIdx = 0;  stepCountIdx < STEP_COUNT; stepCountIdx++) {
+			objAvg += COST[stepCountIdx];
+		}
+		objAvg = objAvg / ( (float)STEP_COUNT );
+		OBJ_FUN_RUNNING_AVG = objAvg;
+	}
+
+	mb_io_set_float(ID_OPTIM_OBJ_FUN_RUNNING_AVG, OBJ_FUN_RUNNING_AVG); // Report to LabView.
 }
 
 
@@ -174,7 +203,7 @@ void updateOptimizeFsm(void) {
 	case FLYING:
 		if (detect_UI_button_input(BUTTON_ACCEPT_TRIAL) && !DataSent) {
 			pso_eval_point();   // Evaluate objective function (send to PSO)
-			pso_send_point();   // Tell PSO to send a new point (Updates controller)	
+			pso_send_point();   // Tell PSO to send a new point (Updates controller)
 			DataSent = true;
 		}
 		if ( STATE_contactMode != CONTACT_FL ) { // Trial failed due to environment (person walked in front of robot)
@@ -187,9 +216,9 @@ void updateOptimizeFsm(void) {
 }
 
 
-/* Sets the color for the LED indicator on the board. 
+/* Sets the color for the LED indicator on the board.
  'g' = green = standby mode
- 'p' = purple = debug mode  
+ 'p' = purple = debug mode
  */
 void updateOptimizeLed(void) {
 	switch (OPTIMIZE_FSM_MODE) {
@@ -225,12 +254,21 @@ void updateOptimizeLed(void) {
 
 /* This function is called by the estimator each time that a step occurs */
 void logStepData(double duration, double length) {
+	float err;
+
 	if (OPTIMIZE_FSM_MODE == TRIAL) {
 		if (duration != 0) {  // No divide by zero errors!  (keep default=0 if so)
 			SPEED[STEP_COUNT] = length / duration;   // Log the speed data
+			err = SPEED[STEP_COUNT] - GAITDATA_TARGET_SPEED; //Also evaluate the cost of this step.
+			COST[STEP_COUNT] = err * err;
 		}
 	}
+
+	objFun_runningAvg(); // Update the cost function's running average.
+
 	STEP_COUNT++;
+
+	mb_io_set_float(ID_OPTIM_STEP_COUNT, STEP_COUNT);
 }
 
 
