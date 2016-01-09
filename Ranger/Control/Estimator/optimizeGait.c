@@ -91,7 +91,7 @@ float objFun_eval(void) {
 
 	mb_io_set_float(ID_OPTIM_OBJ_FUN_RUNNING_AVG, objVal ); // Report to LabView.
 
-	                return objVal;
+	return objVal;
 }
 
 
@@ -123,16 +123,24 @@ void objFun_set_optimizeGait(void) {
  *                    PRIVATE UTILITY FUNCTIONS                                *
  *******************************************************************************/
 
+/* Computes the cost for a single step */
+float stepCostFun(float speed) {
+	float err = speed - GAITDATA_TARGET_SPEED; //Also evaluate the cost of this step.
+	return err * err;
+}
+
 /* This function is called at the start of a new trial. This occurs whenever the
  * robot transitions from flight phase to single stance.  */
 void resetObjective(void) {
 	int stepCountIdx;  // counter
+	float speed = 0.0;  // Reset the speed for each step to this
 	STEP_COUNT = -N_STEP_TRANSIENT;
 
 	mb_io_set_float(ID_OPTIM_STEP_COUNT, STEP_COUNT);
 
 	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
-		SPEED[stepCountIdx] = 0.0;
+		SPEED[stepCountIdx] = speed;
+		COST[stepCountIdx] = stepCostFun(speed);
 	}
 }
 
@@ -150,14 +158,12 @@ void objFun_runningAvg(void) {
 		for (stepCountIdx = 0;  stepCountIdx < STEP_COUNT; stepCountIdx++) {
 			objAvg += COST[stepCountIdx];
 		}
-		objAvg = objAvg / ( (float)STEP_COUNT );
+		objAvg = objAvg / ( (float)(STEP_COUNT + 1) );
 		OBJ_FUN_RUNNING_AVG = objAvg;
 	}
 
 	mb_io_set_float(ID_OPTIM_OBJ_FUN_RUNNING_AVG, OBJ_FUN_RUNNING_AVG); // Report to LabView.
 }
-
-
 
 /*******************************************************************************
  *                         FINITE STATE MACHINE                                *
@@ -254,21 +260,21 @@ void updateOptimizeLed(void) {
 
 /* This function is called by the estimator each time that a step occurs */
 void logStepData(double duration, double length) {
-	float err;
-
+	float speed = 0;
+	if (duration != 0) {  // No divide by zero errors!  (keep default=0 if so)
+		speed = length / duration;  // Log the speed data
+	}
 	if (OPTIMIZE_FSM_MODE == TRIAL) {
-		if (duration != 0) {  // No divide by zero errors!  (keep default=0 if so)
-			SPEED[STEP_COUNT] = length / duration;   // Log the speed data
-			err = SPEED[STEP_COUNT] - GAITDATA_TARGET_SPEED; //Also evaluate the cost of this step.
-			COST[STEP_COUNT] = err * err;
-		}
+		SPEED[STEP_COUNT] = speed;
+		COST[STEP_COUNT] = stepCostFun(speed);
 	}
 
 	objFun_runningAvg(); // Update the cost function's running average.
 
-	STEP_COUNT++;
+	STEP_COUNT++;   // THIS COMES AFTER objFun_runningAvg()  <-- important !
 
 	mb_io_set_float(ID_OPTIM_STEP_COUNT, STEP_COUNT);
+	mb_io_set_float(ID_OPTIM_OBJ_FUN_SPEED, speed);
 }
 
 
