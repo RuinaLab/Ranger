@@ -56,10 +56,6 @@ void update_ui_fsm_state(void) {
 		UI_FSM_MODE = UnitTest; 	// Run unit test
 		return;
 	}
-	if (detect_UI_button_input(BUTTON_ACCEPT_TRIAL)) {
-		acceptTrial();  // Tells optimization to accept trial and update data.
-		return;
-	}
 
 }
 

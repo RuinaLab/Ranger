@@ -38,7 +38,18 @@ static const int N_POPULATION = 11;  // population to use in optimization
 
 static float SPEED[N_STEP_TRIAL];
 
-static bool FLAG_INIT = false;
+typedef enum {
+	INIT,        // Use has not yet activated optimization. Do nothing
+	PRE_TRIAL,   // Just started walking, still in transient. Dump data.
+	TRIAL,       // Main body of the walking trial. Log data.
+	POST_TRIAL,  // Trial has been successfully completed. Dump data, keep walking.
+	FLYING       // User picked up the robot.
+} OptimizeFsmMode;
+
+
+static OptimizeFsmMode OPTIMIZE_FSM_MODE = INIT;
+
+
 
 
 /*******************************************************************************
@@ -84,7 +95,6 @@ float objFun_eval(void) {
  * method. */
 void objFun_set_optimizeGait(void) {
 
-
 	int dim;
 	int nDim = 5;   ////HACK////   GAITDATA_NBOUND
 	int nPop = N_POPULATION;
@@ -119,53 +129,113 @@ void resetObjective(void) {
 }
 
 
+
+/*******************************************************************************
+ *                         FINITE STATE MACHINE                                *
+ *******************************************************************************/
+
+void updateOptimizeFsm(void) {
+	static bool DataSent = false;
+
+	switch (OPTIMIZE_FSM_MODE) {
+
+	case INIT:
+		if (detect_UI_button_input(BUTTON_ACCEPT_TRIAL)) {
+			objFun_set_optimizeGait();    // Set up optimization problem
+			resetObjective();	// Clears objective and sets up for new trial
+			DataSent = false;
+			pso_send_point();   // Tell PSO to send a new point (Updates controller)
+			OPTIMIZE_FSM_MODE = PRE_TRIAL;
+		}
+		break;
+
+	case PRE_TRIAL:
+		if (STEP_COUNT >= 0) { // Then start logging data for the trial!
+			OPTIMIZE_FSM_MODE = TRIAL;
+		} else if (STATE_contactMode == CONTACT_FL) {
+			OPTIMIZE_FSM_MODE = FLYING;
+		}
+		break;
+
+	case TRIAL:
+		if (STEP_COUNT >= N_STEP_TRIAL) {
+			OPTIMIZE_FSM_MODE = POST_TRIAL;
+		} else if (STATE_contactMode == CONTACT_FL) {
+			OPTIMIZE_FSM_MODE = FLYING;
+		}
+		break;
+
+	case POST_TRIAL:
+		if (STATE_contactMode == CONTACT_FL) {
+			OPTIMIZE_FSM_MODE = FLYING;
+		}
+		break;
+
+	case FLYING:
+		if (detect_UI_button_input(BUTTON_ACCEPT_TRIAL) && !DataSent) {
+			pso_eval_point();   // Evaluate objective function (send to PSO)
+			pso_send_point();   // Tell PSO to send a new point (Updates controller)	
+			DataSent = true;
+		}
+		if ( STATE_contactMode != CONTACT_FL ) { // Trial failed due to environment (person walked in front of robot)
+			resetObjective();	// Clears objective and sets up for new trial
+			DataSent = false;
+			OPTIMIZE_FSM_MODE = PRE_TRIAL;
+		}
+		break;
+	}
+}
+
+
+/* Sets the color for the LED indicator on the board. 
+ 'g' = green = standby mode
+ 'p' = purple = debug mode  
+ */
+void updateOptimizeLed(void) {
+	switch (OPTIMIZE_FSM_MODE) {
+
+	case INIT:
+		set_UI_LED(LED_UI_FSM, 'b');
+		break;
+
+	case PRE_TRIAL:
+		set_UI_LED(LED_UI_FSM, 'c');
+		break;
+
+	case TRIAL:
+		set_UI_LED(LED_UI_FSM, 'y');
+		break;
+
+	case POST_TRIAL:
+		set_UI_LED(LED_UI_FSM, 'b');
+		break;
+
+	case FLYING:
+		set_UI_LED(LED_UI_FSM, 'r');
+		break;
+	}
+}
+
+
+
+
 /*******************************************************************************
  *                    PUBLIC INTERFACE FUNCTIONS                               *
  *******************************************************************************/
 
-/* This function is triggered by a button press on the top level UI, designed to
- * be called by mb_controller.c. If an optimization is not running, then throw out
- * the current objective function, and call for a new particle (update controller).
- * Otherwise, accept the current objective function. Tell PSO to evaluate the
- * objective, and then call for a new particle. */
-void acceptTrial(void) {
-	if (FLAG_INIT) {
-		pso_eval_point();   // Evaluate objective function (send to PSO)
-	} else {
-		objFun_set_optimizeGait();    // Set up optimization problem
-		FLAG_INIT = true;
-	}
-	pso_send_point();   // Tell PSO to send a new point (Updates controller)
-}
-
 /* This function is called by the estimator each time that a step occurs */
 void logStepData(double duration, double length) {
-	if (STEP_COUNT >= 0) { // Then we've passed out of the transient period
-		if (STEP_COUNT < N_STEP_TRIAL) { // Then we have not yet completed the trial
-			walkLedColor = 'y';
-			if (duration != 0) {  // No divide by zero errors!  (keep default=0 if so)
-				SPEED[STEP_COUNT] = length / duration;   // Log the speed data
-			}
-		} else {
-			walkLedColor = 'b';
+	if (OPTIMIZE_FSM_MODE == TRIAL) {
+		if (duration != 0) {  // No divide by zero errors!  (keep default=0 if so)
+			SPEED[STEP_COUNT] = length / duration;   // Log the speed data
 		}
-	} else {
-		walkLedColor = 'r';
 	}
 	STEP_COUNT++;
-	if (!FLAG_INIT){
-		walkLedColor = 'b';  // Signal for normal walk mode if not yet running optimization.
-	}
 }
 
 
 /* Call once per tick during walking. Checks for the start of a new walking trial. */
 void optimizeGait_main(void) {
-	static ContactMode lastMode = CONTACT_FL;
-
-	if (STATE_contactMode != CONTACT_FL && lastMode == CONTACT_FL) {
-		resetObjective();
-	}
-
-	lastMode = STATE_contactMode;
+	updateOptimizeFsm();
+	updateOptimizeLed();
 }

@@ -14,10 +14,10 @@ extern char walkLedColor; // Indicates what sort of walking is happening.
 /* Name the UI buttons.
  * button 0 is the left-most button,
  * button 5 is the right-most button    */
-extern const int BUTTON_CALIBRATE_GYRO;
-extern const int BUTTON_UNIT_TEST;
-extern const int BUTTON_WALK_CONTROL;
-extern const int BUTTON_STAND_BY;
+extern const int BUTTON_ACCEPT_TRIAL;// = 0;  // Accepts a trial (updates the controller)
+extern const int BUTTON_UNIT_TEST;// = 3;
+extern const int BUTTON_WALK_CONTROL;// = 4;
+extern const int BUTTON_STAND_BY;// = 5;
 
 // Entry-point function for all controller stuff
 void mb_controller_update(void);
