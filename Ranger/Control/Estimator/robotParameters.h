@@ -21,5 +21,6 @@ extern const float PARAM_ctrl_ank_pushTarget;  // relative ankle angle when foot
 
 /* Other stuff */
 extern const float PARAM_critical_fall_leg_angle; // 45 deg = pi/4  <--> if either ansolute leg angle exceeds this angle, then go to stand-by immediately
+extern const float PARAM_critDoubleFailAngleSqr;  // If double stance, and BOTH legs at this angle, then fall
 
 #endif  // __ROBOT_PARAMETERS_H__

@@ -117,7 +117,7 @@ typedef enum errors{
 	ERROR_MC_NOT_RUNNING,	//	MC: MC is not running due to off sleep shutdown thermal or mechanical states
 	ERROR_AE_SPIKE,	//	AE: A spike was detected and limited. 
 	ERROR_EST_FILTER_TIME_VIOLATION,	//	EST: An invalid time-stamp was passed to the butterworth filter.
-	ERROR_EST_ROBOT_FALL,	//	EST: Estimator detected that the robot fell down. Aborting walk  --   force transition to stand-by
+	ERROR_EST_ROBOT_FALL,	//	EST: Estimator detected that the robot fell down. Aborting walk  --   force transition to safe mode
 	ERROR_EST_INCOMPLETE_TRIAL,	//	EST: You accepted a trial before the minimum required number of steps!!!
 	ERROR_EST_STUTTER_STEP,	//	EST: Robot failed to satisfy minimum step time. Stutter Step occurred.
 	ERROR_LAST_ID

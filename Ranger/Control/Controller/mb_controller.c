@@ -20,10 +20,10 @@ UiFsmMode UI_FSM_MODE_PREV = StandBy;  // What we ran last time
  * 5 --> Top Left
  * 6 --> Bottom Right  (DEAD) 
  */
-const int LED_OPTIMIZE = 1; 
+const int LED_OPTIMIZE = 5; 
 const int LED_WALK_FSM = 0;  
 const int LED_CONTACT = 4;  
-const int LED_UI_FSM = 5;  
+const int LED_UI_FSM = 1;  
 const int LED_GAIT_FSM = 2; 
 const int LED_DEBUG = 3; 
 bool FSM_LED_FLAG = false;  // Show lights for FSM?
@@ -48,7 +48,7 @@ void update_ui_fsm_state(void) {
 	UI_FSM_MODE_PREV = UI_FSM_MODE;
 
 	// Check UI buttons to update control mode
-	if (STATE_IS_FALLEN || detect_UI_button_input(BUTTON_STAND_BY)) {
+	if (detect_UI_button_input(BUTTON_STAND_BY)) {
 		UI_FSM_MODE = StandBy;    // go to stand-by
 		return;
 	}
@@ -116,5 +116,8 @@ void mb_controller_update(void) {
 			break;
 		}
 	}
+
+	// Run the optimization in the background
+	optimizeGait_main();
 
 } // mb_controller_update()

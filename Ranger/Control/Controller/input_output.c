@@ -5,14 +5,6 @@
 // 		--> LCD screen
 // 		--> buttons
 //
-//
-// BUZZER HEADER FILE STUFF:
-//  --> Ranger/Robot_Nervous_System/LPC2xxx_Modules/mod_buzzer/buzzer.h
-// void buzzer_on(void);
-// void buzzer_off(void);
-// void buzzer_set_frequency(int hz);
-// void buzzer_sine(int period);
-
 
 #include <mb_includes.h>
 #include <input_output.h>
@@ -235,29 +227,6 @@ void test_input_output(void) {
 
 
 } // test_led_lcd()
-
-
-// float BUZZER_BEEP_TIME_SECONDS = 0.3;
-// int BUZZER_BEEP_FREQ_HZ = 440;
-
-// /* Call this on every loop. Send true to start a pulse of duration
-//  * BUZZER_BEEP_TIME_SECONDS and frequency with BUZZER_BEEP_FREQ_HZ.
-//  * Send false otherwise. */
-// void buzzer_beep(bool turnOn) {
-// 	static bool buzzerIsOn = false;
-// 	static float turnOnTime;
-
-// 	if (turnOn && ! buzzerIsOn) {
-// 		turnOnTime = mb_io_get_float(ID_TIMESTAMP);
-// 		buzzerIsOn = true;
-// 		buzzer_set_frequency(BUZZER_BEEP_FREQ_HZ);
-// 		buzzer_on();
-// 	} else if (!turnOn && buzzerIsOn) {
-// 		if (mb_io_get_float(ID_TIMESTAMP) - turnOnTime > BUZZER_BEEP_TIME_SECONDS) {}
-// 		buzzerIsOn = false;
-// 		buzzer_off();
-// 	}
-// }
 
 
 

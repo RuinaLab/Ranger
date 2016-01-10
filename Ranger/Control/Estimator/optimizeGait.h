@@ -2,10 +2,12 @@
 #define __OPTIMIZEGAIT_H__
 
 typedef enum {
-	INIT,        // Use has not yet activated optimization. Do nothing
-	PRE_TRIAL,   // Just started walking, still in transient. Dump data.
-	TRIAL,       // Main body of the walking trial. Log data.
-	FLYING       // User picked up the robot.
+	INIT,        // Wakes up here.
+	PRE_1,       // Ready to start!
+	PRE_2, 		 // MORE ready to start
+	TRANS, 		 // Walking, but still in transient
+	TRIAL, 	     // WOO!  Logging data
+	POST 		 // Walking, but stop logging more data
 } OptimizeFsmMode;
 
 extern OptimizeFsmMode OPTIMIZE_FSM_MODE;  // mode for the finite state machine in the optimization

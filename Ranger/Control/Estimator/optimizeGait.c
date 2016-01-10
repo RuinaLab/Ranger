@@ -40,8 +40,10 @@ static const int N_POPULATION = 11;  // population to use in optimization
 // static float SPEED[N_STEP_TRIAL];
 static float COST[N_STEP_TRIAL];
 
-float OBJ_FUN_RUNNING_AVG = 0;
+float OBJ_FUN_RUNNING_AVG = 0.0;
 
+static const float MIN_STEP_LENGTH = 0.1;
+static float lastStepLength = 0.0;
 
 OptimizeFsmMode OPTIMIZE_FSM_MODE = INIT;
 
@@ -161,82 +163,104 @@ void objFun_runningAvg(void) {
  *******************************************************************************/
 
 void updateOptimizeFsm(void) {
-	static bool ButtonPressed  = false;
+
+	bool accept = detect_UI_button_input(BUTTON_ACCEPT_TRIAL);
+	bool reject = detect_UI_button_input(BUTTON_REJECT_TRIAL);
 
 	switch (OPTIMIZE_FSM_MODE) {
 
 	case INIT:
-		if (detect_UI_button_input(BUTTON_ACCEPT_TRIAL) && !ButtonPressed) {
+		if (accept) {
 			objFun_set_optimizeGait();    // Set up optimization problem
 			pso_send_point();   // Tell PSO to send a new point (Updates controller)
-			ButtonPressed = true;
-		}
-		if (ButtonPressed && STATE_contactMode == !CONTACT_FL) { // Trial failed due to environment (person walked in front of robot)
-			resetObjective();	// Clears objective and sets up for new trial
-			ButtonPressed  = false;
-			OPTIMIZE_FSM_MODE = PRE_TRIAL;
+			OPTIMIZE_FSM_MODE = PRE_1;
 		}
 		break;
 
-	case PRE_TRIAL:
-		if (STEP_COUNT >= 0) { // Then start logging data for the trial!
-			OPTIMIZE_FSM_MODE = TRIAL;
-		} else if (STATE_contactMode == CONTACT_FL) {
-			OPTIMIZE_FSM_MODE = FLYING;
+
+	case PRE_1:
+		if (STATE_contactMode == CONTACT_FL) {
+			OPTIMIZE_FSM_MODE = PRE_2;
 		}
 		break;
+
+
+	case PRE_2:
+		if (STATE_contactMode != CONTACT_FL) {
+			resetObjective();	// Clears objective and sets up for new trial
+			OPTIMIZE_FSM_MODE = TRANS;
+		}
+		break;
+
+
+	case TRANS:
+		if (STEP_COUNT >= 0) {
+			OPTIMIZE_FSM_MODE = TRIAL;
+		}
+		if (accept) {
+			pso_eval_point();   // Evaluate objective function (send to PSO)
+			pso_send_point();   // Tell PSO to send a new point (Updates controller)
+			OPTIMIZE_FSM_MODE = PRE_1;
+		} else if (reject) {
+			OPTIMIZE_FSM_MODE = PRE_1;
+		}
+		break;
+
 
 	case TRIAL:
 		if (STEP_COUNT >= N_STEP_TRIAL) {
+			OPTIMIZE_FSM_MODE = POST;
+		}
+		if (accept) {
 			pso_eval_point();   // Evaluate objective function (send to PSO)
 			pso_send_point();   // Tell PSO to send a new point (Updates controller)
-			resetObjective();	// Clears objective and sets up for new trial
-			OPTIMIZE_FSM_MODE = PRE_TRIAL;
-		} else if (STATE_contactMode == CONTACT_FL) {
-			OPTIMIZE_FSM_MODE = FLYING;
+			OPTIMIZE_FSM_MODE = PRE_1;
+		} else if (reject) {
+			OPTIMIZE_FSM_MODE = PRE_1;
 		}
 		break;
 
-	case FLYING:
-		if (detect_UI_button_input(BUTTON_ACCEPT_TRIAL) && !ButtonPressed) {
+
+	case POST:
+		if (lastStepLength > MIN_STEP_LENGTH  && STATE_contactMode != CONTACT_FL) {
 			pso_eval_point();   // Evaluate objective function (send to PSO)
 			pso_send_point();   // Tell PSO to send a new point (Updates controller)
-			ButtonPressed = true;
-		}
-		if (detect_UI_button_input(BUTTON_REJECT_TRIAL)) {
-			ButtonPressed = true;
-		}
-		if (ButtonPressed && STATE_contactMode == !CONTACT_FL) { // Trial failed due to environment (person walked in front of robot)
-			resetObjective();	// Clears objective and sets up for new trial
-			ButtonPressed  = false;
-			OPTIMIZE_FSM_MODE = PRE_TRIAL;
+			OPTIMIZE_FSM_MODE = PRE_2;
+		} else {
+			if (accept) {
+				pso_eval_point();   // Evaluate objective function (send to PSO)
+				pso_send_point();   // Tell PSO to send a new point (Updates controller)
+				OPTIMIZE_FSM_MODE = PRE_1;
+			} else if (reject) {
+				OPTIMIZE_FSM_MODE = PRE_1;
+			}
 		}
 		break;
 	}
 }
 
 
-/* Sets the color for the LED indicator on the board.
- 'g' = green = standby mode
- 'p' = purple = debug mode
- */
+/* Sets the color for the LED indicator on the board. */
 void updateOptimizeLed(void) {
 	switch (OPTIMIZE_FSM_MODE) {
-
-	case INIT:
-		set_UI_LED(LED_OPTIMIZE, 'b');
+	case PRE_1:
+		set_UI_LED(LED_OPTIMIZE, 'o');
 		break;
 
-	case PRE_TRIAL:
-		set_UI_LED(LED_OPTIMIZE, 'c');
+	case PRE_2:
+		set_UI_LED(LED_OPTIMIZE, 'g');
+		break;
+
+	case TRANS:
+		set_UI_LED(LED_OPTIMIZE, 'r');
 		break;
 
 	case TRIAL:
 		set_UI_LED(LED_OPTIMIZE, 'y');
 		break;
 
-	case FLYING:
-		set_UI_LED(LED_OPTIMIZE, 'r');
+	case POST:
+		set_UI_LED(LED_OPTIMIZE, 'b');
 		break;
 	}
 
@@ -263,6 +287,7 @@ void logStepData(double duration, double length) {
 	objFun_runningAvg(); // Update the cost function's running average.
 
 	STEP_COUNT++;   // THIS COMES AFTER objFun_runningAvg()  <-- important !
+	lastStepLength = length;
 
 	mb_io_set_float(ID_OPTIM_STEP_COUNT, STEP_COUNT);
 	mb_io_set_float(ID_OPTIM_OBJ_FUN_SPEED, speed);

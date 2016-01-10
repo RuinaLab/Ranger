@@ -19,3 +19,4 @@ const float PARAM_ctrl_ank_pushTarget = -1.0;  // absolute foot angle when foot 
 
 /* Other stuff */
 const float PARAM_critical_fall_leg_angle = 0.785398163397448; // 45 deg = pi/4  <--> if either ansolute leg angle exceeds this angle, then go to stand-by immediately
+const float PARAM_critDoubleFailAngleSqr = 0.0076;  // (5*pi/180)^2 If double stance, and BOTH legs at this angle, then fall

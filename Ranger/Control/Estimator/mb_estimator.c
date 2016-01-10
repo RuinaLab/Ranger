@@ -87,7 +87,7 @@ bool LABVIEW_GAIT_USE_MDP_DATA;  // True if walking controller should use MDP ge
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 bool STATE_IS_FALLEN = false;   // Is the robot in a fallen state?
-float STATE_t;  // Robot Time
+float STATE_t;  // Robot Time IN SECONDS   (NOTE: converted from mb_io_get_float(TIMESTAMP), which is in ms)
 float STATE_qh;  // hip angle
 float STATE_q0;  // outer ankle angle
 float STATE_q1;  // inner ankle angle
@@ -477,9 +477,17 @@ void checkIfRobotFellDown(void) {
 		STATE_IS_FALLEN = true;
 	}
 
-	// Throw an error to labview if the robot falls
+	// If both feet on the ground and both leg angles have the same sign... no good.
+	if (STATE_c1 && STATE_c0){
+		if (STATE_th0*STATE_th1 > PARAM_critDoubleFailAngleSqr){
+			STATE_IS_FALLEN = true;
+		}
+	}
+
+	// DO STUFF!
 	if (STATE_IS_FALLEN) {
-		mb_error_occurred(ERROR_EST_ROBOT_FALL);
+		mb_error_occurred(ERROR_EST_ROBOT_FALL);   	// Throw an error to labview if the robot falls
+		enterSafeMode();   // Make the motors do something reasonable.
 	}
 
 	return;
@@ -529,7 +537,7 @@ void mb_estimator_update(void) {
 		INITIALIZE_ESTIMATOR = false;
 	}
 
-	STATE_t = mb_io_get_float(ID_TIMESTAMP);  // Robot Time
+	STATE_t = 0.001*mb_io_get_float(ID_TIMESTAMP);  // Robot Time (converted to seconds)
 	runAllFilters();// Run the butterworth filters:
 	updateRobotOrientation();
 	sendTotalPower();  // Used when data-logging the cost of transport
