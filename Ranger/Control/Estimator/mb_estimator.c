@@ -36,9 +36,6 @@ static const float FILTER_CUTOFF_VERY_SLOW = 2 * CLOCK_CYCLE_DURATION * 2.0; // 
 /* First-Order filter, once per step */
 static const float ORIENTATION_GYRO_UPDATE_GAIN = 0.1;  //  0 -> no update, 1 -> full reset at heel-strike
 
-/* Check for stutter steps */
-static const float MIN_STEP_DURATION = 0.1;  // Trial fails if steps are shorter than this
-
 /* Local constant parameters */
 static const float GYRO_RATE_BIAS = -0.009324229372422;  // Measured August 29, 2015. Should be checked monthly.
 static const float GYRO_ROLL_BIAS = -0.01; // Seems to work better with -0.01, although -0.02 was measured September 1, 2015.
@@ -90,6 +87,7 @@ bool LABVIEW_GAIT_USE_MDP_DATA;  // True if walking controller should use MDP ge
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 bool STATE_IS_FALLEN = false;   // Is the robot in a fallen state?
+float STATE_t;  // Robot Time
 float STATE_qh;  // hip angle
 float STATE_q0;  // outer ankle angle
 float STATE_q1;  // inner ankle angle
@@ -442,7 +440,7 @@ void triggerHeelStrikeUpdate(void){
 	stepLength = computeHeelStrikeGeometry();
 
 	/// STEP DURATION:
-	newStepTime = mb_io_get_float(ID_TIMESTAMP);  // In milliseconds
+	newStepTime = STATE_t;  // In milliseconds
 	stepDuration = 0.001 * (newStepTime - STATE_lastStepTimeMs); // Duration of the last step (seconds)
 	STATE_lastStepDuration = stepDuration;
 	STATE_lastStepTimeMs = newStepTime;
@@ -451,12 +449,6 @@ void triggerHeelStrikeUpdate(void){
 	/// Update the objective function:
 	logStepData(stepDuration, stepLength);
 
-	/// Check for stutter step
-	if (stepDuration < MIN_STEP_DURATION){
-		stutterStepDetected();
-		optimize_stutterStepDetected();
-		mb_error_occurred(ERROR_EST_STUTTER_STEP);
-	}
 }
 
 
@@ -529,7 +521,7 @@ void mb_estimator_update(void) {
 
 		// Set "once per step" variables:
 		STATE_lastStepLength = 0.0;    // Initialize to zero, for lack of a better plan
-		STATE_lastStepTimeMs = mb_io_get_float(ID_TIMESTAMP);  //  cpu clock time at last heel strike.
+		STATE_lastStepTimeMs = STATE_t;  //  cpu clock time at last heel strike.
 		STATE_lastStepDuration = 0.0;  // Duration of the last step (seconds)
 
 
@@ -537,8 +529,8 @@ void mb_estimator_update(void) {
 		INITIALIZE_ESTIMATOR = false;
 	}
 
-	// Run the butterworth filters:
-	runAllFilters();
+	STATE_t = mb_io_get_float(ID_TIMESTAMP);  // Robot Time
+	runAllFilters();// Run the butterworth filters:
 	updateRobotOrientation();
 	sendTotalPower();  // Used when data-logging the cost of transport
 

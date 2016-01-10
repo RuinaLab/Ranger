@@ -97,40 +97,44 @@ void clear_UI_LCD(int quad_num) {
 
 /*  Wrapper function for UI panel LED control. Note that
  *  LED 6 appears to be broken.
+ *  LED 1-5 work well
+ *  LED 0 is a flag for "do nothing"
  */
 void set_UI_LED(int led_number, char color) {
 	//Set specified LED to assigned color
 	int val_color;
-	switch (color) {
-	case '-':  //off
-		val_color = 0x000000;  //turn off the led
-		break;
-	case 'r':  //RED
-		val_color = 0x000080;  //set color to red
-		break;
-	case 'g': //GREEN
-		val_color = 0x008000;  //set color to green
-		break;
-	case 'b':  //BLUE
-		val_color = 0x800000;  //set color to blue
-		break;
-	case 'p':  //PURPLE
-		val_color = 0xe22b8a;  //set color to purple
-		break;
-	case 'y':  //YELLOW
-		val_color = 0x008080;  //set color to yellow
-		break;
-	case 'o':  //ORANGE //Looks like cyan (light blue)
-		val_color = 0x008160;  //set color to orange
-		break;
-	case 'm':  //MAGENTA //Looks like cyan (light blue)
-		val_color = 0x800080;  //set color to magenta
-		break;
-	case 'c':  //CYAN //Light blue
-		val_color = 0x808000;  //set color to cyan
-		break;
+	if (led_number > 0 && led_number < 7) {
+		switch (color) {
+		case '-':  //off
+			val_color = 0x000000;  //turn off the led
+			break;
+		case 'r':  //RED
+			val_color = 0x000080;  //set color to red
+			break;
+		case 'g': //GREEN
+			val_color = 0x008000;  //set color to green
+			break;
+		case 'b':  //BLUE
+			val_color = 0x800000;  //set color to blue
+			break;
+		case 'p':  //PURPLE
+			val_color = 0xe22b8a;  //set color to purple
+			break;
+		case 'y':  //YELLOW
+			val_color = 0x008080;  //set color to yellow
+			break;
+		case 'o':  //ORANGE //Looks like cyan (light blue)
+			val_color = 0x008160;  //set color to orange
+			break;
+		case 'm':  //MAGENTA //Looks like cyan (light blue)
+			val_color = 0x800080;  //set color to magenta
+			break;
+		case 'c':  //CYAN //Light blue
+			val_color = 0x808000;  //set color to cyan
+			break;
+		}
+		set_io_ul((ID_UI_SET_LED_1 + led_number - 1), val_color);
 	}
-	set_io_ul((ID_UI_SET_LED_1 + led_number - 1), val_color);
 }
 
 

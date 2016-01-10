@@ -15,6 +15,8 @@ typedef enum {
 
 static GaitFsmMode GAIT_FSM_MODE = PreMid_Out;
 
+static const float MIN_STEP_TRANSITION_DURATION = 0.1;  // Sort of a hack, but prevents Zeno behavior
+
 /* Parameters that are updated once per step and read by the estimator,
  * which then passes them to the walking controller. They are initialized
  * in gaitControl_entry() */
@@ -43,13 +45,15 @@ void updateGaitData() {
  * sensors that are used to trigger transitions between
  * modes of the finite state machine */
 void updateGaitFsm(void) {
+	static float switchTime = 0.0;   
 
 	if (STATE_contactMode == CONTACT_FL) { // Then robot is in the air
 		GAIT_FSM_MODE = PreMid_Out;  // Reset the finite state machine to initial state
+		switchTime = STATE_t;  
 	} else {  // Run the normal mid-stance finite state machine
 		switch (GAIT_FSM_MODE) {
 		case PreMid_Out:
-			if (STATE_th0 < 0.0) {
+			if (STATE_th0 < 0.0 && (STATE_t-switchTime) > MIN_STEP_TRANSITION_DURATION ) { 
 				GAIT_FSM_MODE = PostMid_Out;
 				updateGaitData();      // Update the controller at mid-stance on the outer legs
 			} break;
@@ -57,9 +61,10 @@ void updateGaitFsm(void) {
 			if (STATE_c1) { // Inner feet hit ground
 				triggerHeelStrikeUpdate();  // Tell estimtor that we've reached heel-strike
 				GAIT_FSM_MODE = PreMid_Inn;
+				switchTime = STATE_t;  
 			} break;
 		case PreMid_Inn:
-			if (STATE_th1 < 0.0) {
+			if (STATE_th1 < 0.0   && (STATE_t-switchTime) > MIN_STEP_TRANSITION_DURATION ) {
 				GAIT_FSM_MODE = PostMid_Inn;
 				updateGaitData();      // Update the controller at mid-stance on the outer legs
 			} break;
@@ -67,6 +72,7 @@ void updateGaitFsm(void) {
 			if (STATE_c0) { // Outer feet hit ground
 				triggerHeelStrikeUpdate();  // Tell estimtor that we've reached heel-strike
 				GAIT_FSM_MODE = PreMid_Out;
+				switchTime = STATE_t;
 			} break;
 		}
 	}

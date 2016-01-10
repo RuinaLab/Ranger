@@ -162,7 +162,6 @@ void objFun_runningAvg(void) {
 
 void updateOptimizeFsm(void) {
 	static bool ButtonPressed  = false;
-	// buzzer_beep(false);
 
 	switch (OPTIMIZE_FSM_MODE) {
 
@@ -193,7 +192,6 @@ void updateOptimizeFsm(void) {
 			pso_send_point();   // Tell PSO to send a new point (Updates controller)
 			resetObjective();	// Clears objective and sets up for new trial
 			OPTIMIZE_FSM_MODE = PRE_TRIAL;
-			// buzzer_beep(true);  // start the buzzer
 		} else if (STATE_contactMode == CONTACT_FL) {
 			OPTIMIZE_FSM_MODE = FLYING;
 		}
@@ -226,21 +224,22 @@ void updateOptimizeLed(void) {
 	switch (OPTIMIZE_FSM_MODE) {
 
 	case INIT:
-		set_UI_LED(LED_UI_FSM, 'b');
+		set_UI_LED(LED_OPTIMIZE, 'b');
 		break;
 
 	case PRE_TRIAL:
-		set_UI_LED(LED_UI_FSM, 'c');
+		set_UI_LED(LED_OPTIMIZE, 'c');
 		break;
 
 	case TRIAL:
-		set_UI_LED(LED_UI_FSM, 'y');
+		set_UI_LED(LED_OPTIMIZE, 'y');
 		break;
 
 	case FLYING:
-		set_UI_LED(LED_UI_FSM, 'r');
+		set_UI_LED(LED_OPTIMIZE, 'r');
 		break;
 	}
+
 }
 
 
@@ -249,14 +248,6 @@ void updateOptimizeLed(void) {
 /*******************************************************************************
  *                    PUBLIC INTERFACE FUNCTIONS                               *
  *******************************************************************************/
-
-/* This is called by the estimator, whenever it detects a stutter step. We will
- * consider such trials a failure, implemented by immediately switching to the
- * FLYING mode in the FSM */
-void optimize_stutterStepDetected(void) {
-	OPTIMIZE_FSM_MODE = FLYING;
-}
-
 
 /* This function is called by the estimator each time that a step occurs */
 void logStepData(double duration, double length) {

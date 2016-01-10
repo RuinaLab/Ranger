@@ -28,6 +28,7 @@ extern bool LABVIEW_GAIT_USE_MDP_DATA;  // True if walking controller should use
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 extern bool STATE_IS_FALLEN;  // Is the robot in a fallen state?
+extern float STATE_t;  // Robot Time
 extern float STATE_qh;  // hip angle
 extern float STATE_q0;  // outer ankle angle
 extern float STATE_q1;  // inner ankle angle

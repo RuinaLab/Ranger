@@ -6,16 +6,26 @@
 #include <walkControl.h>
 #include <gaitControl.h>
 #include <optimizeGait.h>
+#include "safeMode.h"
 
 UiFsmMode UI_FSM_MODE = StandBy;  // What to run now
 UiFsmMode UI_FSM_MODE_PREV = StandBy;  // What we ran last time
 
-/* Name the LEDs */
-const int LED_WALK_FSM = 1;  // Top right
-const int LED_CONTACT = 4;  // middle left
-const int LED_UI_FSM = 5;   // Top left
-const int LED_GAIT_FSM = 2; // middle right
-const int LED_DEBUG = 3;  // bottom right. Used for debugging code. Should be inactive during normal operation.
+/* Name the LEDs.   
+ * 0 --> "do nothing" 
+ * 1 --> Top Right
+ * 2 --> Middle Right
+ * 3 --> Bottom Right
+ * 4 --> Middle Left
+ * 5 --> Top Left
+ * 6 --> Bottom Right  (DEAD) 
+ */
+const int LED_OPTIMIZE = 1; 
+const int LED_WALK_FSM = 0;  
+const int LED_CONTACT = 4;  
+const int LED_UI_FSM = 5;  
+const int LED_GAIT_FSM = 2; 
+const int LED_DEBUG = 3; 
 bool FSM_LED_FLAG = false;  // Show lights for FSM?
 
 char walkLedColor = 'b';
@@ -54,9 +64,10 @@ void update_ui_fsm_state(void) {
 }
 
 
-/* Abort walking if we detect a stutter step */
-void stutterStepDetected(void){
-	UI_FSM_MODE = StandBy; 
+/* Transition to robot to Safe Mode */
+void enterSafeMode(void){
+	UI_FSM_MODE = SafeMode;
+	setSafeModeConfig();  // Set the target angles for safe mode
 }
 
 
@@ -77,12 +88,18 @@ void mb_controller_update(void) {
 		runUnitTest();
 		break;
 	case WalkCtrl:
+		set_UI_LED(LED_UI_FSM, 'b');
 		if (UI_FSM_MODE_PREV != WalkCtrl) {
 			gaitControl_entry();
 			walkControl_entry();  // Run the initialization function for the walking FSM
 		}
 		gaitControl_main();  // High level - set gains, ect.
 		walkControl_main();  // Run the main walk function
+		break;
+	case SafeMode:
+		set_UI_LED(LED_UI_FSM, 'r');
+		safeMode_main();
+		break;
 	}
 
 	if (FSM_LED_FLAG) {

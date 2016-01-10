@@ -541,9 +541,16 @@ void test_stepEventData(void) {
 }
 
 
-/* --27-- Make the buzzer beep on the UI board */
+/* --27-- Make the buzzer play a song on the UI board */
 void test_uiPlaySong(void) {
 	mb_io_set_float(ID_UI_SET_BUZZER_AMPL, 1); // Plays a song...
+}
+
+
+/* --28-- Force the robot to enter safe mode. This will exit debug mode,
+ * but that is ok in this case. */
+void test_safeMode(void) {
+	enterSafeMode();
 }
 
 
@@ -576,6 +583,7 @@ void runUnitTest(void) {
 	case 13: test_pushOff_outer(); break;
 	case 14: test_pushOff_inner(); break;
 	case 15: test_hipHold(); break;
+	case 28: test_safeMode(); break;
 
 	/**** Walking Controller ****/
 	case 16: walkControl_test(); break; // Calls a function in walkControl.c
