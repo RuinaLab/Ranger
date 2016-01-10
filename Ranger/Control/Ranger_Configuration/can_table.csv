@@ -228,7 +228,9 @@ OPTIM_OBJ_FUN_RUNNING_AVG,0,1,0,Running average of the cost function for all the
 OPTIM_STEP_COUNT,0,1,0,Steps in the current optimization walk. Transient steps are negative.
 OPTIM_ACTIVE_PARTICLE,0,1,0,PSO population particle active
 OPTIM_CURRENT_GENERATION,0,1,0,
-OPTIM_OBJ_FUN_SPEED,0,1,0,average speed over the last step as determined by the objective function
+OPTIM_OBJ_FUN_SPEED,0,1,0,average speed over the the last step
+OPTIM_OBJ_FUN_LENGTH ,0,1,0,last step length
+OPTIM_OBJ_FUN_LAST_VAL,0,1,0,last value of the objective function
 OPTIM_FSM_MODE,0,1,0,0 = INIT    1 = PRE_TRIAL    2 = TRIAL    3 = FLYING   
 #,,,,
 #ControllerParameters,,,,

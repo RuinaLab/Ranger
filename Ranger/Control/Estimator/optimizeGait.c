@@ -31,16 +31,17 @@
  */
 
 static int STEP_COUNT = 0;
-static const int N_STEP_TRANSIENT = 2;  // Ignore the first few steps to reject transients
-static const int N_STEP_TRIAL = 10; // Include this many steps in objective function
+static const int N_STEP_TRANSIENT = 5;  // Ignore the first few steps to reject transients
+static const int N_STEP_TRIAL = 15; // Include this many steps in objective function
 
-static const int N_POPULATION = 11;  // population to use in optimization
+static const int N_POPULATION = 15;  // population to use in optimization
 
 
 // static float SPEED[N_STEP_TRIAL];
 static float COST[N_STEP_TRIAL];
 
 float OBJ_FUN_RUNNING_AVG = 0.0;
+
 
 static const float MIN_STEP_LENGTH = 0.1;
 static float lastStepLength = 0.0;
@@ -82,7 +83,7 @@ float objFun_eval(void) {
 	}
 	objVal = objVal / ( (float) N_STEP_TRIAL );
 
-	mb_io_set_float(ID_OPTIM_OBJ_FUN_RUNNING_AVG, objVal ); // Report to LabView.
+	mb_io_set_float(ID_OPTIM_OBJ_FUN_LAST_VAL, objVal ); // Report to LabView.
 
 	return objVal;
 }
@@ -291,6 +292,7 @@ void logStepData(double duration, double length) {
 
 	mb_io_set_float(ID_OPTIM_STEP_COUNT, STEP_COUNT);
 	mb_io_set_float(ID_OPTIM_OBJ_FUN_SPEED, speed);
+	mb_io_set_float(ID_OPTIM_OBJ_FUN_LENGTH, length);
 }
 
 
