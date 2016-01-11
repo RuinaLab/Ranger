@@ -553,6 +553,19 @@ void test_safeMode(void) {
 	enterSafeMode();
 }
 
+/* --29--  Tests pulse wave by using it to increment a counter which
+ * is then published to labview. */
+void test_pulseWave(void) {
+	static int counter = 0;
+	float period = 1.2;
+	bool pulse = PulseWave(getTime(), period);
+	if (pulse){
+		counter++;
+		mb_io_set_float(ID_CTRL_TEST_W0, counter);
+	}
+}
+
+
 
 /* Entry-point function for all unit tests */
 void runUnitTest(void) {
@@ -565,6 +578,7 @@ void runUnitTest(void) {
 	case 1: test_waveFunctions(); break;
 	case 21: test_linInterpVar(); break;
 	case 22: test_fastRand(); break;
+	case 29: test_pulseWave(); break;
 
 	/**** Low-Level Motor Control ****/
 	case 2: test_trackAbs_ankle(); break;

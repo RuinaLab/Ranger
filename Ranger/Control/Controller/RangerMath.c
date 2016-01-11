@@ -355,3 +355,13 @@ float SawToothWave(float time, float period, float min, float max) {
   time = Fmod(time, period);
   return slope * time + min;
 }
+
+/* Pulse Wave. Sends one pulse (true) for a given period, false otherwise */
+bool PulseWave(float time, float period){
+  static bool oldFlag = false;
+  bool newFlag, pulse;
+  newFlag = 0.0 < SquareWave(time, 2.0*period, -1.0, 1.0);
+  pulse = newFlag != oldFlag;
+  oldFlag = newFlag;
+  return pulse;
+}

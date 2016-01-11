@@ -29,5 +29,6 @@ float SquareWave(float time, float period, float min, float max);
 float SineWave(float time, float period, float min, float max);
 float TriangleWave(float time, float period, float min, float max);
 float SawToothWave(float time, float period, float min, float max);
+bool PulseWave(float time, float period);
 
 #endif // __RANGERMATH_H__
