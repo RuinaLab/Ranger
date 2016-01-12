@@ -138,26 +138,6 @@ void resetObjective(void) {
 	}
 }
 
-/* Running average of the cost of the steps so far. If it's past the recorded steps,
- * just return the final average of the trial. */
-void objFun_runningAvg(void) {
-	int stepCountIdx;  // counter
-	static float objAvg = 0;
-	if ( STEP_COUNT < 0) { // If we're in the "transient" steps, return 0.
-		OBJ_FUN_RUNNING_AVG = 0;
-	} else if ( STEP_COUNT >= N_STEP_TRIAL) { // If we're past the trial steps, return the final average of the trial.
-		OBJ_FUN_RUNNING_AVG = objAvg;
-	} else { // Return the running average so far.
-		objAvg = 0;
-		for (stepCountIdx = 0;  stepCountIdx < STEP_COUNT; stepCountIdx++) {
-			objAvg += COST[stepCountIdx];
-		}
-		objAvg = objAvg / ( (float)(STEP_COUNT + 1) );
-		OBJ_FUN_RUNNING_AVG = objAvg;
-	}
-
-	mb_io_set_float(ID_OPTIM_OBJ_FUN_RUNNING_AVG, OBJ_FUN_RUNNING_AVG); // Report to LabView.
-}
 
 /*******************************************************************************
  *                         FINITE STATE MACHINE                                *
@@ -284,8 +264,6 @@ void logStepData(double duration, double length) {
 		// SPEED[STEP_COUNT] = speed;
 		COST[STEP_COUNT] = stepCostFun(speed);
 	}
-
-	objFun_runningAvg(); // Update the cost function's running average.
 
 	STEP_COUNT++;   // THIS COMES AFTER objFun_runningAvg()  <-- important !
 	lastStepLength = length;

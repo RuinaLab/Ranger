@@ -111,7 +111,7 @@ float STATE_lastStepDuration;  // Duration of the last step (seconds)
 /* Variables for sensor fusion on the outer leg angle */
 static float STATE_th0_gyro;  // outer leg angle, based on integral of the gyro
 static float STATE_th0_imu;  // outer leg angle, based on the IMU internal sensor fusion
-static float STATE_lastStepTimeMs;  //  cpu clock time at last heel strike.
+static float STATE_lastStepTimeSec;  //  cpu clock time at last heel strike.
 
 /* Contact configuration */
 bool STATE_c0;
@@ -440,10 +440,10 @@ void triggerHeelStrikeUpdate(void){
 	stepLength = computeHeelStrikeGeometry();
 
 	/// STEP DURATION:
-	newStepTime = STATE_t;  // In milliseconds
-	stepDuration = 0.001 * (newStepTime - STATE_lastStepTimeMs); // Duration of the last step (seconds)
+	newStepTime = STATE_t;  // In seconds
+	stepDuration = newStepTime - STATE_lastStepTimeSec; // Duration of the last step (seconds)
 	STATE_lastStepDuration = stepDuration;
-	STATE_lastStepTimeMs = newStepTime;
+	STATE_lastStepTimeSec = newStepTime;
 	mb_io_set_float(ID_EST_LAST_STEP_DURATION, stepDuration);	
 
 	/// Update the objective function:
@@ -529,7 +529,7 @@ void mb_estimator_update(void) {
 
 		// Set "once per step" variables:
 		STATE_lastStepLength = 0.0;    // Initialize to zero, for lack of a better plan
-		STATE_lastStepTimeMs = STATE_t;  //  cpu clock time at last heel strike.
+		STATE_lastStepTimeSec = STATE_t;  //  cpu clock time at last heel strike.
 		STATE_lastStepDuration = 0.0;  // Duration of the last step (seconds)
 
 
