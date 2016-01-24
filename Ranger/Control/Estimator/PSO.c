@@ -169,8 +169,10 @@ void pso_send_point(void) {
 		}
 	}
 
+	mb_io_set_float(ID_OPTIM_CURRENT_GENERATION, currentGeneration);
+	mb_io_set_float(ID_OPTIM_ACTIVE_PARTICLE, idxPopSelect);
+	
 	OBJ_FUN_SEND(x[idx], DIM_STATE);   // Send query to objective function
-
 }
 
 
@@ -209,9 +211,5 @@ void pso_eval_point(void) {
 		initComplete = true; // We've ran through the population at least once
 
 		currentGeneration++;
-		mb_io_set_float(ID_OPTIM_CURRENT_GENERATION, currentGeneration);
 	}
-
-	mb_io_set_float(ID_OPTIM_ACTIVE_PARTICLE, idxPopSelect);
-
 }
