@@ -24,6 +24,7 @@ float Abs(float x);
 float Fmod(float x, float den);
 float Clamp(float x, float min, float max);
 float FastRand(void);
+float Mean(float* X, int n);
 
 float SquareWave(float time, float period, float min, float max);
 float SineWave(float time, float period, float min, float max);

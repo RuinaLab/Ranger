@@ -317,6 +317,20 @@ float Clamp(float x, float min, float max) {
   return x;
 }
 
+/* Computes the mean (average) value of a vector */
+float Mean(float* X, int n) {
+  float xMean = 0.0;
+  int i;
+  for ( i = 0; i < n; i++) {
+    xMean += X[i];
+  }
+  xMean = xMean / ( (float)(n) );
+  return xMean;
+
+
+
+}
+
 
 /* Square Wave, with equal time spend at min and max. */
 float SquareWave(float time, float period, float min, float max) {
@@ -357,10 +371,10 @@ float SawToothWave(float time, float period, float min, float max) {
 }
 
 /* Pulse Wave. Sends one pulse (true) for a given period, false otherwise */
-bool PulseWave(float time, float period){
+bool PulseWave(float time, float period) {
   static bool oldFlag = false;
   bool newFlag, pulse;
-  newFlag = 0.0 < SquareWave(time, 2.0*period, -1.0, 1.0);
+  newFlag = 0.0 < SquareWave(time, 2.0 * period, -1.0, 1.0);
   pulse = newFlag != oldFlag;
   oldFlag = newFlag;
   return pulse;

@@ -6,6 +6,7 @@
 #include <walkControl.h>
 #include <gaitControl.h>
 #include <gaitControlData.h>
+#include "RangerMath.h"
 #include "PSO.h"
 
 /* MECHANICS OF OPTIMIZATION TRIALS
@@ -31,13 +32,15 @@
  */
 
 static int STEP_COUNT = 0;
-static const int N_STEP_TRANSIENT = 5;  // Ignore the first few steps to reject transients
-static const int N_STEP_TRIAL = 15; // Include this many steps in objective function
+static const int N_STEP_TRANSIENT = 3;  // Ignore the first few steps to reject transients
+static const int N_STEP_TRIAL = 8; // Include this many steps in objective function
 
 static const int N_POPULATION = 15;  // population to use in optimization
 
+static const float OMEGA = 0.3;   // PSO inertial weighting term
+static const float ALPHA = 0.9;   // PSO local search weight
+static const float BETA = 0.9;    // PSO global search weight
 
-// static float SPEED[N_STEP_TRIAL];
 static float COST[N_STEP_TRIAL];
 
 float OBJ_FUN_RUNNING_AVG = 0.0;
@@ -76,15 +79,9 @@ void objFun_send(float* x, int nDim) {
 /* Returns the value of the objective function at the last called
  * query point. Accumulates the cost function*/
 float objFun_eval(void) {
-	int stepCountIdx;  // counter
 	float objVal = 0;
-	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
-		objVal += COST[stepCountIdx];
-	}
-	objVal = objVal / ( (float) N_STEP_TRIAL );
-
+	objVal = Mean(COST, N_STEP_TRIAL);
 	mb_io_set_float(ID_OPTIM_OBJ_FUN_LAST_VAL, objVal ); // Report to LabView.
-
 	return objVal;
 }
 
@@ -107,6 +104,10 @@ void objFun_set_optimizeGait(void) {
 		xLow[dim] = GAITDATA_LOW_BOUND[dim];
 		xUpp[dim] = GAITDATA_UPP_BOUND[dim];
 	}
+
+	PSO_OMEGA = OMEGA;
+	PSO_ALPHA = ALPHA;
+	PSO_BETA = BETA;
 	setObjFunInfo(xLow, xUpp, nDim, nPop, objFunSend, objFunEval); // Send problem to PSO
 
 }
@@ -130,10 +131,7 @@ void resetObjective(void) {
 	float speed = 0.0;  // Reset the speed for each step to this
 	STEP_COUNT = -N_STEP_TRANSIENT;
 
-	mb_io_set_float(ID_OPTIM_STEP_COUNT, STEP_COUNT);
-
 	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
-		// SPEED[stepCountIdx] = speed;
 		COST[stepCountIdx] = stepCostFun(speed);
 	}
 }
@@ -147,6 +145,9 @@ void updateOptimizeFsm(void) {
 
 	bool accept = detect_UI_button_input(BUTTON_ACCEPT_TRIAL);
 	bool reject = detect_UI_button_input(BUTTON_REJECT_TRIAL);
+
+	bool flagAccept = false;
+	bool flagReject = false;
 
 	switch (OPTIMIZE_FSM_MODE) {
 
@@ -179,10 +180,10 @@ void updateOptimizeFsm(void) {
 			OPTIMIZE_FSM_MODE = TRIAL;
 		}
 		if (accept) {
-			pso_eval_point();   // Evaluate objective function (send to PSO)
-			pso_send_point();   // Tell PSO to send a new point (Updates controller)
+			flagAccept = true;
 			OPTIMIZE_FSM_MODE = PRE_1;
 		} else if (reject) {
+			flagReject = true;
 			OPTIMIZE_FSM_MODE = PRE_1;
 		}
 		break;
@@ -193,10 +194,10 @@ void updateOptimizeFsm(void) {
 			OPTIMIZE_FSM_MODE = POST;
 		}
 		if (accept) {
-			pso_eval_point();   // Evaluate objective function (send to PSO)
-			pso_send_point();   // Tell PSO to send a new point (Updates controller)
+			flagAccept = true;
 			OPTIMIZE_FSM_MODE = PRE_1;
 		} else if (reject) {
+			flagReject = true;
 			OPTIMIZE_FSM_MODE = PRE_1;
 		}
 		break;
@@ -204,20 +205,29 @@ void updateOptimizeFsm(void) {
 
 	case POST:
 		if (lastStepLength > MIN_STEP_LENGTH  && STATE_contactMode != CONTACT_FL) {
-			pso_eval_point();   // Evaluate objective function (send to PSO)
-			pso_send_point();   // Tell PSO to send a new point (Updates controller)
+			flagAccept = true;
 			OPTIMIZE_FSM_MODE = PRE_2;
 		} else {
 			if (accept) {
-				pso_eval_point();   // Evaluate objective function (send to PSO)
-				pso_send_point();   // Tell PSO to send a new point (Updates controller)
+				flagAccept = true;
 				OPTIMIZE_FSM_MODE = PRE_1;
 			} else if (reject) {
+				flagReject = true;
 				OPTIMIZE_FSM_MODE = PRE_1;
 			}
 		}
 		break;
 	}
+
+	if (flagAccept) {
+		pso_eval_point();   // Evaluate objective function (send to PSO)
+		pso_send_point();   // Tell PSO to send a new point (Updates controller)
+		mb_io_set_float(ID_OPTIM_BUTTON_PUSH, 1.0);
+	} else if (flagReject) {
+		mb_io_set_float(ID_OPTIM_BUTTON_PUSH, 0.0);
+	}
+	flagAccept = false;
+	flagReject = false;
 }
 
 

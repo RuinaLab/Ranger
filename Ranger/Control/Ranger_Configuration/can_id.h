@@ -212,14 +212,14 @@ typedef enum can_ids{
 	ID_OPTIM_WALK_HIP_STEP_ANGLE  = 200,	 // 0 1 0 // Target angle for the hip to hold during push-off
 	ID_OPTIM_WALK_SCISSOR_GAIN = 201,	 // 0 1 0 // 
 	ID_OPTIM_WALK_SCISSOR_OFFSET = 202,	 // 0 1 0 // 
-	ID_OPTIM_OBJ_FUN_RUNNING_AVG = 203,	 // 0 1 0 // Running average of the cost function for all the logged steps taken so far.
-	ID_OPTIM_STEP_COUNT = 204,	 // 0 1 0 // Steps in the current optimization walk. Transient steps are negative.
-	ID_OPTIM_ACTIVE_PARTICLE = 205,	 // 0 1 0 // PSO population particle active
-	ID_OPTIM_CURRENT_GENERATION = 206,	 // 0 1 0 // 
-	ID_OPTIM_OBJ_FUN_SPEED = 207,	 // 0 1 0 // average speed over the the last step
-	ID_OPTIM_OBJ_FUN_LENGTH  = 208,	 // 0 1 0 // last step length
-	ID_OPTIM_OBJ_FUN_LAST_VAL = 209,	 // 0 1 0 // last value of the objective function
-	ID_OPTIM_FSM_MODE = 210,	 // 0 1 0 // 0 = INIT    1 = PRE_TRIAL    2 = TRIAL    3 = FLYING   
+	ID_OPTIM_STEP_COUNT = 203,	 // 0 1 0 // Steps in the current optimization walk. Transient steps are negative.
+	ID_OPTIM_ACTIVE_PARTICLE = 204,	 // 0 1 0 // PSO population particle active
+	ID_OPTIM_CURRENT_GENERATION = 205,	 // 0 1 0 // 
+	ID_OPTIM_OBJ_FUN_SPEED = 206,	 // 0 1 0 // average speed over the the last step
+	ID_OPTIM_OBJ_FUN_LENGTH  = 207,	 // 0 1 0 // last step length
+	ID_OPTIM_OBJ_FUN_LAST_VAL = 208,	 // 0 1 0 // last value of the objective function
+	ID_OPTIM_FSM_MODE = 209,	 // 0 1 0 // 0 = INIT    1 = PRE_TRIAL    2 = TRIAL    3 = FLYING   
+	ID_OPTIM_BUTTON_PUSH = 210,	 // 0 1 0 // 0 == reject      1 = accept
 	ID_CTRL_HIP_KP = 211,	 // 25 0 1 // 
 	ID_CTRL_HIP_KD = 212,	 // 3 0 1 // 
 	ID_CTRL_ANK_PUSH_KP = 213,	 // 20 0 1 // 
