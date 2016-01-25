@@ -1,8 +1,7 @@
 .\Flash\motor_controller.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_motor_controller\motor_controller.c
 .\Flash\motor_controller.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\motor_controller.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
-.\Flash\motor_controller.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stddef.h
-.\Flash\motor_controller.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\motor_controller.o: C:\Keil\ARM\RV31\INC\stdio.h
+.\Flash\motor_controller.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\motor_controller.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\motor_controller.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\motor_controller.o: ..\..\Ranger_Configuration\error_id.h
@@ -39,7 +38,6 @@
 .\Flash\motor_controller.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_ui_sync_led\ui_sync_led.h
 .\Flash\motor_controller.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_fun\song.h
 .\Flash\motor_controller.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_i2c_color\i2c_color.h
-.\Flash\motor_controller.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_oemstar_gps\oemstar_gps.h
 .\Flash\motor_controller.o: .\src\hardware_setup.h
 .\Flash\motor_controller.o: .\src\software_setup.h
 .\Flash\motor_controller.o: .\src\data_nexus.h

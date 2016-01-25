@@ -1,8 +1,7 @@
 .\Flash\rc_receive.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_rc_receive\rc_receive.c
 .\Flash\rc_receive.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\rc_receive.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
-.\Flash\rc_receive.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stddef.h
-.\Flash\rc_receive.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\rc_receive.o: C:\Keil\ARM\RV31\INC\stdio.h
+.\Flash\rc_receive.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\rc_receive.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\rc_receive.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\rc_receive.o: ..\..\Ranger_Configuration\error_id.h
@@ -39,7 +38,6 @@
 .\Flash\rc_receive.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_ui_sync_led\ui_sync_led.h
 .\Flash\rc_receive.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_fun\song.h
 .\Flash\rc_receive.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_i2c_color\i2c_color.h
-.\Flash\rc_receive.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_oemstar_gps\oemstar_gps.h
 .\Flash\rc_receive.o: .\src\hardware_setup.h
 .\Flash\rc_receive.o: .\src\software_setup.h
 .\Flash\rc_receive.o: .\src\data_nexus.h
