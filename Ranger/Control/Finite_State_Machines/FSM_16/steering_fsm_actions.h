@@ -193,11 +193,11 @@ int ACT_S_innerswingaftermid_entry()
 {
     float steer_command;
   
-    if ((int)get_io_float(ID_NAV_RC_USED)) {   // RC is in control => use right joystick for steering
+    if (!(int)get_io_float(ID_NAV_CAM_USED)) {   // RC is in control => use right joystick for steering
         steer_command = get_io_float(ID_NAV_RC_STEER);    // a number in [-1,1]; most right position = -1, most left position = 1
         
         auto_steer(get_io_float(ID_NAV_CAM_STEER));   // we call the auto-steer algorithm anyway, so that when it is actually used, 
-                                                        // it has correct previous step command (dist_old) to estimate relative angle of the path
+                                                      // it has correct previous step command (dist_old) to estimate relative angle of the path
     }else {    // switch is away from user, camera signal is used for steering
         steer_command = auto_steer(get_io_float(ID_NAV_CAM_STEER)); // a number in [-1,1]; -1 = max right, 1 = max left
     } 

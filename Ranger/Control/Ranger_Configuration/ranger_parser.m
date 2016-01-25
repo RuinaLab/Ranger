@@ -1,10 +1,4 @@
-do_not_print = 0; please_print = 1;
-% flag = do_not_print; 
-flag = please_print;
-if (flag == do_not_print)
-display('WE ARE NOT PRINTING THIS FILE, because this may overide the changes we made in canid.h and io_data.c and we dont want that (anoop March 1, 2013)')
-elseif (flag == please_print)
-    pause
+
 fprintf('\n\n************************ RangerParser v1.0 ************************\n');
 fprintf('           Emily McAdams, Nicolas Champagne-Williamson\n\n');
  
@@ -239,7 +233,5 @@ end
 
 fclose(rfid);
 fprintf('done!\n');
-
-end
-            
+ 
     

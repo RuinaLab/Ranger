@@ -410,7 +410,7 @@ P_STEER_DEADBAND,0.02,0,1,dead band for steering; if the steering command (a val
 #UI State Machine,,,,
 P_UI_PP2HS_TTIME,70,0,1,set led if time is more that this time in ms
 #Top fsm,,,,
-NAV_RC_USED,0,1,0,says whether RC has control authority: 1 = yes; 0 = no; camera is used
+NAV_CAM_USED,0,1,0,says whether Camera Board has control authority: 0 = no (RC in use);  1 = yes
 NAV_WALK,0,1,0,walk/stop command from RC/Camera: 1 = walk; 0 = stop
 NAV_RC_STEER,0,1,0,normalized steering command from RC; a number in [-1;1]; where -1 = max right; 1 = max left
 NAV_CAM_STEER,0,1,0,normalized steering command from Camera Board; a number in [-1;1]; where -1 = max right; 1 = max left

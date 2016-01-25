@@ -12,9 +12,18 @@
 #include <can_id.h>
 #include <board_id.h>
 
+#include <mod_mb_gbrl\learning.h> //Online Learning Algorithm
+#include <mod_mb_gbrl\reward.h> //Reward Function Estimator
+#include <mod_mb_gbrl\stability.h> //Stability Estimator
+
+#include <mod_mb_uphill\mb_uphill.h> //Uphill Walking controls
+
 #include <mb_hardware_setup.h>
 #include <mb_software_setup.h>
 #include <mb_data_nexus.h>
+
+#include <mb_fsm.h>
+
 
 #include <mod_mb_heartbeat\mb_heartbeat.h>
 #include <mod_mb_io_data\mb_io_data.h>
@@ -28,12 +37,10 @@
 #include <mod_mb_bluetooth\mb_bluetooth.h>
 
 #include <mb_estimator.h>
-//#include <mb_estimator_execution_time.h>
+#include <mb_estimator_execution_time.h>
 
-#include <mb_controller.h>
-
-																																										 
 #include <mb_local_headers.h>
+
 
 #endif //__MB_INCLUDES_H__
 

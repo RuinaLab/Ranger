@@ -100,16 +100,23 @@ void get_nav_signal(void)
     // the switch between RC and camera: -1 = RC is in control, 1 = camera is in control
     nav_command = a*get_io_float(SIGNAL_RC_switch) + b;    // get normalized RC-is-in-control command from RC
     if (nav_command < -0.5) {    // switch is towards user => RC is in control; update all other signals from RC
-        set_io_float(ID_NAV_RC_USED, 1.0);
-    }else if (nav_command > 0.5) {    // switch is away from user => RC is not in control
-        set_io_float(ID_NAV_RC_USED, 0.0); }
+        set_io_float(ID_NAV_CAM_USED, 0.0);
+    }else if (nav_command > 0.5) {    // switch is away from user => RC is not in control, and camera board is used
+        set_io_float(ID_NAV_CAM_USED, 1.0); }
         
     // right joystick of the RC, left-right position
     nav_command = a*get_io_float(SIGNAL_RC_rightstick) + b;    // get normalized steering command from RC
+                                                               // nav_command normally should be in [-1,1]
+                                                               
+/////////////////// 4/21/2014, changed by petr to default steering straight in case of extreme signals from rc
+    if ((nav_command<-1.5) || (nav_command>1.5)) {    // if RC gives extreme signals (e.g. when turned off), go straight
+        nav_command = 0.0; }
+///////////////////
+
     set_io_float(ID_NAV_RC_STEER, nav_command);   // -1 = max right position, 1 = max left position
     
     // left joystick from the RC, up-down position; read it only if RC is in command
-    if ((int)get_io_float(ID_NAV_RC_USED)) {
+    if (!(int)get_io_float(ID_NAV_CAM_USED)) {
         nav_command = a*get_io_float(SIGNAL_RC_leftstick) + b;    // get normalized walk/stop command from RC
         if (nav_command < -0.9) {    // left joystick is down => stop
             set_io_float(ID_NAV_WALK, 0.0); }
@@ -298,7 +305,7 @@ int ACTION_UI_walk(void)
     
 
     // if camera is in control and sends emergency signal
-    if ((int)get_io_float(ID_NAV_CAM_EMERG) && !(int)get_io_float(ID_NAV_RC_USED)) {
+    if ((int)get_io_float(ID_NAV_CAM_EMERG) && (int)get_io_float(ID_NAV_CAM_USED)) {
           cam_emergency();
     }else {
           cam_emerg_on = 0;
@@ -638,7 +645,7 @@ void update_UI_LED(void)
         }   
       
     // led 4: blue when RC is used, green otherwise (camera is used)
-    if ((int)get_io_float(ID_NAV_RC_USED))     // switch is towards user, RC is used
+    if (!(int)get_io_float(ID_NAV_CAM_USED))     // switch is towards user, RC is used
         { set_UI_LED(4, 'b'); }     // turn led 4 blue
     else    // switch is away from user, camera is used
         { set_UI_LED(4, 'g'); }     // turn led 4 green

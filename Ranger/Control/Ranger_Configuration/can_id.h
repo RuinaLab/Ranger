@@ -333,8 +333,8 @@ typedef enum can_ids{
 	ID_C_F_SST_F_RATE = 321,	 // 0.3 0 1 // 
 	ID_P_F_PP_L_ABSANG = 322,	 // 0.12 0 1 // was 0.07 for barton record walk
 	ID_P_F_PP_F_ABSANG = 323,	 // 1.7 0 1 // absolute feet angle for push-off
-	ID_P_FO_PP_THEIGHT = 324,	 // 0.01 0 1 // push-off trigger for outer foot; initial value changed from 0.012 by noopetr on Feb 19th 2013
-	ID_P_FI_PP_THEIGHT = 325,	 // 0.01 0 1 // push-off trigger for inner foot; initial value changed from 0.012 by noopetr on Feb 19th 2013
+	ID_P_FO_PP_THEIGHT = 324,	 // 0.01 0 1 // push-off trigger for outer foot; changed from 0.012 by noopetr on Feb 19th 2013
+	ID_P_FI_PP_THEIGHT = 325,	 // 0.01 0 1 // push-off trigger for inner foot; changed from by noopetr on Feb 19th 2013
 	ID_P_F_AP_F_ANG = 326,	 // 0 0 1 // 
 	ID_P_F_FU_H_ANG = 327,	 // 0.1 0 1 // was 0.13 for barton record walk
 	ID_P_F_FU_F_TANG = 328,	 // 0.2 0 1 // 
@@ -384,8 +384,8 @@ typedef enum can_ids{
 	ID_P_R_FO_PUSH_TIME = 372,	 // 800 0 1 // Time outer foot is pushing before changing states
 	ID_P_R_ROCK_TO_WALK = 373,	 // 0 0 1 // Boolean value to switch from Rock to Walk
 	ID_P_S_NULL_H_TANG = 374,	 // 0.1 0 1 // hip trigger angle
-	ID_P_S_ILST_S_MAXANG = 375,	 // 2 0 1 // (March 2013): position term coefficient in the steering board motor controller; transmitted to the steering board through ID_MCSI_PROP_COEFF
-	ID_P_S_ILSW_S_MAXANG = 376,	 // 2000 0 1 // (March 2013): integral term coefficient in the steering board motor controller; transmitted to the steering board through ID_MCSI_INT_COEFF
+	ID_P_S_ILST_S_MAXANG = 375,	 // 2 0 1 // (March 2013): position term coefficient in the steering board motor controller; transmitted to the steering board through ID_MCSI_STIFFNESS
+	ID_P_S_ILSW_S_MAXANG = 376,	 // 2000 0 1 // (March 2013): integral term coefficient in the steering board motor controller; transmitted to the steering board through ID_MCSI_DAMPNESS
 	ID_C_S_NULL_S_ANG = 377,	 // 0 0 1 // gain of 0.002 works well
 	ID_C_S_NULL_S_RATE = 378,	 // 0 0 1 // 
 	ID_P_S_MAX_STEER_ANG = 379,	 // 0.1 0 1 // max steering angle (max steering angle command sent to the Steering board)
@@ -394,7 +394,7 @@ typedef enum can_ids{
 	ID_D_S_NULL_S_DANG = 382,	 // 0 1 0 // desired steer angle; updated once per two steps
 	ID_P_STEER_DEADBAND = 383,	 // 0.02 0 1 // dead band for steering; if the steering command (a value between -1 and 1) is smaller than this threshold; it is set to 0
 	ID_P_UI_PP2HS_TTIME = 384,	 // 70 0 1 // set led if time is more that this time in ms
-	ID_NAV_RC_USED = 385,	 // 0 1 0 // says whether RC has control authority: 1 = yes; 0 = no; camera is used
+	ID_NAV_CAM_USED = 385,	 // 0 1 0 // says whether Camera Board has control authority: 0 = no (RC in use);  1 = yes
 	ID_NAV_WALK = 386,	 // 0 1 0 // walk/stop command from RC/Camera: 1 = walk; 0 = stop
 	ID_NAV_RC_STEER = 387,	 // 0 1 0 // normalized steering command from RC; a number in [-1;1]; where -1 = max right; 1 = max left
 	ID_NAV_CAM_STEER = 388,	 // 0 1 0 // normalized steering command from Camera Board; a number in [-1;1]; where -1 = max right; 1 = max left

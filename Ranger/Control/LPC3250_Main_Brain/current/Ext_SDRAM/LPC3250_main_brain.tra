@@ -1,0 +1,40 @@
+*** Creating Trace Output File '.\Ext_SDRAM\LPC3250_main_brain.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '".\ext_sdram\lpc32x0.o"'
+### List of Objects: adding '".\ext_sdram\mb_hardware_setup.o"'
+### List of Objects: adding '".\ext_sdram\mb_software_setup.o"'
+### List of Objects: adding '".\ext_sdram\main.o"'
+### List of Objects: adding '".\ext_sdram\mb_data_nexus.o"'
+### List of Objects: adding '".\ext_sdram\mb_scheduler.o"'
+### List of Objects: adding '".\ext_sdram\mb_ssp_dma.o"'
+### List of Objects: adding '".\ext_sdram\mb_heartbeat.o"'
+### List of Objects: adding '".\ext_sdram\mb_bluetooth.o"'
+### List of Objects: adding '".\ext_sdram\a9_clock.o"'
+### List of Objects: adding '".\ext_sdram\mb_io_data.o"'
+### List of Objects: adding '".\ext_sdram\mb_error.o"'
+### List of Objects: adding '".\ext_sdram\mb_estimator.o"'
+### List of Objects: adding '".\ext_sdram\mb_estimator_execution_time.o"'
+### List of Objects: adding '".\ext_sdram\ui_fsm.o"'
+### List of Objects: adding '".\ext_sdram\foot_inner_fsm.o"'
+### List of Objects: adding '".\ext_sdram\foot_outer_fsm.o"'
+### List of Objects: adding '".\ext_sdram\fsm.o"'
+### List of Objects: adding '".\ext_sdram\hip_fsm.o"'
+### List of Objects: adding '".\ext_sdram\leg_fsm.o"'
+### List of Objects: adding '".\ext_sdram\mb_fsm.o"'
+### List of Objects: adding '".\ext_sdram\steering_fsm.o"'
+### ADS-LD Command completed:
+--device DARMP3 ".\ext_sdram\lpc32x0.o" ".\ext_sdram\mb_hardware_setup.o" ".\ext_sdram\mb_software_setup.o" ".\ext_sdram\main.o" ".\ext_sdram\mb_data_nexus.o" ".\ext_sdram\mb_scheduler.o" ".\ext_sdram\mb_ssp_dma.o" ".\ext_sdram\mb_heartbeat.o" ".\ext_sdram\mb_bluetooth.o" ".\ext_sdram\a9_clock.o" ".\ext_sdram\mb_io_data.o" ".\ext_sdram\mb_error.o" ".\ext_sdram\mb_estimator.o" ".\ext_sdram\mb_estimator_execution_time.o" ".\ext_sdram\ui_fsm.o" ".\ext_sdram\foot_inner_fsm.o" ".\ext_sdram\foot_outer_fsm.o" ".\ext_sdram\fsm.o" ".\ext_sdram\hip_fsm.o" ".\ext_sdram\leg_fsm.o" ".\ext_sdram\mb_fsm.o" ".\ext_sdram\steering_fsm.o" --fpu=vfpv2 --strict --scatter ".\Ext_SDRAM\LPC3250_main_brain.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\Ext_SDRAM\LPC3250_main_brain.map" -o ".\Ext_SDRAM\LPC3250_main_brain.axf"### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: '.\Ext_SDRAM\LPC3250_main_brain.axf'
+### ADS-LD Command File: '.\Ext_SDRAM\LPC3250_main_brain.lnp'
+### Checking for dirty Components...
+### Creating CmdFile '.\Ext_SDRAM\LPC3250_main_brain.lnp', Handle=0x000006A4
+### Writing '.lnp' file
+### ADS-LD Command file '.\Ext_SDRAM\LPC3250_main_brain.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.

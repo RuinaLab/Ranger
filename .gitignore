@@ -27,16 +27,8 @@
 *.out
 *.app
 
-# Keil intermediate files:
-**/Ext_SDRAM
-**/*.dep
-Ranger/Control/LPC3250_Main_Brain/current/LPC3250_main_brain.Opt
-Ranger/Control/LPC3250_Main_Brain/current/LPC3250_main_brain_Opt.Bak
+# Keil log file:
+*.plg
 
-# LabVIEW test logs:
-**/Test-*.txt
-
-# Matlab autosave
-**/*.m~
-**/*.asv
-Ranger/Control/LPC3250_Main_Brain/current/LPC3250_main_brain.Uv2
+# Keil intermediate binaries:
+*.crf
