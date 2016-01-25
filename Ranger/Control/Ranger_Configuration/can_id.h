@@ -220,45 +220,46 @@ typedef enum can_ids{
 	ID_OPTIM_OBJ_FUN_LAST_VAL = 208,	 // 0 1 0 // last value of the objective function
 	ID_OPTIM_FSM_MODE = 209,	 // 0 1 0 // 0 = INIT    1 = PRE_TRIAL    2 = TRIAL    3 = FLYING   
 	ID_OPTIM_BUTTON_PUSH = 210,	 // 0 1 0 // 0 == reject      1 = accept
-	ID_CTRL_HIP_KP = 211,	 // 25 0 1 // 
-	ID_CTRL_HIP_KD = 212,	 // 3 0 1 // 
-	ID_CTRL_ANK_PUSH_KP = 213,	 // 20 0 1 // 
-	ID_CTRL_ANK_PUSH_KD = 214,	 // 2 0 1 // 
-	ID_CTRL_ANK_STANCE_KP = 215,	 // 15 0 1 // 
-	ID_CTRL_ANK_STANCE_KD = 216,	 // 1 0 1 // 
-	ID_CTRL_ANK_SWING_KP = 217,	 // 20 0 1 // 
-	ID_CTRL_ANK_SWING_KD = 218,	 // 1 0 1 // 
-	ID_CTRL_HIP_COMPENSATION_TARGET = 219,	 // 0 0 1 // hip compensation at target (1) or at measured state (0)
-	ID_CTRL_HIP_GRAVITY_COMPENSATION = 220,	 // 1 0 1 // Enables (1) or disables (0) gravity compensation in hip controller
-	ID_CTRL_HIP_SPRING_COMPENSATION = 221,	 // 1 0 1 // Enables (1) or disables (0) spring compensation in hip controller
-	ID_CTRL_WALK_ANK_PUSH  = 222,	 // 0.8 0 1 // magnitude of the push-off during walking  normalized to be on the range 0 to 1
-	ID_CTRL_WALK_CRIT_STANCE_ANGLE = 223,	 // -0.08 0 1 // the critical stance angle when push-off should occur (should be less than zero)
-	ID_CTRL_WALK_HIP_STEP_ANGLE  = 224,	 // 0.2 0 1 // Target angle for the hip to hold during push-off
-	ID_CTRL_WALK_SCISSOR_GAIN = 225,	 // 1.2 0 1 // 
-	ID_CTRL_WALK_SCISSOR_OFFSET = 226,	 // 0.1 0 1 // 
-	ID_CTRL_FSM_LED = 227,	 // 0 0 1 // 0 = LED OFF        1 = LED ON
-	ID_CTRL_UNIT_TEST_ID = 228,	 // 0 0 1 // Selects which unit test the robot should be running. Default is zero = no test
-	ID_CTRL_TEST_R0 = 229,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R1 = 230,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R2 = 231,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R3 = 232,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R4 = 233,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R5 = 234,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R6 = 235,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R7 = 236,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R8 = 237,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R9 = 238,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_W0 = 239,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W1 = 240,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W2 = 241,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W3 = 242,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W4 = 243,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W5 = 244,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W6 = 245,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W7 = 246,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W8 = 247,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W9 = 248,	 // 0 1 0 // test write to labview
-	ID_GAIT_USE_MDP_DATA = 249,	 // 1 0 1 // true (1) if the robot should use gait parameters from the MDP   and     false(0) if it should use defaults from LabVIEW
+	ID_OPTIM_SAVE_OPTIM_STATE = 211,	 // 0 1 0 // Save an optimization so it can be loaded later. Order of parameter dump TBD
+	ID_CTRL_HIP_KP = 212,	 // 25 0 1 // 
+	ID_CTRL_HIP_KD = 213,	 // 3 0 1 // 
+	ID_CTRL_ANK_PUSH_KP = 214,	 // 20 0 1 // 
+	ID_CTRL_ANK_PUSH_KD = 215,	 // 2 0 1 // 
+	ID_CTRL_ANK_STANCE_KP = 216,	 // 15 0 1 // 
+	ID_CTRL_ANK_STANCE_KD = 217,	 // 1 0 1 // 
+	ID_CTRL_ANK_SWING_KP = 218,	 // 20 0 1 // 
+	ID_CTRL_ANK_SWING_KD = 219,	 // 1 0 1 // 
+	ID_CTRL_HIP_COMPENSATION_TARGET = 220,	 // 0 0 1 // hip compensation at target (1) or at measured state (0)
+	ID_CTRL_HIP_GRAVITY_COMPENSATION = 221,	 // 1 0 1 // Enables (1) or disables (0) gravity compensation in hip controller
+	ID_CTRL_HIP_SPRING_COMPENSATION = 222,	 // 1 0 1 // Enables (1) or disables (0) spring compensation in hip controller
+	ID_CTRL_WALK_ANK_PUSH  = 223,	 // 0.8 0 1 // magnitude of the push-off during walking  normalized to be on the range 0 to 1
+	ID_CTRL_WALK_CRIT_STANCE_ANGLE = 224,	 // -0.08 0 1 // the critical stance angle when push-off should occur (should be less than zero)
+	ID_CTRL_WALK_HIP_STEP_ANGLE  = 225,	 // 0.2 0 1 // Target angle for the hip to hold during push-off
+	ID_CTRL_WALK_SCISSOR_GAIN = 226,	 // 1.2 0 1 // 
+	ID_CTRL_WALK_SCISSOR_OFFSET = 227,	 // 0.1 0 1 // 
+	ID_CTRL_FSM_LED = 228,	 // 0 0 1 // 0 = LED OFF        1 = LED ON
+	ID_CTRL_UNIT_TEST_ID = 229,	 // 0 0 1 // Selects which unit test the robot should be running. Default is zero = no test
+	ID_CTRL_TEST_R0 = 230,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R1 = 231,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R2 = 232,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R3 = 233,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R4 = 234,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R5 = 235,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R6 = 236,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R7 = 237,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R8 = 238,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R9 = 239,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_W0 = 240,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W1 = 241,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W2 = 242,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W3 = 243,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W4 = 244,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W5 = 245,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W6 = 246,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W7 = 247,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W8 = 248,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W9 = 249,	 // 0 1 0 // test write to labview
+	ID_GAIT_USE_MDP_DATA = 250,	 // 1 0 1 // true (1) if the robot should use gait parameters from the MDP   and     false(0) if it should use defaults from LabVIEW
 	ID_LV_START,	 //    // 
 	ID_LV_CH_0,	 //    // 
 	ID_LV_CH_1,	 //    // 

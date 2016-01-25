@@ -6,6 +6,7 @@
 #include "PSO.h"
 #include "objectiveFunction.h"
 #include <optimizeGait.h>
+#include "bufferDataOut.h"
 
 /*Simple function to return the robot time in seconds */
 float getTime() {
@@ -566,6 +567,39 @@ void test_pulseWave(void) {
 }
 
 
+/* --30--  Test dumping a lot of data really fast. Will any get lost? Will it always come in order?
+	Should send 1-10 in order to LabView 5 times. */
+void test_sendFastData(void){ // UPDATE: NO, this is bad. Data does not get buffered. Just gets lost.
+	int i;
+	int j;
+
+	for ( i = 0; i < 5; i++ ){
+		for ( j = 0; j< 10; j++ ){
+			mb_io_set_float(ID_CTRL_TEST_W0, (float)(j+1));
+		}
+	} 
+}
+
+/* --31--  Test dumping a lot of data really fast. Will any get lost? Will it always come in order?
+	Should send 1-10 in order to LabView 5 times. This tests the bufferDataOut functions. */
+void test_sendFastDataBuffered(void){
+	static bool done = false;
+	int i;
+	int j;
+
+	if (!done){ // Only send in one burst and then stop.
+		for ( i = 0; i < 5; i++ ){
+			for ( j = 0; j< 10; j++ ){
+
+				addToQueue( ID_CTRL_TEST_W0, (float)(j+1) ); // Try 2 channels, see if the order is preserved.
+				addToQueue( ID_CTRL_TEST_W1, (float)(j+1) );
+			}
+		} 
+		done = true;
+	}
+}
+
+
 
 /* Entry-point function for all unit tests */
 void runUnitTest(void) {
@@ -618,6 +652,10 @@ void runUnitTest(void) {
 
 	/**** UI Board ****/
 	case 27: test_uiPlaySong(); break;
+
+	/**** LabView IO ****/
+	case 30: test_sendFastData(); break;
+	case 31: test_sendFastDataBuffered(); break;
 
 	}
 }

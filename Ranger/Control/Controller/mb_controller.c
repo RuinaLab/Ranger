@@ -7,6 +7,7 @@
 #include <gaitControl.h>
 #include <optimizeGait.h>
 #include "safeMode.h"
+#include "bufferDataOut.h"
 
 UiFsmMode UI_FSM_MODE = StandBy;  // What to run now
 UiFsmMode UI_FSM_MODE_PREV = StandBy;  // What we ran last time
@@ -119,5 +120,6 @@ void mb_controller_update(void) {
 
 	// Run the optimization in the background
 	optimizeGait_main();
+	sendBufferedData();
 
 } // mb_controller_update()

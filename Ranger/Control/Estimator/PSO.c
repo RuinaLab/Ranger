@@ -115,6 +115,15 @@ int psoGetParticleId(void) {
 	return idxPopSelect;
 }
 
+/* Send all current optimization paramters to labview. This is done so the parameters can
+ * be loaded after a shutdown and the trial resumed.	*/
+void saveOptim(void){
+
+
+
+
+}
+
 
 /******************************************************************
  *                       Main Entry-Point                         *
