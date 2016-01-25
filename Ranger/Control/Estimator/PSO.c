@@ -12,6 +12,7 @@
 #include "RangerMath.h"  // FastRand()
 #include "PSO.h"
 #include "objectiveFunction.h"
+#include "bufferDataOut.h"
 
 #define DIM_STATE_MAX 20 // Max dimension of the search space for optimization
 #define POP_COUNT_MAX 25  // Max number of particles 
@@ -42,6 +43,8 @@ int idxPopGlobal = 0;  // Index of the populations best-ever particle
 int idxPopSelect = 0;  // Index of the particle that is currently selected
 bool initComplete = false;  // Has the entire population been initialized?
 int currentGeneration = 0;
+
+const int NUM_SAVE_SEND_ATTEMPTS = 2; // Data sometimes gets dropped. Do we want to do redundant multiple send to hopefully have a full set? 1 is just one try (normal)
 
 /******************************************************************
  *               Public Interface Functions                       *
@@ -119,9 +122,98 @@ int psoGetParticleId(void) {
  * be loaded after a shutdown and the trial resumed.	*/
 void saveOptim(void){
 
+	int i;
+	int j;
+	int k;
+
+	for ( k = 0; k < NUM_SAVE_SEND_ATTEMPTS; k++ ){ // If we're doing redundant sends.
+
+// 9 singles, 3, 5, 2 DIM_STATE, 2 POP_COUNT, 3* POP_COUNT * DIM_STATE NUMBERS
+	// 9 + 3 + 5 + 10 + 30 + 300 = 282 with current values.
+
+// PSO behavior parameters -- 3 NUMBERS
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, PSO_OMEGA);
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, PSO_ALPHA);
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, PSO_BETA);
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, DIM_STATE);
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, POP_COUNT);
 
 
+// Divider number -- 1 NUMBER
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
 
+// Search space lower bound -- DIM_STATE NUMBERS
+		for ( i = 0; i < DIM_STATE; i++){
+			addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, X_LOW[i]);
+		}
+
+// Divider number -- 1 NUMBER
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
+
+// Search space lower bound -- DIM_STATE NUMBERS
+		for ( i = 0; i < DIM_STATE; i++){
+			addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, X_UPP[i]);
+		}
+
+// Divider number -- 1 NUMBER
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
+
+// Particle locations -- POP_COUNT * DIM_STATE NUMBERS
+		for ( i = 0; i < POP_COUNT; i++){
+			for ( j = 0; j < DIM_STATE; j++){
+				addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, x[i][j]);
+			}
+		}
+
+// Divider number -- 1 NUMBER
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
+
+// Particle velocities -- POP_COUNT * DIM_STATE NUMBERS
+		for ( i = 0; i < POP_COUNT; i++){
+			for ( j = 0; j < DIM_STATE; j++){
+				addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, v[i][j]);
+			}
+		}
+
+// Divider number -- 1 NUMBER
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
+
+// Particle value -- POP_COUNT NUMBERS
+		for ( i = 0; i < POP_COUNT; i++){
+			addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, f[i]);
+		}
+
+// Divider number -- 1 NUMBER
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
+
+// Best particle location -- POP_COUNT * DIM_STATE NUMBERS
+		for ( i = 0; i < POP_COUNT; i++){
+			for ( j = 0; j < DIM_STATE; j++){
+				addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, xBest[i][j]);
+			}
+		}
+
+// Divider number -- 1 NUMBER
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
+
+// Best values -- POP_COUNT NUMBERS 
+		for ( i = 0; i < POP_COUNT; i++){
+			addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, fBest[i]);
+		}
+
+// Divider number -- 1 NUMBER
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
+
+// Best particle index, particle we're on, current generation -- 3 NUMBERS
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, (float)idxPopGlobal);
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, (float)idxPopSelect);
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, (float)currentGeneration);
+
+// Final number to let us know it's done -- 1 NUMBER
+		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -9999999.);
+
+
+	}
 }
 
 

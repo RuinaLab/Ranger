@@ -600,6 +600,26 @@ void test_sendFastDataBuffered(void){
 }
 
 
+/* --32--  Test sending ALL optimization parameters to labview. 
+ * NOTE: put in optim mode before activation (ie push leftmost button). */
+void test_optimSaveToOutput(void){
+	static bool notDone = true;
+	if (OPTIMIZE_FSM_MODE != INIT && notDone){ // Only do it if we've pushed the leftmost button to initialize the optimization.
+		saveOptim();
+		notDone = false; //Only save once. Don't flood it.
+	}
+}
+
+
+
+
+/* --33--  Send the internal time over a test ID to labview. See if it matches the timestamp being sent already.
+ * Are data timestamps with mb_io_send when it's sent or when it's called? */
+void test_timestampSend(void){
+	mb_io_set_float(ID_CTRL_TEST_W0, mb_io_get_float(ID_TIMESTAMP));
+}
+
+
 
 /* Entry-point function for all unit tests */
 void runUnitTest(void) {
@@ -656,6 +676,8 @@ void runUnitTest(void) {
 	/**** LabView IO ****/
 	case 30: test_sendFastData(); break;
 	case 31: test_sendFastDataBuffered(); break;
+	case 32: test_optimSaveToOutput(); break;
+	case 33: test_timestampSend(); break;
 
 	}
 }

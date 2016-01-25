@@ -2,13 +2,14 @@
 #include <input_output.h>
 #include <mb_estimator.h>
 
-static const int BUFFER_SIZE = 100; // How many data points can be buffered at a time.
+static const int BUFFER_SIZE = 600; // How many data points can be buffered at a time.
+static const int CALLS_PER_SEND = 10; // Somehow, even calling once per FSM cycle seems too much. Only send data every xth number of times sendBufferedData is called.
 
 static CAN_ID IDs[BUFFER_SIZE]; // Keep the pointers of the labview IDs to send to.
 static float data[BUFFER_SIZE];  // The values to send to labview on the ID of the same index.
 static int activeNum = 0; // Keeps track of how many points are left to send.
 
-static const int howManyCallsPerSend = 5; // Somehow, even calling once per FSM cycle seems too much. This lets us wait even more!
+
 
 /* Give the pointer to a CAN ID and a value to send and this will buffer it
  * so only one point is sent per main brain FSM cycle. Helps prevent lost 
@@ -30,7 +31,7 @@ void sendBufferedData(void){
 	int j;
 	calls++;
 
-	if ( calls > howManyCallsPerSend-1 ){
+	if ( calls > CALLS_PER_SEND-1 ){
 		if ( activeNum > 0 ){
 
 			// Send the first value to the specified channel.

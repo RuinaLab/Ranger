@@ -19,5 +19,7 @@ int psoGetParticleId(void); // Returns the index of the current particle
 
 void pso_send_point(void); // Call 1st!  Sends query point to obj. fun.
 void pso_eval_point(void); // Call 2nd!  Reads evaluation of query point.
+void saveOptim(void);
+
 
 #endif  // __PSO_H__

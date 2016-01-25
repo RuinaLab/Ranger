@@ -43,9 +43,6 @@ static const float BETA = 0.9;    // PSO global search weight
 
 static float COST[N_STEP_TRIAL];
 
-float OBJ_FUN_RUNNING_AVG = 0.0;
-
-
 static const float MIN_STEP_LENGTH = 0.1;
 static float lastStepLength = 0.0;
 
