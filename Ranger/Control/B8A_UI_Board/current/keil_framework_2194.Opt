@@ -23,24 +23,24 @@ OPTFFF 2,2,1,67108864,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\
 OPTFFF 2,3,1,83886080,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\error.c><error.c> 
 OPTFFF 2,4,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\mutex.c><mutex.c> 
 OPTFFF 2,5,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\utility.c><utility.c> 
-OPTFFF 3,6,1,16777218,0,1,8,0,<.\src\main.c><main.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,110,0,0,0,145,0,0,0,90,4,0,0,47,2,0,0 }
+OPTFFF 3,6,1,16777216,0,1,8,0,<.\src\main.c><main.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,110,0,0,0,145,0,0,0,90,4,0,0,47,2,0,0 }
 OPTFFF 3,7,1,83886080,0,0,0,0,<.\src\data_nexus.c><data_nexus.c> 
 OPTFFF 3,8,1,0,0,23,23,0,<.\src\Retarget.c><Retarget.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,0,0,0,0,0,0,0,0,232,3,0,0,138,1,0,0 }
 OPTFFF 3,9,1,0,0,23,38,0,<.\src\interrupts.c><interrupts.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,88,0,0,0,116,0,0,0,90,4,0,0,211,1,0,0 }
-OPTFFF 3,10,1,251658240,0,267,267,0,<.\src\hardware_setup.c><hardware_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,88,0,0,0,116,0,0,0,68,4,0,0,18,2,0,0 }
-OPTFFF 3,11,1,100663296,0,123,144,0,<.\src\software_setup.c><software_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,66,0,0,0,87,0,0,0,42,4,0,0,243,1,0,0 }
+OPTFFF 3,10,1,872415232,0,31,31,0,<.\src\hardware_setup.c><hardware_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,88,0,0,0,116,0,0,0,68,4,0,0,18,2,0,0 }
+OPTFFF 3,11,1,100663296,0,154,154,0,<.\src\software_setup.c><software_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,66,0,0,0,87,0,0,0,42,4,0,0,243,1,0,0 }
 OPTFFF 3,12,1,1107296256,0,109,130,0,<.\src\can_setup.c><can_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,157,0,0,0,59,0,0,0,137,4,0,0,217,1,0,0 }
-OPTFFF 4,13,1,50331648,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_heartbeat\heartbeat.c><heartbeat.c> 
+OPTFFF 4,13,1,50331648,0,1,1,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_heartbeat\heartbeat.c><heartbeat.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,22,0,0,0,29,0,0,0,254,3,0,0,167,1,0,0 }
 OPTFFF 4,14,1,503316480,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can_types.c><can_types.c> 
-OPTFFF 4,15,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_ui_led\ui_led.c><ui_led.c> 
+OPTFFF 4,15,1,0,0,71,71,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_ui_led\ui_led.c><ui_led.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,132,0,0,0,174,0,0,0,108,4,0,0,56,2,0,0 }
 OPTFFF 4,16,1,503316480,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_button\button.c><button.c> 
 OPTFFF 4,17,1,16777216,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_buzzer\buzzer.c><buzzer.c> 
 OPTFFF 4,18,1,16777216,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_lcd\lcd.c><lcd.c> 
-OPTFFF 4,19,1,419430400,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_microstrain_imu\microstrain_imu.c><microstrain_imu.c> 
+OPTFFF 4,19,1,1677721602,0,58,70,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_microstrain_imu\microstrain_imu.c><microstrain_imu.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,125,0,0,0,125,0,0,0,7,6,0,0,254,1,0,0 }
 OPTFFF 4,20,1,83886080,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_mcu_led\mcu_led.c><mcu_led.c> 
 OPTFFF 4,21,1,50331648,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_ui_sync_led\ui_sync_led.c><ui_sync_led.c> 
-OPTFFF 4,22,1,1426063360,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_rc_receive\rc_receive.c><rc_receive.c> 
-OPTFFF 4,23,1,83886080,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can.c><can.c> 
+OPTFFF 4,22,1,1426063360,0,183,199,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_rc_receive\rc_receive.c><rc_receive.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,66,0,0,0,87,0,0,0,46,4,0,0,245,1,0,0 }
+OPTFFF 4,23,1,83886080,0,176,183,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can.c><can.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,88,0,0,0,116,0,0,0,68,4,0,0,209,1,0,0 }
 OPTFFF 4,24,1,50331648,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_fun\song.c><song.c> 
 
 

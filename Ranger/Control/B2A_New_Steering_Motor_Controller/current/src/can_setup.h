@@ -30,3 +30,8 @@ void can_transmit20(void);
 void can_transmit21(void);
 void can_transmit22(void);
 
+/* clearing up stuff; petr 5/30/13
+// adding more transmission can_id's // noopetr, Feb/12/2013
+void can_transmit_test(void);
+*/
+

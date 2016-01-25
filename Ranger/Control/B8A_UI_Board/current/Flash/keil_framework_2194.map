@@ -1151,78 +1151,78 @@ Memory Map of the image
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x00000000   0x00000114   Code   RO            3    RESET               startup.o
-    0x00000114   0x00000000   Code   RO          510  * .ARM.Collect$$$$00000000  entry.o(mc_4.l)
-    0x00000114   0x00000004   Code   RO          815    .ARM.Collect$$$$00000001  entry2.o(mc_4.l)
-    0x00000118   0x00000004   Code   RO          817    .ARM.Collect$$$$00000004  entry5.o(mc_4.l)
-    0x0000011c   0x0000000c   Code   RO          818    .ARM.Collect$$$$00000007  entry7.o(mc_4.l)
-    0x00000128   0x00000004   Code   RO          816    .ARM.Collect$$$$00002712  entry2.o(mc_4.l)
-    0x0000012c   0x0000004c   Code   RO          466    .emb_text           can.o
+    0x00000114   0x00000000   Code   RO          516  * .ARM.Collect$$$$00000000  entry.o(mc_4.l)
+    0x00000114   0x00000004   Code   RO          821    .ARM.Collect$$$$00000001  entry2.o(mc_4.l)
+    0x00000118   0x00000004   Code   RO          823    .ARM.Collect$$$$00000004  entry5.o(mc_4.l)
+    0x0000011c   0x0000000c   Code   RO          824    .ARM.Collect$$$$00000007  entry7.o(mc_4.l)
+    0x00000128   0x00000004   Code   RO          822    .ARM.Collect$$$$00002712  entry2.o(mc_4.l)
+    0x0000012c   0x0000004c   Code   RO          472    .emb_text           can.o
     0x00000178   0x00000138   Code   RO            8    .text               async_scheduler.o
-    0x000002b0   0x00000400   Code   RO          150    .text               error.o
-    0x000006b0   0x0000002c   Code   RO          166    .text               mutex.o
-    0x000006dc   0x0000014c   Code   RO          179    .text               utility.o
-    0x00000828   0x00000078   Code   RO          195    .text               main.o
-    0x000008a0   0x000002cc   Code   RO          211    .text               data_nexus.o
-    0x00000b6c   0x000000ac   Code   RO          250    .text               interrupts.o
-    0x00000c18   0x00000460   Code   RO          267    .text               hardware_setup.o
-    0x00001078   0x0000020c   Code   RO          279    .text               software_setup.o
-    0x00001284   0x000004d8   Code   RO          297    .text               can_setup.o
-    0x0000175c   0x0000008c   Code   RO          312    .text               heartbeat.o
-    0x000017e8   0x000002e4   Code   RO          326    .text               can_types.o
-    0x00001acc   0x00000260   Code   RO          338    .text               ui_led.o
-    0x00001d2c   0x000000b4   Code   RO          351    .text               button.o
-    0x00001de0   0x00000164   Code   RO          364    .text               buzzer.o
-    0x00001f44   0x00000830   Code   RO          384    .text               lcd.o
-    0x00002774   0x00000508   Code   RO          402    .text               microstrain_imu.o
-    0x00002c7c   0x00000254   Code   RO          419    .text               mcu_led.o
-    0x00002ed0   0x0000024c   Code   RO          434    .text               ui_sync_led.o
-    0x0000311c   0x00000448   Code   RO          450    .text               rc_receive.o
-    0x00003564   0x00001394   Code   RO          467    .text               can.o
-    0x000048f8   0x0000015c   Code   RO          489    .text               song.o
-    0x00004a54   0x0000003c   Code   RO          513    .text               uidiv.o(mc_4.l)
-    0x00004a90   0x0000003c   Code   RO          515    .text               idiv.o(mc_4.l)
-    0x00004acc   0x000000e8   Code   RO          778    .text               fadd.o(mf_4.l)
-    0x00004bb4   0x00000088   Code   RO          780    .text               fmul.o(mf_4.l)
-    0x00004c3c   0x0000000c   Code   RO          782    .text               fscalb.o(mf_4.l)
-    0x00004c48   0x0000029c   Code   RO          784    .text               dadd.o(mf_4.l)
-    0x00004ee4   0x00000168   Code   RO          786    .text               dmul.o(mf_4.l)
-    0x0000504c   0x0000017c   Code   RO          788    .text               ddiv.o(mf_4.l)
-    0x000051c8   0x0000001c   Code   RO          790    .text               fflti.o(mf_4.l)
-    0x000051e4   0x00000010   Code   RO          792    .text               ffltui.o(mf_4.l)
-    0x000051f4   0x00000038   Code   RO          794    .text               dflti.o(mf_4.l)
-    0x0000522c   0x00000040   Code   RO          796    .text               ffixi.o(mf_4.l)
-    0x0000526c   0x0000007c   Code   RO          798    .text               dfixi.o(mf_4.l)
-    0x000052e8   0x00000038   Code   RO          800    .text               f2d.o(mf_4.l)
-    0x00005320   0x0000005c   Code   RO          802    .text               d2f.o(mf_4.l)
-    0x0000537c   0x00000018   Code   RO          804    .text               cfrcmple.o(mf_4.l)
-    0x00005394   0x00000028   Code   RO          821    .text               llshl.o(mc_4.l)
-    0x000053bc   0x00000024   Code   RO          823    .text               llushr.o(mc_4.l)
-    0x000053e0   0x00000000   Code   RO          832    .text               iusefp.o(mc_4.l)
-    0x000053e0   0x0000006c   Code   RO          833    .text               fepilogue.o(mf_4.l)
-    0x0000544c   0x00000124   Code   RO          835    .text               depilogue.o(mf_4.l)
-    0x00005570   0x0000003c   Code   RO          837    .text               dscalb.o(mf_4.l)
-    0x000055ac   0x00000030   Code   RO          845    .text               init.o(mc_4.l)
-    0x000055dc   0x000000f0   Code   RO          847    .text               drem.o(mf_4.l)
-    0x000056cc   0x00000070   Code   RO          857    .text               __dczerorl2.o(mc_4.l)
-    0x0000573c   0x0000003c   Code   RO          674    i.__0sprintf$6      printf6.o(mc_4.l)
-    0x00005778   0x00000044   Code   RO          483    i.__ARM_common_memcpy1_8_arm  can.o
-    0x000057bc   0x000004a8   Code   RO          809    i.__ieee754_rem_pio2  rred.o(m_4s.l)
-    0x00005c64   0x0000018c   Code   RO          806    i.__kernel_cos      cos_i.o(m_4s.l)
-    0x00005df0   0x000000f4   Code   RO          843    i.__kernel_poly     poly.o(m_4s.l)
-    0x00005ee4   0x00000174   Code   RO          812    i.__kernel_sin      sin_i.o(m_4s.l)
-    0x00006058   0x00000018   Code   RO          851    i.__scatterload_copy  handlers.o(mc_4.l)
-    0x00006070   0x00000004   Code   RO          852    i.__scatterload_null  handlers.o(mc_4.l)
-    0x00006074   0x00000018   Code   RO          853    i.__scatterload_zeroinit  handlers.o(mc_4.l)
-    0x0000608c   0x00000010   Code   RO          827    i.__set_errno       errno.o(mc_4.l)
-    0x0000609c   0x0000046c   Code   RO          679    i._printf_core      printf6.o(mc_4.l)
-    0x00006508   0x00000044   Code   RO          680    i._printf_post_padding  printf6.o(mc_4.l)
-    0x0000654c   0x00000050   Code   RO          681    i._printf_pre_padding  printf6.o(mc_4.l)
-    0x0000659c   0x00000014   Code   RO          683    i._sputc            printf6.o(mc_4.l)
-    0x000065b0   0x000000f8   Code   RO          507    i.sin               sin.o(m_4s.l)
-    0x000066a8   0x00000030   Data   RO          807    .constdata          cos_i.o(m_4s.l)
-    0x000066d8   0x000000c0   Data   RO          810    .constdata          rred.o(m_4s.l)
-    0x00006798   0x00000028   Data   RO          813    .constdata          sin_i.o(m_4s.l)
-    0x000067c0   0x00000020   Data   RO          849    Region$$Table       anon$$obj.o
+    0x000002b0   0x00000400   Code   RO          156    .text               error.o
+    0x000006b0   0x0000002c   Code   RO          172    .text               mutex.o
+    0x000006dc   0x0000014c   Code   RO          185    .text               utility.o
+    0x00000828   0x00000078   Code   RO          201    .text               main.o
+    0x000008a0   0x000002cc   Code   RO          217    .text               data_nexus.o
+    0x00000b6c   0x000000ac   Code   RO          256    .text               interrupts.o
+    0x00000c18   0x00000460   Code   RO          273    .text               hardware_setup.o
+    0x00001078   0x0000020c   Code   RO          285    .text               software_setup.o
+    0x00001284   0x000004d8   Code   RO          303    .text               can_setup.o
+    0x0000175c   0x0000008c   Code   RO          318    .text               heartbeat.o
+    0x000017e8   0x000002e4   Code   RO          332    .text               can_types.o
+    0x00001acc   0x00000260   Code   RO          344    .text               ui_led.o
+    0x00001d2c   0x000000b4   Code   RO          357    .text               button.o
+    0x00001de0   0x00000164   Code   RO          370    .text               buzzer.o
+    0x00001f44   0x00000830   Code   RO          390    .text               lcd.o
+    0x00002774   0x00000508   Code   RO          408    .text               microstrain_imu.o
+    0x00002c7c   0x00000254   Code   RO          425    .text               mcu_led.o
+    0x00002ed0   0x0000024c   Code   RO          440    .text               ui_sync_led.o
+    0x0000311c   0x00000448   Code   RO          456    .text               rc_receive.o
+    0x00003564   0x00001394   Code   RO          473    .text               can.o
+    0x000048f8   0x0000015c   Code   RO          495    .text               song.o
+    0x00004a54   0x0000003c   Code   RO          519    .text               uidiv.o(mc_4.l)
+    0x00004a90   0x0000003c   Code   RO          521    .text               idiv.o(mc_4.l)
+    0x00004acc   0x000000e8   Code   RO          784    .text               fadd.o(mf_4.l)
+    0x00004bb4   0x00000088   Code   RO          786    .text               fmul.o(mf_4.l)
+    0x00004c3c   0x0000000c   Code   RO          788    .text               fscalb.o(mf_4.l)
+    0x00004c48   0x0000029c   Code   RO          790    .text               dadd.o(mf_4.l)
+    0x00004ee4   0x00000168   Code   RO          792    .text               dmul.o(mf_4.l)
+    0x0000504c   0x0000017c   Code   RO          794    .text               ddiv.o(mf_4.l)
+    0x000051c8   0x0000001c   Code   RO          796    .text               fflti.o(mf_4.l)
+    0x000051e4   0x00000010   Code   RO          798    .text               ffltui.o(mf_4.l)
+    0x000051f4   0x00000038   Code   RO          800    .text               dflti.o(mf_4.l)
+    0x0000522c   0x00000040   Code   RO          802    .text               ffixi.o(mf_4.l)
+    0x0000526c   0x0000007c   Code   RO          804    .text               dfixi.o(mf_4.l)
+    0x000052e8   0x00000038   Code   RO          806    .text               f2d.o(mf_4.l)
+    0x00005320   0x0000005c   Code   RO          808    .text               d2f.o(mf_4.l)
+    0x0000537c   0x00000018   Code   RO          810    .text               cfrcmple.o(mf_4.l)
+    0x00005394   0x00000028   Code   RO          827    .text               llshl.o(mc_4.l)
+    0x000053bc   0x00000024   Code   RO          829    .text               llushr.o(mc_4.l)
+    0x000053e0   0x00000000   Code   RO          838    .text               iusefp.o(mc_4.l)
+    0x000053e0   0x0000006c   Code   RO          839    .text               fepilogue.o(mf_4.l)
+    0x0000544c   0x00000124   Code   RO          841    .text               depilogue.o(mf_4.l)
+    0x00005570   0x0000003c   Code   RO          843    .text               dscalb.o(mf_4.l)
+    0x000055ac   0x00000030   Code   RO          851    .text               init.o(mc_4.l)
+    0x000055dc   0x000000f0   Code   RO          853    .text               drem.o(mf_4.l)
+    0x000056cc   0x00000070   Code   RO          863    .text               __dczerorl2.o(mc_4.l)
+    0x0000573c   0x0000003c   Code   RO          680    i.__0sprintf$6      printf6.o(mc_4.l)
+    0x00005778   0x00000044   Code   RO          489    i.__ARM_common_memcpy1_8_arm  can.o
+    0x000057bc   0x000004a8   Code   RO          815    i.__ieee754_rem_pio2  rred.o(m_4s.l)
+    0x00005c64   0x0000018c   Code   RO          812    i.__kernel_cos      cos_i.o(m_4s.l)
+    0x00005df0   0x000000f4   Code   RO          849    i.__kernel_poly     poly.o(m_4s.l)
+    0x00005ee4   0x00000174   Code   RO          818    i.__kernel_sin      sin_i.o(m_4s.l)
+    0x00006058   0x00000018   Code   RO          857    i.__scatterload_copy  handlers.o(mc_4.l)
+    0x00006070   0x00000004   Code   RO          858    i.__scatterload_null  handlers.o(mc_4.l)
+    0x00006074   0x00000018   Code   RO          859    i.__scatterload_zeroinit  handlers.o(mc_4.l)
+    0x0000608c   0x00000010   Code   RO          833    i.__set_errno       errno.o(mc_4.l)
+    0x0000609c   0x0000046c   Code   RO          685    i._printf_core      printf6.o(mc_4.l)
+    0x00006508   0x00000044   Code   RO          686    i._printf_post_padding  printf6.o(mc_4.l)
+    0x0000654c   0x00000050   Code   RO          687    i._printf_pre_padding  printf6.o(mc_4.l)
+    0x0000659c   0x00000014   Code   RO          689    i._sputc            printf6.o(mc_4.l)
+    0x000065b0   0x000000f8   Code   RO          513    i.sin               sin.o(m_4s.l)
+    0x000066a8   0x00000030   Data   RO          813    .constdata          cos_i.o(m_4s.l)
+    0x000066d8   0x000000c0   Data   RO          816    .constdata          rred.o(m_4s.l)
+    0x00006798   0x00000028   Data   RO          819    .constdata          sin_i.o(m_4s.l)
+    0x000067c0   0x00000020   Data   RO          855    Region$$Table       anon$$obj.o
 
 
     Execution Region RW_IRAM1 (Base: 0x40000000, Size: 0x00002638, Max: 0x00003000, ABSOLUTE, COMPRESSED[0x0000009c])
@@ -1230,30 +1230,30 @@ Memory Map of the image
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x40000000   0x00000020   Data   RW            9    .data               async_scheduler.o
-    0x40000020   0x00000020   Data   RW          152    .data               error.o
-    0x40000040   0x00000008   Data   RW          180    .data               utility.o
-    0x40000048   0x00000008   Data   RW          196    .data               main.o
-    0x40000050   0x0000000c   Data   RW          213    .data               data_nexus.o
-    0x4000005c   0x00000178   Data   RW          281    .data               software_setup.o
-    0x400001d4   0x00000018   Data   RW          313    .data               heartbeat.o
-    0x400001ec   0x00000014   Data   RW          365    .data               buzzer.o
-    0x40000200   0x00000018   Data   RW          387    .data               lcd.o
-    0x40000218   0x00000005   Data   RW          404    .data               microstrain_imu.o
+    0x40000020   0x00000020   Data   RW          158    .data               error.o
+    0x40000040   0x00000008   Data   RW          186    .data               utility.o
+    0x40000048   0x00000008   Data   RW          202    .data               main.o
+    0x40000050   0x0000000c   Data   RW          219    .data               data_nexus.o
+    0x4000005c   0x00000178   Data   RW          287    .data               software_setup.o
+    0x400001d4   0x00000018   Data   RW          319    .data               heartbeat.o
+    0x400001ec   0x00000014   Data   RW          371    .data               buzzer.o
+    0x40000200   0x00000018   Data   RW          393    .data               lcd.o
+    0x40000218   0x00000005   Data   RW          410    .data               microstrain_imu.o
     0x4000021d   0x00000003   PAD
-    0x40000220   0x0000000c   Data   RW          420    .data               mcu_led.o
-    0x4000022c   0x00000014   Data   RW          435    .data               ui_sync_led.o
-    0x40000240   0x00000008   Data   RW          452    .data               rc_receive.o
-    0x40000248   0x0000003c   Data   RW          469    .data               can.o
-    0x40000284   0x00000014   Data   RW          491    .data               song.o
-    0x40000298   0x00000004   Data   RW          828    .data               errno.o(mc_4.l)
+    0x40000220   0x0000000c   Data   RW          426    .data               mcu_led.o
+    0x4000022c   0x00000014   Data   RW          441    .data               ui_sync_led.o
+    0x40000240   0x00000008   Data   RW          458    .data               rc_receive.o
+    0x40000248   0x0000003c   Data   RW          475    .data               can.o
+    0x40000284   0x00000014   Data   RW          497    .data               song.o
+    0x40000298   0x00000004   Data   RW          834    .data               errno.o(mc_4.l)
     0x4000029c   0x00000004   PAD
-    0x400002a0   0x00000218   Zero   RW          151    .bss                error.o
-    0x400004b8   0x0000050c   Zero   RW          298    .bss                can_setup.o
-    0x400009c4   0x00000ca0   Zero   RW          385    .bss                lcd.o
-    0x40001664   0x00000150   Zero   RW          403    .bss                microstrain_imu.o
-    0x400017b4   0x00000050   Zero   RW          451    .bss                rc_receive.o
-    0x40001804   0x00000620   Zero   RW          468    .bss                can.o
-    0x40001e24   0x0000000c   Zero   RW          490    .bss                song.o
+    0x400002a0   0x00000218   Zero   RW          157    .bss                error.o
+    0x400004b8   0x0000050c   Zero   RW          304    .bss                can_setup.o
+    0x400009c4   0x00000ca0   Zero   RW          391    .bss                lcd.o
+    0x40001664   0x00000150   Zero   RW          409    .bss                microstrain_imu.o
+    0x400017b4   0x00000050   Zero   RW          457    .bss                rc_receive.o
+    0x40001804   0x00000620   Zero   RW          474    .bss                can.o
+    0x40001e24   0x0000000c   Zero   RW          496    .bss                song.o
     0x40001e30   0x00000808   Zero   RW            1    STACK               startup.o
 
 
@@ -1264,32 +1264,32 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       312          4          0         32          0      16287   async_scheduler.o
-       180         24          0          0          0       1984   button.o
-       356         24          0         20          0       2172   buzzer.o
-      5156         84          0         60       1568      13693   can.o
-      1240        216          0          0       1292       3918   can_setup.o
-       740          8          0          0          0       5284   can_types.o
-       716         12          0         12          0       5284   data_nexus.o
-      1024         24          0         32        536       4647   error.o
-      1120          8          0          0          0        860   hardware_setup.o
-       140          4          0         24          0       2075   heartbeat.o
-       172         20          0          0          0        638   interrupts.o
-      2096         36          0         24       3232       6952   lcd.o
-       120          4          0          8          0       1284   main.o
-       596          4          0         12          0       3898   mcu_led.o
-      1288         32          0          5        336       5128   microstrain_imu.o
-        44          0          0          0          0       1464   mutex.o
-      1096         12          0          8         80       4434   rc_receive.o
-       524         28          0        376          0       2076   software_setup.o
-       348          8          0         20         12       2405   song.o
-       276         52          0          0       2056        336   startup.o
-       608          4          0          0          0       2588   ui_led.o
-       588         48          0         20          0       2639   ui_sync_led.o
-       332          4          0          8          0       4366   utility.o
+       312          4          0         32          0      15895   async_scheduler.o
+       180         24          0          0          0       1924   button.o
+       356         24          0         20          0       2104   buzzer.o
+      5156         84          0         60       1568      13577   can.o
+      1240        216          0          0       1292       3834   can_setup.o
+       740          8          0          0          0       5256   can_types.o
+       716         12          0         12          0       5228   data_nexus.o
+      1024         24          0         32        536       4555   error.o
+      1120          8          0          0          0        832   hardware_setup.o
+       140          4          0         24          0       1983   heartbeat.o
+       172         20          0          0          0        610   interrupts.o
+      2096         36          0         24       3232       6868   lcd.o
+       120          4          0          8          0       1196   main.o
+       596          4          0         12          0       3806   mcu_led.o
+      1288         32          0          5        336       5040   microstrain_imu.o
+        44          0          0          0          0       1404   mutex.o
+      1096         12          0          8         80       4346   rc_receive.o
+       524         28          0        376          0       1992   software_setup.o
+       348          8          0         20         12       2317   song.o
+       276         52          0          0       2056        308   startup.o
+       608          4          0          0          0       2528   ui_led.o
+       588         48          0         20          0       2555   ui_sync_led.o
+       332          4          0          8          0       4270   utility.o
 
     ----------------------------------------------------------------------
-     19072        660         32        664       9112      94412   Object Totals
+     19072        660         32        664       9112      92428   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          0          0          0          3          0          0   (incl. Padding)
 
@@ -1357,8 +1357,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     26280        872        312        668       9116      93132   Grand Totals
-     26280        872        312        156       9116      93132   ELF Image Totals (compressed)
+     26280        872        312        668       9116      91148   Grand Totals
+     26280        872        312        156       9116      91148   ELF Image Totals (compressed)
      26280        872        312        156          0          0   ROM Totals
 
 ==============================================================================

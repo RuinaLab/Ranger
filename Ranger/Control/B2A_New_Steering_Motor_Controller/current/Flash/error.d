@@ -1,6 +1,7 @@
 .\Flash\error.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\error.c
 .\Flash\error.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
 .\Flash\error.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
+.\Flash\error.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stddef.h
 .\Flash\error.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\error.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\error.o: ..\..\Ranger_Configuration\can_id.h
@@ -38,6 +39,7 @@
 .\Flash\error.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_ui_sync_led\ui_sync_led.h
 .\Flash\error.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_fun\song.h
 .\Flash\error.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_i2c_color\i2c_color.h
+.\Flash\error.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_oemstar_gps\oemstar_gps.h
 .\Flash\error.o: .\src\hardware_setup.h
 .\Flash\error.o: .\src\software_setup.h
 .\Flash\error.o: .\src\data_nexus.h

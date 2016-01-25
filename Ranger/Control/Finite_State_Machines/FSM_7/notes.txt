@@ -1,0 +1,4 @@
+17 June 2010
+
+This FSM is very close the one used for Barton testing before the first big attempt on 19 June 2010.
+FSM 8 has all features of this FSM plus added reset state in ui_fsm.

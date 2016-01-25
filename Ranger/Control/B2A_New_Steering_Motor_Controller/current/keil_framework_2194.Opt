@@ -18,26 +18,26 @@ GRPOPT 2,(OS),1,0,0
 GRPOPT 3,(Setup),1,0,0
 GRPOPT 4,(Modules),1,0,0
 
-OPTFFF 1,1,1,285212672,0,0,0,0,<.\src\main.c><main.c> 
+OPTFFF 1,1,1,0,0,1,1,0,<.\src\main.c><main.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,236,3,0,0,158,1,0,0 }
 OPTFFF 1,2,2,0,0,0,0,0,<.\src\Startup.s><Startup.s> 
-OPTFFF 2,3,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\async_scheduler.c><async_scheduler.c> 
+OPTFFF 2,3,1,0,0,1,1,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\async_scheduler.c><async_scheduler.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,88,0,0,0,116,0,0,0,68,4,0,0,18,2,0,0 }
 OPTFFF 2,4,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\error.c><error.c> 
 OPTFFF 2,5,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\mutex.c><mutex.c> 
 OPTFFF 2,6,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\utility.c><utility.c> 
-OPTFFF 3,7,1,83886080,0,0,0,0,<.\src\hardware_setup.c><hardware_setup.c> 
-OPTFFF 3,8,1,1040187394,0,26,37,0,<.\src\software_setup.c><software_setup.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,66,0,0,0,66,0,0,0,190,4,0,0,60,2,0,0 }
-OPTFFF 3,9,1,83886080,0,1,12,0,<.\src\can_setup.c><can_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,88,0,0,0,88,0,0,0,212,4,0,0,82,2,0,0 }
+OPTFFF 3,7,1,0,0,16,16,0,<.\src\hardware_setup.c><hardware_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,75,0,0,0,75,0,0,0,213,5,0,0,204,1,0,0 }
+OPTFFF 3,8,1,2,0,76,90,0,<.\src\software_setup.c><software_setup.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,66,0,0,0,66,0,0,0,190,4,0,0,60,2,0,0 }
+OPTFFF 3,9,1,83886080,0,1,12,0,<.\src\can_setup.c><can_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,88,0,0,0,88,0,0,0,212,4,0,0,82,2,0,0 }
 OPTFFF 3,10,1,587202560,0,0,0,0,<.\src\interrupts.c><interrupts.c> 
 OPTFFF 3,11,1,0,0,124,124,0,<.\src\data_nexus.c><data_nexus.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,0,0,0,0,0,0,0,0,120,4,0,0,246,1,0,0 }
 OPTFFF 3,12,1,0,0,0,0,0,<.\src\Retarget.c><Retarget.c> 
 OPTFFF 4,13,1,117440512,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_heartbeat\heartbeat.c><heartbeat.c> 
 OPTFFF 4,14,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_mcu_led\mcu_led.c><mcu_led.c> 
 OPTFFF 4,15,1,1224736768,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_adc_internal\adc_internal.c><adc_internal.c> 
-OPTFFF 4,16,1,0,0,91,91,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_motor_controller\motor_controller.c><motor_controller.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,66,0,0,0,66,0,0,0,134,3,0,0,124,1,0,0 }
+OPTFFF 4,16,1,419430400,0,1,1,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_motor_controller\motor_controller.c><motor_controller.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,66,0,0,0,66,0,0,0,134,3,0,0,124,1,0,0 }
 OPTFFF 4,17,1,167772160,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_uart\UART.c><UART.c> 
 OPTFFF 4,18,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_uart_int\uart_int.c><uart_int.c> 
 OPTFFF 4,19,1,33554432,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_adc_external\adc_external.c><adc_external.c> 
-OPTFFF 4,20,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can.c><can.c> 
+OPTFFF 4,20,1,0,0,1,1,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can.c><can.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,100,0,0,0,100,0,0,0,238,5,0,0,229,1,0,0 }
 OPTFFF 4,21,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can_types.c><can_types.c> 
 
 

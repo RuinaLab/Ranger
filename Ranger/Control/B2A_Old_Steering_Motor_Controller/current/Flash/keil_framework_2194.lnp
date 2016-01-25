@@ -1,0 +1,4 @@
+--device DARMP ".\flash\main.o" ".\flash\startup.o" ".\flash\async_scheduler.o" ".\flash\error.o" ".\flash\mutex.o" ".\flash\utility.o" ".\flash\hardware_setup.o" ".\flash\software_setup.o" ".\flash\can_setup.o" ".\flash\interrupts.o" ".\flash\data_nexus.o" ".\flash\retarget.o" ".\flash\heartbeat.o" ".\flash\mcu_led.o" ".\flash\adc_internal.o" ".\flash\motor_controller.o" ".\flash\uart.o" ".\flash\uart_int.o" ".\flash\adc_external.o" ".\flash\abs_enc.o" ".\flash\can.o" ".\flash\can_types.o" ".\flash\qdc.o" ".\flash\qdc_2x_fiq_handler.o" --library_type=microlib --strict --scatter ".\Flash\keil_framework_2194.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\Flash\keil_framework_2194.map" -o ".\Flash\keil_framework_2194.axf"

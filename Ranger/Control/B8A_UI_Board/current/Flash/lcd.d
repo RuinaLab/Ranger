@@ -1,7 +1,8 @@
 .\Flash\lcd.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_lcd\lcd.c
 .\Flash\lcd.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\lcd.o: C:\Keil\ARM\RV31\INC\stdio.h
-.\Flash\lcd.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\lcd.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
+.\Flash\lcd.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stddef.h
+.\Flash\lcd.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\lcd.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\lcd.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\lcd.o: ..\..\Ranger_Configuration\error_id.h
@@ -38,6 +39,7 @@
 .\Flash\lcd.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_ui_sync_led\ui_sync_led.h
 .\Flash\lcd.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_fun\song.h
 .\Flash\lcd.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_i2c_color\i2c_color.h
+.\Flash\lcd.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_oemstar_gps\oemstar_gps.h
 .\Flash\lcd.o: .\src\hardware_setup.h
 .\Flash\lcd.o: .\src\software_setup.h
 .\Flash\lcd.o: .\src\data_nexus.h

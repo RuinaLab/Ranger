@@ -1,0 +1,423 @@
+# All lines beginning with '#' are commented out (ignored) by the parser.,,,,
+# Multiple Boards are separated with ';',,,,
+# You can use the board acronyms or numbers for Source/Dest Numbers,,,,
+# Board Acronyms & Numbers are from the board_table.csv,,,,
+# To add a new receive id (satellite to MB) change one of the EMPTY_RX ids to the desired name.,,,,
+# To add a new transmit id (MB to satellite) change one of the EMPTY_TX ids to the desired name.,,,,
+#,,,,
+# ID Name (All UPPERCASE!),Default Val,Source Num,Dest Num(s),Comment
+TIMESTAMP,0,2,1,Timestamp
+#Errors,,,,
+ERROR_MB,0,1,0,
+ERROR_CSR,0,2,1,
+ERROR_MCH,0,3,1,
+ERROR_MCFO,0,4,1,
+ERROR_MCFI,0,5,1,
+ERROR_MCSO,0,6,1,
+ERROR_MCSI,0,7,1
+ERROR_UI,0,8,1
+MB_STATUS,0,1,3;4;5;6;7;8;9
+#Hip MC,,,
+MCH_MOTOR_VELOCITY,0,3,1
+MCH_MOTOR_CURRENT,0,3,1
+MCH_MOTOR_POSITION,0,3,1
+MCH_MOTOR_TARGET_CURRENT,0,1,3
+MCH_ANGLE,0,3,1
+MCH_BATT_POWER,0,3,1
+MCH_SHUTDOWN,0,1,3
+MCH_SLEEP,0,1,3
+MCH_COMMAND_CURRENT,0,1,3
+MCH_STIFFNESS,0,1,3
+MCH_DAMPNESS,0,1,3
+MCH_ANG_RATE,0,3,1
+MCH_STATUS,0,3,1
+MCH_EXECUTION_TIME,0,3,1
+MCH_MAX_EXECUTION_TIME,0,3,1
+MCH_EMPTY_TX1,0,1,3
+MCH_EMPTY_TX2,0,1,3
+MCH_BATT_CURRENT,0,3,1
+MCH_BATT_VOLTAGE,0,3,1
+MCH_HBRIDGE_TEMP,0,3,1
+MCH_EMPTY_RX1,0,3,1
+MCH_EMPTY_RX2,0,3,1
+MCH_EMPTY_RX3,0,3,1
+#Outer Foot MC,,,
+MCFO_MOTOR_POSITION,0,4,1
+MCFO_MOTOR_VELOCITY,0,4,1
+MCFO_MOTOR_CURRENT,0,4,1
+MCFO_MOTOR_TARGET_CURRENT,0,1,4
+MCFO_RIGHT_ANKLE_ANGLE,0,4,1
+MCFO_RIGHT_LS,0,4,1
+MCFO_LEFT_LS,0,4,1
+MCFO_RIGHT_HS,0,4,1
+MCFO_LEFT_HS,0,4,1
+MCFO_SHUTDOWN,0,1,4
+MCFO_SLEEP,0,1,4
+MCFO_BATT_POWER,0,4,1
+MCFO_COMMAND_CURRENT,0,1,4
+MCFO_STIFFNESS,0,1,4
+MCFO_DAMPNESS,0,1,4
+MCFO_STATUS,0,4,1
+MCFO_LEFT_HEEL_SENSE,0,4,1
+MCFO_RIGHT_HEEL_SENSE,0,4,1
+MCFO_EXECUTION_TIME,0,4,1
+MCFO_MAX_EXECUTION_TIME,0,4,1
+MCFO_HS_STATE,0,1,4
+MCFO_EMPTY_TX2,0,1,4
+MCFO_BATT_CURRENT,0,4,1
+MCFO_BATT_VOLTAGE,0,4,1
+MCFO_HBRIDGE_TEMP,0,4,1
+MCFO_OUTER_HS,0,4,1
+MCFO_RIGHT_ANKLE_RATE,0,4,1
+MCFO_EMPTY_RX3,0,4,1
+#Inner Foot MC,,,
+MCFI_MOTOR_VELOCITY,0,5,1
+MCFI_MOTOR_CURRENT,0,5,1
+MCFI_MOTOR_POSITION,0,5,1
+MCFI_MOTOR_TARGET_CURRENT,0,1,5
+MCFI_MID_ANKLE_ANGLE,0,5,1
+MCFI_RIGHT_LS,0,5,1
+MCFI_LEFT_LS,0,5,1
+MCFI_RIGHT_HS,0,5,1
+MCFI_LEFT_HS,0,5,1
+MCFI_BATT_POWER,0,5,1
+MCFI_SHUTDOWN,0,1,5
+MCFI_SLEEP,0,1,5
+MCFI_COMMAND_CURRENT,0,1,5
+MCFI_STIFFNESS,0,1,5
+MCFI_DAMPNESS,0,1,5
+MCFI_STATUS,0,5,1
+MCFI_LEFT_HEEL_SENSE,0,5,1
+MCFI_RIGHT_HEEL_SENSE,0,5,1
+MCFI_EXECUTION_TIME,0,5,1
+MCFI_MAX_EXECUTION_TIME,0,5,1
+MCFI_HS_STATE,0,1,5
+MCFI_EMPTY_TX2,0,1,5
+MCFI_BATT_CURRENT,0,5,1
+MCFI_BATT_VOLTAGE,0,5,1
+MCFI_HBRIDGE_TEMP,0,5,1
+MCFI_INNER_HS,0,5,1
+MCFI_ANKLE_RATE,0,5,1
+MCFI_EMPTY_RX3,0,5,1
+#COL color sensor board,,,
+COL_STATUS,0,9,1
+COL_FRONT_WHITE,0,9,1
+COL_FRONT_RED,0,9,1
+COL_FRONT_GREEN,0,9,1
+COL_FRONT_BLUE,0,9,1
+COL_EXECUTION_TIME,0,9,1
+COL_MAX_EXECUTION_TIME,0,9,1
+ERROR_COL,0,9,1
+COL_EMPTY2,0,9,1
+COL_EMPTY3,0,9,1
+#Outer (Old) Steering MC,,,
+MCSO_LEFT_ANKLE_ANGLE,0,6,1;4
+MCSO_LEFT_ANKLE_RATE,0,6,1
+MCSO_EMPTY_TX1,0,1,6
+MCSO_EMPTY_TX2,0,1,6
+MCSO_STATUS,0,6,1
+MCSO_COLOR_BACK_WHITE,0,6,1
+MCSO_COLOR_BACK_RED,0,6,1
+MCSO_COLOR_BACK_GREEN,0,6,1
+MCSO_COLOR_BACK_BLUE,0,6,1
+MCSO_EXECUTION_TIME,0,6,1
+MCSO_MAX_EXECUTION_TIME,0,6,1
+#Inner (New) Steering MC,,,
+MCSI_MOTOR_CURRENT,0,7,1
+MCSI_MOTOR_TARGET_CURRENT,0,1,7
+MCSI_STEER_ANGLE,0,7,1
+MCSI_BATT_POWER,0,7,1
+MCSI_SHUTDOWN,0,1,7
+MCSI_SLEEP,0,1,7
+MCSI_COMMAND_CURRENT,0,1,7
+MCSI_STIFFNESS,0,1,7
+MCSI_DAMPNESS,0,1,7
+MCSI_STATUS,0,7,1
+MCSI_EXECUTION_TIME,0,7,1
+MCSI_MAX_EXECUTION_TIME,0,7,1
+MCSI_EMPTY_TX1,0,1,7
+MCSI_EMPTY_TX2,0,1,7
+MCSI_BATT_CURRENT,0,7,1
+MCSI_BATT_VOLTAGE,0,7,1
+MCSI_HBRIDGE_TEMP,0,7,1
+MCSI_EMPTY_RX1,0,7,1
+MCSI_EMPTY_RX2,0,7,1
+MCSI_EMPTY_RX3,0,7,1
+#User Interface,,,
+UI_SET_LCD_QUAD_1,0,1,8
+UI_SET_LCD_QUAD_2,0,1,8
+UI_SET_LCD_QUAD_3,0,1,8
+UI_SET_LCD_QUAD_4,0,1,8
+UI_SET_LED_1,0,1,8
+UI_SET_LED_2,0,1,8
+UI_SET_LED_3,0,1,8
+UI_SET_LED_4,0,1,8
+UI_SET_LED_5,0,1,8
+UI_SET_LED_6,0,1,8
+UI_SET_BUZZER_FREQ,0,1,8
+UI_SET_BUZZER_AMPL,0,1,8
+UI_ROLL,0,8,1
+UI_PITCH,0,8,1
+UI_YAW,0,8,1
+UI_ANG_RATE_X,0,8,1
+UI_ANG_RATE_Y,0,8,1
+UI_ANG_RATE_Z,0,8,1
+UI_BUTTONS,0,8,1
+UI_RC_0,0,8,1
+UI_RC_1,0,8,1
+UI_RC_2,0,8,1
+UI_RC_3,0,8,1
+UI_EXECUTION_TIME,0,8,1
+UI_MAX_EXECUTION_TIME,0,8,1
+UI_AUDIO,0,1,8
+UI_EMPTY_TX2,0,1,8
+UI_STATUS,0,8,1
+UI_EMPTY_RX4,0,8,1
+UI_EMPTY_RX5,0,8,1
+#Can to SSP Router,,,,
+CSR_CAN1_LOAD,0,2,0,
+CSR_CAN2_LOAD,0,2,0,
+CSR_CAN3_LOAD,0,2,0,
+CSR_CAN4_LOAD,0,2,0,
+CSR_MCU_POWER,0,2,0,
+CSR_EMPTY_TX1,0,1,2,
+CSR_EMPTY_TX2,0,1,2,
+CSR_MCU_VOLTAGE,0,2,1,
+CSR_MCU_CURRENT,0,2,1,
+CSR_EMPTY_RX4,0,2,1,
+CSR_EMPTY_RX5,0,2,1,
+#Main Brain,,,,
+MB_EXECUTION_TIME,0,1,0,Time required to finish the schedule
+ERROR_LABVIEW,0,1,0,Buffered errors for transmission to LabView/PC
+ERROR_LCD,0,1,8,Buffered errors for transmission to Ranger LCD
+MB_SYSTEM_INIT_FSM_STATE,0,1,0,System_init_fsm state number
+MB_HIP_FSM_STATE,0,1,0,hip fsm state number
+MB_FOOT_INNER_FSM_STATE,0,1,0,inner foot fsm state number
+MB_FOOT_OUTER_FSM_STATE,0,1,0,outer foot fsm state number
+MB_STEERING_FSM_STATE,0,1,0,steering fsm state number
+MB_UI_FSM_STATE,0,1,0,ui fsm state number
+MB_TOP_FSM_STATE,0,1,0,top fsm state number
+MB_LEG_FSM_STATE,0,1,0,leg fsm state
+MB_EMPTY_FSM3,0,1,0,Unused FSM ID
+#State Estimator,,,,
+E_INNER_ANG_RATE,0,1,0,inner leg angular rate from estimator (world frame)
+E_OUTER_ANG_RATE ,0,1,0,outer leg angular rate from estimator (world frame)
+E_INNER_ANGLE,0,1,0,inner leg angle from estimator (world frame)
+E_OUTER_ANGLE,0,1,0,outer leg angle from estimator (world frame)
+E_T_AFTER_HS,0,1,0,
+E_LI_ABSANG,0,1,0,
+E_LO_ABSANG,0,1,0,
+E_H_RATE,0,1,0,estimated hip angular rate
+E_FI_ABSANG,0,1,0,estimated inner foot absolute angle
+E_FO_ABSANG,0,1,0,estimated outer foot absolute angle
+E_SWING_F_HEIGHT,0,1,0,estimated swing foot height from level ground
+E_LEG_STATE,0,1,0,estimated swing leg state
+E_MIDSTANCE_LEGRATE,0,1,0,velocity of stance leg when robot is upright
+E_MIDSTANCE_HIPRATE,0,1,0,velocity of hip when robot is upright (positive if robot is walking fwd)
+E_MIDSTANCE_HIPANG,0,1,0,angle of hip when robot is upright (positive if swing leg is in front of stance leg)
+E_MIDSTANCE_TIME,0,1,0,time for midstance measured from heelstrike
+E_STEP_LEGANG,0,1,0,stance leg angle at heelstrike
+E_STEP_LEGRATE,0,1,0,stance leg rate at heelstrike
+E_STEP_HIPANG,0,1,0,hip angle at heelstrike (positive for fwd step)
+E_STEP_TIME,0,1,0,step time
+E_STEP_NO,0,1,0,number of steps
+E_TOTAL_DISTANCE,0,1,0,total distance walked
+E_SS0_LEGANG,0,1,0,leg angle at beginning of swing phase
+E_SS0_LEGRATE,0,1,0,leg rate at beginning of swing phase
+E_H_MOTOR_RATE,0,1,0,motor rate
+E_EXEC_TIME,0,1,0,time taken by estimator
+E_INT_LO_ABSANG_RESET,0,1,0,outer foot reset at hs
+E_TIME_TO_HS,0,1,0,estimated time to hs
+E_SLOPE,0,1,0,estimated ground slope
+E_SWING_LEG,0,1,0,0 for outer and 1 for inner
+E_F_PP_MISSED,0,1,0,0 for outer and 1 for inner prepush missed
+E_F_PP2HS_TIME,0,1,0,prepush to heelstrike time
+E_F_PP_TIME,0,1,0,prepush time in ms
+E_F_AP_TIME,0,1,0,afterpush time in ms
+E_H_PS_TIME,0,1,0,pre-swing time in ms
+E_TEST1,0,1,0,dummy for testing
+E_TEST2,0,1,0,dummy for testing
+E_TEST3,0,1,0,dummy for testing
+E_TEST4,0,1,0,dummy for testing
+E_TEST5,0,1,0,dummy for testing
+E_TEST6,0,1,0,dummy for testing
+E_TEST7,0,1,0,dummy for testing
+E_TEST8,0,1,0,dummy for testing
+E_TEST9,0,1,0,dummy for testing
+E_TEST10,0,1,0,dummy for testing
+E_TEST11,0,1,0,dummy for testing
+E_TEST12,0,1,0,dummy for testing
+#Hip State Machines,,,,
+FSM_RESET,0,1,0,resets the fsm so that the robot is easier to start walking
+C_H_OUTER_STIFFNESS,2,0,1,stiffness to add in outer feet to make legs symmetric (was 1)
+C_H_OUTER_DAMPNESS,0,0,1,dampness to add in outer feet to make legs symmetric 
+A_H_PM_A0,0,0,1,pre-mid constant current part
+A_H_PM_A1,0,0,1,pre-mid linear current part not used
+C_H_PM_H_RATE,2,0,1,gain on velocity control
+P_H_PM_H_TRATE,2,0,1,target hip velocity in premid
+P_H_PM_TIME,300,0,1,not used
+C_HI_SH_H_ANG,30,0,1,
+C_HI_SH_H_RATE,3,0,1,
+C_H_EH_H_ANG,30,0,1,
+C_H_EH_H_RATE,4,0,1,
+P_HI_SH_H_TANG,0.35,0,1,
+P_H_EH_H_TANG,0.35,0,1,
+P_H_EHOLD_ANG,0.2,0,1,
+P_H_EHOLD_ANG2,0.3,0,1,
+P_H_EH_L_TRATE,0.4,0,1,target legrate below which ehold should kick in (was 0.5)
+P_H_EH_L_TANG,0.2,0,1,target mid-stance angle for ehold
+P_H_PM_F_ANG,0,0,1,feet absolute angle before pre-mid starts
+P_H_PM_F_RATE,5,0,1,ankle swing rate before pre-mid starts
+D_H_ON,1,0,1,hip discrete control on 
+DA_H_AM_A0,0,1,0,value of current put in by discrete controller
+DP_H_AM_H_ANG,0,0,1,
+DC_H_AM_H_ANG,2,0,1,
+DP_H_AM_L_ABSRATE,0,0,1,
+DC_H_AM_L_ABSRATE,0,0,1,
+DP_H_AM_H_RATE,1.4,0,1,
+DC_H_AM_H_RATE,1,0,1,
+DP_H_AM_H_DRATE,2.3,0,1,
+DC_H_AM_H_DRATE,2,0,1,
+H_TEST1,0,0,1,dummy for testing hip
+H_TEST2,0,0,1,dummy for testing hip
+H_TEST3,0,0,1,dummy for testing hip
+H_TEST4,0,0,1,dummy for testing hip
+H_TEST5,0,0,1,dummy for testing hip
+#Foot State Machines,,,,
+P_F_PP_OUTER_BIAS,1,0,1,
+C_F_ST_F_ANG,4,0,1,
+C_F_ST_F_RATE,0.2,0,1,
+C_F_PP_F_ANG,8,0,1,
+C_F_PP_F_ANG2,8,0,1,
+C_F_PP_F_RATE,0,0,1,spiky data. so set to zero
+C_F_AP_F_ANG,8,0,1,
+C_F_AP_F_RATE,0,0,1,
+A_F_PP_A0,0,0,1,current for prepush
+C_F_FU_F_ANG,1.5,0,1,
+C_F_FU_F_RATE,0.1,0,1,
+C_F_FD_F_ANG,1.5,0,1,
+C_F_FD_F_RATE,0.1,0,1,
+C_FO_SST_F_ANG,4,0,1,
+C_FO_SST_F_RATE,0.2,0,1,
+C_F_SST_F_ANG,30,0,1,
+C_F_SST_F_RATE,0.3,0,1,
+P_F_PP_L_ABSANG,0.12,0,1,was 0.07 for barton record walk
+P_F_PP_F_ABSANG,1.7,0,1,absolute feet angle for push-off
+P_FO_PP_THEIGHT,0.01,0,1,push-off trigger for outer foot
+P_FI_PP_THEIGHT,0.01,0,1,push-off trigger for inner foot
+P_F_AP_F_ANG,0,0,1,
+P_F_FU_H_ANG,0.1,0,1,was 0.13 for barton record walk
+P_F_FU_F_TANG,0.2,0,1,
+P_F_ST_F_TANG,2,0,1,
+P_F_PP_F_TANG,0.3,0,1,was 0.5 for barton record walk
+P_F_PP_F_TANG2,0.3,0,1,
+P_F_PP_FRAC_ANG,0.5,0,1,angle turned for prepush completion
+P_F_AP_F_TANG,0,0,1,
+P_F_FD_F_TANG,2,0,1,
+P_F_SST_F_TANG,2,0,1,
+P_FO_SST_F_TANG,2,0,1,
+P_F_FU_F_CABL_STRETCH,0.07,0,1,cable stretch
+P_F_AP_TIME,30,0,1,maximum time for after-push in ms
+P_F_PP_F_LRATE,0.5,0,1,rate below which emergency prepush should occur
+P_F_PP_F_HRATE,0.8,0,1,rate above which pre-push should be cut-off
+P_F_PP_TIME,10,0,1,trigger for double-stance push-off for missed prepush
+D_F_ON,1,0,1,foot discrete control on
+DA_F_PP_A0,0,1,0,value of current put in by discrete controller
+DP_F_PP_L_ABSRATE,0.6,0,1,
+DC_F_PP_L_ABSRATE,10,0,1,gain on dampness in pp control
+DC_F_PP_L_ABSRATE2,0.5,0,1,gain on angle in pp control
+F_TEST1,0,0,1,dummy for testing feet
+F_TEST2,0,0,1,dummy for testing feet
+F_TEST3,0,0,1,dummy for testing feet
+F_TEST4,0,0,1,dummy for testing feet
+F_TEST5,0,0,1,dummy for testing feet
+F_TEST6,0,0,1,dummy for testing feet
+F_TEST7,0,0,1,dummy for testing feet
+F_TEST8,0,0,1,dummy for testing feet
+#Steering State Machines,,,,
+P_S_NULL_H_TANG,0.1,0,1,hip trigger angle
+P_S_ILST_S_MAXANG,100,0,1,
+P_S_ILSW_S_MAXANG,0,0,1,
+C_S_NULL_S_ANG,0,0,1,gain of 0.002 works well
+C_S_NULL_S_RATE,0,0,1,
+P_S_NULL_S_MAX_CUR,75,0,1,max current for steering
+P_S_ILST_TWITCH_FRAC,1,0,0,fraction by which legs should twitch in stance a number between one and minus one
+P_S_ILST_TWITCH_TIME,1,0,0,twice this time is the time for the twitch to take place in stance
+D_S_NULL_S_DANG,0,1,0,desired steer angle commanded by rc
+P_S_NULL_RC_DEADBAND,0.02,0,1,dead band for rc control
+#UI State Machine,,,,
+P_UI_PP2HS_TTIME,80,0,1,set led if time is more that this time in ms
+#Top fsm,,,,
+A_T_RC0_NORM,0,1,0,normalized rc0 value
+A_T_RC1_NORM,0,1,0,normalized rc1 value
+T_TEST1,0,1,0,
+T_TEST2,0,1,0,
+T_TEST3,0,1,0,
+T_TEST4,0,1,0,
+T_TEST5,0,1,0,
+T_TEST6,0,1,0,
+#Absolute Computer Time for Video Syncing,,,,
+ABSOLUTE_COMP_TIME,0,0,1,
+#Learning Algorithm,,,,
+GBRL_DELTA,0.02,0,1,Percent change for parameter perturbation
+GBRL_MAX_STEPS,8,0,1,Number of steps per average reward computation
+GBRL_REWARD,0,1,0,Current value of the GBRL reward function (usually Cost of Transport)
+GBRL_POWER,0,1,0,Current estimated power consumption
+GBRL_VELOCITY,0,1,0,Current estimated velocity of Ranger
+GBRL_COT,0,1,0,Current estimated Cost of Transport
+GBRL_CURRENT_PARAM,0,1,0,Current parameter being perturbed
+GBRL_STEP_TIME,0,1,0,Time of the previous step
+GBRL_STEP_LENGTH,0,1,0,Length of the previous step
+GBRL_STEP_VELOCITY,0,1,0,Avg. Velocity of the previous step
+GBRL_STABILITY,0,1,0,Estimated stability of Ranger
+#Labview,,,,
+LV_START,,,,
+LV_CH_0,,,,
+LV_CH_1,,,,
+LV_CH_2,,,,
+LV_CH_3,,,,
+LV_CH_4,,,,
+LV_CH_5,,,,
+LV_CH_6,,,,
+LV_CH_7,,,,
+LV_CH_8,,,,
+LV_CH_9,,,,
+LV_CH_10
+LV_CH_11
+LV_CH_12
+LV_CH_13
+LV_CH_14
+LV_CH_15
+LV_CH_16
+LV_CH_17
+LV_CH_18
+LV_CH_19
+LV_CH_20
+LV_CH_21
+LV_CH_22
+LV_CH_23
+LV_CH_24
+LV_CH_25
+LV_CH_26
+LV_CH_27
+LV_CH_28
+LV_CH_29
+LV_CH_30
+LV_CH_31
+LV_CH_32
+LV_CH_33
+LV_CH_34
+LV_CH_35
+LV_CH_36
+LV_CH_37
+LV_CH_38
+LV_CH_39
+LV_CH_40
+LV_CH_41
+LV_CH_42
+LV_CH_43
+LV_CH_44
+LV_CH_45
+LV_CH_46
+LV_CH_47
+LV_VERSION

@@ -1,7 +1,8 @@
 .\Flash\buzzer.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_buzzer\buzzer.c
 .\Flash\buzzer.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\buzzer.o: C:\Keil\ARM\RV31\INC\stdio.h
-.\Flash\buzzer.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\buzzer.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
+.\Flash\buzzer.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stddef.h
+.\Flash\buzzer.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\buzzer.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\buzzer.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\buzzer.o: ..\..\Ranger_Configuration\error_id.h
@@ -38,8 +39,9 @@
 .\Flash\buzzer.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_ui_sync_led\ui_sync_led.h
 .\Flash\buzzer.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_fun\song.h
 .\Flash\buzzer.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_i2c_color\i2c_color.h
+.\Flash\buzzer.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_oemstar_gps\oemstar_gps.h
 .\Flash\buzzer.o: .\src\hardware_setup.h
 .\Flash\buzzer.o: .\src\software_setup.h
 .\Flash\buzzer.o: .\src\data_nexus.h
 .\Flash\buzzer.o: .\src\interrupts.h
-.\Flash\buzzer.o: C:\Keil\ARM\RV31\INC\math.h
+.\Flash\buzzer.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\math.h

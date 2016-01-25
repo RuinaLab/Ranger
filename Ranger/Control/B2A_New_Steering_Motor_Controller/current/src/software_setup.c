@@ -34,7 +34,7 @@ void task_every_row(void)
   adcx_conversion_wait();
 
   dn_update_pwm();
-  mc_compliant_control();	// Uncommented by MPK,  Sept 3, 2015
+//  mc_compliant_control();
 }
 
 //A simple function to run other functions at a slow, not necessarily well-timed rate.

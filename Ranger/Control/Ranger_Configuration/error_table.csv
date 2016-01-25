@@ -112,7 +112,3 @@ MC,FIXED_LIMIT,0,PID value has reached Fixed point limit
 MC,PWM_LIMIT,0,Requested PWM has reached limit
 MC,NOT_RUNNING,0,MC is not running due to off sleep shutdown thermal or mechanical states
 AE,SPIKE,0,A spike was detected and limited. 
-EST,FILTER_TIME_VIOLATION,0,An invalid time-stamp was passed to the butterworth filter.
-EST,ROBOT_FALL,0,Estimator detected that the robot fell down. Aborting walk  --   force transition to safe mode
-EST,INCOMPLETE_TRIAL,0,You accepted a trial before the minimum required number of steps!!!
-EST,STUTTER_STEP,0,Robot failed to satisfy minimum step time. Stutter Step occurred.

@@ -1,6 +1,7 @@
 .\Flash\can_setup.o: src\can_setup.c
 .\Flash\can_setup.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
 .\Flash\can_setup.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
+.\Flash\can_setup.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stddef.h
 .\Flash\can_setup.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\can_setup.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\can_setup.o: ..\..\Ranger_Configuration\can_id.h
@@ -38,6 +39,7 @@
 .\Flash\can_setup.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_ui_sync_led\ui_sync_led.h
 .\Flash\can_setup.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_fun\song.h
 .\Flash\can_setup.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_i2c_color\i2c_color.h
+.\Flash\can_setup.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_oemstar_gps\oemstar_gps.h
 .\Flash\can_setup.o: .\src\hardware_setup.h
 .\Flash\can_setup.o: .\src\software_setup.h
 .\Flash\can_setup.o: .\src\data_nexus.h

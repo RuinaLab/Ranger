@@ -1,4 +1,6 @@
 # All lines beginning with '#' are commented out (ignored) by the parser.,,,,
+# Note: Do not use commas in uncommented cells!!!,,,,
+#,,,,
 # Multiple Boards are separated with ';',,,,
 # You can use the board acronyms or numbers for Source/Dest Numbers,,,,
 # Board Acronyms & Numbers are from the board_table.csv,,,,
@@ -6,7 +8,7 @@
 # To add a new transmit id (MB to satellite) change one of the EMPTY_TX ids to the desired name.,,,,
 #,,,,
 # ID Name (All UPPERCASE!),Default Val,Source Num,Dest Num(s),Comment
-TIMESTAMP,0,2,1,Timestamp
+TIMESTAMP,0,2,1,Timestamp // time since turning on of the robot in milliseconds
 #Errors,,,,
 ERROR_MB,0,1,0,
 ERROR_CSR,0,2,1,
@@ -18,157 +20,157 @@ ERROR_MCSI,0,7,1,
 ERROR_UI,0,8,1,
 MB_STATUS,0,1,3;4;5;6;7;8;9,
 #Hip MC,,,,
-MCH_MOTOR_VELOCITY,0,3,1,
-MCH_MOTOR_CURRENT,0,3,1,
-MCH_MOTOR_POSITION,0,3,1,
+MCH_MOTOR_VELOCITY,0,3,1,angular rate (rad/sec) of hip motor
+MCH_MOTOR_CURRENT,0,3,1,hip motor current
+MCH_MOTOR_POSITION,0,3,1,angle in radians of the hip motor
 MCH_MOTOR_TARGET_CURRENT,0,1,3,
-MCH_ANGLE,0,3,1,
-MCH_BATT_POWER,0,3,1,
-MCH_SHUTDOWN,0,1,3,
+MCH_ANGLE,0,3,1,angle in radians of the hip joint (difference between this and the hip motor angle is the gear back lash)
+MCH_BATT_POWER,0,3,1,power consumed by the hip board. 
+MCH_SHUTDOWN,0,1,3,1 = turn off the hip motor
 MCH_SLEEP,0,1,3,
-MCH_COMMAND_CURRENT,0,1,3,
-MCH_STIFFNESS,0,1,3,
-MCH_DAMPNESS,0,1,3,
-MCH_ANG_RATE,0,3,1,
+MCH_COMMAND_CURRENT,0,1,3,desired current to the hip motor = ID_MCH_COMMAND_CURRENT+ ID_MCH_STIFFNESS*hip_angle + ID_MCH_DAMPNESS*hip_angle_rate 
+MCH_STIFFNESS,0,1,3,see above (ID_MCH_COMMAND_CURRENT)
+MCH_DAMPNESS,0,1,3,see above (ID_MCH_COMMAND_CURRENT)
+MCH_ANG_RATE,0,3,1,slightly filtered derivative of ID_MCH_ANGLE
 MCH_STATUS,0,3,1,
-MCH_EXECUTION_TIME,0,3,1,
-MCH_MAX_EXECUTION_TIME,0,3,1,
+MCH_EXECUTION_TIME,0,3,1,time taken to execute all the functions in one row of the scheduler (software_setup.c in hip board) ( should be less than the tick time of the board; eg 0.5 ms for hip motor board)
+MCH_MAX_EXECUTION_TIME,0,3,1,maximum recorded value of the ID_MCH_EXECUTION_TIME since the start of the robot
 MCH_EMPTY_TX1,0,1,3,
 MCH_EMPTY_TX2,0,1,3,
-MCH_BATT_CURRENT,0,3,1,
+MCH_BATT_CURRENT,0,3,1,current in the hip board
 MCH_BATT_VOLTAGE,0,3,1,
 MCH_HBRIDGE_TEMP,0,3,1,
 MCH_EMPTY_RX1,0,3,1,
 MCH_EMPTY_RX2,0,3,1,
 MCH_EMPTY_RX3,0,3,1,
 #Outer Foot MC,,,,
-MCFO_MOTOR_POSITION,0,4,1,
-MCFO_MOTOR_VELOCITY,0,4,1,
-MCFO_MOTOR_CURRENT,0,4,1,
-MCFO_MOTOR_TARGET_CURRENT,0,1,4,
-MCFO_RIGHT_ANKLE_ANGLE,0,4,1,
-MCFO_RIGHT_LS,0,4,1,
-MCFO_LEFT_LS,0,4,1,
-MCFO_RIGHT_HS,0,4,1,
-MCFO_LEFT_HS,0,4,1,
-MCFO_SHUTDOWN,0,1,4,
-MCFO_SLEEP,0,1,4,
-MCFO_BATT_POWER,0,4,1,
-MCFO_COMMAND_CURRENT,0,1,4,
-MCFO_STIFFNESS,0,1,4,
-MCFO_DAMPNESS,0,1,4,
-MCFO_STATUS,0,4,1,
-MCFO_LEFT_HEEL_SENSE,0,4,1,
-MCFO_RIGHT_HEEL_SENSE,0,4,1,
-MCFO_EXECUTION_TIME,0,4,1,
-MCFO_MAX_EXECUTION_TIME,0,4,1,
-MCFO_HS_STATE,0,1,4,
+MCFO_MOTOR_POSITION,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_MOTOR_VELOCITY,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_MOTOR_CURRENT,0,4,1,can_id for Outer Feet board-- check similar can_id; starting with MCH
+MCFO_MOTOR_TARGET_CURRENT,0,1,4,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_RIGHT_ANKLE_ANGLE,0,4,1,ankle joint angle in radians (zero when foot is turned all the way up)
+MCFO_RIGHT_LS,0,4,1,1 = right foot is turned all the way up
+MCFO_LEFT_LS,0,4,1,1 = left foot is turned all the way up
+MCFO_RIGHT_HS,0,4,1,1 = right foot is touching the ground; 0= foot in air
+MCFO_LEFT_HS,0,4,1,1 = left foot is touching the ground; 0= foot in air
+MCFO_SHUTDOWN,0,1,4,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_SLEEP,0,1,4,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_BATT_POWER,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_COMMAND_CURRENT,0,1,4,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_STIFFNESS,0,1,4,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_DAMPNESS,0,1,4,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_STATUS,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_LEFT_HEEL_SENSE,0,4,1,analog value from foot contact sensor (high when foot is touching the ground; low when foot is in air)
+MCFO_RIGHT_HEEL_SENSE,0,4,1,analog value from foot contact sensor (high when foot is touching the ground; low when foot is in air) 
+MCFO_EXECUTION_TIME,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_MAX_EXECUTION_TIME,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_HS_STATE,0,1,4,??? HS means heel strike
 MCFO_EMPTY_TX2,0,1,4,
-MCFO_BATT_CURRENT,0,4,1,
-MCFO_BATT_VOLTAGE,0,4,1,
-MCFO_HBRIDGE_TEMP,0,4,1,
-MCFO_OUTER_HS,0,4,1,
-MCFO_RIGHT_ANKLE_RATE,0,4,1,
+MCFO_BATT_CURRENT,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_BATT_VOLTAGE,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_HBRIDGE_TEMP,0,4,1,can_id for Outer Feet board -- check similar can_id; starting with MCH
+MCFO_OUTER_HS,0,4,1,??? HS means heel strike
+MCFO_RIGHT_ANKLE_RATE,0,4,1,slightly filtered derivative of the ID_MCFO_RIGHT_ANKLE_ANGLE
 MCFO_EMPTY_RX3,0,4,1,
 #Inner Foot MC,,,,
-MCFI_MOTOR_VELOCITY,0,5,1,
-MCFI_MOTOR_CURRENT,0,5,1,
-MCFI_MOTOR_POSITION,0,5,1,
-MCFI_MOTOR_TARGET_CURRENT,0,1,5,
-MCFI_MID_ANKLE_ANGLE,0,5,1,
-MCFI_RIGHT_LS,0,5,1,
-MCFI_LEFT_LS,0,5,1,
-MCFI_RIGHT_HS,0,5,1,
-MCFI_LEFT_HS,0,5,1,
-MCFI_BATT_POWER,0,5,1,
-MCFI_SHUTDOWN,0,1,5,
-MCFI_SLEEP,0,1,5,
-MCFI_COMMAND_CURRENT,0,1,5,
-MCFI_STIFFNESS,0,1,5,
-MCFI_DAMPNESS,0,1,5,
-MCFI_STATUS,0,5,1,
-MCFI_LEFT_HEEL_SENSE,0,5,1,
-MCFI_RIGHT_HEEL_SENSE,0,5,1,
-MCFI_EXECUTION_TIME,0,5,1,
-MCFI_MAX_EXECUTION_TIME,0,5,1,
-MCFI_HS_STATE,0,1,5,
+MCFI_MOTOR_VELOCITY,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_MOTOR_CURRENT,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_MOTOR_POSITION,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_MOTOR_TARGET_CURRENT,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_MID_ANKLE_ANGLE,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
+MCFI_RIGHT_LS,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
+MCFI_LEFT_LS,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
+MCFI_RIGHT_HS,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
+MCFI_LEFT_HS,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
+MCFI_BATT_POWER,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_SHUTDOWN,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_SLEEP,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_COMMAND_CURRENT,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_STIFFNESS,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_DAMPNESS,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_STATUS,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_LEFT_HEEL_SENSE,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
+MCFI_RIGHT_HEEL_SENSE,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
+MCFI_EXECUTION_TIME,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_MAX_EXECUTION_TIME,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_HS_STATE,0,1,5,can_id for Inner Feet board -- check similar can_id; starting with MCFO
 MCFI_EMPTY_TX2,0,1,5,
-MCFI_BATT_CURRENT,0,5,1,
-MCFI_BATT_VOLTAGE,0,5,1,
-MCFI_HBRIDGE_TEMP,0,5,1,
-MCFI_INNER_HS,0,5,1,
-MCFI_ANKLE_RATE,0,5,1,
+MCFI_BATT_CURRENT,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_BATT_VOLTAGE,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_HBRIDGE_TEMP,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCH
+MCFI_INNER_HS,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
+MCFI_ANKLE_RATE,0,5,1,can_id for Inner Feet board -- check similar can_id; starting with MCFO
 MCFI_EMPTY_RX3,0,5,1,
 #COL color sensor board,,,,
-COL_STATUS,0,9,1,
-COL_FRONT_WHITE,0,9,1,
-COL_FRONT_RED,0,9,1,
-COL_FRONT_GREEN,0,9,1,
-COL_FRONT_BLUE,0,9,1,
-COL_EXECUTION_TIME,0,9,1,
-COL_MAX_EXECUTION_TIME,0,9,1,
-ERROR_COL,0,9,1,
-COL_EMPTY2,0,9,1,
-COL_EMPTY3,0,9,1,
+COL_STATUS,0,9,1,IDs for the currently non existent color sensing; camera board tried on Ranger in 2010
+COL_FRONT_WHITE,0,9,1,see above
+COL_FRONT_RED,0,9,1,see above
+COL_FRONT_GREEN,0,9,1,see above
+COL_FRONT_BLUE,0,9,1,see above
+COL_EXECUTION_TIME,0,9,1,see above
+COL_MAX_EXECUTION_TIME,0,9,1,see above
+ERROR_COL,0,9,1,see above
+COL_EMPTY2,0,9,1,see above
+COL_EMPTY3,0,9,1,see above
 #Outer (Old) Steering MC,,,,
-MCSO_LEFT_ANKLE_ANGLE,0,6,1;4,
-MCSO_LEFT_ANKLE_RATE,0,6,1,
-MCSO_EMPTY_TX1,0,1,6,
-MCSO_EMPTY_TX2,0,1,6,
-MCSO_STATUS,0,6,1,
-MCSO_COLOR_BACK_WHITE,0,6,1,
-MCSO_COLOR_BACK_RED,0,6,1,
-MCSO_COLOR_BACK_GREEN,0,6,1,
-MCSO_COLOR_BACK_BLUE,0,6,1,
-MCSO_EXECUTION_TIME,0,6,1,
-MCSO_MAX_EXECUTION_TIME,0,6,1,
+MCSO_LEFT_ANKLE_ANGLE,0,6,1;4,IDs for the currently non existent outer steering motor controller board tried on ranger before 2010
+MCSO_LEFT_ANKLE_RATE,0,6,1,see above
+MCSO_EMPTY_TX1,0,1,6,see above
+MCSO_EMPTY_TX2,0,1,6,see above
+MCSO_STATUS,0,6,1,see above
+MCSO_COLOR_BACK_WHITE,0,6,1,see above
+MCSO_COLOR_BACK_RED,0,6,1,see above
+MCSO_COLOR_BACK_GREEN,0,6,1,see above
+MCSO_COLOR_BACK_BLUE,0,6,1,see above
+MCSO_EXECUTION_TIME,0,6,1,see above
+MCSO_MAX_EXECUTION_TIME,0,6,1,see above
 #Inner (New) Steering MC,,,,
-MCSI_MOTOR_CURRENT,0,7,1,
-MCSI_MOTOR_TARGET_CURRENT,0,1,7,
-MCSI_STEER_ANGLE,0,7,1,
-MCSI_BATT_POWER,0,7,1,
-MCSI_SHUTDOWN,0,1,7,
-MCSI_SLEEP,0,1,7,
-MCSI_COMMAND_CURRENT,0,1,7,
-MCSI_STIFFNESS,0,1,7,
-MCSI_DAMPNESS,0,1,7,
-MCSI_STATUS,0,7,1,
-MCSI_EXECUTION_TIME,0,7,1,
-MCSI_MAX_EXECUTION_TIME,0,7,1,
+MCSI_MOTOR_CURRENT,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
+MCSI_MOTOR_TARGET_CURRENT,0,1,7,can_id for steering board -- check similar can_id; starting with MCH
+MCSI_STEER_ANGLE,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
+MCSI_BATT_POWER,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
+MCSI_SHUTDOWN,0,1,7,can_id for steering board -- check similar can_id; starting with MCH
+MCSI_SLEEP,0,1,7,can_id for steering board -- check similar can_id; starting with MCH
+MCSI_COMMAND_ANG,0,1,7,steering angle commanded to the steering board
+MCSI_PROP_COEFF,0,1,7,(march 2013) position coefficient in the PI controller currently used for low-level steering (in the Steering board)
+MCSI_INT_COEFF,0,1,7,(march 2013) integral coefficient in the PI controller currently used for low-level steering (in the Steering board)
+MCSI_STATUS,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
+MCSI_EXECUTION_TIME,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
+MCSI_MAX_EXECUTION_TIME,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
 MCSI_EMPTY_TX1,0,1,7,
 MCSI_EMPTY_TX2,0,1,7,
-MCSI_BATT_CURRENT,0,7,1,
-MCSI_BATT_VOLTAGE,0,7,1,
-MCSI_HBRIDGE_TEMP,0,7,1,
+MCSI_BATT_CURRENT,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
+MCSI_BATT_VOLTAGE,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
+MCSI_HBRIDGE_TEMP,0,7,1,can_id for steering board -- check similar can_id; starting with MCH
 MCSI_EMPTY_RX1,0,7,1,
 MCSI_EMPTY_RX2,0,7,1,
 MCSI_EMPTY_RX3,0,7,1,
 #User Interface,,,,
-UI_SET_LCD_QUAD_1,0,1,8,
+UI_SET_LCD_QUAD_1,0,1,8,data displayed in the 1st quadrant of the LCD display ????
 UI_SET_LCD_QUAD_2,0,1,8,
 UI_SET_LCD_QUAD_3,0,1,8,
 UI_SET_LCD_QUAD_4,0,1,8,
-UI_SET_LED_1,0,1,8,
+UI_SET_LED_1,0,1,8,ids for the LEDs in the UI board. 
 UI_SET_LED_2,0,1,8,
 UI_SET_LED_3,0,1,8,
 UI_SET_LED_4,0,1,8,
 UI_SET_LED_5,0,1,8,
 UI_SET_LED_6,0,1,8,
-UI_SET_BUZZER_FREQ,0,1,8,
-UI_SET_BUZZER_AMPL,0,1,8,
-UI_ROLL,0,8,1,
-UI_PITCH,0,8,1,
-UI_YAW,0,8,1,
-UI_ANG_RATE_X,0,8,1,
-UI_ANG_RATE_Y,0,8,1,
-UI_ANG_RATE_Z,0,8,1,
+UI_SET_BUZZER_FREQ,0,1,8,produces the sound! (used to play alma mater)
+UI_SET_BUZZER_AMPL,0,1,8,produces the sound! (used to play alma mater)
+UI_ROLL,0,8,1,(euler angle from imu) for-aft angle of the robot from gravity vector
+UI_PITCH,0,8,1,(euler angle from imu)
+UI_YAW,0,8,1,(euler angle from imu)
+UI_ANG_RATE_X,0,8,1,angular velocity in rad/sec (for-aft) from imu  (see the axes marked on the imu)
+UI_ANG_RATE_Y,0,8,1,imu angle rate (not exactly equal to thederivative of ID_UI_PITCH)
+UI_ANG_RATE_Z,0,8,1,imu rangle rate
 UI_BUTTONS,0,8,1,
-UI_RC_0,0,8,1,
-UI_RC_1,0,8,1,
-UI_RC_2,0,8,1,
-UI_RC_3,0,8,1,
-UI_EXECUTION_TIME,0,8,1,
-UI_MAX_EXECUTION_TIME,0,8,1,
+UI_RC_0,0,8,1,most left i/o pin on the UI board (used for steering command from RC; right joystick)
+UI_RC_1,0,8,1,(used to receive signal from RC; left joystick)
+UI_RC_2,0,8,1,(used to receive signal from RC; signal coming from a knob on the right of RC transmitter; used to switch between the camera and the RC)
+UI_RC_3,0,8,1,most right i/o pin on the UI board; camera gives its output here. 
+UI_EXECUTION_TIME,0,8,1,can_id for the UI board -- check similar can_id; starting with MCH
+UI_MAX_EXECUTION_TIME,0,8,1,can_id for the UI board -- check similar can_id; starting with MCH
 UI_AUDIO,0,1,8,
 UI_EMPTY_TX2,0,1,8,
 UI_STATUS,0,8,1,
@@ -186,147 +188,311 @@ CSR_MCU_VOLTAGE,0,2,1,
 CSR_MCU_CURRENT,0,2,1,
 CSR_EMPTY_RX4,0,2,1,
 CSR_EMPTY_RX5,0,2,1,
-#,,,,
-#  DO NOT EDIT ANYTHING ABOVE THIS LINE !!!!!!,,,,
-#,,,,
 #Main Brain,,,,
 MB_EXECUTION_TIME,0,1,0,Time required to finish the schedule
 ERROR_LABVIEW,0,1,0,Buffered errors for transmission to LabView/PC
 ERROR_LCD,0,1,8,Buffered errors for transmission to Ranger LCD
-#,,,,
+MB_SYSTEM_INIT_FSM_STATE,0,1,0,System_init_fsm state number
+MB_HIP_FSM_STATE,0,1,0,hip fsm state number
+MB_FOOT_INNER_FSM_STATE,0,1,0,inner foot fsm state number
+MB_FOOT_OUTER_FSM_STATE,0,1,0,outer foot fsm state number
+MB_STEERING_FSM_STATE,0,1,0,steering fsm state number
+MB_UI_FSM_STATE,0,1,0,ui fsm state number
+MB_TOP_FSM_STATE,0,1,0,top fsm state number
+MB_LEG_FSM_STATE,0,1,0,leg fsm state
+MB_ROCK_HIP_FSM_STATE,0,1,0,rock hip fsm state
+MB_ROCK_FI_FSM_STATE,0,1,0,rock foot inner fsm state
+MB_ROCK_FO_FSM_STATE,0,1,0,rock foot outer fsm state
+MB_EMPTY_FSM3,0,1,0,Unused FSM ID
 #State Estimator,,,,
-E_MCH_ANG_RATE,0,1,0,estimated rate of the hip (STATE = dqh)
-E_MCFO_RIGHT_ANKLE_RATE ,0,1,0,estimated rate of the outer ankles (STATE=dq0)
-E_MCFI_ANKLE_RATE,0,1,0,estimated rate of the inner ankles (STATE = dq1)
-EST_CONTACT_OUTER,0,1,0,Filtered sum of both outer foot contact sensors
-EST_CONTACT_INNER,0,1,0,Filtered sum of both inner foot contact sensors
-EST_STATE_CONTACTMODE,0,1,0,0 = S0    1 = S1    2 = DS      3 = FL
-EST_UI_FSM_MODE,0,1,0,0 = Unit test     1 = WalkCtrl      2 = StandBy
-EST_STATE_TH0,0,1,0,abs angle outer legs
-EST_STATE_TH1,0,1,0,abs angle inner legs
-EST_STATE_PHI0,0,1,0,abs angle outer feet
-EST_STATE_PHI1,0,1,0,abs angle inner feet
-EST_STATE_DTH0,0,1,0,abs rate outer legs
-EST_STATE_DTH1,0,1,0,abs rate inner legs
-EST_STATE_DPHI0,0,1,0,abs rate outer feet
-EST_STATE_DPHI1,0,1,0,abs rate inner feet
-EST_STATE_PSI,0,1,0,Steering angle  in radians
-EST_STATE_TH0_GYRO,0,1,0,outer leg angle based on integral of rate gyro
-EST_STATE_TH0_IMU,0,1,0,outer leg angle based on IMU sensor fusion 
-EST_STATE_POSCOM,0,1,0,borizontal component of the center of mass position
-EST_STATE_VELCOM,0,1,0,horizontal component of the center of mass velocity
-EST_LAST_STEP_LENGTH,0,1,0,step length that was computed at the previous heel-strike
-EST_LAST_STEP_ANGLE,0,1,0,the absolute angle of the outer leg that was computed at the previous heel-strike
-EST_LAST_STEP_DURATION,0,1,0,Duration of the previous walking step.
-EST_TOTAL_BATT_POWER,0,1,0,add up the battery power being consumed by all boards
-OPTIM_WALK_ANK_PUSH ,0,1,0,magnitude of the push-off during walking  normalized to be on the range 0 to 1
-OPTIM_WALK_CRIT_STANCE_ANGLE,0,1,0,the critical stance angle when push-off should occur (should be less than zero)
-OPTIM_WALK_HIP_STEP_ANGLE ,0,1,0,Target angle for the hip to hold during push-off
-OPTIM_WALK_SCISSOR_GAIN,0,1,0,
-OPTIM_WALK_SCISSOR_OFFSET,0,1,0,
-OPTIM_STEP_COUNT,0,1,0,Steps in the current optimization walk. Transient steps are negative.
-OPTIM_ACTIVE_PARTICLE,0,1,0,PSO population particle active
-OPTIM_CURRENT_GENERATION,0,1,0,
-OPTIM_OBJ_FUN_SPEED,0,1,0,average speed over the the last step
-OPTIM_OBJ_FUN_LENGTH ,0,1,0,last step length
-OPTIM_OBJ_FUN_LAST_VAL,0,1,0,last value of the objective function
-OPTIM_FSM_MODE,0,1,0,0 = INIT    1 = PRE_TRIAL    2 = TRIAL    3 = FLYING   
-OPTIM_BUTTON_PUSH,0,1,0,0 == reject      1 = accept
-OPTIM_SAVE_OPTIM_STATE,0,1,0,Save an optimization so it can be loaded later. Order of parameter dump TBD
-#,,,,
-#ControllerParameters,,,,
-CTRL_HIP_KP,25,0,1,
-CTRL_HIP_KD,3,0,1,
-CTRL_ANK_PUSH_KP,20,0,1,
-CTRL_ANK_PUSH_KD,2,0,1,
-CTRL_ANK_STANCE_KP,15,0,1,
-CTRL_ANK_STANCE_KD,1,0,1,
-CTRL_ANK_SWING_KP,20,0,1,
-CTRL_ANK_SWING_KD,1,0,1,
-CTRL_HIP_COMPENSATION_TARGET,0,0,1,hip compensation at target (1) or at measured state (0)
-CTRL_HIP_GRAVITY_COMPENSATION,1,0,1,Enables (1) or disables (0) gravity compensation in hip controller
-CTRL_HIP_SPRING_COMPENSATION,1,0,1,Enables (1) or disables (0) spring compensation in hip controller
-CTRL_WALK_ANK_PUSH ,0.8,0,1,magnitude of the push-off during walking  normalized to be on the range 0 to 1
-CTRL_WALK_CRIT_STANCE_ANGLE,-0.08,0,1,the critical stance angle when push-off should occur (should be less than zero)
-CTRL_WALK_HIP_STEP_ANGLE ,0.2,0,1,Target angle for the hip to hold during push-off
-CTRL_WALK_SCISSOR_GAIN,1.2,0,1,
-CTRL_WALK_SCISSOR_OFFSET,0.1,0,1,
-CTRL_FSM_LED,0,0,1,0 = LED OFF        1 = LED ON
-#,,,,
-#ControllerTesting,,,,
-CTRL_UNIT_TEST_ID,0,0,1,Selects which unit test the robot should be running. Default is zero = no test
-CTRL_TEST_R0,0,0,1,test read from labview
-CTRL_TEST_R1,0,0,1,test read from labview
-CTRL_TEST_R2,0,0,1,test read from labview
-CTRL_TEST_R3,0,0,1,test read from labview
-CTRL_TEST_R4,0,0,1,test read from labview
-CTRL_TEST_R5,0,0,1,test read from labview
-CTRL_TEST_R6,0,0,1,test read from labview
-CTRL_TEST_R7,0,0,1,test read from labview
-CTRL_TEST_R8,0,0,1,test read from labview
-CTRL_TEST_R9,0,0,1,test read from labview
-CTRL_TEST_W0,0,1,0,test write to labview
-CTRL_TEST_W1,0,1,0,test write to labview
-CTRL_TEST_W2,0,1,0,test write to labview
-CTRL_TEST_W3,0,1,0,test write to labview
-CTRL_TEST_W4,0,1,0,test write to labview
-CTRL_TEST_W5,0,1,0,test write to labview
-CTRL_TEST_W6,0,1,0,test write to labview
-CTRL_TEST_W7,0,1,0,test write to labview
-CTRL_TEST_W8,0,1,0,test write to labview
-CTRL_TEST_W9,0,1,0,test write to labview
-#,,,,
-#GaitController,,,,
-GAIT_USE_MDP_DATA,1,0,1,true (1) if the robot should use gait parameters from the MDP   and     false(0) if it should use defaults from LabVIEW
-#,,,,
+E_INNER_ANG_RATE,0,1,0,inner leg angular rate from estimator (world frame) rad/s; positive if falling forward
+E_OUTER_ANG_RATE ,0,1,0,outer leg angle from estimator (world frame); rad; measured from vertical; positive if leaning forward
+E_INNER_ANGLE,0,1,0,not being used (it's free)
+E_OUTER_ANGLE,0,1,0,not being used (it's free)
+E_T_AFTER_HS,0,1,0,time in ms since the last Heel strike
+E_LI_ABSANG,0,1,0,inner leg angle from estimator (world frame); rad; measured from vertical; positive if leaning forward
+E_LO_ABSANG,0,1,0,outer leg angle from estimator (world frame); rad; measured from vertical; positive if leaning forward
+E_H_RATE,0,1,0,estimated hip angular rate  (filtered version of ID_MCH_ANG_RATE)
+E_FI_ABSANG,0,1,0,estimated inner foot absolute angle; rad; not measured from vertical; positive if turned forward
+E_FO_ABSANG,0,1,0,estimated outer foot absolute angle; rad; not measured from vertical; positive if turned forward
+E_SWING_F_HEIGHT,0,1,0,estimated swing foot height from level ground
+E_LEG_STATE,0,1,0,estimated swing leg state
+E_MIDSTANCE_LEGRATE,0,1,0,velocity of stance leg when robot is upright
+E_MIDSTANCE_HIPRATE,0,1,0,velocity of hip when robot is upright (positive if robot is walking fwd)
+E_MIDSTANCE_HIPANG,0,1,0,angle of hip when robot is upright (positive if swing leg is in front of stance leg)
+E_MIDSTANCE_TIME,0,1,0,time for midstance measured from heelstrike
+E_STEP_LEGANG,0,1,0,stance leg angle at heelstrike
+E_STEP_LEGRATE,0,1,0,stance leg rate at heelstrike
+E_STEP_HIPANG,0,1,0,hip angle at heelstrike (positive for fwd step)
+E_STEP_TIME,0,1,0,step time
+E_STEP_NO,0,1,0,number of steps since the start (of entering the walk state in the ui_fsm)
+E_TOTAL_DISTANCE,0,1,0,total distance walked since the start in meters
+E_SS0_LEGANG,0,1,0,leg angle at beginning of swing phase
+E_SS0_LEGRATE,0,1,0,leg rate at beginning of swing phase
+E_H_MOTOR_RATE,0,1,0,hip motor rate; filtered version of ID_MCH_MOTOR_VELOCITY
+E_EXEC_TIME,0,1,0,time taken by estimator to run
+E_INT_LO_ABSANG_RESET,0,1,0,outer foot reset at hs
+E_TIME_TO_HS,0,1,0,estimated time for next hs to happen (not tested/functioning)
+E_SLOPE,0,1,0,estimated ground slope (not tested/ functioning)
+E_SWING_LEG,0,1,0,0 = outer leg is in swing; 1 = inner leg is in swing
+E_F_PP_MISSED,0,1,0,0 for outer and 1 for inner prepush missed
+E_F_PP2HS_TIME,0,1,0,prepush to heelstrike time
+E_F_PP_TIME,0,1,0,prepush time in ms
+E_F_AP_TIME,0,1,0,afterpush time in ms
+E_H_PS_TIME,0,1,0,pre-swing time in ms
+E_H_AM_TIME,0,1,0,pre-swing time in ms
+E_ANK2ANK_HT,0,1,0,height of swing ankle with respect to the stance ankle (meters)
+E_DBL_STANCE,0,1,0,estimation of double/single stance state: 1 = in double stance; 0 = in single stance
+E_TEST3,0,1,0,dummy for testing
+E_TEST4,0,1,0,dummy for testing
+E_TEST5,0,1,0,dummy for testing
+E_TEST6,0,1,0,dummy for testing
+E_TEST7,0,1,0,dummy for testing
+E_TEST8,0,1,0,dummy for testing
+E_TEST9,0,1,0,dummy for testing
+E_TEST10,0,1,0,dummy for testing
+E_TEST11,0,1,0,dummy for testing
+E_TEST12,0,1,0,dummy for testing
+#Hip State Machines,,,,
+FSM_RESET,0,1,0,resets the fsm so that the robot is easier to start walking
+C_H_OUTER_STIFFNESS,2,0,1,stiffness to add in outer feet to make legs symmetric (was 1)
+C_H_OUTER_DAMPNESS,0,0,1,dampness to add in outer feet to make legs symmetric 
+A_H_PM_A0,0,0,1,pre-mid constant current part
+A_H_PM_A1,0,0,1,pre-mid linear current part not used
+C_H_PM_H_RATE,3,0,1,gain on velocity control
+P_H_PM_H_TRATE,2,0,1,target hip velocity in premid
+P_H_PM_TIME,300,0,1,not used
+C_HI_SH_H_ANG,30,0,1,
+C_HI_SH_H_RATE,3,0,1,
+C_H_EH_H_ANG,30,0,1,
+C_H_EH_H_RATE,4,0,1,
+P_HI_SH_H_TANG,0.35,0,1,
+P_H_EH_H_TANG,0.35,0,1,
+P_H_EHOLD_ANG,0.2,0,1,
+P_H_EHOLD_ANG2,0.3,0,1,
+P_H_EH_L_TRATE,0.4,0,1,target legrate below which ehold should kick in (was 0.5)
+P_H_EH_L_TANG,0.2,0,1,target mid-stance angle for ehold
+P_H_PM_F_ANG,0,0,1,feet absolute angle before pre-mid starts
+P_H_PM_F_RATE,5,0,1,ankle swing rate before pre-mid starts
+D_H_ON,1,0,1,after-mid discrete controller
+DA_H_AM_A1,0,1,0,value of current put in by discrete controller
+DA_H_AM_A2,0,1,0,value of current put in by discrete controller
+DA2_H_AM_H_ANG1,0,1,0,
+DA2_H_AM_H_ANG2,0,1,0,
+DA2_H_AM_H_RATE1,0,1,0,
+DA2_H_AM_H_RATE2,0,1,0,
+DA3_H_AM_H_ANG1,0,1,0,
+DA3_H_AM_H_ANG2,0,1,0,
+DA3_H_AM_L_ABSRATE1,0,1,0,
+DA3_H_AM_L_ABSRATE2,0,1,0,
+DA3_H_AM_H_RATE1,0,1,0,
+DA3_H_AM_H_RATE2,0,1,0,
+DP_H_AM_H_ANG,0,0,1,
+DP_H_AM_L_ABSRATE,0.72,0,1,
+DP_H_AM_H_RATE,1.66,0,1,
+DP_H_AM_H_DRATE,2.3,0,1,
+DC_H_AM_H_ANG,1,0,1,
+DC_H_AM_L_ABSRATE,0,0,1,
+DC_H_AM_H_RATE,1,0,1,
+DC_H_AM_H_DRATE,2,0,1,
+DP_H_AM_TIME1,150,0,1,time 1 for discrete control
+DP_H_AM_TIME2,300,0,1,time 2 for discrete control
+DC2_H_AM_H_ANG1,-1,0,1,
+DC2_H_AM_H_ANG2,-0.5,0,1,
+DC2_H_AM_H_RATE1,-0.3,0,1,
+DC2_H_AM_H_RATE2,-0.2,0,1,
+DC3_H_AM_H_ANG1,2,0,1,
+DC3_H_AM_H_ANG2,1,0,1,
+DC3_H_AM_L_ABSRATE1,0,0,1,
+DC3_H_AM_L_ABSRATE2,0,0,1,
+DC3_H_AM_H_RATE1,0,0,1,
+DC3_H_AM_H_RATE2,0,0,1,
+D_H2_ON,0,0,1,ss0 discrete controller
+DA_H_PM_A1,0,1,0,value of current put in by discrete controller
+DA_H_PM_A2,0,1,0,value of current put in by discrete controller
+DA_H_PM_L_ABSANG1,0,1,0,
+DA_H_PM_L_ABSANG2,0,1,0,
+DA_H_PM_L_ABSRATE1,0,1,0,
+DA_H_PM_L_ABSRATE2,0,1,0,
+DP_H_PM_L_ABSANG,0,0,1,
+DP_H_PM_L_ABSRATE,0,0,1,
+DC_H_PM_L_ABSANG1,0,0,1,
+DC_H_PM_L_ABSANG2,0,0,1,
+DC_H_PM_L_ABSRATE1,0,0,1,
+DC_H_PM_L_ABSRATE2,0,0,1,
+H_TEST1,0,0,1,dummy for testing hip
+H_TEST2,0,0,1,dummy for testing hip
+H_TEST3,0,0,1,dummy for testing hip
+H_TEST4,0,0,1,dummy for testing hip
+H_TEST5,0,0,1,dummy for testing hip
+#Foot State Machines,,,,
+P_F_PP_OUTER_BIAS,1,0,1,
+C_F_ST_F_ANG,4,0,1,
+C_F_ST_F_RATE,0.2,0,1,
+C_F_PP_F_ANG,10,0,1,
+C_F_PP_F_ANG2,8,0,1,
+C_F_PP_F_RATE,0,0,1,spiky data. so set to zero
+C_F_AP_F_ANG,8,0,1,
+C_F_AP_F_RATE,0,0,1,
+A_F_PP_A0,0,0,1,current for prepush
+C_F_FU_F_ANG,1.5,0,1,
+C_F_FU_F_RATE,0.1,0,1,
+C_F_FD_F_ANG,1.5,0,1,
+C_F_FD_F_RATE,0.1,0,1,
+C_FO_SST_F_ANG,4,0,1,
+C_FO_SST_F_RATE,0.2,0,1,
+C_F_SST_F_ANG,30,0,1,
+C_F_SST_F_RATE,0.3,0,1,
+P_F_PP_L_ABSANG,0.12,0,1,was 0.07 for barton record walk
+P_F_PP_F_ABSANG,1.7,0,1,absolute feet angle for push-off
+P_FO_PP_THEIGHT,0.01,0,1,push-off trigger for outer foot; changed from 0.012 by noopetr on Feb 19th 2013
+P_FI_PP_THEIGHT,0.01,0,1,push-off trigger for inner foot; changed from by noopetr on Feb 19th 2013
+P_F_AP_F_ANG,0,0,1,
+P_F_FU_H_ANG,0.1,0,1,was 0.13 for barton record walk
+P_F_FU_F_TANG,0.2,0,1,
+P_F_ST_F_TANG,1.85,0,1,based on pranav's suggestions this number was changed from 2 to 1.85; anoop on March 01; 2013
+P_F_PP_F_TANG,0.2,0,1,was 0.5 for barton record walk
+P_F_PP_F_TANG2,0.3,0,1,
+P_F_PP_FRAC_ANG,0.5,0,1,angle turned for prepush completion
+P_F_AP_F_TANG,0,0,1,
+P_F_FD_F_TANG,2,0,1,
+P_F_SST_F_TANG,2,0,1,
+P_FO_SST_F_TANG,2,0,1,
+P_F_FU_F_CABL_STRETCH,0.07,0,1,cable stretch
+P_F_AP_TIME,30,0,1,maximum time for after-push in ms
+P_F_PP_F_LRATE,0.5,0,1,rate below which emergency prepush should occur
+P_F_PP_F_HRATE,0.8,0,1,rate above which pre-push should be cut-off
+P_F_PP_TIME,10,0,1,trigger for double-stance push-off for missed prepush
+D_F_ON,1,0,1,foot discrete control on
+DA_F_PP_L_ABSRATE,0,1,0,
+DA_F_PP_L_ABSRATE2,0,1,0,
+DP_F_PP_L_ABSRATE,0.65,0,1,
+DC_F_PP_L_ABSRATE,5,0,1,gain on dampness in pp control
+DC_F_PP_L_ABSRATE2,0.5,0,1,gain on angle in pp control
+F_TEST1,0,0,1,dummy for testing feet
+F_TEST2,0.5,0,1,dummy for testing feet
+F_TEST3,0,0,1,dummy for testing feet
+F_TEST4,0,0,1,dummy for testing feet
+F_TEST5,0,0,1,dummy for testing feet 
+F_TEST6,0,0,1,dummy for testing feet -- (Zurich; March 2013) Andy's control parameter A  (~= -B ~= -3)
+F_TEST7,0,0,1,dummy for testing feet -- (Zurich; March 2013) Andy's control parameter B    (~= -A ~= 3)
+F_TEST8,0,0,1,dummy for testing feet -- (Zurich; March 2013) Andy's control parameter C      (~=1)
+#Rocking Start State Machine,,,,
+P_R_ROCK_TIMER,0,1,0,Total time in rock mode
+P_R_FO_KP,20,0,1,Proportional gain for the outer foot controller
+P_R_FI_KP,20,0,1,Proportional gain for the inner foot controller
+P_R_FO_TANG,2,0,1,
+P_R_FI_TANG,2,0,1,
+P_R_FO_INIT_ANGLE,2.2,0,1,Angle for  initial stance
+P_R_FI_INIT_ANGLE,2.2,0,1,Angle for initial stance
+P_R_FO_END_ANGLE,2,0,1,Angle after initial stance
+P_R_FI_END_ANGLE,2,0,1,Angle after initial stance
+P_R_FO_PUSH_OFFSET,0.5,0,1,Angle below nominal for an outer foot push off
+P_R_FI_PUSH_OFFSET,0.85,0,1,Angle below nominal for an inner foot push off
+P_R_FI_CLEAR_OFFSET,1.5,0,1,Angle above nominal to clear the inner feet
+P_R_H_THRESHOLD_ANG,0.16,0,1,Hip threshold angle to switch to walk mode
+P_R_CONTACT_THRESHOLD,1000,0,1,Threshold value for an individual foot pressure sensor
+P_R_WAIT_TIME,5000,0,1,Time to wait before robot starts rocking
+P_R_FI_PUSH_TIME,700,0,1,Time inner foot is pushing before changing states
+P_R_FO_PUSH_TIME,800,0,1,Time outer foot is pushing before changing states
+P_R_ROCK_TO_WALK,0,0,1,Boolean value to switch from Rock to Walk
+#Steering State Machines,,,,
+P_S_NULL_H_TANG,0.1,0,1,hip trigger angle
+P_S_ILST_S_MAXANG,2,0,1,(March 2013): position term coefficient in the steering board motor controller; transmitted to the steering board through ID_MCSI_STIFFNESS
+P_S_ILSW_S_MAXANG,2000,0,1,(March 2013): integral term coefficient in the steering board motor controller; transmitted to the steering board through ID_MCSI_DAMPNESS
+C_S_NULL_S_ANG,0,0,1,gain of 0.002 works well
+C_S_NULL_S_RATE,0,0,1,
+P_S_MAX_STEER_ANG,0.1,0,1,max steering angle (max steering angle command sent to the Steering board)
+P_S_ILSW_STEER_FRAC,0,0,0,a fraction of desired steer angle by which inner legs should turn in inner swing phase; a number between 0 and 1
+P_S_ILST_TWITCH_TIME,1,0,0,twice this time is the time for the twitch to take place in stance
+D_S_NULL_S_DANG,0,1,0,desired steer angle; updated once per two steps
+P_STEER_DEADBAND,0.02,0,1,dead band for steering; if the steering command (a value between -1 and 1) is smaller than this threshold; it is set to 0
+#UI State Machine,,,,
+P_UI_PP2HS_TTIME,70,0,1,set led if time is more that this time in ms
+#Top fsm,,,,
+NAV_RC_USED,0,1,0,says whether RC has control authority: 1 = yes; 0 = no; camera is used
+NAV_WALK,0,1,0,walk/stop command from RC/Camera: 1 = walk; 0 = stop
+NAV_RC_STEER,0,1,0,normalized steering command from RC; a number in [-1;1]; where -1 = max right; 1 = max left
+NAV_CAM_STEER,0,1,0,normalized steering command from Camera Board; a number in [-1;1]; where -1 = max right; 1 = max left
+NAV_CAM_EMERG,0,1,0,emergency signal from the Camera Board; 1 = emergency is on; 0 = emergency is off
+T_TEST_04,0,1,0,
+T_TEST_05,0,1,0,
+T_TEST_06,0,1,0,
+T_TEST_07,0,1,0,
+T_TEST_08,0,1,0,
+T_TEST_09,0,1,0,
+T_TEST_10,0,1,0,
+T_TEST_11,0,1,0,
+T_TEST_12,0,1,0,
+T_TEST_13,0,1,0,
+T_TEST_14,0,1,0,
+T_TEST_15,0,1,0,
+T_TEST_16,0,1,0,
+T_TEST_17,0,1,0,
+T_TEST_18,0,1,0,
+T_TEST_19,0,1,0,
+#Absolute Computer Time for Video Syncing,,,,
+ABSOLUTE_COMP_TIME,0,0,1,
+#Learning Algorithm,,,,
+GBRL_DELTA,0.02,0,1,Percent change for parameter perturbation
+GBRL_MAX_STEPS,8,0,1,Number of steps per average reward computation
+GBRL_REWARD,0,1,0,Current value of the GBRL reward function (usually Cost of Transport)
+GBRL_POWER,0,1,0,Current estimated power consumption
+GBRL_VELOCITY,0,1,0,Current estimated velocity of Ranger
+GBRL_COT,0,1,0,Current estimated Cost of Transport
+GBRL_CURRENT_PARAM,0,1,0,Current parameter being perturbed
+GBRL_STEP_TIME,0,1,0,Time of the previous step
+GBRL_STEP_LENGTH,0,1,0,Length of the previous step
+GBRL_STEP_VELOCITY,0,1,0,Avg. Velocity of the previous step
+GBRL_STABILITY,0,1,0,Estimated stability of Ranger
 #Labview,,,,
-LV_START,,,,
-LV_CH_0,,,,
-LV_CH_1,,,,
-LV_CH_2,,,,
-LV_CH_3,,,,
-LV_CH_4,,,,
-LV_CH_5,,,,
-LV_CH_6,,,,
-LV_CH_7,,,,
-LV_CH_8,,,,
-LV_CH_9,,,,
-LV_CH_10,,,,
-LV_CH_11,,,,
-LV_CH_12,,,,
-LV_CH_13,,,,
-LV_CH_14,,,,
-LV_CH_15,,,,
-LV_CH_16,,,,
-LV_CH_17,,,,
-LV_CH_18,,,,
-LV_CH_19,,,,
-LV_CH_20,,,,
-LV_CH_21,,,,
-LV_CH_22,,,,
-LV_CH_23,,,,
-LV_CH_24,,,,
-LV_CH_25,,,,
-LV_CH_26,,,,
-LV_CH_27,,,,
-LV_CH_28,,,,
-LV_CH_29,,,,
-LV_CH_30,,,,
-LV_CH_31,,,,
-LV_CH_32,,,,
-LV_CH_33,,,,
-LV_CH_34,,,,
-LV_CH_35,,,,
-LV_CH_36,,,,
-LV_CH_37,,,,
-LV_CH_38,,,,
-LV_CH_39,,,,
-LV_CH_40,,,,
-LV_CH_41,,,,
-LV_CH_42,,,,
-LV_CH_43,,,,
-LV_CH_44,,,,
-LV_CH_45,,,,
-LV_CH_46,,,,
-LV_CH_47,,,,
-LV_VERSION,,,,
+LV_START
+LV_CH_0
+LV_CH_1
+LV_CH_2
+LV_CH_3
+LV_CH_4
+LV_CH_5
+LV_CH_6
+LV_CH_7
+LV_CH_8
+LV_CH_9
+LV_CH_10
+LV_CH_11
+LV_CH_12
+LV_CH_13
+LV_CH_14
+LV_CH_15
+LV_CH_16
+LV_CH_17
+LV_CH_18
+LV_CH_19
+LV_CH_20
+LV_CH_21
+LV_CH_22
+LV_CH_23
+LV_CH_24
+LV_CH_25
+LV_CH_26
+LV_CH_27
+LV_CH_28
+LV_CH_29
+LV_CH_30
+LV_CH_31
+LV_CH_32
+LV_CH_33
+LV_CH_34
+LV_CH_35
+LV_CH_36
+LV_CH_37
+LV_CH_38
+LV_CH_39
+LV_CH_40
+LV_CH_41
+LV_CH_42
+LV_CH_43
+LV_CH_44
+LV_CH_45
+LV_CH_46
+LV_CH_47
+LV_VERSION

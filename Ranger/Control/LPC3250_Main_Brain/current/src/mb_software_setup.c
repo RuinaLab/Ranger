@@ -1,8 +1,20 @@
 #include <mb_includes.h>
 
+
 #define SCHEDULE_TICK_DIVIDER 2 //number of system jiffies (should be 1 mS) per time slot
 
-#define RUN_EVERY_LINE (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&mb_estimator_update, (TASK_PTR)&mb_controller_update, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_send_data
+
+//#define RUN_EVERY_LINE (TASK_PTR)&mb_update_elapsed_time, (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&mb_estimator_update, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_fsm_run, (TASK_PTR)&mb_send_data
+//#define RUN_EVERY_LINE (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_fsm_run, (TASK_PTR)&mb_send_data
+
+
+// You Use this
+// #define RUN_EVERY_LINE (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_fsm_run, (TASK_PTR)&mb_send_data
+//#define RUN_EVERY_LINE (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_fsm_run, (TASK_PTR)&mb_send_data
+
+
+//I USE THIS: ANOOP   (it has estimator update, otherwise its same)
+#define RUN_EVERY_LINE (TASK_PTR)&mb_error_update, (TASK_PTR)&mb_task_heartbeat, (TASK_PTR)&a9_dn_ssp_parse, (TASK_PTR)&mb_estimator_execution_time_start , (TASK_PTR)&mb_estimator_update, (TASK_PTR)&mb_estimator_execution_time_stop, (TASK_PTR)&a9_dn_ssp_send_data, (TASK_PTR)&a9_dn_update_leds, (TASK_PTR)&mb_fsm_run, (TASK_PTR)&mb_send_data
 
 const TASK_PTR schedule[]={
 
@@ -10,6 +22,7 @@ const TASK_PTR schedule[]={
   RUN_EVERY_LINE, (TASK_PTR)&a9_bt_dma_receive,             (TASK_PTR)NULL,
   RUN_EVERY_LINE, (TASK_PTR)&mb_create_display_data_lists,  (TASK_PTR)NULL,
   RUN_EVERY_LINE, (TASK_PTR)&mb_distribute_error_frames, (TASK_PTR)NULL,
+ // RUN_EVERY_LINE, (TASK_PTR)NULL,
   RUN_EVERY_LINE, (TASK_PTR)&mb_test_ui_board1,               (TASK_PTR)NULL,
   RUN_EVERY_LINE, (TASK_PTR)NULL,
   RUN_EVERY_LINE, (TASK_PTR)NULL,
@@ -68,6 +81,8 @@ float get_io_ul(unsigned short data_id)
 {
   return mb_io_get_ul(data_id); 
 }
+
+
 
 void set_io_ul(short unsigned int data_id, unsigned long value)
 {
@@ -136,8 +151,8 @@ void mb_setup_software(void){
   //Initialize data display lists
   mb_create_display_data_lists();
   
-  //Initialize the controller here:
-  ////TODO////
+  //Initialize finite state machine (controller)
+  mb_fsm_init();
 
   //Initialize error handling module
   mb_error_init(mb_get_timestamp, BOARD_MB);
