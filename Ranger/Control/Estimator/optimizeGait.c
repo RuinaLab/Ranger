@@ -46,6 +46,8 @@ static float COST[N_STEP_TRIAL];
 static const float MIN_STEP_LENGTH = 0.1;
 static float lastStepLength = 0.0;
 
+static float lastTrialStartTime = 0.0; // Keep track of the time at which a new trial starts. Send this many times to make sure we have a correct starting timestamp.
+
 OptimizeFsmMode OPTIMIZE_FSM_MODE = INIT;
 
 
@@ -151,6 +153,10 @@ void updateOptimizeFsm(void) {
 	case INIT:
 		if (accept) {
 			objFun_set_optimizeGait();    // Set up optimization problem
+
+			lastTrialStartTime = mb_io_get_float(ID_TIMESTAMP); // Record the start time of this new trial.
+			mb_io_set_float(ID_OPTIM_LAST_START_TIME, lastTrialStartTime);
+
 			pso_send_point();   // Tell PSO to send a new point (Updates controller)
 			OPTIMIZE_FSM_MODE = PRE_1;
 		}
@@ -217,14 +223,25 @@ void updateOptimizeFsm(void) {
 	}
 
 	if (flagAccept) {
+
+		lastTrialStartTime = mb_io_get_float(ID_TIMESTAMP); // Record the start time of this new trial.
+		mb_io_set_float(ID_OPTIM_LAST_START_TIME, lastTrialStartTime);
+
 		pso_eval_point();   // Evaluate objective function (send to PSO)
 		pso_send_point();   // Tell PSO to send a new point (Updates controller)
 		mb_io_set_float(ID_OPTIM_BUTTON_PUSH, 1.0);
 	} else if (flagReject) {
+
+		lastTrialStartTime = mb_io_get_float(ID_TIMESTAMP); // Record the start time of this new trial.
+		mb_io_set_float(ID_OPTIM_LAST_START_TIME, lastTrialStartTime);
+
 		mb_io_set_float(ID_OPTIM_BUTTON_PUSH, 0.0);
 	}
 	flagAccept = false;
 	flagReject = false;
+
+	// Keep sending the timestamp of the most recent trial's beginning.
+	mb_io_set_float(ID_OPTIM_LAST_START_TIME, lastTrialStartTime);
 }
 
 

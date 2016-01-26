@@ -233,6 +233,7 @@ OPTIM_OBJ_FUN_LAST_VAL,0,1,0,last value of the objective function
 OPTIM_FSM_MODE,0,1,0,0 = INIT    1 = PRE_TRIAL    2 = TRIAL    3 = FLYING   
 OPTIM_BUTTON_PUSH,0,1,0,0 == reject      1 = accept
 OPTIM_SAVE_OPTIM_STATE,0,1,0,Save an optimization so it can be loaded later. Order of parameter dump TBD
+OPTIM_LAST_START_TIME,0,1,0,The time that the most recent trial has begun. Same value sent very frequently to make sure it gets through.
 #,,,,
 #ControllerParameters,,,,
 CTRL_HIP_KP,25,0,1,
