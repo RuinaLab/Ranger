@@ -10,7 +10,7 @@ Group (Documentation)
 Group (Board Code)
 Group (Module Code)
 Group (Estimator)
-Group (FSM_16)
+Group (Controller)
 
 File 1,2,<.\src\LPC32x0.s><LPC32x0.s>
 File 3,1,<.\src\mb_hardware_setup.c><mb_hardware_setup.c>
@@ -24,16 +24,21 @@ File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_bluetooth\mb_b
 File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c><a9_clock.c>
 File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c>
 File 4,1,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c>
+File 5,1,<..\..\Estimator\bufferDataOut.c><bufferDataOut.c>
 File 5,1,<..\..\Estimator\mb_estimator.c><mb_estimator.c>
-File 5,1,<..\..\Estimator\mb_estimator_execution_time.c><mb_estimator_execution_time.c>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\UI_fsm.cpp><UI_fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\foot_inner_fsm.cpp><foot_inner_fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\foot_outer_fsm.cpp><foot_outer_fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\fsm.cpp><fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\hip_fsm.cpp><hip_fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\leg_fsm.cpp><leg_fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\mb_fsm.cpp><mb_fsm.cpp>
-File 6,8,<..\..\Finite_State_Machines\FSM_16\steering_fsm.cpp><steering_fsm.cpp>
+File 5,1,<..\..\Estimator\objectiveFunction.c><objectiveFunction.c>
+File 5,1,<..\..\Estimator\optimizeGait.c><optimizeGait.c>
+File 5,1,<..\..\Estimator\PSO.c><PSO.c>
+File 5,1,<..\..\Estimator\robotParameters.c><robotParameters.c>
+File 6,1,<..\..\Controller\gaitControl.c><gaitControl.c>
+File 6,1,<..\..\Controller\gaitControlData.c><gaitControlData.c>
+File 6,1,<..\..\Controller\input_output.c><input_output.c>
+File 6,1,<..\..\Controller\mb_controller.c><mb_controller.c>
+File 6,1,<..\..\Controller\motorControl.c><motorControl.c>
+File 6,1,<..\..\Controller\RangerMath.c><RangerMath.c>
+File 6,1,<..\..\Controller\safeMode.c><safeMode.c>
+File 6,1,<..\..\Controller\unit_test.c><unit_test.c>
+File 6,1,<..\..\Controller\walkControl.c><walkControl.c>
 
 
 Options 1,0,0  // Target 'LPC3250 Int RAM'
@@ -184,7 +189,7 @@ Options 2,0,0  // Target 'LPC3250 Ext SDRAM (NOR)'
  ADSCMISC ()
  ADSCDEFN ()
  ADSCUDEF ()
- ADSCINCD (.\src;..\..\Ranger_Configuration;..\..\..\..\Robot_Nervous_System;..\..\Finite_State_Machines\FSM_1;..\..\Estimator;..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules)
+ ADSCINCD (.\src;..\..\Ranger_Configuration;..\..\..\..\Robot_Nervous_System;..\..\Controller;..\..\Estimator;..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules)
  ADSASFLG { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSAMISC ()
  ADSADEFN (SIZE_EXT_INFO EMC_NO_INIT RAM_INTVEC REMAP)
