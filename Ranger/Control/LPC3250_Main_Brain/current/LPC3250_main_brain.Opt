@@ -18,7 +18,7 @@ GRPOPT 2,(Documentation),1,0,0
 GRPOPT 3,(Board Code),1,0,0
 GRPOPT 4,(Module Code),1,0,0
 GRPOPT 5,(Estimator),1,0,0
-GRPOPT 6,(FSM_16),0,0,0
+GRPOPT 6,(Controller),1,0,0
 
 OPTFFF 1,1,2,0,0,0,0,0,<.\src\LPC32x0.s><LPC32x0.s> 
 OPTFFF 3,2,1,0,0,0,0,0,<.\src\mb_hardware_setup.c><mb_hardware_setup.c> 
@@ -32,16 +32,21 @@ OPTFFF 4,9,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_
 OPTFFF 4,10,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c><a9_clock.c> 
 OPTFFF 4,11,1,-2046820352,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c> 
 OPTFFF 4,12,1,503316482,0,10,27,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,110,0,0,0,145,0,0,0,44,5,0,0,140,2,0,0 }
-OPTFFF 5,13,1,0,0,0,0,0,<..\..\Estimator\mb_estimator.c><mb_estimator.c> 
-OPTFFF 5,14,1,0,0,0,0,0,<..\..\Estimator\mb_estimator_execution_time.c><mb_estimator_execution_time.c> 
-OPTFFF 6,15,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\UI_fsm.cpp><UI_fsm.cpp> 
-OPTFFF 6,16,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\foot_inner_fsm.cpp><foot_inner_fsm.cpp> 
-OPTFFF 6,17,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\foot_outer_fsm.cpp><foot_outer_fsm.cpp> 
-OPTFFF 6,18,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\fsm.cpp><fsm.cpp> 
-OPTFFF 6,19,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\hip_fsm.cpp><hip_fsm.cpp> 
-OPTFFF 6,20,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\leg_fsm.cpp><leg_fsm.cpp> 
-OPTFFF 6,21,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\mb_fsm.cpp><mb_fsm.cpp> 
-OPTFFF 6,22,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\steering_fsm.cpp><steering_fsm.cpp> 
+OPTFFF 5,13,1,0,0,0,0,0,<..\..\Estimator\bufferDataOut.c><bufferDataOut.c> 
+OPTFFF 5,14,1,0,0,0,0,0,<..\..\Estimator\mb_estimator.c><mb_estimator.c> 
+OPTFFF 5,15,1,0,0,0,0,0,<..\..\Estimator\objectiveFunction.c><objectiveFunction.c> 
+OPTFFF 5,16,1,0,0,0,0,0,<..\..\Estimator\optimizeGait.c><optimizeGait.c> 
+OPTFFF 5,17,1,0,0,0,0,0,<..\..\Estimator\PSO.c><PSO.c> 
+OPTFFF 5,18,1,0,0,0,0,0,<..\..\Estimator\robotParameters.c><robotParameters.c> 
+OPTFFF 6,19,1,0,0,0,0,0,<..\..\Controller\gaitControl.c><gaitControl.c> 
+OPTFFF 6,20,1,0,0,0,0,0,<..\..\Controller\gaitControlData.c><gaitControlData.c> 
+OPTFFF 6,21,1,0,0,0,0,0,<..\..\Controller\input_output.c><input_output.c> 
+OPTFFF 6,22,1,0,0,0,0,0,<..\..\Controller\mb_controller.c><mb_controller.c> 
+OPTFFF 6,23,1,0,0,0,0,0,<..\..\Controller\motorControl.c><motorControl.c> 
+OPTFFF 6,24,1,0,0,0,0,0,<..\..\Controller\RangerMath.c><RangerMath.c> 
+OPTFFF 6,25,1,0,0,0,0,0,<..\..\Controller\safeMode.c><safeMode.c> 
+OPTFFF 6,26,1,0,0,0,0,0,<..\..\Controller\unit_test.c><unit_test.c> 
+OPTFFF 6,27,1,0,0,0,0,0,<..\..\Controller\walkControl.c><walkControl.c> 
 
 
 TARGOPT 1, (LPC3250 Int RAM)
