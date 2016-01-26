@@ -1,0 +1,4 @@
+--device DARMP ".\flash\startup.o" ".\flash\main.o" ".\flash\hardware_setup.o" ".\flash\software_setup.o" ".\flash\b10a_router_leds.o" ".\flash\data_nexus.o" ".\flash\heartbeat.o" ".\flash\can_types.o" ".\flash\utility.o" ".\flash\async_scheduler.o" ".\flash\error.o" ".\flash\mutex.o" ".\flash\csr_ssp.o" ".\flash\csr_clock.o" ".\flash\csr_router.o" ".\flash\csr_can_tx.o" ".\flash\can_ring.o" --library_type=microlib --strict --scatter ".\Flash\keil_framework_2194.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\Flash\keil_framework_2194.map" -o ".\Flash\keil_framework_2194.axf"

@@ -1,0 +1,1423 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+<title>Static Call Graph - [.\Int_RAM\Blinky.axf]</title></head>
+<body><HR>
+<H1>Static Call Graph for image .\Int_RAM\Blinky.axf</H1><HR>
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, RVCT4.0 [Build 524]: Last Updated: Fri Mar 12 14:35:57 2010
+<BR><P>
+<H3>Maximum Stack Usage =        448 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+Call chain for Maximum Stack Depth:</H3>
+mb_fsm_run &rArr; fsm::run() &rArr; fsm::check(int)
+<P>
+<H3>
+Functions with no stack information
+</H3><UL>
+ <LI><a href="#[b5b568]">Reset_Handler</a>
+ <LI><a href="#[b5b748]">Undef_Handler</a>
+ <LI><a href="#[b5b70c]">SWI_Handler</a>
+ <LI><a href="#[b5b6d0]">PAbt_Handler</a>
+ <LI><a href="#[b5b694]">DAbt_Handler</a>
+</UL>
+</UL>
+<P>
+<H3>
+Mutually Recursive functions
+</H3> <LI><a href="#[b5b748]">Undef_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[b5b748]">Undef_Handler</a><BR>
+ <LI><a href="#[b5b70c]">SWI_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[b5b70c]">SWI_Handler</a><BR>
+ <LI><a href="#[b5b6d0]">PAbt_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[b5b6d0]">PAbt_Handler</a><BR>
+ <LI><a href="#[b5b694]">DAbt_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[b5b694]">DAbt_Handler</a><BR>
+</UL>
+<P>
+<H3>
+Function Pointers
+</H3><UL>
+ <LI><a href="#[b5b568]">Reset_Handler</a>
+ <LI><a href="#[b5b748]">Undef_Handler</a>
+ <LI><a href="#[b5b70c]">SWI_Handler</a>
+ <LI><a href="#[b5b6d0]">PAbt_Handler</a>
+ <LI><a href="#[b5b694]">DAbt_Handler</a>
+ <LI><a href="#[b5b4f0]">IRQ_Handler</a>
+ <LI><a href="#[b5b52c]">FIQ_Handler</a>
+ <LI><a href="#[143471c]">__main</a>
+ <LI><a href="#[b592f4]">main</a>
+ <LI><a href="#[b5990c]">mb_io_get_float</a>
+ <LI><a href="#[b598d0]">mb_io_get_unread_pointer</a>
+ <LI><a href="#[b521fc]">get_ankle_sensor_input(int*, int)</a>
+ <LI><a href="#[b4fd6c]">get_hip_sensor_input(int*, int)</a>
+ <LI><a href="#[b4e1c4]">get_system_init_conditions_input(int*, int)</a>
+ <LI><a href="#[b4d918]">get_top_sensor_input(int*, int)</a>
+ <LI><a href="#[14359dc]">get_foot_inner_input(int*, int)</a>
+ <LI><a href="#[1435568]">get_foot_outer_input(int*, int)</a>
+ <LI><a href="#[1428aac]">__default_terminate_handler()</a>
+ <LI><a href="#[142832c]">__I$use$semihosting</a>
+ <LI><a href="#[1432124]">__default_new_handler()</a>
+ <LI><a href="#[b59d80]">mb_update_elapsed_time</a>
+ <LI><a href="#[b597a4]">mb_task_heartbeat</a>
+ <LI><a href="#[b59b28]">a9_dn_ssp_parse</a>
+ <LI><a href="#[b59aec]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[b59ab0]">a9_dn_update_leds</a>
+ <LI><a href="#[b59948]">mb_fsm_run</a>
+ <LI><a href="#[b59c54]">mb_send_data</a>
+ <LI><a href="#[b59a38]">mb_bt_pop_receive_packets</a>
+ <LI><a href="#[b59d80]">mb_update_elapsed_time</a>
+ <LI><a href="#[b597a4]">mb_task_heartbeat</a>
+ <LI><a href="#[b59b28]">a9_dn_ssp_parse</a>
+ <LI><a href="#[b59aec]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[b59ab0]">a9_dn_update_leds</a>
+ <LI><a href="#[b59948]">mb_fsm_run</a>
+ <LI><a href="#[b59c54]">mb_send_data</a>
+ <LI><a href="#[b59ba0]">a9_bt_dma_receive</a>
+ <LI><a href="#[b59d80]">mb_update_elapsed_time</a>
+ <LI><a href="#[b597a4]">mb_task_heartbeat</a>
+ <LI><a href="#[b59b28]">a9_dn_ssp_parse</a>
+ <LI><a href="#[b59aec]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[b59ab0]">a9_dn_update_leds</a>
+ <LI><a href="#[b59948]">mb_fsm_run</a>
+ <LI><a href="#[b59c54]">mb_send_data</a>
+ <LI><a href="#[b59c90]">mb_create_display_data_lists</a>
+ <LI><a href="#[b59d80]">mb_update_elapsed_time</a>
+ <LI><a href="#[b597a4]">mb_task_heartbeat</a>
+ <LI><a href="#[b59b28]">a9_dn_ssp_parse</a>
+ <LI><a href="#[b59aec]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[b59ab0]">a9_dn_update_leds</a>
+ <LI><a href="#[b59948]">mb_fsm_run</a>
+ <LI><a href="#[b59c54]">mb_send_data</a>
+ <LI><a href="#[b59d80]">mb_update_elapsed_time</a>
+ <LI><a href="#[b597a4]">mb_task_heartbeat</a>
+ <LI><a href="#[b59b28]">a9_dn_ssp_parse</a>
+ <LI><a href="#[b59aec]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[b59ab0]">a9_dn_update_leds</a>
+ <LI><a href="#[b59948]">mb_fsm_run</a>
+ <LI><a href="#[b59c54]">mb_send_data</a>
+ <LI><a href="#[b59d80]">mb_update_elapsed_time</a>
+ <LI><a href="#[b597a4]">mb_task_heartbeat</a>
+ <LI><a href="#[b59b28]">a9_dn_ssp_parse</a>
+ <LI><a href="#[b59aec]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[b59ab0]">a9_dn_update_leds</a>
+ <LI><a href="#[b59948]">mb_fsm_run</a>
+ <LI><a href="#[b59c54]">mb_send_data</a>
+ <LI><a href="#[b59d80]">mb_update_elapsed_time</a>
+ <LI><a href="#[b597a4]">mb_task_heartbeat</a>
+ <LI><a href="#[b59b28]">a9_dn_ssp_parse</a>
+ <LI><a href="#[b59aec]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[b59ab0]">a9_dn_update_leds</a>
+ <LI><a href="#[b59948]">mb_fsm_run</a>
+ <LI><a href="#[b59c54]">mb_send_data</a>
+ <LI><a href="#[b59d80]">mb_update_elapsed_time</a>
+ <LI><a href="#[b597a4]">mb_task_heartbeat</a>
+ <LI><a href="#[b59b28]">a9_dn_ssp_parse</a>
+ <LI><a href="#[b59aec]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[b59ab0]">a9_dn_update_leds</a>
+ <LI><a href="#[b59948]">mb_fsm_run</a>
+ <LI><a href="#[b59c54]">mb_send_data</a>
+ <LI><a href="#[b59d80]">mb_update_elapsed_time</a>
+ <LI><a href="#[b597a4]">mb_task_heartbeat</a>
+ <LI><a href="#[b59b28]">a9_dn_ssp_parse</a>
+ <LI><a href="#[b59aec]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[b59ab0]">a9_dn_update_leds</a>
+ <LI><a href="#[b59948]">mb_fsm_run</a>
+ <LI><a href="#[b59c54]">mb_send_data</a>
+ <LI><a href="#[b59d80]">mb_update_elapsed_time</a>
+ <LI><a href="#[b597a4]">mb_task_heartbeat</a>
+ <LI><a href="#[b59b28]">a9_dn_ssp_parse</a>
+ <LI><a href="#[b59aec]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[b59ab0]">a9_dn_update_leds</a>
+ <LI><a href="#[b59948]">mb_fsm_run</a>
+ <LI><a href="#[b59c54]">mb_send_data</a>
+ <LI><a href="#[b59d44]">mb_update_execution_time</a>
+</UL>
+<P>
+<H3>
+Global Symbols
+</H3>
+<P><STRONG><a name="[b5b568]"></a>Reset_Handler</STRONG> (ARM, 0 bytes, Stack size unknown bytes, lpc32x0.o(RESET))
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[143471c]"></a>__main</STRONG> (ARM, 8 bytes, Stack size 0 bytes, __main.o(!!!main))
+<BR><BR>[Calls]<UL><LI><a href="#[1434104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
+<LI><a href="#[15624d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+</UL>
+
+<P><STRONG><a name="[15624d4]"></a>__scatterload</STRONG> (ARM, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter))
+<BR><BR>[Called By]<UL><LI><a href="#[143471c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
+<P><STRONG><a name="[1562498]"></a>__scatterload_rt2</STRONG> (ARM, 52 bytes, Stack size unknown bytes, __scatter.o(!!!scatter), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1434104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
+</UL>
+
+<P><STRONG><a name="[156245c]"></a>__scatterload_null</STRONG> (ARM, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter), UNUSED)
+
+<P><STRONG><a name="[15622b8]"></a>__scatterload_copy</STRONG> (ARM, 40 bytes, Stack size unknown bytes, __scatter_copy.o(!!handler_copy), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[15622b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_copy
+</UL>
+<BR>[Called By]<UL><LI><a href="#[15622b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_copy
+</UL>
+
+<P><STRONG><a name="[15621c8]"></a>__scatterload_zeroinit</STRONG> (ARM, 44 bytes, Stack size unknown bytes, __scatter_zi.o(!!handler_zi), UNUSED)
+
+<P><STRONG><a name="[1429808]"></a>__rt_lib_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit.o(.ARM.Collect$$libinit$$00000000))
+<BR><BR>[Calls]<UL><LI><a href="#[1427198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_init (via BLX)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1431620]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_li (via BLX)
+</UL>
+
+<P><STRONG><a name="[142e95c]"></a>__rt_lib_init_heap_2</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000001))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64 + Unknown Stack Size
+<LI>Call Chain = __rt_lib_init_heap_2 &rArr; _init_alloc &rArr; __rt_SIGRTMEM &rArr; __rt_SIGRTMEM_inner &rArr; __default_signal_display &rArr; _ttywrch
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1430db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_alloc
+</UL>
+
+<P><STRONG><a name="[142e074]"></a>__rt_lib_init_alloca_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002A))
+
+<P><STRONG><a name="[142e0ec]"></a>__rt_lib_init_argv_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000028))
+
+<P><STRONG><a name="[142e4ac]"></a>__rt_lib_init_atexit_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000017))
+
+<P><STRONG><a name="[142e344]"></a>__rt_lib_init_clock_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001D))
+
+<P><STRONG><a name="[142df84]"></a>__rt_lib_init_cpp_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002E))
+
+<P><STRONG><a name="[142dffc]"></a>__rt_lib_init_exceptions_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002C))
+
+<P><STRONG><a name="[142e3bc]"></a>__rt_lib_init_fp_trap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001B))
+
+<P><STRONG><a name="[142e2cc]"></a>__rt_lib_init_getenv_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001F))
+
+<P><STRONG><a name="[142e8a8]"></a>__rt_lib_init_heap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000006))
+
+<P><STRONG><a name="[142e704]"></a>__rt_lib_init_lc_collate_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000D))
+
+<P><STRONG><a name="[142e68c]"></a>__rt_lib_init_lc_ctype_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000F))
+
+<P><STRONG><a name="[142e614]"></a>__rt_lib_init_lc_monetary_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000011))
+
+<P><STRONG><a name="[142e59c]"></a>__rt_lib_init_lc_numeric_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000013))
+
+<P><STRONG><a name="[142e524]"></a>__rt_lib_init_lc_time_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000015))
+
+<P><STRONG><a name="[142e7b8]"></a>__rt_lib_init_rand_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000A))
+
+<P><STRONG><a name="[142df48]"></a>__rt_lib_init_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002F))
+
+<P><STRONG><a name="[142e434]"></a>__rt_lib_init_signal_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000019))
+
+<P><STRONG><a name="[142e254]"></a>__rt_lib_init_stdio_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000021))
+
+<P><STRONG><a name="[142e830]"></a>__rt_lib_init_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000008))
+
+<P><STRONG><a name="[1562ee8]"></a>__rt_lib_shutdown</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown.o(.ARM.Collect$$libshutdown$$00000000))
+<BR><BR>[Called By]<UL><LI><a href="#[142a1e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort
+<LI><a href="#[15649a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_ls (via BLX)
+</UL>
+
+<P><STRONG><a name="[1563c80]"></a>__rt_lib_shutdown_fp_trap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000006))
+
+<P><STRONG><a name="[1563aa0]"></a>__rt_lib_shutdown_heap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E))
+
+<P><STRONG><a name="[1563a64]"></a>__rt_lib_shutdown_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000F))
+
+<P><STRONG><a name="[1563bcc]"></a>__rt_lib_shutdown_signal_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000009))
+
+<P><STRONG><a name="[1563d34]"></a>__rt_lib_shutdown_stdio_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000003))
+
+<P><STRONG><a name="[1563b54]"></a>__rt_lib_shutdown_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000B))
+
+<P><STRONG><a name="[1434104]"></a>__rt_entry</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry.o(.ARM.Collect$$rtentry$$00000000))
+<BR><BR>[Called By]<UL><LI><a href="#[143471c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<LI><a href="#[1562498]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
+</UL>
+
+<P><STRONG><a name="[14316d4]"></a>__rt_entry_presh_1</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$00000002))
+
+<P><STRONG><a name="[1431350]"></a>__rt_entry_sh</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry4.o(.ARM.Collect$$rtentry$$00000004))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
+<LI>Call Chain = __rt_entry_sh &rArr; __user_setup_stackheap
+</UL>
+<BR>[Calls]<UL><LI><a href="#[142aca8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
+</UL>
+
+<P><STRONG><a name="[1431620]"></a>__rt_entry_li</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$0000000A))
+<BR><BR>[Calls]<UL><LI><a href="#[1429808]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init (via BLX)
+</UL>
+
+<P><STRONG><a name="[143165c]"></a>__rt_entry_postsh_1</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$00000009))
+
+<P><STRONG><a name="[143156c]"></a>__rt_entry_main</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
+<BR><BR>[Calls]<UL><LI><a href="#[142a348]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit (via BX)
+</UL>
+
+<P><STRONG><a name="[14315a8]"></a>__rt_entry_postli_1</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$0000000C))
+
+<P><STRONG><a name="[142823c]"></a>__rt_exit</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtexit.o(.ARM.Collect$$rtexit$$00000000))
+<BR><BR>[Called By]<UL><LI><a href="#[142a348]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit (via BLX)
+</UL>
+
+<P><STRONG><a name="[15649a0]"></a>__rt_exit_ls</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000003))
+<BR><BR>[Calls]<UL><LI><a href="#[1562ee8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_shutdown (via BLX)
+</UL>
+
+<P><STRONG><a name="[15649dc]"></a>__rt_exit_prels_1</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000002))
+
+<P><STRONG><a name="[1564964]"></a>__rt_exit_exit</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000004))
+<BR><BR>[Calls]<UL><LI><a href="#[142841c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sys_exit
+</UL>
+
+<P><STRONG><a name="[b5b5a4]"></a>__user_initial_stackheap</STRONG> (ARM, 0 bytes, Stack size 0 bytes, lpc32x0.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[142aca8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
+</UL>
+
+<P><STRONG><a name="[142a7bc]"></a>_maybe_terminate_alloc</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, maybetermalloc1.o(.emb_text), UNUSED)
+
+<P><STRONG><a name="[b5a2a8]"></a>mb_setup_hardware</STRONG> (ARM, 516 bytes, Stack size 0 bytes, mb_hardware_setup.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b592f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[b59d80]"></a>mb_update_elapsed_time</STRONG> (ARM, 40 bytes, Stack size 16 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = mb_update_elapsed_time &rArr; mb_io_set_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b59858]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[b599c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_clock_get_time
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b59d44]"></a>mb_update_execution_time</STRONG> (ARM, 32 bytes, Stack size 16 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = mb_update_execution_time &rArr; mb_io_set_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b59858]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[b599fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_clock_get_execution_time
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b59d08]"></a>get_io_float</STRONG> (ARM, 20 bytes, Stack size 8 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = get_io_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5990c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b4d030]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_entry_flipdown()
+<LI><a href="#[b4d06c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_flipup()
+<LI><a href="#[b4d0a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_entry_flipup()
+<LI><a href="#[b4d0e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_pushoff()
+<LI><a href="#[b4d120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_stance()
+<LI><a href="#[b4d15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_entry_stance()
+<LI><a href="#[b4e1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_system_init_conditions_input(int*, int)
+<LI><a href="#[b4fd6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_hip_sensor_input(int*, int)
+<LI><a href="#[b4fe98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_HIP_entry_inner_swing()
+<LI><a href="#[b50000]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_HIP_entry_outer_swing()
+<LI><a href="#[1434d34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_flipdown()
+<LI><a href="#[1434d70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_entry_flipdown()
+<LI><a href="#[1434dac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_flipup()
+<LI><a href="#[1434de8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_entry_flipup()
+<LI><a href="#[1434e24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_pushoff()
+<LI><a href="#[1434e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_stance()
+<LI><a href="#[1434e9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_entry_stance()
+<LI><a href="#[1435568]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_foot_outer_input(int*, int)
+<LI><a href="#[14359dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_foot_inner_input(int*, int)
+<LI><a href="#[1435a54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_flipdown()
+</UL>
+
+<P><STRONG><a name="[b59ccc]"></a>set_io_float</STRONG> (ARM, 36 bytes, Stack size 16 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = set_io_float &rArr; mb_io_set_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b59858]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b4d030]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_entry_flipdown()
+<LI><a href="#[b4d06c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_flipup()
+<LI><a href="#[b4d0a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_entry_flipup()
+<LI><a href="#[b4d0e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_pushoff()
+<LI><a href="#[b4d120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_stance()
+<LI><a href="#[b4d15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_entry_stance()
+<LI><a href="#[b4e23c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_SI_system_run()
+<LI><a href="#[b4e278]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_SI_system_start()
+<LI><a href="#[b4fde4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_HIP_stop()
+<LI><a href="#[b4fe20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_HIP_exit_inner_swing()
+<LI><a href="#[b4fe98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_HIP_entry_inner_swing()
+<LI><a href="#[b4fed4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_HIP_exit_outer_free()
+<LI><a href="#[b4ff4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_HIP_entry_outer_free()
+<LI><a href="#[b4ff88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_HIP_exit_outer_swing()
+<LI><a href="#[b50000]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_HIP_entry_outer_swing()
+<LI><a href="#[b5003c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_HIP_exit_inner_free()
+<LI><a href="#[b500b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_HIP_entry_inner_free()
+<LI><a href="#[b59948]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_run
+<LI><a href="#[1434cf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_stop()
+<LI><a href="#[1434d34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_flipdown()
+<LI><a href="#[1434d70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_entry_flipdown()
+<LI><a href="#[1434dac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_flipup()
+<LI><a href="#[1434de8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_entry_flipup()
+<LI><a href="#[1434e24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_pushoff()
+<LI><a href="#[1434e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_stance()
+<LI><a href="#[1434e9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_OUTER_entry_stance()
+<LI><a href="#[1435a18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_stop()
+<LI><a href="#[1435a54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACTION_FOOT_INNER_flipdown()
+</UL>
+
+<P><STRONG><a name="[b59c90]"></a>mb_create_display_data_lists</STRONG> (ARM, 36 bytes, Stack size 8 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = mb_create_display_data_lists &rArr; mb_bt_create_data_lists
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b59a74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_bt_create_data_lists
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59c18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b59c54]"></a>mb_send_data</STRONG> (ARM, 36 bytes, Stack size 8 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = mb_send_data &rArr; a9_bt_data_sender &rArr; a9_bt_push_io_data_point
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b59bdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_data_sender
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b59c18]"></a>mb_setup_software</STRONG> (ARM, 704 bytes, Stack size 8 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = mb_setup_software &rArr; mb_fsm_init &rArr; def_system_init_fsm(fsm*) &rArr; fsm::fsm(int, int, int) &rArr; operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b597e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_set_heartbeat_period_ms
+<LI><a href="#[b5981c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_schedule_init
+<LI><a href="#[b59894]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_init
+<LI><a href="#[b59984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_init
+<LI><a href="#[b59b64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_init_tx_list
+<LI><a href="#[b59c90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_create_display_data_lists
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b592f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[b5b4f0]"></a>IRQ_Handler</STRONG> (ARM, 72 bytes, Stack size 32 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = IRQ_Handler &rArr; a9_timer0_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b59204]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_timer0_isr
+<LI><a href="#[b59240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_software_int_isr
+<LI><a href="#[b5927c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_gpdma_isr
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[b5b52c]"></a>FIQ_Handler</STRONG> (ARM, 16 bytes, Stack size 24 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = FIQ_Handler &rArr; a9_dn_ssel_dma_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b592b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssel_dma_isr
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[b592f4]"></a>main</STRONG> (ARM, 24 bytes, Stack size 8 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = main &rArr; mb_setup_software &rArr; mb_fsm_init &rArr; def_system_init_fsm(fsm*) &rArr; fsm::fsm(int, int, int) &rArr; operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b591c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_schedule_run
+<LI><a href="#[b59c18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+<LI><a href="#[b5a2a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_hardware
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> rtentry2.o(.ARM.Collect$$rtentry$$0000000D)
+</UL>
+<P><STRONG><a name="[b5981c]"></a>mb_schedule_init</STRONG> (ARM, 60 bytes, Stack size 0 bytes, mb_scheduler.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b59c18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+</UL>
+
+<P><STRONG><a name="[b58c28]"></a>mb_schedule_tick</STRONG> (ARM, 164 bytes, Stack size 0 bytes, mb_scheduler.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b57224]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_clock_tick
+<LI><a href="#[b59204]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_timer0_isr
+</UL>
+
+<P><STRONG><a name="[b591c8]"></a>mb_schedule_run</STRONG> (ARM, 152 bytes, Stack size 8 bytes, mb_scheduler.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = mb_schedule_run
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b592f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[b58598]"></a>a9_ssp_synchronize_arm7</STRONG> (ARM, 356 bytes, Stack size 0 bytes, mb_ssp_dma.o(.text), UNUSED)
+
+<P><STRONG><a name="[b59b64]"></a>a9_dn_ssp_init_tx_list</STRONG> (ARM, 312 bytes, Stack size 0 bytes, mb_ssp_dma.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b59c18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+</UL>
+
+<P><STRONG><a name="[b5855c]"></a>a9_dn_red_led_blink</STRONG> (ARM, 12 bytes, Stack size 0 bytes, mb_ssp_dma.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b592b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssel_dma_isr
+<LI><a href="#[b59a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_bt_pop_receive_packets
+<LI><a href="#[b59aec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_send_data
+<LI><a href="#[b59b28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_parse
+<LI><a href="#[b59ba0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_dma_receive
+</UL>
+
+<P><STRONG><a name="[b58520]"></a>a9_dn_green_led_blink</STRONG> (ARM, 12 bytes, Stack size 0 bytes, mb_ssp_dma.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b59b28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_parse
+</UL>
+
+<P><STRONG><a name="[b59ab0]"></a>a9_dn_update_leds</STRONG> (ARM, 132 bytes, Stack size 0 bytes, mb_ssp_dma.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b59aec]"></a>a9_dn_ssp_send_data</STRONG> (ARM, 868 bytes, Stack size 48 bytes, mb_ssp_dma.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = a9_dn_ssp_send_data
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5855c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_red_led_blink
+<LI><a href="#[b598d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_unread_pointer
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b59b28]"></a>a9_dn_ssp_parse</STRONG> (ARM, 544 bytes, Stack size 16 bytes, mb_ssp_dma.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = a9_dn_ssp_parse
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b584e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_write_pointer
+<LI><a href="#[b58520]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_green_led_blink
+<LI><a href="#[b5855c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_red_led_blink
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b592b8]"></a>a9_dn_ssel_dma_isr</STRONG> (ARM, 656 bytes, Stack size 8 bytes, mb_ssp_dma.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = a9_dn_ssel_dma_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5855c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_red_led_blink
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5b52c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FIQ_Handler
+</UL>
+
+<P><STRONG><a name="[b597e0]"></a>mb_set_heartbeat_period_ms</STRONG> (ARM, 16 bytes, Stack size 0 bytes, mb_heartbeat.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b59c18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+</UL>
+
+<P><STRONG><a name="[b58034]"></a>mb_hb_toggle</STRONG> (ARM, 16 bytes, Stack size 0 bytes, mb_heartbeat.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b597a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_task_heartbeat
+</UL>
+
+<P><STRONG><a name="[b597a4]"></a>mb_task_heartbeat</STRONG> (ARM, 92 bytes, Stack size 4 bytes, mb_heartbeat.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = mb_task_heartbeat
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b58034]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_hb_toggle
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b59a74]"></a>mb_bt_create_data_lists</STRONG> (ARM, 180 bytes, Stack size 40 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = mb_bt_create_data_lists
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59c90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_create_display_data_lists
+</UL>
+
+<P><STRONG><a name="[b5774c]"></a>a9_bt_push_io_data_point</STRONG> (ARM, 1052 bytes, Stack size 32 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = a9_bt_push_io_data_point
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59bdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_data_sender
+</UL>
+
+<P><STRONG><a name="[b59bdc]"></a>a9_bt_data_sender</STRONG> (ARM, 592 bytes, Stack size 40 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = a9_bt_data_sender &rArr; a9_bt_push_io_data_point
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5774c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_push_io_data_point
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59c54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_send_data
+</UL>
+
+<P><STRONG><a name="[b57710]"></a>a9_bt_start_ch3_dma_transfer</STRONG> (ARM, 140 bytes, Stack size 0 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b59240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_software_int_isr
+<LI><a href="#[b5927c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_gpdma_isr
+</UL>
+
+<P><STRONG><a name="[b5927c]"></a>a9_gpdma_isr</STRONG> (ARM, 44 bytes, Stack size 4 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = a9_gpdma_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b57710]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_start_ch3_dma_transfer
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5b4f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IRQ_Handler
+</UL>
+
+<P><STRONG><a name="[b59240]"></a>a9_software_int_isr</STRONG> (ARM, 40 bytes, Stack size 4 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = a9_software_int_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b57710]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_start_ch3_dma_transfer
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5b4f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IRQ_Handler
+</UL>
+
+<P><STRONG><a name="[b59ba0]"></a>a9_bt_dma_receive</STRONG> (ARM, 748 bytes, Stack size 24 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = a9_bt_dma_receive
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5855c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_red_led_blink
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b59a38]"></a>mb_bt_pop_receive_packets</STRONG> (ARM, 712 bytes, Stack size 24 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = mb_bt_pop_receive_packets &rArr; mb_io_set_ul
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b576d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_ul
+<LI><a href="#[b5855c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_red_led_blink
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b57224]"></a>a9_clock_tick</STRONG> (ARM, 100 bytes, Stack size 8 bytes, a9_clock.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b58c28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_schedule_tick
+</UL>
+
+<P><STRONG><a name="[b599fc]"></a>mb_clock_get_execution_time</STRONG> (ARM, 36 bytes, Stack size 0 bytes, a9_clock.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b59d44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_update_execution_time
+</UL>
+
+<P><STRONG><a name="[b599c0]"></a>mb_clock_get_time</STRONG> (ARM, 12 bytes, Stack size 0 bytes, a9_clock.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b56cc0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_sl
+<LI><a href="#[b576d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_ul
+<LI><a href="#[b59858]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[b59d80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_update_elapsed_time
+</UL>
+
+<P><STRONG><a name="[b59204]"></a>a9_timer0_isr</STRONG> (ARM, 56 bytes, Stack size 8 bytes, a9_clock.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = a9_timer0_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b58c28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_schedule_tick
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5b4f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IRQ_Handler
+</UL>
+
+<P><STRONG><a name="[b584e4]"></a>mb_io_get_write_pointer</STRONG> (ARM, 32 bytes, Stack size 0 bytes, mb_io_data.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b59b28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_parse
+</UL>
+
+<P><STRONG><a name="[b56db0]"></a>mb_io_get_read_pointer</STRONG> (ARM, 16 bytes, Stack size 0 bytes, mb_io_data.o(.text), UNUSED)
+
+<P><STRONG><a name="[b598d0]"></a>mb_io_get_unread_pointer</STRONG> (ARM, 100 bytes, Stack size 0 bytes, mb_io_data.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b59aec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_send_data
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[b5990c]"></a>mb_io_get_float</STRONG> (ARM, 16 bytes, Stack size 0 bytes, mb_io_data.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[b56d74]"></a>mb_io_get_ul</STRONG> (ARM, 20 bytes, Stack size 0 bytes, mb_io_data.o(.text), UNUSED)
+
+<P><STRONG><a name="[b56d38]"></a>mb_io_get_sl</STRONG> (ARM, 20 bytes, Stack size 0 bytes, mb_io_data.o(.text), UNUSED)
+
+<P><STRONG><a name="[b56cfc]"></a>mb_io_get_time</STRONG> (ARM, 20 bytes, Stack size 0 bytes, mb_io_data.o(.text), UNUSED)
+
+<P><STRONG><a name="[b59858]"></a>mb_io_set_float</STRONG> (ARM, 68 bytes, Stack size 16 bytes, mb_io_data.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = mb_io_set_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b599c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_clock_get_time
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_update_execution_time
+<LI><a href="#[b59d80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_update_elapsed_time
+</UL>
+
+<P><STRONG><a name="[b576d4]"></a>mb_io_set_ul</STRONG> (ARM, 60 bytes, Stack size 16 bytes, mb_io_data.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = mb_io_set_ul
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b599c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_clock_get_time
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_bt_pop_receive_packets
+</UL>
+
+<P><STRONG><a name="[b56cc0]"></a>mb_io_set_sl</STRONG> (ARM, 60 bytes, Stack size 16 bytes, mb_io_data.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b599c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_clock_get_time
+</UL>
+
+<P><STRONG><a name="[b56c84]"></a>mb_io_set_time</STRONG> (ARM, 32 bytes, Stack size 0 bytes, mb_io_data.o(.text), UNUSED)
+
+<P><STRONG><a name="[b59894]"></a>mb_io_init</STRONG> (ARM, 164 bytes, Stack size 0 bytes, mb_io_data.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b59c18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+</UL>
+
+<P><STRONG><a name="[b523a0]"></a>do_push_off()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, ankle_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b52364]"></a>do_lifting()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, ankle_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b52328]"></a>do_staying_up()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, ankle_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b522ec]"></a>do_ready_to_hit()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, ankle_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b522b0]"></a>do_on_ground()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, ankle_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b52274]"></a>do_ready_to_exit()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, ankle_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b52238]"></a>def_ankle_fsm(fsm*)</STRONG> (ARM, 412 bytes, Stack size 120 bytes, ankle_fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = def_ankle_fsm(fsm*) &rArr; fsm::fsm(int, int, int) &rArr; operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b51fe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::~fsm()
+<LI><a href="#[b5201c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::fsm(int, int, int)
+<LI><a href="#[b52058]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::trans_def(int, int, int)
+<LI><a href="#[b52094]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::state_def(int, int(*)(), int)
+<LI><a href="#[b520d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::state_def(int, int(*)())
+<LI><a href="#[b5210c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_name(char*)
+<LI><a href="#[b52148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_state_communication_variable(int*)
+<LI><a href="#[b52184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_sensor_input_function(void(*)(int*, int))
+<LI><a href="#[b521c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;copy(fsm*, fsm*)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_init
+</UL>
+
+<P><STRONG><a name="[b521fc]"></a>get_ankle_sensor_input(int*, int)</STRONG> (ARM, 72 bytes, Stack size 4 bytes, ankle_fsm_sensors.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = get_ankle_sensor_input(int*, int)
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> ankle_fsm.o(.text)
+</UL>
+<P><STRONG><a name="[b521c0]"></a>copy(fsm*, fsm*)</STRONG> (ARM, 672 bytes, Stack size 16 bytes, fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = copy(fsm*, fsm*) &rArr; operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[143444c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;operator new[] (unsigned) (via BLX)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b4ec8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_system_init_fsm(fsm*)
+<LI><a href="#[b4ecc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_outer_fsm(fsm*)
+<LI><a href="#[b4ed04]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_inner_fsm(fsm*)
+<LI><a href="#[b4ed40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_top_fsm(fsm*)
+<LI><a href="#[b4fda8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_hip_fsm(fsm*)
+<LI><a href="#[b52238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_ankle_fsm(fsm*)
+</UL>
+
+<P><STRONG><a name="[b5201c]"></a>fsm::fsm(int, int, int)</STRONG> (ARM, 576 bytes, Stack size 24 bytes, fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = fsm::fsm(int, int, int) &rArr; operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[143444c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;operator new[] (unsigned) (via BLX)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b4ec8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_system_init_fsm(fsm*)
+<LI><a href="#[b4ecc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_outer_fsm(fsm*)
+<LI><a href="#[b4ed04]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_inner_fsm(fsm*)
+<LI><a href="#[b4ed40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_top_fsm(fsm*)
+<LI><a href="#[b4fda8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_hip_fsm(fsm*)
+<LI><a href="#[b52238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_ankle_fsm(fsm*)
+</UL>
+
+<P><STRONG><a name="[b517ac]"></a>fsm::fsm__sub_object(int, int, int)</STRONG> (ARM, 0 bytes, Stack size 24 bytes, fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b51770]"></a>fsm::fsm()</STRONG> (ARM, 4 bytes, Stack size 0 bytes, fsm.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b59984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_init
+</UL>
+
+<P><STRONG><a name="[b51734]"></a>fsm::fsm__sub_object()</STRONG> (ARM, 0 bytes, Stack size 0 bytes, fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b51fe0]"></a>fsm::~fsm()</STRONG> (ARM, 80 bytes, Stack size 8 bytes, fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = fsm::~fsm() &rArr; operator delete[] (void*) &rArr; operator delete (void*) &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[14345b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;operator delete[] (void*) (via BLX)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b4ec8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_system_init_fsm(fsm*)
+<LI><a href="#[b4ecc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_outer_fsm(fsm*)
+<LI><a href="#[b4ed04]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_inner_fsm(fsm*)
+<LI><a href="#[b4ed40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_top_fsm(fsm*)
+<LI><a href="#[b4fda8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_hip_fsm(fsm*)
+<LI><a href="#[b52238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_ankle_fsm(fsm*)
+</UL>
+
+<P><STRONG><a name="[b516f8]"></a>fsm::~fsm__sub_object()</STRONG> (ARM, 0 bytes, Stack size 8 bytes, fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b520d0]"></a>fsm::state_def(int, int(*)())</STRONG> (ARM, 44 bytes, Stack size 0 bytes, fsm.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b52238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_ankle_fsm(fsm*)
+</UL>
+
+<P><STRONG><a name="[b516bc]"></a>fsm::exit_state_def(int)</STRONG> (ARM, 16 bytes, Stack size 0 bytes, fsm.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b4ec8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_system_init_fsm(fsm*)
+<LI><a href="#[b4ecc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_outer_fsm(fsm*)
+<LI><a href="#[b4ed04]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_inner_fsm(fsm*)
+<LI><a href="#[b4ed40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_top_fsm(fsm*)
+<LI><a href="#[b4fda8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_hip_fsm(fsm*)
+<LI><a href="#[b51680]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::state_def(int, int(*)(), int(*)(), int(*)(), int)
+<LI><a href="#[b52094]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::state_def(int, int(*)(), int)
+</UL>
+
+<P><STRONG><a name="[b52094]"></a>fsm::state_def(int, int(*)(), int)</STRONG> (ARM, 68 bytes, Stack size 20 bytes, fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = fsm::state_def(int, int(*)(), int)
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b516bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::exit_state_def(int)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b52238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_ankle_fsm(fsm*)
+</UL>
+
+<P><STRONG><a name="[b51680]"></a>fsm::state_def(int, int(*)(), int(*)(), int(*)(), int)</STRONG> (ARM, 124 bytes, Stack size 28 bytes, fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b516bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::exit_state_def(int)
+</UL>
+
+<P><STRONG><a name="[b51644]"></a>fsm::state_def(int, int(*)(), int(*)(), int(*)())</STRONG> (ARM, 84 bytes, Stack size 4 bytes, fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = fsm::state_def(int, int(*)(), int(*)(), int(*)())
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b4ec8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_system_init_fsm(fsm*)
+<LI><a href="#[b4ecc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_outer_fsm(fsm*)
+<LI><a href="#[b4ed04]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_inner_fsm(fsm*)
+<LI><a href="#[b4ed40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_top_fsm(fsm*)
+<LI><a href="#[b4fda8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_hip_fsm(fsm*)
+</UL>
+
+<P><STRONG><a name="[b52058]"></a>fsm::trans_def(int, int, int)</STRONG> (ARM, 84 bytes, Stack size 8 bytes, fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = fsm::trans_def(int, int, int)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b4ec8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_system_init_fsm(fsm*)
+<LI><a href="#[b4ecc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_outer_fsm(fsm*)
+<LI><a href="#[b4ed04]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_inner_fsm(fsm*)
+<LI><a href="#[b4ed40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_top_fsm(fsm*)
+<LI><a href="#[b4fda8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_hip_fsm(fsm*)
+<LI><a href="#[b52238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_ankle_fsm(fsm*)
+</UL>
+
+<P><STRONG><a name="[b52184]"></a>fsm::set_sensor_input_function(void(*)(int*, int))</STRONG> (ARM, 8 bytes, Stack size 0 bytes, fsm.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b4ec8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_system_init_fsm(fsm*)
+<LI><a href="#[b4ecc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_outer_fsm(fsm*)
+<LI><a href="#[b4ed04]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_inner_fsm(fsm*)
+<LI><a href="#[b4ed40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_top_fsm(fsm*)
+<LI><a href="#[b4fda8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_hip_fsm(fsm*)
+<LI><a href="#[b52238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_ankle_fsm(fsm*)
+</UL>
+
+<P><STRONG><a name="[b5210c]"></a>fsm::set_name(char*)</STRONG> (ARM, 8 bytes, Stack size 0 bytes, fsm.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b4ec8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_system_init_fsm(fsm*)
+<LI><a href="#[b4ecc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_outer_fsm(fsm*)
+<LI><a href="#[b4ed04]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_inner_fsm(fsm*)
+<LI><a href="#[b4ed40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_top_fsm(fsm*)
+<LI><a href="#[b4fda8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_hip_fsm(fsm*)
+<LI><a href="#[b52238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_ankle_fsm(fsm*)
+</UL>
+
+<P><STRONG><a name="[b51608]"></a>fsm::print_state_transition_matrix()</STRONG> (ARM, 52 bytes, Stack size 0 bytes, fsm.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b4ec8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_system_init_fsm(fsm*)
+<LI><a href="#[b4ecc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_outer_fsm(fsm*)
+<LI><a href="#[b4ed04]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_inner_fsm(fsm*)
+<LI><a href="#[b4fda8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_hip_fsm(fsm*)
+<LI><a href="#[b515cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::check(int)
+</UL>
+
+<P><STRONG><a name="[b515cc]"></a>fsm::check(int)</STRONG> (ARM, 256 bytes, Stack size 24 bytes, fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = fsm::check(int)
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b51608]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::print_state_transition_matrix()
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b51590]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::run()
+<LI><a href="#[b59984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_init
+</UL>
+
+<P><STRONG><a name="[b51590]"></a>fsm::run()</STRONG> (ARM, 1256 bytes, Stack size 416 bytes, fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 440<LI>Call Chain = fsm::run() &rArr; fsm::check(int)
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b515cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::check(int)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b4d9cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;do_walking()
+<LI><a href="#[b59948]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_run
+</UL>
+
+<P><STRONG><a name="[b51554]"></a>fsm::get_current_state()</STRONG> (ARM, 12 bytes, Stack size 0 bytes, fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b51518]"></a>fsm::ready_to_exit()</STRONG> (ARM, 12 bytes, Stack size 0 bytes, fsm.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b4d9cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;do_walking()
+</UL>
+
+<P><STRONG><a name="[b514dc]"></a>fsm::stop()</STRONG> (ARM, 12 bytes, Stack size 0 bytes, fsm.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b4d9cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;do_walking()
+</UL>
+
+<P><STRONG><a name="[b52148]"></a>fsm::set_state_communication_variable(int*)</STRONG> (ARM, 8 bytes, Stack size 0 bytes, fsm.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[b4ec8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_system_init_fsm(fsm*)
+<LI><a href="#[b4ecc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_outer_fsm(fsm*)
+<LI><a href="#[b4ed04]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_inner_fsm(fsm*)
+<LI><a href="#[b4ed40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_top_fsm(fsm*)
+<LI><a href="#[b4fda8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_hip_fsm(fsm*)
+<LI><a href="#[b52238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_ankle_fsm(fsm*)
+</UL>
+
+<P><STRONG><a name="[b514a0]"></a>fsm::print_transition_insertion_history()</STRONG> (ARM, 52 bytes, Stack size 0 bytes, fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b500b4]"></a>ACTION_HIP_entry_inner_free()</STRONG> (ARM, 24 bytes, Stack size 8 bytes, hip_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+</UL>
+
+<P><STRONG><a name="[b50078]"></a>ACTION_HIP_inner_free()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, hip_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b5003c]"></a>ACTION_HIP_exit_inner_free()</STRONG> (ARM, 24 bytes, Stack size 8 bytes, hip_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+</UL>
+
+<P><STRONG><a name="[b50000]"></a>ACTION_HIP_entry_outer_swing()</STRONG> (ARM, 40 bytes, Stack size 16 bytes, hip_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[b4ffc4]"></a>ACTION_HIP_outer_swing()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, hip_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b4ff88]"></a>ACTION_HIP_exit_outer_swing()</STRONG> (ARM, 24 bytes, Stack size 8 bytes, hip_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+</UL>
+
+<P><STRONG><a name="[b4ff4c]"></a>ACTION_HIP_entry_outer_free()</STRONG> (ARM, 24 bytes, Stack size 8 bytes, hip_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+</UL>
+
+<P><STRONG><a name="[b4ff10]"></a>ACTION_HIP_outer_free()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, hip_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b4fed4]"></a>ACTION_HIP_exit_outer_free()</STRONG> (ARM, 24 bytes, Stack size 8 bytes, hip_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+</UL>
+
+<P><STRONG><a name="[b4fe98]"></a>ACTION_HIP_entry_inner_swing()</STRONG> (ARM, 40 bytes, Stack size 16 bytes, hip_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[b4fe5c]"></a>ACTION_HIP_inner_swing()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, hip_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b4fe20]"></a>ACTION_HIP_exit_inner_swing()</STRONG> (ARM, 24 bytes, Stack size 8 bytes, hip_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+</UL>
+
+<P><STRONG><a name="[b4fde4]"></a>ACTION_HIP_stop()</STRONG> (ARM, 24 bytes, Stack size 8 bytes, hip_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+</UL>
+
+<P><STRONG><a name="[b4fda8]"></a>def_hip_fsm(fsm*)</STRONG> (ARM, 464 bytes, Stack size 120 bytes, hip_fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = def_hip_fsm(fsm*) &rArr; fsm::fsm(int, int, int) &rArr; operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b51608]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::print_state_transition_matrix()
+<LI><a href="#[b51644]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::state_def(int, int(*)(), int(*)(), int(*)())
+<LI><a href="#[b516bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::exit_state_def(int)
+<LI><a href="#[b51fe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::~fsm()
+<LI><a href="#[b5201c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::fsm(int, int, int)
+<LI><a href="#[b52058]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::trans_def(int, int, int)
+<LI><a href="#[b5210c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_name(char*)
+<LI><a href="#[b52148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_state_communication_variable(int*)
+<LI><a href="#[b52184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_sensor_input_function(void(*)(int*, int))
+<LI><a href="#[b521c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;copy(fsm*, fsm*)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_init
+</UL>
+
+<P><STRONG><a name="[b4fd6c]"></a>get_hip_sensor_input(int*, int)</STRONG> (ARM, 284 bytes, Stack size 24 bytes, hip_fsm_conditions.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = get_hip_sensor_input(int*, int) &rArr; get_io_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> hip_fsm.o(.text)
+</UL>
+<P><STRONG><a name="[b4ed7c]"></a>init_global_comm()</STRONG> (ARM, 28 bytes, Stack size 4 bytes, mb_fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = init_global_comm()
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_init
+</UL>
+
+<P><STRONG><a name="[b59984]"></a>mb_fsm_init</STRONG> (ARM, 348 bytes, Stack size 8 bytes, mb_fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = mb_fsm_init &rArr; def_system_init_fsm(fsm*) &rArr; fsm::fsm(int, int, int) &rArr; operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b4ec8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_system_init_fsm(fsm*)
+<LI><a href="#[b4ecc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_outer_fsm(fsm*)
+<LI><a href="#[b4ed04]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_foot_inner_fsm(fsm*)
+<LI><a href="#[b4ed40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_top_fsm(fsm*)
+<LI><a href="#[b4ed7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_global_comm()
+<LI><a href="#[b4fda8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_hip_fsm(fsm*)
+<LI><a href="#[b515cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::check(int)
+<LI><a href="#[b51770]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::fsm()
+<LI><a href="#[b52238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;def_ankle_fsm(fsm*)
+<LI><a href="#[143426c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;operator new(unsigned) (via BLX)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59c18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+</UL>
+
+<P><STRONG><a name="[b59948]"></a>mb_fsm_run</STRONG> (ARM, 152 bytes, Stack size 8 bytes, mb_fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 448<LI>Call Chain = mb_fsm_run &rArr; fsm::run() &rArr; fsm::check(int)
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b51590]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::run()
+<LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[b4e278]"></a>ACTION_SI_system_start()</STRONG> (ARM, 24 bytes, Stack size 8 bytes, system_init_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+</UL>
+
+<P><STRONG><a name="[b4e23c]"></a>ACTION_SI_system_run()</STRONG> (ARM, 24 bytes, Stack size 8 bytes, system_init_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+</UL>
+
+<P><STRONG><a name="[b4e200]"></a>ACTION_SI_stop()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, system_init_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b4ec8c]"></a>def_system_init_fsm(fsm*)</STRONG> (ARM, 260 bytes, Stack size 120 bytes, system_init_fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = def_system_init_fsm(fsm*) &rArr; fsm::fsm(int, int, int) &rArr; operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b51608]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::print_state_transition_matrix()
+<LI><a href="#[b51644]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::state_def(int, int(*)(), int(*)(), int(*)())
+<LI><a href="#[b516bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::exit_state_def(int)
+<LI><a href="#[b51fe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::~fsm()
+<LI><a href="#[b5201c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::fsm(int, int, int)
+<LI><a href="#[b52058]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::trans_def(int, int, int)
+<LI><a href="#[b5210c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_name(char*)
+<LI><a href="#[b52148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_state_communication_variable(int*)
+<LI><a href="#[b52184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_sensor_input_function(void(*)(int*, int))
+<LI><a href="#[b521c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;copy(fsm*, fsm*)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_init
+</UL>
+
+<P><STRONG><a name="[b4e1c4]"></a>get_system_init_conditions_input(int*, int)</STRONG> (ARM, 108 bytes, Stack size 16 bytes, system_init_fsm_conditions.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = get_system_init_conditions_input(int*, int) &rArr; get_io_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> system_init_fsm.o(.text)
+</UL>
+<P><STRONG><a name="[b4d9cc]"></a>do_walking()</STRONG> (ARM, 196 bytes, Stack size 8 bytes, top_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b514dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::stop()
+<LI><a href="#[b51518]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::ready_to_exit()
+<LI><a href="#[b51590]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::run()
+</UL>
+
+<P><STRONG><a name="[b4d990]"></a>do_stopping()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, top_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b4d954]"></a>do_top_ready_to_exit()</STRONG> (ARM, 8 bytes, Stack size 0 bytes, top_fsm.o(.text), UNUSED)
+
+<P><STRONG><a name="[b4ed40]"></a>def_top_fsm(fsm*)</STRONG> (ARM, 276 bytes, Stack size 120 bytes, top_fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = def_top_fsm(fsm*) &rArr; fsm::fsm(int, int, int) &rArr; operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b51644]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::state_def(int, int(*)(), int(*)(), int(*)())
+<LI><a href="#[b516bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::exit_state_def(int)
+<LI><a href="#[b51fe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::~fsm()
+<LI><a href="#[b5201c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::fsm(int, int, int)
+<LI><a href="#[b52058]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::trans_def(int, int, int)
+<LI><a href="#[b5210c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_name(char*)
+<LI><a href="#[b52148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_state_communication_variable(int*)
+<LI><a href="#[b52184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_sensor_input_function(void(*)(int*, int))
+<LI><a href="#[b521c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;copy(fsm*, fsm*)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_init
+</UL>
+
+<P><STRONG><a name="[b4d918]"></a>get_top_sensor_input(int*, int)</STRONG> (ARM, 104 bytes, Stack size 8 bytes, top_fsm_sensors.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = get_top_sensor_input(int*, int)
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> top_fsm.o(.text)
+</UL>
+<P><STRONG><a name="[b4d15c]"></a>ACTION_FOOT_INNER_entry_stance()</STRONG> (ARM, 60 bytes, Stack size 16 bytes, foot_inner_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[b4d120]"></a>ACTION_FOOT_INNER_stance()</STRONG> (ARM, 144 bytes, Stack size 32 bytes, foot_inner_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[b4d0e4]"></a>ACTION_FOOT_INNER_pushoff()</STRONG> (ARM, 144 bytes, Stack size 32 bytes, foot_inner_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[b4d0a8]"></a>ACTION_FOOT_INNER_entry_flipup()</STRONG> (ARM, 60 bytes, Stack size 16 bytes, foot_inner_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[b4d06c]"></a>ACTION_FOOT_INNER_flipup()</STRONG> (ARM, 56 bytes, Stack size 16 bytes, foot_inner_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[b4d030]"></a>ACTION_FOOT_INNER_entry_flipdown()</STRONG> (ARM, 60 bytes, Stack size 16 bytes, foot_inner_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[1435a54]"></a>ACTION_FOOT_INNER_flipdown()</STRONG> (ARM, 160 bytes, Stack size 32 bytes, foot_inner_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[1435a18]"></a>ACTION_FOOT_INNER_stop()</STRONG> (ARM, 48 bytes, Stack size 8 bytes, foot_inner_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+</UL>
+
+<P><STRONG><a name="[b4ed04]"></a>def_foot_inner_fsm(fsm*)</STRONG> (ARM, 420 bytes, Stack size 120 bytes, foot_inner_fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = def_foot_inner_fsm(fsm*) &rArr; fsm::fsm(int, int, int) &rArr; operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b51608]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::print_state_transition_matrix()
+<LI><a href="#[b51644]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::state_def(int, int(*)(), int(*)(), int(*)())
+<LI><a href="#[b516bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::exit_state_def(int)
+<LI><a href="#[b51fe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::~fsm()
+<LI><a href="#[b5201c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::fsm(int, int, int)
+<LI><a href="#[b52058]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::trans_def(int, int, int)
+<LI><a href="#[b5210c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_name(char*)
+<LI><a href="#[b52148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_state_communication_variable(int*)
+<LI><a href="#[b52184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_sensor_input_function(void(*)(int*, int))
+<LI><a href="#[b521c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;copy(fsm*, fsm*)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_init
+</UL>
+
+<P><STRONG><a name="[1435568]"></a>get_foot_outer_input(int*, int)</STRONG> (ARM, 300 bytes, Stack size 24 bytes, foot_outer_fsm_conditions.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = get_foot_outer_input(int*, int) &rArr; get_io_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> foot_outer_fsm.o(.text)
+</UL>
+<P><STRONG><a name="[14359dc]"></a>get_foot_inner_input(int*, int)</STRONG> (ARM, 300 bytes, Stack size 24 bytes, foot_inner_fsm_conditions.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = get_foot_inner_input(int*, int) &rArr; get_io_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> foot_inner_fsm.o(.text)
+</UL>
+<P><STRONG><a name="[1434e9c]"></a>ACTION_FOOT_OUTER_entry_stance()</STRONG> (ARM, 60 bytes, Stack size 16 bytes, foot_outer_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[1434e60]"></a>ACTION_FOOT_OUTER_stance()</STRONG> (ARM, 204 bytes, Stack size 32 bytes, foot_outer_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[1434e24]"></a>ACTION_FOOT_OUTER_pushoff()</STRONG> (ARM, 204 bytes, Stack size 32 bytes, foot_outer_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[1434de8]"></a>ACTION_FOOT_OUTER_entry_flipup()</STRONG> (ARM, 60 bytes, Stack size 16 bytes, foot_outer_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[1434dac]"></a>ACTION_FOOT_OUTER_flipup()</STRONG> (ARM, 72 bytes, Stack size 16 bytes, foot_outer_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[1434d70]"></a>ACTION_FOOT_OUTER_entry_flipdown()</STRONG> (ARM, 60 bytes, Stack size 16 bytes, foot_outer_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[1434d34]"></a>ACTION_FOOT_OUTER_flipdown()</STRONG> (ARM, 204 bytes, Stack size 32 bytes, foot_outer_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[b59d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+</UL>
+
+<P><STRONG><a name="[1434cf8]"></a>ACTION_FOOT_OUTER_stop()</STRONG> (ARM, 48 bytes, Stack size 8 bytes, foot_outer_fsm.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b59ccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+</UL>
+
+<P><STRONG><a name="[b4ecc8]"></a>def_foot_outer_fsm(fsm*)</STRONG> (ARM, 420 bytes, Stack size 120 bytes, foot_outer_fsm.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = def_foot_outer_fsm(fsm*) &rArr; fsm::fsm(int, int, int) &rArr; operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b51608]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::print_state_transition_matrix()
+<LI><a href="#[b51644]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::state_def(int, int(*)(), int(*)(), int(*)())
+<LI><a href="#[b516bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::exit_state_def(int)
+<LI><a href="#[b51fe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::~fsm()
+<LI><a href="#[b5201c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::fsm(int, int, int)
+<LI><a href="#[b52058]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::trans_def(int, int, int)
+<LI><a href="#[b5210c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_name(char*)
+<LI><a href="#[b52148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_state_communication_variable(int*)
+<LI><a href="#[b52184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::set_sensor_input_function(void(*)(int*, int))
+<LI><a href="#[b521c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;copy(fsm*, fsm*)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_init
+</UL>
+
+<P><STRONG><a name="[1434884]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+
+<P><STRONG><a name="[1434848]"></a>__rt_heap_escrow</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+
+<P><STRONG><a name="[143480c]"></a>__rt_heap_expand</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+
+<P><STRONG><a name="[1433d44]"></a>__rt_new_handler_addr</STRONG> (ARM, 16 bytes, Stack size 0 bytes, rt_new_handler_addr_intlibspace.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[143426c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;operator new(unsigned) (via BLX)
+</UL>
+
+<P><STRONG><a name="[1433a38]"></a>malloc</STRONG> (Thumb, 102 bytes, Stack size 16 bytes, h1_alloc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1430e28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__Heap_Full
+<LI><a href="#[14310bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_heap_descriptor (via BLX)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[142733c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_exceptions_buffer_init
+<LI><a href="#[1428a70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_get_globals
+<LI><a href="#[143426c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;operator new(unsigned)
+</UL>
+
+<P><STRONG><a name="[1432124]"></a>__default_new_handler()</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, arm_newhandler_noexceptions.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96 + Unknown Stack Size
+<LI>Call Chain = __default_new_handler() &rArr; std::terminate() &rArr; __cxa_get_globals &rArr; __ARM_exceptions_buffer_init &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[142d78c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;std::terminate()
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> new.o(i._Znwj)
+</UL>
+<P><STRONG><a name="[1431ad0]"></a>__user_libspace</STRONG> (ARM, 12 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
+
+<P><STRONG><a name="[1431a94]"></a>__user_perproc_libspace</STRONG> (ARM, 0 bytes, Stack size 0 bytes, libspace.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[142aca8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
+</UL>
+
+<P><STRONG><a name="[1431a58]"></a>__user_perthread_libspace</STRONG> (ARM, 0 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
+
+<P><STRONG><a name="[14310bc]"></a>__rt_heap_descriptor</STRONG> (ARM, 16 bytes, Stack size 0 bytes, rt_heap_descriptor_intlibspace.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[143075c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free (via BLX)
+<LI><a href="#[1430db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_alloc (via BLX)
+<LI><a href="#[1433a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc (via BLX)
+</UL>
+
+<P><STRONG><a name="[1430fcc]"></a>__use_no_heap</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, hguard.o(.text), UNUSED)
+
+<P><STRONG><a name="[1430f90]"></a>__heap$guard</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, hguard.o(.text), UNUSED)
+
+<P><STRONG><a name="[1430ea0]"></a>_terminate_user_alloc</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, init_alloc.o(.text), UNUSED)
+
+<P><STRONG><a name="[1430e64]"></a>_init_user_alloc</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, init_alloc.o(.text), UNUSED)
+
+<P><STRONG><a name="[1430e28]"></a>__Heap_Full</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, init_alloc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[142a564]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__Heap_ProvideMemory
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1433a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
+</UL>
+
+<P><STRONG><a name="[1430dec]"></a>__Heap_Broken</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, init_alloc.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[142a03c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGRTMEM
+</UL>
+
+<P><STRONG><a name="[1430db0]"></a>_init_alloc</STRONG> (Thumb, 90 bytes, Stack size 24 bytes, init_alloc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = _init_alloc &rArr; __rt_SIGRTMEM &rArr; __rt_SIGRTMEM_inner &rArr; __default_signal_display &rArr; _ttywrch
+</UL>
+<BR>[Calls]<UL><LI><a href="#[142a03c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGRTMEM
+<LI><a href="#[142a564]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__Heap_ProvideMemory
+<LI><a href="#[1430888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__Heap_Initialize
+<LI><a href="#[14310bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_heap_descriptor (via BLX)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[142e95c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init_heap_2
+</UL>
+
+<P><STRONG><a name="[1430888]"></a>__Heap_Initialize</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, h1_init.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1430db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_alloc
+</UL>
+
+<P><STRONG><a name="[143084c]"></a>__Heap_DescSize</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, h1_init.o(.text), UNUSED)
+
+<P><STRONG><a name="[143075c]"></a>free</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, h1_free.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[14310bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_heap_descriptor (via BLX)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[142a564]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__Heap_ProvideMemory
+<LI><a href="#[1432304]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;operator delete (void*)
+</UL>
+
+<P><STRONG><a name="[142d78c]"></a>std::terminate()</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, arm_exceptions_terminate.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88 + Unknown Stack Size
+<LI>Call Chain = std::terminate() &rArr; __cxa_get_globals &rArr; __ARM_exceptions_buffer_init &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1428a70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_get_globals
+<LI><a href="#[142a1e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1432124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__default_new_handler()
+</UL>
+
+<P><STRONG><a name="[142aca8]"></a>__user_setup_stackheap</STRONG> (ARM, 96 bytes, Stack size 8 bytes, sys_stackheap_outer.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __user_setup_stackheap
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b5b5a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_initial_stackheap
+<LI><a href="#[1431a94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_perproc_libspace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1431350]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_sh
+</UL>
+
+<P><STRONG><a name="[142a564]"></a>__Heap_ProvideMemory</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, h1_extend.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[143075c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1430db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_alloc
+<LI><a href="#[1430e28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__Heap_Full
+</UL>
+
+<P><STRONG><a name="[142a348]"></a>exit</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, exit.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[142823c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit (via BLX)
+<LI><a href="#[142a2d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_call_atexit_fns (Weak Reference)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[143156c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
+</UL>
+
+<P><STRONG><a name="[142a1e0]"></a>abort</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, abort.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40 + Unknown Stack Size
+<LI>Call Chain = abort &rArr; __rt_SIGABRT &rArr; __rt_SIGABRT_inner &rArr; __default_signal_display &rArr; _ttywrch
+</UL>
+<BR>[Calls]<UL><LI><a href="#[14278a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGABRT
+<LI><a href="#[142841c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sys_exit (via BLX)
+<LI><a href="#[1562ee8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_shutdown
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1428a70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_get_globals
+<LI><a href="#[1428aac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__default_terminate_handler()
+<LI><a href="#[142d78c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;std::terminate()
+</UL>
+
+<P><STRONG><a name="[142a03c]"></a>__rt_SIGRTMEM</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, defsig_rtmem_outer.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = __rt_SIGRTMEM &rArr; __rt_SIGRTMEM_inner &rArr; __default_signal_display &rArr; _ttywrch
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1427684]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGRTMEM_inner
+<LI><a href="#[1427990]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__sig_exit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1430db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_init_alloc
+<LI><a href="#[1430dec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__Heap_Broken
+</UL>
+
+<P><STRONG><a name="[1428a70]"></a>__cxa_get_globals</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, arm_exceptions_globs.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80 + Unknown Stack Size
+<LI>Call Chain = __cxa_get_globals &rArr; __ARM_exceptions_buffer_init &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[142733c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_exceptions_buffer_init
+<LI><a href="#[1427cd8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_eh_globals_addr (via BLX)
+<LI><a href="#[142a1e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort
+<LI><a href="#[1433a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
+</UL>
+<BR>[Called By]<UL><LI><a href="#[142d78c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;std::terminate()
+</UL>
+
+<P><STRONG><a name="[142841c]"></a>_sys_exit</STRONG> (ARM, 20 bytes, Stack size 0 bytes, sys_exit.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1427990]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__sig_exit (via BLX)
+<LI><a href="#[142a1e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort (via BLX)
+<LI><a href="#[1564964]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_exit
+</UL>
+
+<P><STRONG><a name="[142832c]"></a>__I$use$semihosting</STRONG> (ARM, 0 bytes, Stack size 0 bytes, use_no_semi.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> sys_exit.o(.text)
+</UL>
+<P><STRONG><a name="[14282f0]"></a>__use_no_semihosting_swi</STRONG> (ARM, 4 bytes, Stack size 0 bytes, use_no_semi.o(.text), UNUSED)
+
+<P><STRONG><a name="[1427cd8]"></a>__rt_eh_globals_addr</STRONG> (ARM, 16 bytes, Stack size 0 bytes, rt_eh_globals_addr_intlibspace.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1428a70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_get_globals (via BLX)
+</UL>
+
+<P><STRONG><a name="[1427990]"></a>__sig_exit</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, defsig_exit.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __sig_exit
+</UL>
+<BR>[Calls]<UL><LI><a href="#[142841c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sys_exit (via BLX)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[14278a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGABRT
+<LI><a href="#[142a03c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGRTMEM
+</UL>
+
+<P><STRONG><a name="[14278a0]"></a>__rt_SIGABRT</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, defsig_abrt_outer.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = __rt_SIGABRT &rArr; __rt_SIGABRT_inner &rArr; __default_signal_display &rArr; _ttywrch
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1427990]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__sig_exit
+<LI><a href="#[15643c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGABRT_inner
+</UL>
+<BR>[Called By]<UL><LI><a href="#[142a1e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort
+</UL>
+
+<P><STRONG><a name="[1427684]"></a>__rt_SIGRTMEM_inner</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, defsig_rtmem_inner.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __rt_SIGRTMEM_inner &rArr; __default_signal_display &rArr; _ttywrch
+</UL>
+<BR>[Calls]<UL><LI><a href="#[15644f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__default_signal_display
+</UL>
+<BR>[Called By]<UL><LI><a href="#[142a03c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGRTMEM
+</UL>
+
+<P><STRONG><a name="[142733c]"></a>__ARM_exceptions_buffer_init</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, arm_exceptions_mem.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = __ARM_exceptions_buffer_init &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1433a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1428a70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_get_globals
+</UL>
+
+<P><STRONG><a name="[1427300]"></a>__ARM_exceptions_buffer_allocate</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, arm_exceptions_mem.o(.text), UNUSED)
+
+<P><STRONG><a name="[14272c4]"></a>__ARM_exceptions_buffer_free</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, arm_exceptions_mem.o(.text), UNUSED)
+
+<P><STRONG><a name="[15644f0]"></a>__default_signal_display</STRONG> (Thumb, 52 bytes, Stack size 16 bytes, defsig_general.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __default_signal_display &rArr; _ttywrch
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1563848]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_ttywrch
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1427684]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGRTMEM_inner
+<LI><a href="#[15643c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGABRT_inner
+</UL>
+
+<P><STRONG><a name="[15643c4]"></a>__rt_SIGABRT_inner</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, defsig_abrt_inner.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __rt_SIGABRT_inner &rArr; __default_signal_display &rArr; _ttywrch
+</UL>
+<BR>[Calls]<UL><LI><a href="#[15644f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__default_signal_display
+</UL>
+<BR>[Called By]<UL><LI><a href="#[14278a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGABRT
+</UL>
+
+<P><STRONG><a name="[1563848]"></a>_ttywrch</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, sys_wrch.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = _ttywrch
+</UL>
+<BR>[Called By]<UL><LI><a href="#[15644f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__default_signal_display
+</UL>
+
+<P><STRONG><a name="[14345b4]"></a>operator delete[] (void*)</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, array_del.o(i._ZdaPv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = operator delete[] (void*) &rArr; operator delete (void*) &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1432304]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;operator delete (void*)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b51fe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::~fsm() (via BLX)
+</UL>
+
+<P><STRONG><a name="[1432304]"></a>operator delete (void*)</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, delete.o(i._ZdlPv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = operator delete (void*) &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[143075c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free
+</UL>
+<BR>[Called By]<UL><LI><a href="#[14345b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;operator delete[] (void*)
+</UL>
+
+<P><STRONG><a name="[143444c]"></a>operator new[] (unsigned)</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, array_new.o(i._Znaj))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = operator new[] (unsigned) &rArr; operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[143426c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;operator new(unsigned)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5201c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm::fsm(int, int, int) (via BLX)
+<LI><a href="#[b521c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;copy(fsm*, fsm*) (via BLX)
+</UL>
+
+<P><STRONG><a name="[143426c]"></a>operator new(unsigned)</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, new.o(i._Znwj))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = operator new(unsigned) &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1433a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
+<LI><a href="#[1433d44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_new_handler_addr (via BLX)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b59984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_fsm_init (via BLX)
+<LI><a href="#[143444c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;operator new[] (unsigned)
+</UL>
+
+<P><STRONG><a name="[1427198]"></a>_fp_init</STRONG> (ARM, 12 bytes, Stack size 0 bytes, fpinit.o(x$fpl$fpinit))
+<BR><BR>[Called By]<UL><LI><a href="#[1429808]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init (via BLX)
+</UL>
+
+<P><STRONG><a name="[142715c]"></a>__fplib_config_fpu_vfp</STRONG> (ARM, 0 bytes, Stack size unknown bytes, fpinit.o(x$fpl$fpinit), UNUSED)
+
+<P><STRONG><a name="[1427120]"></a>__fplib_config_pureend_doubles</STRONG> (ARM, 0 bytes, Stack size unknown bytes, fpinit.o(x$fpl$fpinit), UNUSED)
+<P>
+<H3>
+Local Symbols
+</H3>
+<P><STRONG><a name="[b5b748]"></a>Undef_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, lpc32x0.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[b5b748]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Undef_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5b748]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Undef_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[b5b70c]"></a>SWI_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, lpc32x0.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[b5b70c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SWI_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5b70c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SWI_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[b5b6d0]"></a>PAbt_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, lpc32x0.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[b5b6d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PAbt_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5b6d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PAbt_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[b5b694]"></a>DAbt_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, lpc32x0.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[b5b694]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DAbt_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5b694]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DAbt_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[1428aac]"></a>__default_terminate_handler()</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, arm_exceptions_globs.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40 + Unknown Stack Size
+<LI>Call Chain = __default_terminate_handler() &rArr; abort &rArr; __rt_SIGABRT &rArr; __rt_SIGABRT_inner &rArr; __default_signal_display &rArr; _ttywrch
+</UL>
+<BR>[Calls]<UL><LI><a href="#[142a1e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> arm_exceptions_globs.o(.text)
+</UL><P>
+<H3>
+Undefined Global Symbols
+</H3>
+<P><STRONG><a name="[142a2d0]"></a>_call_atexit_fns</STRONG> (ARM, 0 bytes, Stack size 0 bytes, UNDEFINED)
+<BR><BR>[Called By]<UL><LI><a href="#[142a348]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
+</UL>
+<HR></body></html>

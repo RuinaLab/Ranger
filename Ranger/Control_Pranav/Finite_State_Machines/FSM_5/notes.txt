@@ -1,0 +1,7 @@
+1 June 2010
+
+The best FSM till data
+
+Power consumption of about 14 W (total)
+
+No discrete controller yet.

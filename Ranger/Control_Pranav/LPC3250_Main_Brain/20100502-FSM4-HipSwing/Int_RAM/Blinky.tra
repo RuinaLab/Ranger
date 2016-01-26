@@ -1,0 +1,44 @@
+*** Creating Trace Output File '.\Int_RAM\Blinky.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '".\int_ram\lpc32x0.o"'
+### List of Objects: adding '".\int_ram\mb_hardware_setup.o"'
+### List of Objects: adding '".\int_ram\mb_software_setup.o"'
+### List of Objects: adding '".\int_ram\main.o"'
+### List of Objects: adding '".\int_ram\mb_scheduler.o"'
+### List of Objects: adding '".\int_ram\mb_ssp_dma.o"'
+### List of Objects: adding '".\int_ram\mb_heartbeat.o"'
+### List of Objects: adding '".\int_ram\mb_bluetooth.o"'
+### List of Objects: adding '".\int_ram\a9_clock.o"'
+### List of Objects: adding '".\int_ram\mb_io_data.o"'
+### List of Objects: adding '".\int_ram\ankle_fsm.o"'
+### List of Objects: adding '".\int_ram\ankle_fsm_sensors.o"'
+### List of Objects: adding '".\int_ram\fsm.o"'
+### List of Objects: adding '".\int_ram\hip_fsm.o"'
+### List of Objects: adding '".\int_ram\hip_fsm_conditions.o"'
+### List of Objects: adding '".\int_ram\mb_fsm.o"'
+### List of Objects: adding '".\int_ram\read_global_sensors.o"'
+### List of Objects: adding '".\int_ram\system_init_fsm.o"'
+### List of Objects: adding '".\int_ram\system_init_fsm_conditions.o"'
+### List of Objects: adding '".\int_ram\top_fsm.o"'
+### List of Objects: adding '".\int_ram\top_fsm_sensors.o"'
+### List of Objects: adding '".\int_ram\foot_inner_fsm.o"'
+### List of Objects: adding '".\int_ram\foot_outer_fsm_conditions.o"'
+### List of Objects: adding '".\int_ram\foot_inner_fsm_conditions.o"'
+### List of Objects: adding '".\int_ram\foot_outer_fsm.o"'
+### List of Objects: adding '".\int_ram\mb_estimator.o"'
+### ADS-LD Command completed:
+--device DARMP3 ".\int_ram\lpc32x0.o" ".\int_ram\mb_hardware_setup.o" ".\int_ram\mb_software_setup.o" ".\int_ram\main.o" ".\int_ram\mb_scheduler.o" ".\int_ram\mb_ssp_dma.o" ".\int_ram\mb_heartbeat.o" ".\int_ram\mb_bluetooth.o" ".\int_ram\a9_clock.o" ".\int_ram\mb_io_data.o" ".\int_ram\ankle_fsm.o" ".\int_ram\ankle_fsm_sensors.o" ".\int_ram\fsm.o" ".\int_ram\hip_fsm.o" ".\int_ram\hip_fsm_conditions.o" ".\int_ram\mb_fsm.o" ".\int_ram\read_global_sensors.o" ".\int_ram\system_init_fsm.o" ".\int_ram\system_init_fsm_conditions.o" ".\int_ram\top_fsm.o" ".\int_ram\top_fsm_sensors.o" ".\int_ram\foot_inner_fsm.o" ".\int_ram\foot_outer_fsm_conditions.o" ".\int_ram\foot_inner_fsm_conditions.o" ".\int_ram\foot_outer_fsm.o" ".\int_ram\mb_estimator.o" --fpu=vfpv2 --strict --scatter ".\Int_RAM\Blinky.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\Int_RAM\Blinky.map" -o ".\Int_RAM\Blinky.axf"### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: '.\Int_RAM\Blinky.axf'
+### ADS-LD Command File: '.\Int_RAM\Blinky.lnp'
+### Checking for dirty Components...
+### Creating CmdFile '.\Int_RAM\Blinky.lnp', Handle=0x0000035C
+### Writing '.lnp' file
+### ADS-LD Command file '.\Int_RAM\Blinky.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.

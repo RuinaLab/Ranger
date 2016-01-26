@@ -1,0 +1,117 @@
+### uVision2 Project, (C) Keil Software
+### Do not modify !
+
+ cExt (*.c)
+ aExt (*.s*; *.src; *.a*)
+ oExt (*.obj)
+ lExt (*.lib)
+ tExt (*.txt; *.h; *.inc)
+ pExt (*.plm)
+ CppX (*.cpp)
+ DaveTm { 0,0,0,0,0,0,0,0 }
+
+Target (LPC3250 Int RAM), 0x0004 // Tools: 'ARM-ADS'
+Target (LPC3250 Ext SDRAM (NOR)), 0x0004 // Tools: 'ARM-ADS'
+Target (LPC3250 Ext SDRAM (NAND)), 0x0004 // Tools: 'ARM-ADS'
+GRPOPT 1,(Startup Code),1,0,0
+GRPOPT 2,(Documentation),1,0,0
+GRPOPT 3,(Board Code),1,0,0
+GRPOPT 4,(Module Code),1,0,0
+GRPOPT 5,(Estimator),1,0,0
+GRPOPT 6,(FSM_16),1,0,0
+
+OPTFFF 1,1,2,0,0,0,0,0,<.\src\LPC32x0.s><LPC32x0.s> 
+OPTFFF 3,2,1,0,0,0,0,0,<.\src\mb_hardware_setup.c><mb_hardware_setup.c> 
+OPTFFF 3,3,1,2,0,16,21,0,<.\src\mb_software_setup.c><mb_software_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,22,0,0,0,29,0,0,0,134,3,0,0,83,1,0,0 }
+OPTFFF 3,4,1,0,0,0,0,0,<.\src\main.c><main.c> 
+OPTFFF 3,5,1,704643072,0,6,19,0,<.\src\mb_data_nexus.c><mb_data_nexus.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,88,0,0,0,116,0,0,0,22,5,0,0,111,2,0,0 }
+OPTFFF 4,6,1,587202560,0,21,21,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_scheduler\mb_scheduler.c><mb_scheduler.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,66,0,0,0,87,0,0,0,18,4,0,0,141,1,0,0 }
+OPTFFF 4,7,1,0,0,1,1,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_ssp_dma2\mb_ssp_dma.c><mb_ssp_dma.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,216,255,255,255,86,0,0,0,168,3,0,0,140,1,0,0 }
+OPTFFF 4,8,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_heartbeat\mb_heartbeat.c><mb_heartbeat.c> 
+OPTFFF 4,9,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_bluetooth\mb_bluetooth.c><mb_bluetooth.c> 
+OPTFFF 4,10,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c><a9_clock.c> 
+OPTFFF 4,11,1,-2046820352,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c> 
+OPTFFF 4,12,1,503316480,0,13,27,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,110,0,0,0,145,0,0,0,44,5,0,0,140,2,0,0 }
+OPTFFF 5,13,1,0,0,0,0,0,<..\..\Estimator\mb_estimator.c><mb_estimator.c> 
+OPTFFF 5,14,1,0,0,0,0,0,<..\..\Estimator\mb_estimator_execution_time.c><mb_estimator_execution_time.c> 
+OPTFFF 6,15,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\UI_fsm.cpp><UI_fsm.cpp> 
+OPTFFF 6,16,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\foot_inner_fsm.cpp><foot_inner_fsm.cpp> 
+OPTFFF 6,17,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\foot_outer_fsm.cpp><foot_outer_fsm.cpp> 
+OPTFFF 6,18,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\fsm.cpp><fsm.cpp> 
+OPTFFF 6,19,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\hip_fsm.cpp><hip_fsm.cpp> 
+OPTFFF 6,20,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\leg_fsm.cpp><leg_fsm.cpp> 
+OPTFFF 6,21,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\mb_fsm.cpp><mb_fsm.cpp> 
+OPTFFF 6,22,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\steering_fsm.cpp><steering_fsm.cpp> 
+
+ExtF <C:\Users\Matt\Documents\RangerGit\Robot_Nervous_System\LPC3xxx_Modules\mb_includes.h> 15,15,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,82,0,0,0,34,0,0,0,237,5,0,0,65,1,0,0 }
+
+TARGOPT 1, (LPC3250 Int RAM)
+ ADSCLK=13000000
+  OPTTT 1,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 79,66,8,<.\Int_RAM\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 1,0,0
+  OPTAX 255
+  OPTBL 0,(Data Sheet)<DATASHTS\PHILIPS\LPC32x0_DS.PDF>
+  OPTBL 1,(User Manual)<DATASHTS\PHILIPS\LPC32x0_UM.PDF>
+  OPTDL (SARM.DLL)(-cLPC3000)(DARMP3.DLL)(-pLPC3250)(SARM.DLL)()(TARMP3.DLL)(-pLPC3000)
+  OPTDBG 43518,0,()()()()()()()()()(.\Int_RAM.ini) (BIN\UL2ARM.DLL)()()()
+  OPTKEY 0,(DLGTARM)(Xð)
+  OPTKEY 0,(ARMDBGFLAGS)()
+  OPTKEY 0,(UL2ARM)(-UV2077N9E -O15 -S135 -C1 -N00("Unknown JTAG device") -D00(1B900F0F) -L00(4) -N01("ARM926EJ-S Core") -D01(17900F0F) -L01(4) -FO7 -FD8000000 -FC2000 -FN0)
+  OPTDF 0x80
+  OPTLE <>
+  OPTLC <>
+EndOpt
+
+TARGOPT 2, (LPC3250 Ext SDRAM (NOR))
+ ADSCLK=13000000
+  OPTTT 1,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 79,66,8,<.\Ext_SDRAM\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 1,0,1
+  OPTAX 255
+  OPTBL 0,(Data Sheet)<DATASHTS\PHILIPS\LPC32x0_DS.PDF>
+  OPTBL 1,(User Manual)<DATASHTS\PHILIPS\LPC32x0_UM.PDF>
+  OPTDL (SARM.DLL)(-cLPC3000)(DARMP3.DLL)(-pLPC3250)(SARM.DLL)()(TARMP3.DLL)(-pLPC3000)
+  OPTDBG 48126,0,()()()()()()()()()(.\Ext_SDRAM.ini) (BIN\UL2ARM.DLL)()()()
+  OPTKEY 0,(DLGTARM)(Œô)
+  OPTKEY 0,(ARMDBGFLAGS)()
+  OPTKEY 0,(UL2ARM)(-UV0145LAE -O39 -S135 -C1 -N00("Unknown JTAG device") -D00(1B900F0F) -L00(4) -N01("ARM926EJ-S Core") -D01(17900F0F) -L01(4) -FO15 -FD8000000 -FC2000 -FN1 -FF0LPC32x0_S29AL008Dx2 -FS080000000 -FL01F8000)
+  OPTWA 0,1,(a9_dn_ssp_tx_buffer)
+  OPTWA 1,1,(a9_dn_ssp_tx_index1)
+  OPTWA 2,1,(a9_dn_ssp_tx_index2)
+  OPTMM 1,0,(0xe820042e0)
+  OPTDF 0x84
+  OPTLE <>
+  OPTLC <>
+EndOpt
+
+TARGOPT 3, (LPC3250 Ext SDRAM (NAND))
+ ADSCLK=13000000
+  OPTTT 1,1,1,0
+  OPTHX 1,65535,0,0,0
+  OPTLX 79,66,8,<.\Ext_SDRAM\>
+  OPTOX 16
+  OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
+  OPTXL 1,1,1,1,1,1,1,0,0
+  OPTFL 1,0,0
+  OPTAX 255
+  OPTBL 0,(Data Sheet)<DATASHTS\PHILIPS\LPC32x0_DS.PDF>
+  OPTBL 1,(User Manual)<DATASHTS\PHILIPS\LPC32x0_UM.PDF>
+  OPTDL (SARM.DLL)(-cLPC3000)(DARMP3.DLL)(-pLPC3250)(SARM.DLL)()(TARMP3.DLL)(-pLPC3000)
+  OPTDBG 43518,0,()()()()()()()()()(.\Ext_SDRAM.ini) (BIN\UL2ARM.DLL)()()()
+  OPTKEY 0,(DLGTARM)(Xð)
+  OPTKEY 0,(ARMDBGFLAGS)()
+  OPTKEY 0,(UL2ARM)(-UV2077N9E -O47 -S135 -C1 -N00("Unknown JTAG device") -D00(1B900F0F) -L00(4) -N01("ARM926EJ-S Core") -D01(17900F0F) -L01(4) -FO7 -FD8000000 -FC2000 -FN1 -FF0LPC3000_NAND_SP -FS080000000 -FL01FFC000)
+  OPTDF 0x80
+  OPTLE <>
+  OPTLC <>
+EndOpt
+

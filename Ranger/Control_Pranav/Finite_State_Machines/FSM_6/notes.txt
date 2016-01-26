@@ -1,0 +1,5 @@
+20 May 2010.
+
+Testing Flip up and flip down to see energy consumption.
+
+FSM_6 has only inner and outer feet fsm.

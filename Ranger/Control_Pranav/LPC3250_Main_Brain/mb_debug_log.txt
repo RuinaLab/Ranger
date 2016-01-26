@@ -1,0 +1,335 @@
+1) When compiling Chandana's C++ FSM code, we encountered initially encountered two problems. First, the linker could not find the FIQ_handler and IRQ_handler functions, as soon as the cpp compiler mode was used. Second, the "new" function in C++ did not seem to work - it gave error messages as if basic libraries were missing.
+
+After some internet searching, Chandana found that Keil's MicroLib library was the problem; it is apparently a code-size-optimized C library which (evidently) doesn't support C++. Unclicking that option allowed the code to compile (more) correctly. Interestingly, the interrupt handler problem also went away when the MicroLib library was unchecked, for reasons that are not so clear.
+
+2) Tommy's small paper on using C together with C++ was helpful in eliminating the remaining two build errors. Specifically, we added extern C directives to the function declarations of the wrapper functions that are called from C to run the FSM. See his paper for details, or the code.
+
+3) From reading the manual, it appears the --cpp compiler option forces it to interpret all files as C++, regardless of their file name extension. This doesn't seem right - don't we want to compile the C code as C? What are the effects one way or the other? At present, the code loads and seems to run on the board. 
+
+4) After recompiling (this time with the bluetooth files included), the green SSP transmit LED no longer lights up. I think this means no data is being received at the router board.
+
+5) A debugger check shows that main does not run - it's in the data abort handler. Oh. While getting the correct version of software_setup.c (not sure why it was wrong), the mb_fsm_init function was omitted. Presumably this resulted in calls to non-existent objects. The behavior looks more normal now.
+
+6) Checking: No data to serial port 1. Is it configured for HSU1? Yes. Is HSU1 hardware configuration code present? Yes. Is the main while loop running? Yes. Is bt_dma_receive running? No, the scheduler does not seem to be running. Is mb_schedule_tick being called? No. In fact, the main while loop is not running this time. None of the data/program/undefined/swi loops are running. It does run the SSP/timer FIQ. No wait, it's stuck in the line where it waits for the DMA active line to go low. This is normally only a few clock cycles. But what if it gets stuck somehow? This is on the transmit end (memory to SSP1 peripheral). I made it work before with a hack - count from one to 10, then proceed.
+
+7) Now another weird bug - data transmission stops after some period of time: A few seconds to a minute for the LPC3250 main brain code with FSM, and a couple minutes with the original BlueTooth test project, with no FSM. When in the debugger, pressing the stop ("X") button and then the run button makes it start working again - no reset necessary. Another clue is that we did not see any such stoppage in the code loaded on the robot now. Some possibilities to examine: DMA error due to the high data rate (921 kbaud - though SSP is running at 3 Mbaud in both directions.) Some small error introduced during code update - this would require a tedious file-by-file comparison for changes. Some weird heap error introduced by the fsm.h file, which _was_ used by the bluetooth test project, for convenience.
+
+8) Test one: (easy) turn off data display transmission (i.e., HSU1). This was done by commenting out the mb_send_data part of the scheduler. The DMA receive parts were left in place. I didn't saw an error like this before the FSM at 921 kbaud, but the testing times before may have been too short to see it.
+
+Result: No error so far (I only watched it about 5 minutes.)
+
+Now for data transmission on at 921 kbaud, but no fsm.h:
+
+(By comparing these two cases, I am trying to see whether I should be looking into, say, weird memory errors with fsm.h and C++, or perhaps into DMA errors with the high speed serial output.) Guess I'll read about DMA errors while I wait. Ok, it went into "error" mode. So the FSM and C++ should not be involved, more likely a DMA error.
+
+9) First, set up test lines in main for checking for DMA errors and general dma status. Also, put breakpoints at each data abort, etc. handler and also in the halt bit while loops of the DMA to try to catch the error. But the data transfer has stopped, and none of the breakpoints was triggered. Also, it can't get stuck in the halt while loops any more because I have a limit of 100 before it breaks out of the loop. So, where is it now?
+
+--Not in main.c - some interrupt has gone crazy
+--Still running DMA HSU1 transmit. And though I didn't check this time, the FIQ (SSP) interrupt was running last time when I did check.
+
+10) It would appear that a DMA error in the serial port transmit is causing an interrupt to occur which is not cleared properly by the isr. However, the interrupts (both terminal count and error) appear to have code to clear them correctly. So the error is ongoing? Maybe the serial port needs to be reset somehow. First check for DMA error conditions, by moving the error code from main to this isr. Should check first to see if the interrupt is coming from the software interrupt side, or the terminal count interrupt side.
+
+Result: the software interrupt is firing. Hmm. Once again, can restart data flow without reset.
+
+I found a bug in the software interrupt handler, but not the sort I would expect to create the behavior observed. The lowest bit of the SW_INT register is the one you set to create the interrupt; a number written to the higher bits identifies the source of the interrupt. I had forgotten to shift the ID number to match the SW_INT register.
+
+Still getting errors. If main.c is not running, how is the software interrupt line running? I checked,and the CH3 DMA interrupt is also firing, apparently. Some strange debugger behavior - if I put a breakpoint in at line A, it stops; if I then put in a breakpoint at line B and press run again, it goes somewhere else and doesn't stop. But if I get rid of the break point at B and put it back, it stops there.
+
+Weird. mb_bt_data_sender is not running, but somehow a9_bt_push_io_data_point is running, even though the latter should only be called from the former. At least that can be checked.
+
+Ok. Searched all the .c files, no sign of any calls to a9_bt_push_io_data_point.
+
+Ok, Nic pointed out that mb_bt_send_data has a loop which calls a9_bt_push_io_data_point, and maybe it was getting stuck in that loop. I'd only checked (oops) to see if the top of mb_bt_send_data was running. Of course he was correct, so that implies some kind of transmit buffer problem - it somehow looks to a9_bt_push_io_data_point as if the buffer is always empty, no matter how much data is put in it. Just for fun, I tried increasing the number of bt tx buffer segments from 3 to 4. I was pretty sure it needed to be at least three to work properly; is there some race condition such that four are needed? So far, no errors with four.
+
+Still no errors, with bt_tx_segments equal to 4, after several hours. Apparent ingredients of the bug: three tx segments, high data output rate. Both the software interrupt and the hardware interrupt are running during the error condition.
+
+At start of interrupt, in error condition, index1 = 2 and index2 = 1.
+
+Now testing at 3 bt_tx_segments with no software interrupt, instead calling the DMA function directly when it is stopped. Still have an error after a minute or so - is it the same type? Yes, so I don't have to look for weird interactions with the software interrupt, much simplifying the possible errors. I might want to eliminate the software interrupt stuff anyway, this is much simpler and I see no downside. The software interrupt might be good for a second scheduler.
+
+Check 1: At the end of the DMA enable function, the DMA channel 3 _is_ enabled. Both ring buffer indices are zero. The DMA should have just started transmitting the previous segment, at index2 = 2. Contents of the buffer are apparently real data, though I didn't check the checksum yet.
+
+Check 2: Once again, both indices are zero, and the data appears to be valid. Channel 3 config = 0x8941: terminal count interrupt enabled, 
+
+Check 3: This time the indices are both 1. GPDMA_INT_STAT = 0, FlowControl = 1, DestPeriph = 5, SourcePeriph = 0, Channel enabled.
+
+Check 4: GPDMA_RAW_INT_ERR_STAT = 0; both indices are zero
+
+Changing the tx_segment_num to 4 once again gives no apparent errors.
+
+Another change that "solves" the problem is to put a limit on how much data the data_send function will try to send when it's called. But we would like maximum data transmission via the wireless, even if that maximum changes with RF transmission conditions. To achieve this, the present software design fills up the transmit buffer each time it's called. So, it is important that it not be too big, to avoid slow performance at startup, and that it doesn't somehow become a black hole sucking up all available data without ever filling.
+
+
+11) So, back to the broken configuration. Is the DMA segment actually being set up correctly when in "error mode", and does it actually transmit its full segment of bytes? How many segments per second are supposedly sent out - is there any relation to the actual 921 kbaud setting? Or is something else slowing down the software so much that it can no longer keep up with data at 921 kbaud?
+
+Testing: First, will it "break" again? Well, something broke. But I'm suspicious, because even the timestamp LEDs on the router went out. Anyway, any serial data? No sign of data on HyperTerm. Now restarting with debugger... Still no Hyperterm data. Also, started getting an error of some sort on CAN4. Hmm.
+
+Now testing with NI MAX. (Using the regular LabView program doesn't let me distinguish between no data and bad data.) Still wondering about those LEDs on the router, I may need to make them more sensitive. Or is it crashed too somehow? MAX also doesn't see any data either way (running or otherwise), but it does see the port. Just trying LabView now...
+
+Ok, had to unplug the USB-serial module and plug it in again to get it to work. Flaky!!! And this is supposed to be the best of them?
+
+Now trying MAX again. Have to turn off LabView completely to get it to release the serial port. Ok, now MAX works too. Now what happens in "error mode"? Still data coming out, it looks like. While the data doesn't quite look as I would expect, it doesn't look right when it's "working" either.
+
+Looking at the data being sent - the time stamp is zero. Kind of boring, but nothing is writing to it. For this example, ID is 4C, ok, and value is 0, also ok. Data_read = 0xFFFFFFF, which is the default for data not yet written. Buffer_status is necessarily zero, given where I put the breakpoint. And we already know it doesn't think the transmit buffer is ever full. Buffer index1 is 1, index2 is 0; this is ok, index1 just incremented after completion of the current segment. So the most recent data should be at 0. The data in all three segments looks fine, not at all what I saw in MAX. Hooking it up to LabView again, the data looks fine until it goes into "error mode", then it turns into garbage. I did see it change values once, but generally it (the example time value) becomes some large floating point value. GPDMA_RAW_INT_ERR_STAT is zero.
+
+Next I looked at the data for the DMA segment transfer just ready to start. It looked fine. Maybe I should check the checksum eventually, though.
+
+Next: Check for DMA errors at other spots in the code. The theory is that a DMA error would make the transfer end prematurely, thus allowing a vastly higher apparent data throughput, though with errors. I still haven't caught it in an error, though. Now let's try turning on the error interrupts and setting a trap.
+
+Result: No DMA error interrupts appear for channel 3, even though it's in "error mode".
+
+Last potential explanation I can come up with: the data frame push function is somehow writing to the segment being transferred by DMA, corrupting it, along with index problems that make it appear that the buffer is always empty. Because the data being sent should still be correct, if it was simply an issue of too high a data rate for the MCU to keep up with. And at the start of the DMA transfer, the data looks fine.
+
+Testing: A global variable will be set up to keep track of the buffer index currently being sent by DMA. Then a trap will be set to catch any write to that buffer segment. (Needed to set the initial value of the test variable to something outside the range of the normal segment numbers to avoid an instant trap.)
+
+Result: Hmm. It never seems to write to the segment being read from by DMA, even in "error mode." This is correct behavior, of course, but then what is happening? Can index1 be changed from anywhere else, partway though the buffer load? I doubt it (fo now.) One weird thing - when I set buffer_status = 1, followed by a return buffer_status line, it was getting there in "error mode", according to the debugger. But when I changed it to return 1, it didn't seem to. Checking again, adding a test line before the return - now it doesn't stop there in "error mode," only in normal operation. (Here "it" is the push function for the transmit buffer. If there isn't room for another segment in the buffer, it's supposed to return with a buffer_full flag.)
+
+Timing: how long does a segment take to send by DMA in normal operation, vs. "error mode"? Method: Use Timer1 in free run at 13 MHz to time the interval between DMA transfer setup calls.
+
+Results: 12877, 12873, and 12925 counts for normal operation, and 4454, 4445, and 4523 counts for "error" mode. The time for normal operation aligns well with the expected time to send 92 bytes at 921.6 Kbaud: ~920 bits will take about 1 mS. The ~4500 cases are way faster than could actually be going out correctly over the serial port.
+
+I still have a lingering question about whether the isr could potentially be called repeatedly, and somehow restart an already-running DMA transfer, but that problem should have been solved when I turned the software interrupts back on again. Or at least, if there was a problem with the software interrupt, it should have gone away when I switched to restarting data flow by calling the DMA setup function directly, or vice versa. Another lingering question is what does the data actually look like in "error mode"? And why did it look the same in normal operation - I don't see a lot of errors in the data file on LabView.
+
+Apparent answer to the second question: In error mode, the transfers are missing chunks of data (pretty much every transfer is affected). No such missing chunks were apparent in the normal data, but in both cases there were occasional extra erroneous characters. None of the terminal emulators I've tried so far are very happy with data at 921K and no handshaking.
+
+Missing chunks of data, plus the high rate of transmission of segments, implies that the transfers are being restarted prematurely somehow, or ending early. And when I checked the transfer size, it was always zero just before starting the next transfer, implying that it thought all the data was sent.
+
+Narrowing the problem down a bit more, I found that it doesn't occur when I comment out the portion of code in the isr which purports to restart the serial port interrupts (which go to the DMA controller in this case) in the event that the serial port has stalled. The code in question:
+
+if (!(HSU1_IIR & 1<<0) && (((HSU1_LEVEL >> 8) & 0xFF) <= 16)) //Should a tx interrupt be forced?
+  //No tx interrupt pending and tx buffer level is at or below the trigger point.
+  {
+    HSU1_IIR = 1<<6;    //Force transmit interrupt to start DMA transfer
+  }
+
+
+Two things: First, did I really need to put this in here? At 921.6 kbaud it certainly seems unnecessary, but does this apply to all speeds and buffer conditions? The manual made it sound necessary for DMA, but actually I found it to be necessary for non-DMA use of HSU1. If I made data transmission contingent upon the FIFO level, it wouldn't start by itself. Yet the DMA seems to do fine. Perhaps it's needed for DMA with peripheral flow control? I never did get that to work right on SSP.
+
+Second, is it really the cause of the weird problem, or just another contributing factor, like the buffer size? I suppose I should write some code to test it - so far I only know that this code does not normally run, but after about 5 minutes it did. How about a 5-second red LED blink? Then I can see if this coincides with the start of the "error" mode.
+
+No luck with the red LED, but I did establish that this code had not run (at some point) before the error occurred, that it did not seem to be running after, but that somewhere between those two points it did run. Then I tried running the same code, but without the action, just the if-then and a flag set. And the error returned! Weird - is this a complete red herring, or does running the condition cause the error? Or is it all about how many lines of code are running, so removing any one line of code would change the error condition probabilities? But then why is the appearance of the error so closely linked to satisfying the condition of the tx interrupt force?
+
+Now trying again with the test condition also commented out. After ~15 minutes, no error.
+
+Now trying again with the transmit interrupt force running every time the DMA isr is called. This recreated the problem rather well! It doesn't work even for a second. But I don't have the condition active in this test.
+
+Now trying again with only the HSU1_LEVEL part of the condition, not the HSU1_IIR: No apparent error after 10 - 15 minutes. Now again with only the HSU1_IIR. (In neither case does it actually do a force-interrupt.) It still shows no error.
+
+Once again with the full if-condition, but with no interrupt-force action. Maybe I forgot to compile or something before? (Unlikely). After over an hour or two, no error mode. So was the previous result an error?
+
+So once again, testing with the interrupt-force function active, just to get a current time estimate of the bug to show up. Commented out new code temporarily which is supposed to fix the bug (see below). Starting at 4:56. Checked with LabView, data is flowing. Stopping the program at this point (in the debugger) shows that no interrupt-force has happened yet. Ok, at 5:11 it went into error-mode, 15 minutes. LabView shows only an occasional, semi-random data point, and the interrupt-force flag is now high.
+
+Back to the case with the if-condition test active, but no actual interrupt-force line. But I'll work on some other stuff too, I don't want to just wait for it to fail. I still want to see the flag go high, minus the actual interrupt-force. Does it keep working? (And I forgot to check the flag in the previous test, but it did keep working for a couple of hours.) Start time: about 5:17. No error mode by 5:48. I stopped it temporarily, and found the flag to have gone high. This would strongly imply (unlike my apparent result last night) that the condition by itself, and even a true result, does not cause the error, but only the force-interrupt itself. And again - same thing, but this time I remembered to check that the data stream to LabView was active both before and after the flag went high. It was.
+
+So now I will move on to testing the new changes to the code, with a new spot for the interrupt-force and a limit on the data sender function (see below discussion).
+
+
+I am beginning to think that I won't be able to identify the exact cause of this error any better than the above, but there seem to be some things that can be done to avoid it. 
+
+First, use at least 4 buffer segments. This should give more throughput anyway, because with three the DMA has to wait for the push function to finish writing the one active segment before it can start sending it. With 4 or more, it can be continually reading a previously filled segment; if the buffer is kept full there's always a new full segment ready.
+
+Second, move the interrupt force portion of the DMA setup function to the push function instead. In the DMA, it has only one shot to figure out if a force-interrupt is needed; after that the DMA code won't run again, and it's too late. It would be much better to have it in the push function, right before it returns due to a full buffer. Then it could be set to a much less sensitive level, and I could still be sure it would fire eventually if needed. For example, in the DMA setup the level had to be set to 16 (the FIFO trigger level), while in the push function it could be set to as low as zero. Then the force-interrupt would not fire unless 1) tx software buffer is full 2) DMA channel is active and 3) FIFO is completely empty. This would clearly distinguish the error condition we are trying to fix with the force-interrupt.
+
+Third, put a limit on the maximum number of data points that the data_sender function will try to put on the buffer per call. Then if it gets into "error mode", it will be shut down before other functions are affected. A good idea anyway, to even out the processor load imposed by the data_sender and push functions. The correct setting of the limit should be somewhat higher than the highest throughput expected (or desired) during normal operation. In the case of 921 kbaud, for example, the highest data rate is about 9 data points per millisecond, so a reasonable data limit setting would be about 15 data points per call. For 460 kbaud, a reasonable maximum would be about 8 data points per millisecond, etc.  It needs to be enough larger than the normal throughput that the buffer will eventually be filled up, but not so large that the processor load during startup or error states risks the other functions.
+
+The additions discussed about were made, along with separate ifdef sections for the push function now for use with HSU1 or HSU2 - with the move of the force-interrupt code to there, it became UART-specific.
+
+The question now under test is whether the interrupt force is ever triggered, with three conditions to meet: DMA active, transmit interrupt not active, and TX hardware FIFO empty. And if it is triggered, does it kill the transmission in the same way as before? To test this, a flag was added to the new interrupt-force location, the number of buffer segments was set to 3, and the data-point-limit in data_sender was temporarily disabled (thus allowing the program to crash if it wants to.)  But it neither crashed not set the force-interrupt flag. Perhaps my earlier code was calling the force-interrupt in error, at high data rates? Hopefully that will be the end of this bug. 
+
+How much processor time does it take to send out data at 921.6 Kbaud? I added some execution time estimator functions; it needs to get called at the end of the schedule.
+
+Roughly speaking, this gave execution times of 0.33 to 0.37 mS at 921 kbaud, out of a schedule tick time of 1 mS. Note that interrupts are still running for the remaining .63 mS, so not all that time is available for new code.
+
+Now testing at 115 kbaud: No change in exectuion times - still 0.33 to 0.37 mS. Hmm. Either the code is very lightweight to send out the data, compared to the SSP stuff that continues to run at 3 Mbaud, or the execution counter is flawed somehow.
+
+Testing the execution counter: Put only in scheduler line by itself - no actual code before it.
+Result: EC of 0.013 mS. That sounds good, it seems to be working as expected. Now for some fun - check each function to see how long it takes.
+
+Testing a9_dn_ssp_send_data: total time 0.19 mS; net = 0.018 mS.
+
+Testing a9_bt_send_data: From about 0 to 0.16 mS - wide variation
+
+Testing mb_create_display_data_list: About 0.06 mS, quite consistent.
+
+Testing a9_bt_dma_receive:  About 0.003 mS (with no data coming in)
+
+12) Weird debugger problems. I intended to set up a pair of simple serial port io functions via UART 5, to allow a simple state machine to be controlled from the keyboard. Data from the serial port was read in, if available, to a location in the io_data array. Similarly, a second spot in the io_data array was defined for data to be transmitted, and a function written to send it whenever it changed (I didn't want a continual high-speed stream of data.) However, a mysterious stream of apparent garbage data appeared in the output, along with the desired data. (For testing, the write function was set continually equal to the read function, using a couple lines of test code in main.c.) Then when I tried to debug it, the debugger didn't stop at the line I selected, but about a dozen lines below it in another function, a result both weird and useless, in that I couldn't see the local variables in the function I'd put the breakpoint into. Note that optimization was not on. So I set global variables to get around this, but only managed to showthat the reading from the mb_io_data was not consistent. Moreover, looking at mb_io_data itself gave odd results. One strange thing was that the data_id field of mb_io_data was offset by one. It's supposed to be equal to the array index, but instead the data_id for index 0 was 0 (correct), but index 1 was also 0, index 2 was 1, etc. The mb_io_data initialization code looked correct, and when I tested the BlueTooth test project it was initialized correctly. So, somehow the debugger and compiler are not working right. 
+Is it a corrupted file among the various IDE files, or is it a result of compiling some C++ functions? Or a problem with how I renamed the blinky project to LPC3250_main_brain?
+
+First test: remove C++ files from project. I removed the .cpp files, and removed calls to fsm functions. I did not look into whether any C++ headers might have been included.
+
+Result: Still doesn't work right. And now all the data_ids are zero, right after running the init function. Except the breakpoint still appears in the wrong function.
+
+Second test: Delete all misc. files from the project, and let it recreate them if needed. In particular, this includes all the ones that start with blinky. In Ext_SDRAM I erased all but the ones that started with LPC3250_main_brain. I erased all files in Int_RAM. I think I erased all but the .ini and LPC3250_main_brain. files in the top folder, and also erased the LPC3250_main_brain_LPC3250 Ext SDRAM (NOR).dep file. 
+
+Result: The debugger works again! The serial port errors are still there, but perhaps I can now identify their cause. The debugger stopped at the correct location, and the mb_io_data array is initialized correctly. The C++ files have not yet been added back in.
+
+13) Serial port errors: Trying again with a more functional debugger, the data read from the serial port in mb_io_data seems to be right, but the value in the write element of mb_io_data is wrong (178304 this time, in both the value and the timestamp slot). Is something else writing to this spot? Or is the write function faulty? 	
+
+First test: turn off data transfer between serial-read and serial-write in main.c. Now it should show the actual ASCII value at serial-read in the mb_io_data array, and zero in the serial-write slot. It does, in several checks. Also, the spurious character stream to HyperTerminal stopped. This implies a problem with the mb_io_data_set_float function.
+
+Next tests (several):
+
+More testing (with Kevin T.) showed that the values in mb_data_io _were_ changing somehow. Moreover, we showed that a simple global float variable set equal to a constant in main.c was nevertheless changing to various spurious values while running. This suggested a problem with an interrupt function overwriting inappropriate areas of memory, particularly since the BlueTooth test project was shown to behave the same way. By selectively disabling different interrupts, I narrowed it down to the FIQ isr, then to the SSP transmit, and finally to the clock_tick function. Inside the clock_tick function I noticed that a piece of test code was calling mb_io_data_set_float. When eliminated, the error went away, and the serial port i/o test function finally works.
+
+Moral of this story: NEVER call the same function from both interrupt and normal contexts, or more generally from different interrupt preemption levels (e.g., FIQ and IRQ). If race conditions are not addressed thoroughly, the function may end up being called from two different context levels at the same time, thus scrambling the data between the two calls in strange and mysterious ways. 
+
+How pervasive is this problem? Is it ok, for example, if you are only changing a single atomic global variable inside the function? TBD
+
+------------------------------------------
+02-21-2010 New problem: the main brain no longer starts up reliably. After adding the Bluetooth radio module to the second (spare, test) carrier board, it would not start up correctly every time. In addition, when I activated the synchronization functions to make each board wait until the other was ready before starting, it worked even more poorly.
+
+Test 1: Try separating the reset lines of the two boards. Since this didn't change between the time the boards worked together and when they didn't, it didn't seem too likely a culprit. But it might help, and it was something needed anyway. Before, a JTAG reset on the ARM7 would reset the ARM9, but not reset the ARM7 properly. Weird and unnecessary; keeping the two resets independent is much more understandable and easier to work with while debugging. 
+
+Result 1: As expected, the main brain startup did not improve, but the separation was successful, debugging is easier, and it is no longer necessary to power cycle the ARM7 to get it to work after flashing a new program.
+
+Test 2: New improved synchronization codes. Each processor checks that it has two-way communication via SSP with the other before starting normal processing. I also added clearer LED codes for which stage of the hand-shaking process the boards were in. A slow red blink (~1 Hz) indicates that the ARM7 is running but has not received the initial code from the ARM9. Similarly, a slow green blink indicates that the ARM9 has not received the initial ARM7 code. Fast blinks (~5 Hz) are parallel in meaning, but show that the processor in question is waiting for the second code from the other. The second code demonstrates not only that, say, the ARM7 can receive from the ARM9, but that its transmission to the ARM9 was also successful. After receiving its second code, the ARM9 sends out its own second code and immediately starts normal operation. The ARM7, assuming it receives the second ARM9 code, then follows suite and starts up. But it should, since two-way communication has been confirmed already.
+
+Result 2: Still the problem with main brain startup, not surprisingly. Better coordination between the two doesn't help if the main brain never starts at all. But it works well in the debugger, and sometimes at power-up.
+
+Test 3: Reflash second-level bootloader. This can be found in the Keil program folder, in C:/Keil/ARM/boards/Phytec/LPC3250/NOR bootloader, or something similar. Don't compile it!!!!! Just click download to flash.
+
+Result 3: Apparently much improved startup performance, from about 50% to about 90%. But still not 100%.
+
+Test 4: What if it's a power supply glitch that causes the uneven startup? Try some messy, noisy switch-ons vs. some cleaner ones.
+
+Result 5: Intentionally noisy power-ups definitely caused some ARM9 startup problems, and some ARM7 startup problems also. Clean startups did not show any trouble. 
+
+Conclusion (still to test): Use a clean power switch for startup. May need to reflash bootloader sometimes, if errors.
+
+Result 6: After I added a toggle switch to the powerup, instead of using test leads, the boards started up and synchronized properly 20 out of 20 tries. I'll update this if I see any more problems.
+
+Result 7: Written down somewhere else too? It seemed like the startup glitches got worse when the Bluetooth module was installed. Perhaps it caused power supply disruptions on startup? A power supply glitch of about half a volt was measured on the 3.15V line with the oscilloscope, occurring about 1.5 mS after startup and lasting about 10 uSec. No such glitch was found on the B2A tested as a control, suggesting that the Bluetooth module causes this glitch. Solution? Perhaps put more decoupling caps on the Bluetooth module.
+
+------------------------
+03-14-2010
+
+Some thoughts on how the already-read-data capability should work...
+
+First, is it necessary, or can the same thing be done as well by looking at timestamps? We will assume for the moment that two data points of the same type will never have the same timestamp.
+
+Then for a reading function to know if the data is new, it would need to keep a record of each piece of data it reads. For the SSP send function, that would mean keeping track of all CAN IDs sent from the main brain to the satellites. It has a list of such CAN IDs, the transmit list. The transmit list could be extended to be a list of structs, each of which would contain the relevant most-recent timestamp and value in addition to the CAN_ID to be sent. Then when the transmit data function reached that data to send again, it could compare the new data to the stored data to see if it was worth sending. This would have minimal memory requirements, and minimal processing to match the present system. And, more sophisticated algorithms could be used later to decide when a data point should be sent.
+
+What about the Bluetooth transmission to the LabView data logging and display program? Here there is a fast data list and a medium data list, so for these the same approach could be used. But we want all the data to be sent at least once in a while. Is there a good system for that? Does it fit in with Andy's compression scheme in which timestamp data is counted relative to an occasional timestamp reference value (note that such a system needs to be able to send negative relative times, since the timestamp reflects the time the data was originally collected from the sensor, not when it was transmitted)? I think so. And sending them all once in a while, irrespective of newness, is easy enough but perhaps too slow. It would be good to also be able to send just the ones that had changed recently (like a newly changed parameter), and not waste a lot of bandwidth sending all the parameters, for example, that hadn't changed in a long time. I think there may be some interesting ways to make the master time value a long long, giving it both more resolution and more longevity before rollover (near infinite) by using relative timestamp transmission, but that's for later (I think). I don't think we will immediately need sub-mS precision or +49 day rollover time, but it would give the system more general relevance. If you used a 16-bit relative timestamp and 1mS resolution, you could send data up to 32 seconds old. For 100 uSec resolution it would only be 3.2 seconds, which doesn't sound very long, but I can't think of where it would be a problem either. In any case the savings with using a 16-bit value is not so great, unless you can send the data value in 16-bit fixed point also, thus allowing (and requiring the software infrastructure for) two data points per CAN frame.
+
+But back to the data transmission question. The present scheme (setting a bit) is a memory-efficient way to keep track of which data has been sent and which not. It's also quite fast, but has a messiness to it from the modularity point of view, and is limited - it can't be expanded to more sophisticated algorithms. Simply keeping a copy of the previous data points would require a complete separate copy of the io_data array. This sounds cumbersome, but the memory for it could probably be afforded. A better way would be to keep track of when the previous scan was finished. Then one would only send data that had been updated since then. This approach wouldn't be able to keep track of whether it had changed significantly, only if the timestamp had changed. The value could be exactly the same. On the other hand, perhaps the writing (source) functions for the data should keep track of whether data has changed enough to be worth sending. After all, any data accuracy update rule is going to be data-specific, and it makes sense to decentralize that responsibility and push it out to the sources of the data, where the data update requirements will presumably be more obvious. How about processing speed? Probably fine - comparing two 32-bit numbers is comparable to, or even faster than, setting and then checking a flag. So, I will cheerfully get rid of the already-read flags and the associated support functions, which were getting confusing.
+
+But two questions (at least) still remain. First, what about the processing requirements of searching hundreds of data values for the one that might have changed? I think the answer to that is to limit the number of search points to some reasonable value, like ten. If nothing found in those ten, the algorithm should send the next value from the default list instead. Or in addition? While there _should_ be many sections of the io_data array with ten consecutive unchanged values, there is no guarantee that such exist, leading to the unlikely but possible situation in which some unchanging parameters or data are never transmitted. At some cost in maximum fast-data transmission, we could send both - the recently-changed values and the never-changed values. Or, we could alternate between the two cases, a solution I prefer. One final option is to include the data source in the DATA_FRAME struct, and search out and send the LabView-source parameters with a high priority if they change. Similarly (and in parallel to the main brain CAN transmit list), we could have a LabView parameter list, generated at the same time, and search that for changed parameters. Putting the source, even the destinations, into the DATA_FRAME struct is worth considering, though. It would keep all the data centrally in the main brain, and not require putting lists here and there in the code, all derived from the same starting code. The destinations are potentially troublesome, since there are often more than one of them. We would have to make some assumption about the maximum number of destinations, and choose a number of array elements accordingly for such a list. Or limit it to 32 or 64, and use bit flags to indicate the destinations..., that sounds plausible, efficient enough, and fits the CAN router routing table scheme also. The transmit lists would still exist, but they would be generated by initialization functions at startup.
+
+Do we care that with this system the fast list might send the same data point as the medium list, which might send the same data point as the slow list? I think not really. You can't put the same data point on both the fast and medium lists with the LabView software. And the slow list is so much slower that an extra data point out of 100 or so makes no difference. Will LabView or the MATLAB program hiccup if they get a pair of identical points? Probably not, they should just plot the same point twice in the same place, but it might be worth checking with John and Satyam.
+
+Ok, what was the second (now third) question? Actually, a bunch of questions. What should the characteristics be of general read and write functions to a module? I already know (think) that they should be based on DATA_FRAMES. Can there be a single interface that takes care of all of the interactions that we want?
+
+some examples:
+
+1) We want to read the most recent measured value and timestamp from a module, regardless of whether we've read this particular data point before. This is the most basic function.
+
+2) We want to write a value to a module. This seems uncomplicated - it shouldn't matter whether we're writing to a single variable or a ring buffer, a write is a write. We might want a return value telling us if the buffer was full, though. Zero = successful write, one = buffer full.
+
+3) Back to read: another option is that we want to read the most recent measure value and timestamp, but only if it has changed from the previous time. But this we can get by comparing the timestamp, so let's not burden the module side with this functionality.
+
+4) We want the oldest value from a ring buffer. This is easy by itself, but what if some other function wants option 1) from the same module? Can we specify which we want with a flag in the DATA_FRAME struct? And do we want to? In any event, we would want it to return some flag somehow if the buffer was empty. For consistency with the write function, that would be the return value, 0 for successful read, 1 for buffer empty. It would be easy enough for it to do one or the other of these functions, you would just have to know which the module offered. Moreover, the module, if desired, could have two different read functions, one giving you the most recent value and the other a time history if you called it repeatedly. That sounds cleaner than messing with more flags.
+
+5) I want the read and write interactions to be clean regardless of the preemption level of the calling functions. With one restriction: each read or write function is used with only one preemption level. If you need to send data to multiple preemption levels from one module you would have to put in a data_nexus level function to take care of that. Or... have a different read and write function for each preemption level we now have, as in our error module. Sounds kind of silly, but maybe the easiest? As long as we don't suddenly go to lots more preemptions levels? The main brain only has three anyway. What about operating system use? Say the module is halfway through writing a new value when its process is suspended and another function is allowed to run, which wants to read that value? Then we need a structure with two data point variables, and a flag to show which is readable and which is in the process of being written. Do we need to have another flag to show which variable is being read? This is getting complicated, maybe I should read up on semaphores and such somewhere. Ok, I did. Mutexes are what I mean here. The module wouldn't be able to write to the variable being read by the calling function while the calling function had its mutex set, but it would be able to write to the second one (as often as desired). If the read flag was not set, it could switch the write flag over to the other variable and write to it. If the read flag was set, it could write over the previously written (and unread) value. One value would be lost, but not the most recent. I think this works fine in reverse for writing. I do not have any confidence that this allows calling the same function at the same time from multiple preemption levels, even with the mutex in place (despite some simple testing with Nic), but at least it allows the preemption level of the module and the calling function to be arbitrarily different (or the same). By its nature the ring buffer should only have one function calling it at each end, on the read side, because otherwise the two calling functions would get different data points. So that requires separate ring buffers anyway. On the write-to-module side it is tempting sometimes to write to the same ring buffer from different pre-emption levels, but that sounds like a recipe for software disaster. So here it is also important to have separate ring buffers. They could conceivably be separate from the module, however, and part of the data_nexus code instead. This also applies to the code needed to expand the basic read and write functions to support multiple preemption levels - it is a design tradeoff, you have to choose between a bunch of extra functions and duplicated code in the module, or having to write (or use standard) support code at the data_nexus level. Actually, that thing with the mutexes above - isn't that the same as a ring buffer of size two? So the two read functions are actually the same, it's just a question of the buffer size. Unfortunately, if we aren't to get into dynamic memory allocation, the only apparent way to assign a ring buffer of arbitrary size to a module during software setup is by initializing the module with a pointer to an externally-defined ring at startup. Or by using a macro, highly effective but not well-respected technique. Although the ring pointer approach seems rather awkward, we are using it already with the CAN module, so it would at least be consistent. The macro approach was not versatile enough for the CAN module, anyway, and it might not be for other modules too. Hmm. I take that back a bit; we could have had individual ring buffers defined internally to the CAN module, with sizes set for each (all 8, 4 tx and 4 rx) at compile time with macros somewhere. But then we would have had to define another ring buffer with wrapper function in the data nexus to combine the data coming in from the four rx buffers into a single stream of received CAN frames (in the case of, for example, the CAN router). Though we could also have routed the four rx buffers individually, it would have been a little slower.
+
+
+So, any conclusions?
+
+--------------------------------
+03-16-2010
+
+A related concern I am beginning to have is that our present data distribution system does not have any guarantee that data being sent is being read. For example, a satellite might send out hip angle measurements every millisecond, while the main brain code may only read in the whole batch of incoming data once every ten milliseconds. Thus nine of the ten incoming data packets are overwritten, with our present data processing. This asynchronous data flow was intentional, to reduce the complexity of the software. But what about cases where we might want some kind of guarantee that every packet is being read by the receiving process? For example, we are now having problems, perhaps, with the RTR function - every RTR packet from the satellites has to be registered correctly for the system to work correctly. And I am now working on the error handling. The satellites send each error packet exactly once, if the error isn't recurring. If the main brain, or LabView, don't read every packet, some error messages may be lost. Not a problem for the majority of them that happen repeatedly, but often it's the rare ones that are the most important for debugging. In the RTR case, we will probably have to implement a system in which the router sends back an acknowledgement packet for each RTR, and the satellite keeps sending an RTR packet until it receives that acknowledgement. With errors we could conceivably do the same thing, by creating a mirror channel (or several, one for each receiving process); the sender would wait until it saw matching data on each of the receiving channels before sending a new frame. This uses additional channels and bandwidth, but has the advantage of not requiring any deep changes to the structure of the code. A second approach is to put buffers of arbitrary length on all data in the io_data array, making it much larger and more complex. However, I don't see that this fully solves the error frame problem, because there might be more than one receiving process (e.g. in the case of errors, the LabView data display/logging program, and the main brain's own error-handling process. And it creates a huge amount of additional complexity. We might eventually want another data processing layer between the incoming frames and the io_data array, allowing us to put in buffers if we wanted, along with the frame data distribution and conversion functions that would be needed if we went to pairs of 16-bit fixed point data in each frame, instead of one float + timestamp per CAN frame. 
+
+A similar approach to the first one I mentioned is to activate the real RTR functionality for data types where receipt of each individual frame is important. Satellites would not send a new error frame until they had received an RTR for that frame. This approach doesn't cut down on the network traffic much, but does prevent the proliferaton of otherwise useless CAN IDs. In the case of error handling, the main brain function would be responsible for checking that LabView had read the error values before sending the RTR frame requesting any available additional error frames. It should probably also send out a periodic RTR frame periodically on its own, just in case an error frame was lost along the way somehow, so that such an event wouldn't break the chain of transmissions permanently. Two approaches to this (similar to the two versions discussed before): Put in code at the LabView level to send back any error frames received, either to the same or a different data ID. LabView already has special processing for data IDs with the word "ERROR" in them, so this is not out of the question. Or, I can leave in the already-read flags in the io_data structs, but now with a new application for them. The main brain's error handler will wait to send out the RTR until it sees the already-read bit for LabView go high. (Wow, the asynchronous mode is sure easier.) At the satellite, the error handler sends out an error frame only if an RTR-received flag is set. Upon sending a frame, it clears the RTR-received flag. So, one question is how much of the code for this is already in place? A lot, I think. Secondly, this approach appeals to me because it can be added later, and doesn't affect the basic io_data structure in any serious way. The already-read bits were seeming a little silly, before, but now I think that perhaps we should keep them.
+
+Ok, say we want to do this. At what level is this handled? By a subsystem that has a parser-generated list of all data ids requiring delivery confirmation (starting to sound the the USPS), or have this handled on a case-by-case basis by the code that needs this capability? Once again, the answer seems to be do it manually first, then add the automatic capability later if it seems useful. 
+
+Other areas that might benefit from this kind of data transfer: heel strike events; limit switch events; user button pushes; and in reverse, the satellites might send out RTRs when they have no unread command values, LED brightnesses, LCD text, etc.
+
+On the other hand, regular analog sensor data would probably not benefit from this; it is mostly useful for values that change only rarely, so that it makes sense to send two frames (regular and RTR) just once per transition in the value, instead of sending a continuous stream of data that is intended to catch all transitions (but which mostly just wastes bandwidth by sending the same value over and over).
+
+What if a satellite sends such a packet and doesn't immediately receive an RTR as acknowledgement? How long should it wait before resending the data packet? Hmm. Too many of these, and a CAN bus error could be hard to recover from - it would tend to make the CAN network less stable. Though the CAN bus already does something similar itself - a single transmit error triggers a retransmission, increasing the bus load and thus the probability that more transmit errors will occur. Converting to a time-triggered system would solve this problem, but we aren't going there now.
+
+Immediate conclusion: leave in some form of the already-read flag, and start putting the RTR handling into place for the SSP bus part of the system.
+
+----------------------------------------
+3-16-2010
+
+Back to the discussion of a general module read function:
+
+Such a read function could have three options when reading:
+A) Read latest data. No effect on any internal ring buffer functionality
+B) Read oldest data. Gives the oldest data in any ring buffer, but doesn't clear it or cause the ring buffer to advance to the next data point.
+C) Read oldest data with clear. Standard ring buffer read; buffer pointer moves to next data.
+
+Option B) permits the calling functions to use the already-read flags in a data frame to guarantee that all processes receiving the data have a particular point before moving on to the next one.
+
+The three options could be obtained in three different ways: By setting a flag in the data frame passed by reference to the read function; by having three different read functions for each data type, to handle the three different options; or probably the cleanest, adding an additional argument to the function call, specifying the read type, in addition to the pointer to the data destination frame.
+
+Now, how to implement that multi-purpose read function so it's safely useable between preemption levels? Not too hard. The most-recent data can be a separate mutex-based thing that switches between two values, one always available for reading and one always available for writing. (Closely related to a ring buffer.) The oldest-read and oldest-with-clear reads can be based on a standard ring buffer, with no changes. Use the standard CAN frame ring buffer (with one added function for oldest-read-without-clear)? That sounds like it works fine. When you don't need a ring buffer, you'd still have the most-recent data available. In that case the ring buffer pointer would be NULL, and a call with one of the other options would give you a buffer-empty return value.
+
+The error module is somewhat of a special case, because the function messes around with ring buffer elements in the interior of the buffer, not just the endpoint that it owns. For safe use with other preemption levels (higher, in particular), the error module would need to set a mutex flag while messing around with the buffer, and return a "buffer in use" flag if the higher-preemption-level function tried to call it then. If this was a serious problem, one could always put in an additional normal ring buffer at the data_nexus level.
+
+------------------------------------------------------------
+04-09-2010
+
+I'd made a number of ostensibly small changes yesterday to the main brain code, but the end result did not start up as reliably at power-on as the previous version. This might also be related to the router code, though. Today I plan to reintroduce the changes one by one, checking startup reliability each time.
+
+First, check startup reliability of yesterday's original code from SVN:
+
+ON two occasions out of ten power-ups, the router appears to be running (CAN lights show timestamp transmission, blue heartbeat on, red ARM9 error (or something) also on.). My attempt to recreate this in the debugger may or may not have been successful; symptoms are similar, but the CAN LEDs are showing increased traffic than just time stamps. But I cannot tell what part of the code is running (if any); when stopped, it only shows a line of code in the disassembler. No breakpoints can be inserted anywhere (no grey boxes). Some kind of IDE glitch. I'll try restarting it...
+
+Also, I recompiled the router for use with the loopback CAN test cable *** -- will need to add routing of inbound CAN messages back in before committing!
+
+Ok, the IDE started off working correctly, but after about 7 times of starting, stopping, resetting, and restarting, the strange mode described above returned. Note also that the flash download failed the first time after I restarted the IDE last time. Again? I also got the memory mismatch error. This time I tried turning the debugger off and back on again. The result was a functioning board, but still no debug capability - no breakpoints allowed anywhere, and no indication of where the code was upon stop except the raw address.
+
+The board starts about 9 times out of 10. Need to look at the power supply glitches again? The theory, as mentioned above I think, is that the Bluetooth module has a large startup current surge. I tried to fix that by putting in a 10uF capacitor across the BT power leads, but have not yet rechecked the power-up quality on the scope.
+
+************* To do: check power-up quality again.
+
+Modifications for today: Set internal main brain timer (T0) to run at 1 mS intervals, and check that the scheduler is using this timer.  Changed and checked. Now checking power-up reliability (no changes expected.) 
+Result: No startup errors found this time, out of about 10 tries.
+
+Next: Remove timestamp write directly to mb_io_data; to be replaced by incoming timestamp packet from router board. Removed call to mb_update_elapsed_time from scheduler; the function is still there in software_setup.c, however. No problems expected or seen after programming.
+
+Now re-add time functions to router board. This calls the get_time function, creates a data frame with that data (with both a float and unsigned long version of the time), and puts it on the router ring buffer for eventual transmission.
+
+Result: It seems to work. It's ok now, but be careful not to call the same time function from multiple preemption levels. (I still think this is a no-no, though recent tests have failed to confirm this.)
+
+So I will commit these changes now, though with the routing turned back on all the way.
+
+Now to add some simple changes to the can_tx code. Adding the "is buffer 1 available" check, plus the ICR read of the relevant channel at the start.
+Result: The first 6 or 7 times I turned it on, I could not get it to start working (red MB light). More power-up problems with the MB? But then I timed the switch better or something, and it began turning on reliably. But, in many cases one or two of the CAN LEDs turned off shortly after powerup. It occurred at approximately the time the main brain would have started sending data. The other CAN LEDs remained lit, as did the heartbeat for the router, and the green LED indicating that data was being received from the main brain.
+
+When using the debugger, this happened every time I stopped the main brain with the debugger, usually to channels 2 and 3. They would still receive, but neither the TS1 nor the TBS1 bits were high.
+
+I briefly tried turning on the synchronization functions, but they only made it worse - I could get it to start working correctly only once in about ten tries at powerup.
+
+Testing with the scope showed clean, glitch-free behavior on powerup, so I think we can't blame the power any more.
+
+----------------------------
+
+Error above - to be continued... It appear to happen with Tommy's code also, so problem not solved yet.
+
+4-13-2010 The Bluetooth data transmission was not going at a constant speed; keeping the transmit buffer full all the time was not working as a flow control strategy, because it led to bursts of high speed data with long (0.1 sec) gaps between them. Instead, I increased the buffer size by a lot, to about 20 segments, and then put an integral controller on the data transmit rate, aiming to keep the buffer about half full. To make the system work over a wide range of bandwidths, I needed to have the Bluetooth data sender called every millisecond, but also able to send less than one data point per function call. The solution I chose was to have two different ranges of the control variable. In the normal, high-bandwidth condition, it sends more data points per function call as the buffer empties. For a low-bandwidth condition, it instead increases the number of functions calls needed to send a single data point as the transmit buffer becomes filled. I tested the function at baud rates from 115K up, including the Bluetooth module. The low-bandwidth function was tested at 9600 baud, and generally seemed to work.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

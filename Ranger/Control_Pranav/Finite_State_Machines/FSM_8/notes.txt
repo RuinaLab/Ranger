@@ -1,0 +1,6 @@
+25 June 2010
+
+This FSM was used for Barton Hall 2 km walk on 19 June 2010.
+Also see the can_table.csv for parametrs. 
+
+Next FSM - FSM_9 is reorganization of Chandana's original FSM files.

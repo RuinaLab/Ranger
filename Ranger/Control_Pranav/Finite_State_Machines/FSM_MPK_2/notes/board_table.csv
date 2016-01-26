@@ -1,0 +1,11 @@
+# Enum,Value,"CAN Bus (0 = CAN1 or CAN2, 1 = CAN3 or CAN4)",CAN Controller,Description
+PC,0,0,0,Computer/Labview
+MB,1,0,0,Main Brain
+CSR,2,0,0,CAN/SSP Router
+MCH,3,0,1,Hip Motor Controller
+MCFO,4,1,1,Outer Foot Motor Controller
+MCFI,5,1,2,Inner Foot Motor Controller
+MCSO,6,1,1,Outer (old) Steering Motor Controller
+MCSI,7,1,2,Inner (new) Steering Motor Controller
+UI,8,0,2,User Interface
+COL,9,1,1,Color sensor board

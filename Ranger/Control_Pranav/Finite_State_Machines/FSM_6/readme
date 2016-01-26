@@ -1,0 +1,86 @@
+
+
+This is one fully functional FSM. It includes error handling, and the possibility to define end states
+which can set the flag for whether the FSM is ready to exit.
+
+----
+
+
+In version v6, the sensors will be defined as global sensors, and the parameters as global parameters. 
+
+The sensor states for the Finite State Machines will be created based on the raw sensory information. 
+
+--
+
+
+In version v7 the fsm class will be changed so that an action takes an array of fsms as input, along
+with an integer that specifies the number of fsms input. 
+
+No, this will be implemented in a different way. All the FSMs will be global variables, and the actions
+will simply call them as necessary.
+
+But FSM will be changed so that first the action of a state is called, and then the state transition is 
+made. (This is already the case).
+
+--
+
+In version 7, the problem was that since I was not creating the fsms are heap objects in the main file, 
+they were not accessible. 
+
+In version 8, I will try to define empty fsm objects, and create them as heap objects in the main file. See if 
+that works. 
+
+--
+
+In version v9, the exit_state_def will not be separate but defined along with the state_def.
+
+--
+
+In version v10, functionality has been added for the finite state machines to communicate their state 
+information. The public member function get_current_state can be called to get the current state of the 
+finite state machine. Functionality has also been added to pass a pointer to a global variable such as
+"g_hip_fsm_state" where the state information will get reported at every time step. 
+
+All global variables for inter-fsm communication are now defined in global_communications.h. This should 
+be included in the definition file for every state machine. 
+
+-- 
+
+In version 11, the order in which the transitions are inserted, will be recorded in a separate 
+state_transition_insertion_history matrix which is parallel in structure to the 
+state_transition_matrix. 
+
+--
+
+In version 12, the get_sensor_input functions will return arrays of 0s and
+1s corresponding to which sensor input is active. The first value in the 
+array will be the length of the array, and the rest will be the values. 
+
+
+--
+
+In version 14, the system will assume that it should stay in the same state if no 
+sensor input is active. This will make it possible to have a set of sensor states
+without the converses defined, and not break the system. 
+
+--
+
+In version 15, the get_sensor_input function no longer uses dynamically allocated
+sensor_object. The fsm itself uses a sensor array that is allocated when it is 
+instantiated. The get_sensor_input is simply passed a pointer to this array, 
+into which it writes. 
+
+There was also a bug with the ankle_fsm, in that it was not defined as to what should
+happen when it receives the stop command in every state. This was now defined. 
+
+In general in addition to the normal transition definitions, there must be transitions
+defined for every state for the stop_command, such that it can progress to an exit_state.
+
+--
+
+
+In version 16, the start action and the main action will be executed when it enters a 
+new state, and the exit action and the start and main action for the new state will be 
+executed when it makes a transition.
+
+--

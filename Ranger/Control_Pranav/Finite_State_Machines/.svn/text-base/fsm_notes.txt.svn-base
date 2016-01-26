@@ -1,0 +1,18 @@
+FSM-1 Testing if chandana's code works on main brain. 
+FSM-2 First walk (frozen in LPC3250_Main_Brain folder)
+FSM-3 Second best walk (frozen in LPC3250_Main_Brain folder)
+FSM-4 Hip swing experiment that can be controlled from ui board and without
+FSM-5 Walk controller - best fsm till 1 June 2010 with W consumption of 14 W with no discrete controller.
+FSM-6 flip up and flip down experiments
+FSM-7 before 1 st attempt on 19 June 2010
+FSM-8 1st attempt on 19 June 2010 2km walk.
+FSM-9 14.3 mi + 13 mi walk record attempts on 5-6 July and 4-5 July 2010
+FSM-10: added top fsm for starting stopping and walking at different speeds. Also programmed one more button on ui board to do rc walk
+FSM-11: Bug fixes to FSM-9.
+FSM-12: Experiments with afterpush, prepush, etc. 
+FSM-13: Seperate estimates state machine. Used for 64.75 lap walk on 27 March 2011.
+FSM-14: 40.5 mi record attempt on 1-2 May 2011.
+
+FSM-4: Hip swing
+FSM-6: Feet flip 
+FSM-14: Marathon walk.
