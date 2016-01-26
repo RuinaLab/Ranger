@@ -99,7 +99,7 @@ Options 1,0,0  // Target 'LPC3250 Int RAM'
  ADSCMISC ()
  ADSCDEFN ()
  ADSCUDEF ()
- ADSCINCD (..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules;..\..\..\..\Robot_Nervous_System;..\..\Ranger_Configuration;.\src;..\..\Finite_State_Machines\FSM_1;..\..\Estimator)
+ ADSCINCD (..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules;..\..\..\..\Robot_Nervous_System;..\..\Ranger_Configuration;.\src;..\..\Controller;..\..\Estimator)
  ADSASFLG { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  ADSAMISC ()
  ADSADEFN (REMAP)

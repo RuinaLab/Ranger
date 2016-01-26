@@ -1,0 +1,1317 @@
+ARM Linker, RVCT4.0 [Build 524] for uVision [Standard]
+
+==============================================================================
+
+Section Cross References
+
+    lpc32x0.o(STACK) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
+    lpc32x0.o(HEAP) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
+    lpc32x0.o(RESET) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
+    lpc32x0.o(RESET) refers to main.o(.text) for IRQ_Handler
+    lpc32x0.o(RESET) refers to lpc32x0.o(STACK) for Stack_Top
+    lpc32x0.o(RESET) refers to __main.o(!!!main) for __main
+    lpc32x0.o(.text) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
+    lpc32x0.o(.text) refers to lpc32x0.o(HEAP) for Heap_Mem
+    lpc32x0.o(.text) refers to lpc32x0.o(STACK) for Stack_Mem
+    mb_software_setup.o(.text) refers to mb_io_data.o(.text) for mb_io_get_time
+    mb_software_setup.o(.text) refers to a9_clock.o(.text) for mb_clock_get_execution_time
+    mb_software_setup.o(.text) refers to mb_error.o(.text) for mb_error_get_frame
+    mb_software_setup.o(.text) refers to mb_bluetooth.o(.text) for mb_bt_create_data_lists
+    mb_software_setup.o(.text) refers to mb_scheduler.o(.text) for mb_schedule_init
+    mb_software_setup.o(.text) refers to mb_heartbeat.o(.text) for mb_set_heartbeat_period_ms
+    mb_software_setup.o(.text) refers to mb_software_setup.o(.bss) for mb_fast_data_display_list
+    mb_software_setup.o(.text) refers to mb_software_setup.o(.constdata) for schedule
+    mb_software_setup.o(.constdata) refers to mb_error.o(.text) for mb_error_update
+    mb_software_setup.o(.constdata) refers to mb_heartbeat.o(.text) for mb_task_heartbeat
+    mb_software_setup.o(.constdata) refers to mb_ssp_dma.o(.text) for a9_dn_ssp_parse
+    mb_software_setup.o(.constdata) refers to mb_estimator.o(.text) for mb_estimator_update
+    mb_software_setup.o(.constdata) refers to mb_controller.o(.text) for mb_controller_update
+    mb_software_setup.o(.constdata) refers to mb_software_setup.o(.text) for mb_send_data
+    mb_software_setup.o(.constdata) refers to mb_bluetooth.o(.text) for mb_bt_pop_receive_packets
+    mb_software_setup.o(.constdata) refers to mb_data_nexus.o(.text) for mb_distribute_error_frames
+    main.o(.text) refers to a9_clock.o(.text) for a9_timer0_isr
+    main.o(.text) refers to mb_bluetooth.o(.text) for a9_software_int_isr
+    main.o(.text) refers to mb_ssp_dma.o(.text) for a9_dn_ssel_dma_isr
+    main.o(.text) refers to mb_hardware_setup.o(.text) for mb_setup_hardware
+    main.o(.text) refers to mb_software_setup.o(.text) for mb_setup_software
+    main.o(.text) refers to mb_scheduler.o(.text) for mb_schedule_run
+    mb_data_nexus.o(.text) refers to mb_io_data.o(.text) for mb_io_get_pointer
+    mb_data_nexus.o(.text) refers to mb_error.o(.text) for mb_error_get_frame
+    mb_data_nexus.o(.text) refers to mb_data_nexus.o(.data) for .data
+    mb_data_nexus.o(.text) refers to mb_data_nexus.o(.bss) for .bss
+    mb_scheduler.o(.text) refers to mb_scheduler.o(.data) for sched_schedule
+    mb_ssp_dma.o(.text) refers to mb_io_data.o(.text) for mb_io_data_was_read
+    mb_ssp_dma.o(.text) refers to mb_error.o(.text) for mb_error_occurred
+    mb_ssp_dma.o(.text) refers to mb_ssp_dma.o(.data) for a9_dn_red_led_time
+    mb_ssp_dma.o(.text) refers to mb_ssp_dma.o(.bss) for a9_dn_ssp_tx_buffer
+    mb_heartbeat.o(.text) refers to mb_heartbeat.o(.data) for hb_period
+    mb_bluetooth.o(.text) refers to mb_io_data.o(.text) for mb_io_data_was_read
+    mb_bluetooth.o(.text) refers to mb_error.o(.text) for mb_error_occurred
+    mb_bluetooth.o(.text) refers to mb_ssp_dma.o(.text) for a9_dn_red_led_blink
+    mb_bluetooth.o(.text) refers to mb_bluetooth.o(.data) for .data
+    mb_bluetooth.o(.text) refers to mb_bluetooth.o(.bss) for a9_bt_tx_buffer
+    a9_clock.o(.text) refers to mb_scheduler.o(.text) for mb_schedule_tick
+    a9_clock.o(.text) refers to a9_clock.o(.data) for .data
+    mb_io_data.o(.text) refers to mb_error.o(.text) for mb_error_occurred
+    mb_io_data.o(.text) refers to mb_io_data.o(.bss) for mb_io_data
+    mb_error.o(.text) refers to mb_error.o(.data) for .data
+    mb_error.o(.text) refers to mb_error.o(.bss) for .bss
+    mb_error.o(.data) refers to mb_error.o(.text) for error_ulvoid
+    bufferdataout.o(.text) refers to mb_io_data.o(.text) for mb_io_set_float
+    bufferdataout.o(.text) refers to bufferdataout.o(.data) for .data
+    bufferdataout.o(.text) refers to bufferdataout.o(.bss) for .bss
+    mb_estimator.o(.text) refers to mb_io_data.o(.text) for mb_io_get_float
+    mb_estimator.o(.text) refers to rangermath.o(.text) for Tan
+    mb_estimator.o(.text) refers to mb_estimator.o(.bss) for .bss
+    mb_estimator.o(.text) refers to mb_estimator.o(.data) for .data
+    mb_estimator.o(.text) refers to rangermath.o(.constdata) for PI
+    mb_estimator.o(.text) refers to robotparameters.o(.constdata) for PARAM_l
+    mb_estimator.o(.text) refers to mb_controller.o(.data) for UI_FSM_MODE
+    mb_estimator.o(.text) refers to optimizegait.o(.data) for OPTIMIZE_FSM_MODE
+    mb_estimator.o(.text) refers to optimizegait.o(.text) for logStepData
+    mb_estimator.o(.text) refers to mb_error.o(.text) for mb_error_occurred
+    mb_estimator.o(.text) refers to mb_controller.o(.text) for enterSafeMode
+    mb_estimator.o(.text) refers to input_output.o(.text) for clear_UI_LED
+    objectivefunction.o(.text) refers to rangermath.o(.text) for FastRand
+    objectivefunction.o(.text) refers to pso.o(.text) for setObjFunInfo
+    objectivefunction.o(.text) refers to motorcontrol.o(.text) for trackRel_ankInn
+    objectivefunction.o(.text) refers to objectivefunction.o(.data) for .data
+    objectivefunction.o(.text) refers to mb_estimator.o(.data) for STATE_q1
+    objectivefunction.o(.text) refers to rangermath.o(.constdata) for TWO_PI
+    optimizegait.o(.text) refers to mb_io_data.o(.text) for mb_io_set_float
+    optimizegait.o(.text) refers to rangermath.o(.text) for Mean
+    optimizegait.o(.text) refers to pso.o(.text) for setObjFunInfo
+    optimizegait.o(.text) refers to input_output.o(.text) for detect_UI_button_input
+    optimizegait.o(.text) refers to gaitcontroldata.o(.data) for GAITDATA_WALK_SCISSOR_OFFSET
+    optimizegait.o(.text) refers to optimizegait.o(.bss) for .bss
+    optimizegait.o(.text) refers to pso.o(.data) for PSO_OMEGA
+    optimizegait.o(.text) refers to optimizegait.o(.data) for .data
+    optimizegait.o(.text) refers to mb_controller.o(.constdata) for BUTTON_ACCEPT_TRIAL
+    optimizegait.o(.text) refers to mb_estimator.o(.data) for STATE_contactMode
+    pso.o(.text) refers to rangermath.o(.text) for Clamp
+    pso.o(.text) refers to bufferdataout.o(.text) for addToQueue
+    pso.o(.text) refers to pso.o(.data) for OBJ_FUN_SEND
+    pso.o(.text) refers to pso.o(.bss) for X_LOW
+    pso.o(.text) refers to mb_io_data.o(.text) for mb_io_set_float
+    gaitcontrol.o(.text) refers to rangermath.o(.text) for LinInterpVar
+    gaitcontrol.o(.text) refers to mb_estimator.o(.text) for triggerHeelStrikeUpdate
+    gaitcontrol.o(.text) refers to input_output.o(.text) for set_UI_LED
+    gaitcontrol.o(.text) refers to gaitcontroldata.o(.data) for GAITDATA_NGRID
+    gaitcontrol.o(.text) refers to mb_estimator.o(.data) for STATE_velCom
+    gaitcontrol.o(.text) refers to gaitcontrol.o(.data) for GAIT_WALK_ANK_PUSH
+    gaitcontrol.o(.text) refers to mb_controller.o(.data) for FSM_LED_FLAG
+    gaitcontrol.o(.text) refers to mb_controller.o(.constdata) for LED_GAIT_FSM
+    input_output.o(.text) refers to mb_software_setup.o(.text) for get_io_ul
+    input_output.o(.text) refers to mb_io_data.o(.text) for mb_io_get_float
+    input_output.o(.text) refers to aeabi_sdiv.o(.text) for __aeabi_idivmod
+    mb_controller.o(.text) refers to input_output.o(.text) for detect_UI_button_input
+    mb_controller.o(.text) refers to safemode.o(.text) for setSafeModeConfig
+    mb_controller.o(.text) refers to motorcontrol.o(.text) for disable_motors
+    mb_controller.o(.text) refers to unit_test.o(.text) for runUnitTest
+    mb_controller.o(.text) refers to gaitcontrol.o(.text) for gaitControl_entry
+    mb_controller.o(.text) refers to walkcontrol.o(.text) for walkControl_entry
+    mb_controller.o(.text) refers to optimizegait.o(.text) for optimizeGait_main
+    mb_controller.o(.text) refers to bufferdataout.o(.text) for sendBufferedData
+    mb_controller.o(.text) refers to mb_controller.o(.data) for UI_FSM_MODE
+    mb_controller.o(.text) refers to mb_estimator.o(.data) for STATE_contactMode
+    motorcontrol.o(.text) refers to rangermath.o(.text) for Sin
+    motorcontrol.o(.text) refers to mb_io_data.o(.text) for mb_io_set_float
+    motorcontrol.o(.text) refers to robotparameters.o(.constdata) for PARAM_m
+    motorcontrol.o(.text) refers to mb_estimator.o(.data) for STATE_contactMode
+    motorcontrol.o(.text) refers to motorcontrol.o(.bss) for .bss
+    rangermath.o(.text) refers to rangermath.o(.data) for .data
+    safemode.o(.text) refers to motorcontrol.o(.text) for trackRel_ankOut
+    safemode.o(.text) refers to mb_estimator.o(.data) for STATE_q0
+    safemode.o(.text) refers to safemode.o(.data) for .data
+    unit_test.o(.text) refers to mb_io_data.o(.text) for mb_io_get_float
+    unit_test.o(.text) refers to rangermath.o(.text) for SquareWave
+    unit_test.o(.text) refers to motorcontrol.o(.text) for trackAbs_ankOut
+    unit_test.o(.text) refers to walkcontrol.o(.text) for flipUp_ankInn
+    unit_test.o(.text) refers to unit_test.o(.data) for .data
+    unit_test.o(.text) refers to objectivefunction.o(.text) for objFun_set_quadraticBowl
+    unit_test.o(.text) refers to pso.o(.text) for pso_send_point
+    unit_test.o(.text) refers to pso.o(.data) for PSO_OMEGA
+    unit_test.o(.text) refers to mb_estimator.o(.text) for triggerHeelStrikeUpdate
+    unit_test.o(.text) refers to mb_controller.o(.text) for enterSafeMode
+    unit_test.o(.text) refers to bufferdataout.o(.text) for addToQueue
+    unit_test.o(.text) refers to mb_estimator.o(.data) for STATE_contactMode
+    unit_test.o(.text) refers to optimizegait.o(.data) for OPTIMIZE_FSM_MODE
+    walkcontrol.o(.text) refers to input_output.o(.text) for set_UI_LED
+    walkcontrol.o(.text) refers to motorcontrol.o(.text) for trackRel_ankInn
+    walkcontrol.o(.text) refers to walkcontrol.o(.data) for .data
+    walkcontrol.o(.text) refers to mb_estimator.o(.data) for STATE_contactMode
+    walkcontrol.o(.text) refers to mb_controller.o(.data) for FSM_LED_FLAG
+    walkcontrol.o(.text) refers to mb_controller.o(.constdata) for LED_WALK_FSM
+    walkcontrol.o(.text) refers to gaitcontrol.o(.data) for GAIT_WALK_ANK_PUSH
+    walkcontrol.o(.text) refers to robotparameters.o(.constdata) for PARAM_ctrl_ank_flipTarget
+    aeabi_sdiv.o(.text_udiv) refers to aeabi_sdiv.o(.text) for __arm_div4
+    aeabi_sdiv_div0.o(.text_udiv) refers to aeabi_sdiv_div0.o(.text) for __arm_div4
+    __main.o(!!!main) refers to rtentry.o(.ARM.Collect$$rtentry$$00000000) for __rt_entry
+    rtentry.o(.ARM.Collect$$rtentry$$00000000) refers (Special) to rtentry2.o(.ARM.Collect$$rtentry$$0000000A) for __rt_entry_li
+    rtentry.o(.ARM.Collect$$rtentry$$00000000) refers (Special) to rtentry2.o(.ARM.Collect$$rtentry$$0000000D) for __rt_entry_main
+    rtentry.o(.ARM.Collect$$rtentry$$00000000) refers (Special) to rtentry2.o(.ARM.Collect$$rtentry$$0000000C) for __rt_entry_postli_1
+    rtentry.o(.ARM.Collect$$rtentry$$00000000) refers (Special) to rtentry2.o(.ARM.Collect$$rtentry$$00000009) for __rt_entry_postsh_1
+    rtentry.o(.ARM.Collect$$rtentry$$00000000) refers (Special) to rtentry2.o(.ARM.Collect$$rtentry$$00000002) for __rt_entry_presh_1
+    rtentry.o(.ARM.Collect$$rtentry$$00000000) refers (Special) to rtentry4.o(.ARM.Collect$$rtentry$$00000004) for __rt_entry_sh
+    rtentry.o(.ARM.exidx) refers (Special) to rtentry2.o(.ARM.Collect$$rtentry$$0000000A) for __rt_entry_li
+    rtentry.o(.ARM.exidx) refers (Special) to rtentry2.o(.ARM.Collect$$rtentry$$0000000D) for __rt_entry_main
+    rtentry.o(.ARM.exidx) refers (Special) to rtentry2.o(.ARM.Collect$$rtentry$$0000000C) for __rt_entry_postli_1
+    rtentry.o(.ARM.exidx) refers (Special) to rtentry2.o(.ARM.Collect$$rtentry$$00000009) for __rt_entry_postsh_1
+    rtentry.o(.ARM.exidx) refers (Special) to rtentry2.o(.ARM.Collect$$rtentry$$00000002) for __rt_entry_presh_1
+    rtentry.o(.ARM.exidx) refers (Special) to rtentry4.o(.ARM.Collect$$rtentry$$00000004) for __rt_entry_sh
+    rtentry.o(.ARM.exidx) refers to rtentry.o(.ARM.Collect$$rtentry$$00000000) for .ARM.Collect$$rtentry$$00000000
+    aeabi_idiv0_sigfpe.o(.text) refers to rt_div0.o(.text) for __rt_div0
+    rtentry2.o(.ARM.Collect$$rtentry$$00000008) refers to boardinit2.o(.text) for _platform_post_stackheap_init
+    rtentry2.o(.ARM.Collect$$rtentry$$0000000A) refers to libinit.o(.ARM.Collect$$libinit$$00000000) for __rt_lib_init
+    rtentry2.o(.ARM.Collect$$rtentry$$0000000B) refers to boardinit3.o(.text) for _platform_post_lib_init
+    rtentry2.o(.ARM.Collect$$rtentry$$0000000D) refers to exit.o(.text) for exit
+    rtentry2.o(.ARM.Collect$$rtentry$$0000000D) refers to main.o(.text) for main
+    rtentry2.o(.ARM.exidx) refers to rtentry2.o(.ARM.Collect$$rtentry$$00000001) for .ARM.Collect$$rtentry$$00000001
+    rtentry2.o(.ARM.exidx) refers to rtentry2.o(.ARM.Collect$$rtentry$$00000002) for .ARM.Collect$$rtentry$$00000002
+    rtentry2.o(.ARM.exidx) refers to rtentry2.o(.ARM.Collect$$rtentry$$00000008) for .ARM.Collect$$rtentry$$00000008
+    rtentry2.o(.ARM.exidx) refers to rtentry2.o(.ARM.Collect$$rtentry$$00000009) for .ARM.Collect$$rtentry$$00000009
+    rtentry2.o(.ARM.exidx) refers to rtentry2.o(.ARM.Collect$$rtentry$$0000000A) for .ARM.Collect$$rtentry$$0000000A
+    rtentry2.o(.ARM.exidx) refers to rtentry2.o(.ARM.Collect$$rtentry$$0000000B) for .ARM.Collect$$rtentry$$0000000B
+    rtentry2.o(.ARM.exidx) refers to rtentry2.o(.ARM.Collect$$rtentry$$0000000C) for .ARM.Collect$$rtentry$$0000000C
+    rtentry2.o(.ARM.exidx) refers to rtentry2.o(.ARM.Collect$$rtentry$$0000000D) for .ARM.Collect$$rtentry$$0000000D
+    rtentry4.o(.ARM.Collect$$rtentry$$00000004) refers to sys_stackheap_outer.o(.text) for __user_setup_stackheap
+    rtentry4.o(.ARM.exidx) refers to rtentry4.o(.ARM.Collect$$rtentry$$00000004) for .ARM.Collect$$rtentry$$00000004
+    rt_div0.o(.text) refers to defsig_fpe_outer.o(.text) for __rt_SIGFPE
+    sys_stackheap_outer.o(.text) refers to libspace.o(.text) for __user_perproc_libspace
+    sys_stackheap_outer.o(.text) refers to lpc32x0.o(.text) for __user_initial_stackheap
+    exit.o(.text) refers to rtexit.o(.ARM.Collect$$rtexit$$00000000) for __rt_exit
+    defsig_fpe_outer.o(.text) refers to defsig_fpe_inner.o(.text) for __rt_SIGFPE_inner
+    defsig_fpe_outer.o(.text) refers to defsig_exit.o(.text) for __sig_exit
+    defsig_fpe_formal.o(.text) refers to rt_raise.o(.text) for __rt_raise
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000002A) for __rt_lib_init_alloca_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000028) for __rt_lib_init_argv_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000017) for __rt_lib_init_atexit_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000001D) for __rt_lib_init_clock_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000002E) for __rt_lib_init_cpp_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000002C) for __rt_lib_init_exceptions_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000001B) for __rt_lib_init_fp_trap_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000001F) for __rt_lib_init_getenv_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000006) for __rt_lib_init_heap_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000000D) for __rt_lib_init_lc_collate_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000000F) for __rt_lib_init_lc_ctype_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000011) for __rt_lib_init_lc_monetary_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000013) for __rt_lib_init_lc_numeric_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000015) for __rt_lib_init_lc_time_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000000A) for __rt_lib_init_rand_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000002F) for __rt_lib_init_return
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000019) for __rt_lib_init_signal_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000021) for __rt_lib_init_stdio_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000008) for __rt_lib_init_user_alloc_1
+    libinit.o(.ARM.Collect$$libinit$$00000000) refers to fpinit.o(x$fpl$fpinit) for _fp_init
+    libspace.o(.text) refers to libspace.o(.bss) for __libspace_start
+    rtexit.o(.ARM.Collect$$rtexit$$00000000) refers (Special) to rtexit2.o(.ARM.Collect$$rtexit$$00000004) for __rt_exit_exit
+    rtexit.o(.ARM.Collect$$rtexit$$00000000) refers (Special) to rtexit2.o(.ARM.Collect$$rtexit$$00000003) for __rt_exit_ls
+    rtexit.o(.ARM.Collect$$rtexit$$00000000) refers (Special) to rtexit2.o(.ARM.Collect$$rtexit$$00000002) for __rt_exit_prels_1
+    rtexit.o(.ARM.exidx) refers (Special) to rtexit2.o(.ARM.Collect$$rtexit$$00000004) for __rt_exit_exit
+    rtexit.o(.ARM.exidx) refers (Special) to rtexit2.o(.ARM.Collect$$rtexit$$00000003) for __rt_exit_ls
+    rtexit.o(.ARM.exidx) refers (Special) to rtexit2.o(.ARM.Collect$$rtexit$$00000002) for __rt_exit_prels_1
+    rtexit.o(.ARM.exidx) refers to rtexit.o(.ARM.Collect$$rtexit$$00000000) for .ARM.Collect$$rtexit$$00000000
+    rt_raise.o(.text) refers to __raise.o(.text) for __raise
+    rt_raise.o(.text) refers to sys_exit.o(.text) for _sys_exit
+    defsig_exit.o(.text) refers to sys_exit.o(.text) for _sys_exit
+    defsig_fpe_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
+    libinit2.o(.ARM.Collect$$libinit$$0000000C) refers to libinit2.o(.ARM.Collect$$libinit$$0000000B) for .ARM.Collect$$libinit$$0000000B
+    libinit2.o(.ARM.Collect$$libinit$$0000000E) refers to libinit2.o(.ARM.Collect$$libinit$$0000000B) for .ARM.Collect$$libinit$$0000000B
+    libinit2.o(.ARM.Collect$$libinit$$00000010) refers to libinit2.o(.ARM.Collect$$libinit$$0000000B) for .ARM.Collect$$libinit$$0000000B
+    libinit2.o(.ARM.Collect$$libinit$$00000012) refers to libinit2.o(.ARM.Collect$$libinit$$0000000B) for .ARM.Collect$$libinit$$0000000B
+    libinit2.o(.ARM.Collect$$libinit$$00000014) refers to libinit2.o(.ARM.Collect$$libinit$$0000000B) for .ARM.Collect$$libinit$$0000000B
+    libinit2.o(.ARM.Collect$$libinit$$00000022) refers to argv_veneer.o(.emb_text) for __ARM_argv_veneer
+    libinit2.o(.ARM.Collect$$libinit$$00000023) refers to argv_veneer.o(.emb_text) for __ARM_argv_veneer
+    sys_exit.o(.text) refers to use_no_semi.o(.text) for __I$use$semihosting
+    rtexit2.o(.ARM.Collect$$rtexit$$00000003) refers to libshutdown.o(.ARM.Collect$$libshutdown$$00000000) for __rt_lib_shutdown
+    rtexit2.o(.ARM.Collect$$rtexit$$00000004) refers to sys_exit.o(.text) for _sys_exit
+    rtexit2.o(.ARM.exidx) refers to rtexit2.o(.ARM.Collect$$rtexit$$00000001) for .ARM.Collect$$rtexit$$00000001
+    rtexit2.o(.ARM.exidx) refers to rtexit2.o(.ARM.Collect$$rtexit$$00000002) for .ARM.Collect$$rtexit$$00000002
+    rtexit2.o(.ARM.exidx) refers to rtexit2.o(.ARM.Collect$$rtexit$$00000003) for .ARM.Collect$$rtexit$$00000003
+    rtexit2.o(.ARM.exidx) refers to rtexit2.o(.ARM.Collect$$rtexit$$00000004) for .ARM.Collect$$rtexit$$00000004
+    __raise.o(.text) refers to defsig.o(CL$$defsig) for __default_signal_handler
+    defsig_general.o(.text) refers to sys_wrch.o(.text) for _ttywrch
+    argv_veneer.o(.emb_text) refers to no_argv.o(.text) for __ARM_get_argv
+    sys_wrch.o(.text) refers (Special) to use_no_semi.o(.text) for __I$use$semihosting
+    defsig.o(CL$$defsig) refers to defsig_fpe_inner.o(.text) for __rt_SIGFPE_inner
+    defsig.o(CL$$defsig) refers to defsig_rtmem_inner.o(.text) for __rt_SIGRTMEM_inner
+    _get_argv_nomalloc.o(.text) refers (Special) to hrguard.o(.text) for __heap_region$guard
+    _get_argv_nomalloc.o(.text) refers to defsig_rtmem_outer.o(.text) for __rt_SIGRTMEM
+    _get_argv_nomalloc.o(.text) refers to sys_command.o(.text) for _sys_command_string
+    libshutdown.o(.ARM.Collect$$libshutdown$$00000000) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$00000006) for __rt_lib_shutdown_fp_trap_1
+    libshutdown.o(.ARM.Collect$$libshutdown$$00000000) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E) for __rt_lib_shutdown_heap_1
+    libshutdown.o(.ARM.Collect$$libshutdown$$00000000) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$0000000F) for __rt_lib_shutdown_return
+    libshutdown.o(.ARM.Collect$$libshutdown$$00000000) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$00000009) for __rt_lib_shutdown_signal_1
+    libshutdown.o(.ARM.Collect$$libshutdown$$00000000) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$00000003) for __rt_lib_shutdown_stdio_1
+    libshutdown.o(.ARM.Collect$$libshutdown$$00000000) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$0000000B) for __rt_lib_shutdown_user_alloc_1
+    sys_command.o(.text) refers (Special) to use_no_semi.o(.text) for __I$use$semihosting
+    defsig_abrt_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
+    defsig_rtred_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
+    defsig_rtmem_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
+    defsig_rtmem_outer.o(.text) refers to defsig_rtmem_inner.o(.text) for __rt_SIGRTMEM_inner
+    defsig_rtmem_outer.o(.text) refers to defsig_exit.o(.text) for __sig_exit
+    defsig_rtmem_formal.o(.text) refers to rt_raise.o(.text) for __rt_raise
+    defsig_stak_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
+    defsig_pvfn_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
+    defsig_cppl_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
+    defsig_segv_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
+    defsig_other.o(.text) refers to defsig_general.o(.text) for __default_signal_display
+
+
+==============================================================================
+
+Removing Unused input sections from the image.
+
+    Removing mb_bluetooth.o(.constdata), (4 bytes).
+    Removing pso.o(.constdata), (4 bytes).
+
+2 unused section(s) (total 8 bytes) removed from the image.
+
+==============================================================================
+
+Image Symbol Table
+
+    Local Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    ../../angel/boardlib.s                   0x00000000   Number         0  boardinit1.o ABSOLUTE
+    ../../angel/boardlib.s                   0x00000000   Number         0  boardinit3.o ABSOLUTE
+    ../../angel/boardlib.s                   0x00000000   Number         0  boardinit2.o ABSOLUTE
+    ../../angel/boardlib.s                   0x00000000   Number         0  boardshut.o ABSOLUTE
+    ../../angel/dclz77c.s                    0x00000000   Number         0  __dclz77c.o ABSOLUTE
+    ../../angel/handlers.s                   0x00000000   Number         0  __scatter_zi.o ABSOLUTE
+    ../../angel/kernel.s                     0x00000000   Number         0  rtexit.o ABSOLUTE
+    ../../angel/kernel.s                     0x00000000   Number         0  rtentry4.o ABSOLUTE
+    ../../angel/kernel.s                     0x00000000   Number         0  rtentry2.o ABSOLUTE
+    ../../angel/kernel.s                     0x00000000   Number         0  rtentry.o ABSOLUTE
+    ../../angel/kernel.s                     0x00000000   Number         0  rtexit2.o ABSOLUTE
+    ../../angel/rt.s                         0x00000000   Number         0  rt_div0.o ABSOLUTE
+    ../../angel/rt.s                         0x00000000   Number         0  rt_raise.o ABSOLUTE
+    ../../angel/rt.s                         0x00000000   Number         0  aeabi_idiv0_sigfpe.o ABSOLUTE
+    ../../angel/rt.s                         0x00000000   Number         0  aeabi_idiv0.o ABSOLUTE
+    ../../angel/scatter.s                    0x00000000   Number         0  __scatter.o ABSOLUTE
+    ../../angel/startup.s                    0x00000000   Number         0  __main.o ABSOLUTE
+    ../../angel/sys.s                        0x00000000   Number         0  use_no_semi.o ABSOLUTE
+    ../../angel/sys.s                        0x00000000   Number         0  libspace.o ABSOLUTE
+    ../../angel/sys.s                        0x00000000   Number         0  sys_stackheap_outer.o ABSOLUTE
+    ../../angel/sys.s                        0x00000000   Number         0  sys_exit.o ABSOLUTE
+    ../../angel/sysapp.c                     0x00000000   Number         0  sys_wrch.o ABSOLUTE
+    ../../angel/sysapp.c                     0x00000000   Number         0  sys_command.o ABSOLUTE
+    ../../armsys.c                           0x00000000   Number         0  argv_veneer.o ABSOLUTE
+    ../../armsys.c                           0x00000000   Number         0  argv_veneer.o ABSOLUTE
+    ../../armsys.c                           0x00000000   Number         0  no_argv.o ABSOLUTE
+    ../../armsys.c                           0x00000000   Number         0  _get_argv_nomalloc.o ABSOLUTE
+    ../../division.s                         0x00000000   Number         0  aeabi_sdiv_div0.o ABSOLUTE
+    ../../division.s                         0x00000000   Number         0  aeabi_sdiv.o ABSOLUTE
+    ../../divrt.s                            0x00000000   Number         0  divrt_9e_div0.o ABSOLUTE
+    ../../divrt.s                            0x00000000   Number         0  divrt_9e.o ABSOLUTE
+    ../../fpinit.s                           0x00000000   Number         0  fpinit.o ABSOLUTE
+    ../../heapalloc.c                        0x00000000   Number         0  hrguard.o ABSOLUTE
+    ../../heapaux.c                          0x00000000   Number         0  heapauxi.o ABSOLUTE
+    ../../libinit.s                          0x00000000   Number         0  libinit.o ABSOLUTE
+    ../../libinit.s                          0x00000000   Number         0  libshutdown2.o ABSOLUTE
+    ../../libinit.s                          0x00000000   Number         0  libinit2.o ABSOLUTE
+    ../../libinit.s                          0x00000000   Number         0  libshutdown.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_segv_inner.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_cppl_inner.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_pvfn_inner.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_stak_inner.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_rtmem_formal.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_fpe_formal.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_exit.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_fpe_inner.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_rtmem_outer.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_rtred_inner.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_abrt_inner.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_other.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_rtmem_inner.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_general.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  __raise.o ABSOLUTE
+    ../../signal.c                           0x00000000   Number         0  defsig_fpe_outer.o ABSOLUTE
+    ../../signal.s                           0x00000000   Number         0  defsig.o ABSOLUTE
+    ../../stdlib.c                           0x00000000   Number         0  exit.o ABSOLUTE
+    ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_bluetooth\mb_bluetooth.c 0x00000000   Number         0  mb_bluetooth.o ABSOLUTE
+    ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c 0x00000000   Number         0  a9_clock.o ABSOLUTE
+    ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c 0x00000000   Number         0  mb_error.o ABSOLUTE
+    ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_heartbeat\mb_heartbeat.c 0x00000000   Number         0  mb_heartbeat.o ABSOLUTE
+    ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c 0x00000000   Number         0  mb_io_data.o ABSOLUTE
+    ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_scheduler\mb_scheduler.c 0x00000000   Number         0  mb_scheduler.o ABSOLUTE
+    ..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_ssp_dma2\mb_ssp_dma.c 0x00000000   Number         0  mb_ssp_dma.o ABSOLUTE
+    ..\..\Controller\RangerMath.c            0x00000000   Number         0  rangermath.o ABSOLUTE
+    ..\..\Controller\gaitControl.c           0x00000000   Number         0  gaitcontrol.o ABSOLUTE
+    ..\..\Controller\gaitControlData.c       0x00000000   Number         0  gaitcontroldata.o ABSOLUTE
+    ..\..\Controller\input_output.c          0x00000000   Number         0  input_output.o ABSOLUTE
+    ..\..\Controller\mb_controller.c         0x00000000   Number         0  mb_controller.o ABSOLUTE
+    ..\..\Controller\motorControl.c          0x00000000   Number         0  motorcontrol.o ABSOLUTE
+    ..\..\Controller\safeMode.c              0x00000000   Number         0  safemode.o ABSOLUTE
+    ..\..\Controller\unit_test.c             0x00000000   Number         0  unit_test.o ABSOLUTE
+    ..\..\Controller\walkControl.c           0x00000000   Number         0  walkcontrol.o ABSOLUTE
+    ..\..\Estimator\PSO.c                    0x00000000   Number         0  pso.o ABSOLUTE
+    ..\..\Estimator\bufferDataOut.c          0x00000000   Number         0  bufferdataout.o ABSOLUTE
+    ..\..\Estimator\mb_estimator.c           0x00000000   Number         0  mb_estimator.o ABSOLUTE
+    ..\..\Estimator\objectiveFunction.c      0x00000000   Number         0  objectivefunction.o ABSOLUTE
+    ..\..\Estimator\optimizeGait.c           0x00000000   Number         0  optimizegait.o ABSOLUTE
+    ..\..\Estimator\robotParameters.c        0x00000000   Number         0  robotparameters.o ABSOLUTE
+    dc.s                                     0x00000000   Number         0  dc.o ABSOLUTE
+    src\LPC32x0.s                            0x00000000   Number         0  lpc32x0.o ABSOLUTE
+    src\main.c                               0x00000000   Number         0  main.o ABSOLUTE
+    src\mb_data_nexus.c                      0x00000000   Number         0  mb_data_nexus.o ABSOLUTE
+    src\mb_hardware_setup.c                  0x00000000   Number         0  mb_hardware_setup.o ABSOLUTE
+    src\mb_software_setup.c                  0x00000000   Number         0  mb_software_setup.o ABSOLUTE
+    RESET                                    0x08000000   Section      640  lpc32x0.o(RESET)
+    $v0                                      0x08000000   Number         0  lpc32x0.o(RESET)
+    Undef_Handler                            0x08000040   ARM Code       4  lpc32x0.o(RESET)
+    SWI_Handler                              0x08000044   ARM Code       4  lpc32x0.o(RESET)
+    PAbt_Handler                             0x08000048   ARM Code       4  lpc32x0.o(RESET)
+    DAbt_Handler                             0x0800004c   ARM Code       4  lpc32x0.o(RESET)
+    !!!main                                  0x08000280   Section        8  __main.o(!!!main)
+    !!!scatter                               0x08000288   Section       60  __scatter.o(!!!scatter)
+    !!dclz77c                                0x080002c4   Section       96  __dclz77c.o(!!dclz77c)
+    _decompress_loop                         0x080002cf   Thumb Code     0  __dclz77c.o(!!dclz77c)
+    _decompress_getlen                       0x080002dd   Thumb Code     0  __dclz77c.o(!!dclz77c)
+    _decompress_lits                         0x080002e5   Thumb Code     0  __dclz77c.o(!!dclz77c)
+    _decompress_lit                          0x080002e9   Thumb Code     0  __dclz77c.o(!!dclz77c)
+    _decompress_setupcopy                    0x080002f5   Thumb Code     0  __dclz77c.o(!!dclz77c)
+    _decompress_setupcopy_shortx             0x0800030b   Thumb Code     0  __dclz77c.o(!!dclz77c)
+    _decompress_copy                         0x08000311   Thumb Code     0  __dclz77c.o(!!dclz77c)
+    _decompress_end                          0x0800031d   Thumb Code     0  __dclz77c.o(!!dclz77c)
+    !!handler_zi                             0x08000324   Section       44  __scatter_zi.o(!!handler_zi)
+    .ARM.Collect$$libinit$$00000000          0x08000350   Section        6  libinit.o(.ARM.Collect$$libinit$$00000000)
+    .ARM.Collect$$libinit$$00000006          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000006)
+    .ARM.Collect$$libinit$$00000008          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000008)
+    .ARM.Collect$$libinit$$0000000A          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000000A)
+    .ARM.Collect$$libinit$$0000000D          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000000D)
+    .ARM.Collect$$libinit$$0000000F          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000000F)
+    .ARM.Collect$$libinit$$00000011          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000011)
+    .ARM.Collect$$libinit$$00000013          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000013)
+    .ARM.Collect$$libinit$$00000015          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000015)
+    .ARM.Collect$$libinit$$00000017          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000017)
+    .ARM.Collect$$libinit$$00000019          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000019)
+    .ARM.Collect$$libinit$$0000001B          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000001B)
+    .ARM.Collect$$libinit$$0000001D          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000001D)
+    .ARM.Collect$$libinit$$0000001F          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000001F)
+    .ARM.Collect$$libinit$$00000021          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000021)
+    .ARM.Collect$$libinit$$00000028          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000028)
+    .ARM.Collect$$libinit$$0000002A          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000002A)
+    .ARM.Collect$$libinit$$0000002C          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000002C)
+    .ARM.Collect$$libinit$$0000002E          0x08000356   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000002E)
+    .ARM.Collect$$libinit$$0000002F          0x08000356   Section        2  libinit2.o(.ARM.Collect$$libinit$$0000002F)
+    .ARM.Collect$$libshutdown$$00000000      0x08000358   Section        2  libshutdown.o(.ARM.Collect$$libshutdown$$00000000)
+    .ARM.Collect$$libshutdown$$00000003      0x0800035a   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000003)
+    .ARM.Collect$$libshutdown$$00000006      0x0800035a   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000006)
+    .ARM.Collect$$libshutdown$$00000009      0x0800035a   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000009)
+    .ARM.Collect$$libshutdown$$0000000B      0x0800035a   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000B)
+    .ARM.Collect$$libshutdown$$0000000E      0x0800035a   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E)
+    .ARM.Collect$$libshutdown$$0000000F      0x0800035a   Section        2  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000F)
+    .ARM.Collect$$rtentry$$00000000          0x0800035c   Section        0  rtentry.o(.ARM.Collect$$rtentry$$00000000)
+    .ARM.Collect$$rtentry$$00000002          0x0800035c   Section        0  rtentry2.o(.ARM.Collect$$rtentry$$00000002)
+    .ARM.Collect$$rtentry$$00000004          0x0800035c   Section        8  rtentry4.o(.ARM.Collect$$rtentry$$00000004)
+    .ARM.Collect$$rtentry$$00000009          0x08000364   Section        0  rtentry2.o(.ARM.Collect$$rtentry$$00000009)
+    .ARM.Collect$$rtentry$$0000000A          0x08000364   Section        4  rtentry2.o(.ARM.Collect$$rtentry$$0000000A)
+    .ARM.Collect$$rtentry$$0000000C          0x08000368   Section        0  rtentry2.o(.ARM.Collect$$rtentry$$0000000C)
+    .ARM.Collect$$rtentry$$0000000D          0x08000368   Section       40  rtentry2.o(.ARM.Collect$$rtentry$$0000000D)
+    .ARM.Collect$$rtexit$$00000000           0x08000390   Section        0  rtexit.o(.ARM.Collect$$rtexit$$00000000)
+    .ARM.Collect$$rtexit$$00000002           0x08000390   Section        0  rtexit2.o(.ARM.Collect$$rtexit$$00000002)
+    .ARM.Collect$$rtexit$$00000003           0x08000390   Section        4  rtexit2.o(.ARM.Collect$$rtexit$$00000003)
+    .ARM.Collect$$rtexit$$00000004           0x08000394   Section        4  rtexit2.o(.ARM.Collect$$rtexit$$00000004)
+    .text                                    0x08000398   Section       36  lpc32x0.o(.text)
+    $v0                                      0x08000398   Number         0  lpc32x0.o(.text)
+    .text                                    0x080003bc   Section      548  mb_hardware_setup.o(.text)
+    .text                                    0x080005e0   Section     1052  mb_software_setup.o(.text)
+    .text                                    0x080009fc   Section      120  main.o(.text)
+    .text                                    0x08000a74   Section     1504  mb_data_nexus.o(.text)
+    .text                                    0x08001054   Section      400  mb_scheduler.o(.text)
+    .text                                    0x080011e4   Section     2792  mb_ssp_dma.o(.text)
+    .text                                    0x08001ccc   Section      136  mb_heartbeat.o(.text)
+    .text                                    0x08001d54   Section     4064  mb_bluetooth.o(.text)
+    .text                                    0x08002d34   Section      220  a9_clock.o(.text)
+    .text                                    0x08002e10   Section     1456  mb_io_data.o(.text)
+    .text                                    0x080033c0   Section     1032  mb_error.o(.text)
+    .text                                    0x080037c8   Section      300  bufferdataout.o(.text)
+    .text                                    0x080038f4   Section     4208  mb_estimator.o(.text)
+    .text                                    0x08004964   Section     1040  objectivefunction.o(.text)
+    .text                                    0x08004d74   Section     1616  optimizegait.o(.text)
+    .text                                    0x080053c4   Section     2532  pso.o(.text)
+    .text                                    0x08005da8   Section      776  gaitcontrol.o(.text)
+    .text                                    0x080060b0   Section     1224  input_output.o(.text)
+    .text                                    0x08006578   Section      468  mb_controller.o(.text)
+    .text                                    0x0800674c   Section     1804  motorcontrol.o(.text)
+    .text                                    0x08006e58   Section     1876  rangermath.o(.text)
+    .text                                    0x080075ac   Section      192  safemode.o(.text)
+    .text                                    0x0800766c   Section     4344  unit_test.o(.text)
+    .text                                    0x08008764   Section     1728  walkcontrol.o(.text)
+    .text                                    0x08008e24   Section      380  aeabi_sdiv.o(.text)
+    __arm_div8                               0x08008e50   ARM Code       0  aeabi_sdiv.o(.text)
+    __arm_div4                               0x08008e80   ARM Code       0  aeabi_sdiv.o(.text)
+    __arm_div_large                          0x08008ed4   ARM Code       0  aeabi_sdiv.o(.text)
+    .text                                    0x08008fa0   Section        6  heapauxi.o(.text)
+    .text                                    0x08008fa8   Section       96  sys_stackheap_outer.o(.text)
+    .text                                    0x08009008   Section       12  exit.o(.text)
+    .text                                    0x08009014   Section       12  libspace.o(.text)
+    .text                                    0x08009020   Section       24  sys_exit.o(.text)
+    .text                                    0x08009038   Section        4  use_no_semi.o(.text)
+    x$fpl$fpinit                             0x0800903c   Section       12  fpinit.o(x$fpl$fpinit)
+    $v0                                      0x0800903c   Number         0  fpinit.o(x$fpl$fpinit)
+    .constdata                               0x08009048   Section      424  mb_software_setup.o(.constdata)
+    .constdata                               0x080091f0   Section       56  robotparameters.o(.constdata)
+    .constdata                               0x08009228   Section       44  mb_controller.o(.constdata)
+    .constdata                               0x08009254   Section       24  rangermath.o(.constdata)
+    .data                                    0x08020000   Section        8  mb_data_nexus.o(.data)
+    lcd_error_write_index                    0x08020000   Data           2  mb_data_nexus.o(.data)
+    lcd_error_read_index                     0x08020002   Data           2  mb_data_nexus.o(.data)
+    labview_error_write_index                0x08020004   Data           2  mb_data_nexus.o(.data)
+    labview_error_read_index                 0x08020006   Data           2  mb_data_nexus.o(.data)
+    .data                                    0x08020008   Section       24  mb_scheduler.o(.data)
+    .data                                    0x08020020   Section      620  mb_ssp_dma.o(.data)
+    .data                                    0x0802028c   Section        8  mb_heartbeat.o(.data)
+    .data                                    0x08020294   Section       34  mb_bluetooth.o(.data)
+    slow_done                                0x0802029c   Data           2  mb_bluetooth.o(.data)
+    medium_done                              0x0802029e   Data           2  mb_bluetooth.o(.data)
+    medium_index                             0x080202a0   Data           2  mb_bluetooth.o(.data)
+    slow_index                               0x080202a2   Data           2  mb_bluetooth.o(.data)
+    fast_index                               0x080202a4   Data           2  mb_bluetooth.o(.data)
+    j                                        0x080202a6   Data           2  mb_bluetooth.o(.data)
+    free_space_integral                      0x080202a8   Data           4  mb_bluetooth.o(.data)
+    buffer_1_active                          0x080202ac   Data           4  mb_bluetooth.o(.data)
+    buffer_2_active                          0x080202b0   Data           4  mb_bluetooth.o(.data)
+    j                                        0x080202b4   Data           2  mb_bluetooth.o(.data)
+    .data                                    0x080202b8   Section        6  a9_clock.o(.data)
+    i                                        0x080202bc   Data           2  a9_clock.o(.data)
+    .data                                    0x080202c0   Section       32  mb_error.o(.data)
+    error_in_buf_write_idx                   0x080202c0   Data           2  mb_error.o(.data)
+    error_in_buf_read_idx                    0x080202c2   Data           2  mb_error.o(.data)
+    error_in_buf_write_idx_irq               0x080202c4   Data           2  mb_error.o(.data)
+    error_in_buf_read_idx_irq                0x080202c6   Data           2  mb_error.o(.data)
+    error_in_buf_write_idx_fiq               0x080202c8   Data           2  mb_error.o(.data)
+    error_in_buf_read_idx_fiq                0x080202ca   Data           2  mb_error.o(.data)
+    error_buf_write_idx                      0x080202cc   Data           2  mb_error.o(.data)
+    error_buf_read_idx                       0x080202ce   Data           2  mb_error.o(.data)
+    er_get_timestamp                         0x080202d0   Data           4  mb_error.o(.data)
+    er_board_id                              0x080202d4   Data           4  mb_error.o(.data)
+    er_active                                0x080202d8   Data           8  mb_error.o(.data)
+    .data                                    0x080202e0   Section        8  bufferdataout.o(.data)
+    activeNum                                0x080202e0   Data           4  bufferdataout.o(.data)
+    calls                                    0x080202e4   Data           4  bufferdataout.o(.data)
+    .data                                    0x080202e8   Section      174  mb_estimator.o(.data)
+    c                                        0x080202ec   Data           4  mb_estimator.o(.data)
+    dth0_last                                0x080202f0   Data           4  mb_estimator.o(.data)
+    STATE_th0_gyro                           0x08020388   Data           4  mb_estimator.o(.data)
+    STATE_th0_imu                            0x0802038c   Data           4  mb_estimator.o(.data)
+    STATE_lastStepTimeSec                    0x08020390   Data           4  mb_estimator.o(.data)
+    .data                                    0x08020398   Section       36  objectivefunction.o(.data)
+    sineTrack_qLow                           0x08020398   Data           4  objectivefunction.o(.data)
+    sineTrack_qUpp                           0x0802039c   Data           4  objectivefunction.o(.data)
+    sineTrack_period                         0x080203a0   Data           4  objectivefunction.o(.data)
+    sineTrack_kp                             0x080203a4   Data           4  objectivefunction.o(.data)
+    sineTrack_kd                             0x080203a8   Data           4  objectivefunction.o(.data)
+    sineTrack_objVal                         0x080203ac   Data           4  objectivefunction.o(.data)
+    sineTrack_initComplete                   0x080203b0   Data           1  objectivefunction.o(.data)
+    loopCount                                0x080203b4   Data           4  objectivefunction.o(.data)
+    quadBowl_objVal                          0x080203b8   Data           4  objectivefunction.o(.data)
+    .data                                    0x080203bc   Section       13  optimizegait.o(.data)
+    STEP_COUNT                               0x080203bc   Data           4  optimizegait.o(.data)
+    lastStepLength                           0x080203c0   Data           4  optimizegait.o(.data)
+    lastTrialStartTime                       0x080203c4   Data           4  optimizegait.o(.data)
+    .data                                    0x080203cc   Section       44  pso.o(.data)
+    .data                                    0x080203f8   Section       28  gaitcontrol.o(.data)
+    GAIT_FSM_MODE                            0x080203f8   Data           1  gaitcontrol.o(.data)
+    .data                                    0x08020414   Section      124  gaitcontroldata.o(.data)
+    .data                                    0x08020490   Section        4  mb_controller.o(.data)
+    .data                                    0x08020494   Section    21689  rangermath.o(.data)
+    X                                        0x08020498   Data        1604  rangermath.o(.data)
+    Y                                        0x08020adc   Data        1604  rangermath.o(.data)
+    nGrid                                    0x08021120   Data           4  rangermath.o(.data)
+    hCstScale                                0x08021124   Data           4  rangermath.o(.data)
+    hCstGrid                                 0x08021128   Data           4  rangermath.o(.data)
+    X                                        0x0802112c   Data        2004  rangermath.o(.data)
+    Y                                        0x08021900   Data        2004  rangermath.o(.data)
+    nGrid                                    0x080220d4   Data           4  rangermath.o(.data)
+    hCstScale                                0x080220d8   Data           4  rangermath.o(.data)
+    hCstGrid                                 0x080220dc   Data           4  rangermath.o(.data)
+    X                                        0x080220e0   Data        2004  rangermath.o(.data)
+    Y                                        0x080228b4   Data        2004  rangermath.o(.data)
+    nGrid                                    0x08023088   Data           4  rangermath.o(.data)
+    hCstScale                                0x0802308c   Data           4  rangermath.o(.data)
+    hCstGrid                                 0x08023090   Data           4  rangermath.o(.data)
+    X                                        0x08023094   Data        3204  rangermath.o(.data)
+    Y                                        0x08023d18   Data        3204  rangermath.o(.data)
+    nGrid                                    0x0802499c   Data           4  rangermath.o(.data)
+    hCstScale                                0x080249a0   Data           4  rangermath.o(.data)
+    hCstGrid                                 0x080249a4   Data           4  rangermath.o(.data)
+    Y                                        0x080249a8   Data        4000  rangermath.o(.data)
+    nGrid                                    0x08025948   Data           4  rangermath.o(.data)
+    oldFlag                                  0x0802594c   Data           1  rangermath.o(.data)
+    .data                                    0x08025950   Section       16  safemode.o(.data)
+    FLAG_INIT                                0x08025950   Data           1  safemode.o(.data)
+    Q0_TARGET                                0x08025954   Data           4  safemode.o(.data)
+    Q1_TARGET                                0x08025958   Data           4  safemode.o(.data)
+    QH_TARGET                                0x0802595c   Data           4  safemode.o(.data)
+    .data                                    0x08025960   Section       94  unit_test.o(.data)
+    T                                        0x08025960   Data          36  unit_test.o(.data)
+    Y                                        0x08025984   Data          36  unit_test.o(.data)
+    nGrid                                    0x080259a8   Data           4  unit_test.o(.data)
+    initComplete                             0x080259ac   Data           1  unit_test.o(.data)
+    initComplete                             0x080259ad   Data           1  unit_test.o(.data)
+    callCounter                              0x080259b0   Data           4  unit_test.o(.data)
+    lastMode                                 0x080259b4   Data           1  unit_test.o(.data)
+    counter                                  0x080259b8   Data           4  unit_test.o(.data)
+    done                                     0x080259bc   Data           1  unit_test.o(.data)
+    notDone                                  0x080259bd   Data           1  unit_test.o(.data)
+    .data                                    0x080259c0   Section       24  walkcontrol.o(.data)
+    WALK_FSM_MODE                            0x080259c0   Data           1  walkcontrol.o(.data)
+    WALK_FSM_MODE_PREV                       0x080259c1   Data           1  walkcontrol.o(.data)
+    CtrlWalk_ankPush                         0x080259c4   Data           4  walkcontrol.o(.data)
+    CtrlWalk_critAngle                       0x080259c8   Data           4  walkcontrol.o(.data)
+    CtrlWalk_hipHold                         0x080259cc   Data           4  walkcontrol.o(.data)
+    CtrlWalk_hipGain                         0x080259d0   Data           4  walkcontrol.o(.data)
+    CtrlWalk_hipOffset                       0x080259d4   Data           4  walkcontrol.o(.data)
+    .bss                                     0x080259d8   Section      196  mb_software_setup.o(.bss)
+    .bss                                     0x08025a9c   Section     1280  mb_data_nexus.o(.bss)
+    lcd_error_buffer                         0x08025a9c   Data         256  mb_data_nexus.o(.bss)
+    labview_error_buffer                     0x08025b9c   Data        1024  mb_data_nexus.o(.bss)
+    .bss                                     0x08025f9c   Section     2240  mb_ssp_dma.o(.bss)
+    .bss                                     0x0802685c   Section     4340  mb_bluetooth.o(.bss)
+    dma_receive_buffer_1                     0x0802685c   Data        1000  mb_bluetooth.o(.bss)
+    dma_receive_buffer_2                     0x08026c44   Data        1000  mb_bluetooth.o(.bss)
+    .bss                                     0x08027950   Section     4848  mb_io_data.o(.bss)
+    .bss                                     0x08028c40   Section      176  mb_error.o(.bss)
+    error_in_buf                             0x08028c40   Data          16  mb_error.o(.bss)
+    error_in_buf_irq                         0x08028c50   Data          16  mb_error.o(.bss)
+    error_in_buf_fiq                         0x08028c60   Data          16  mb_error.o(.bss)
+    error_buf                                0x08028c70   Data         128  mb_error.o(.bss)
+    .bss                                     0x08028cf0   Section     3600  bufferdataout.o(.bss)
+    IDs                                      0x08028cf0   Data        1200  bufferdataout.o(.bss)
+    data                                     0x080291a0   Data        2400  bufferdataout.o(.bss)
+    .bss                                     0x08029b00   Section      340  mb_estimator.o(.bss)
+    FC_FAST                                  0x08029b00   Data          20  mb_estimator.o(.bss)
+    FC_SLOW                                  0x08029b14   Data          20  mb_estimator.o(.bss)
+    FC_VERY_SLOW                             0x08029b28   Data          20  mb_estimator.o(.bss)
+    FD_OUTER_LEG_ANGLE                       0x08029b3c   Data          28  mb_estimator.o(.bss)
+    FD_UI_ANG_RATE_X                         0x08029b58   Data          28  mb_estimator.o(.bss)
+    FD_MCH_ANG_RATE                          0x08029b74   Data          28  mb_estimator.o(.bss)
+    FD_MCFO_RIGHT_ANKLE_RATE                 0x08029b90   Data          28  mb_estimator.o(.bss)
+    FD_MCFI_ANKLE_RATE                       0x08029bac   Data          28  mb_estimator.o(.bss)
+    FD_MCFO_LEFT_HEEL_SENSE                  0x08029bc8   Data          28  mb_estimator.o(.bss)
+    FD_MCFO_RIGHT_HEEL_SENSE                 0x08029be4   Data          28  mb_estimator.o(.bss)
+    FD_MCFI_LEFT_HEEL_SENSE                  0x08029c00   Data          28  mb_estimator.o(.bss)
+    FD_MCFI_RIGHT_HEEL_SENSE                 0x08029c1c   Data          28  mb_estimator.o(.bss)
+    FD_MCSI_STEER_ANGLE                      0x08029c38   Data          28  mb_estimator.o(.bss)
+    .bss                                     0x08029c54   Section       32  optimizegait.o(.bss)
+    COST                                     0x08029c54   Data          32  optimizegait.o(.bss)
+    .bss                                     0x08029c74   Section     6360  pso.o(.bss)
+    .bss                                     0x0802b54c   Section       60  motorcontrol.o(.bss)
+    ctrlHip                                  0x0802b54c   Data          20  motorcontrol.o(.bss)
+    ctrlAnkOut                               0x0802b560   Data          20  motorcontrol.o(.bss)
+    ctrlAnkInn                               0x0802b574   Data          20  motorcontrol.o(.bss)
+    .bss                                     0x0802b588   Section       96  libspace.o(.bss)
+    HEAP                                     0x0802b5e8   Section    65536  lpc32x0.o(HEAP)
+    Heap_Mem                                 0x0802b5e8   Data       65536  lpc32x0.o(HEAP)
+    STACK                                    0x0803b5e8   Section     1288  lpc32x0.o(STACK)
+    Stack_Mem                                0x0803b5e8   Data        1024  lpc32x0.o(STACK)
+    Stack_Top                                0x0803baf0   Data           0  lpc32x0.o(STACK)
+
+    Global Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    BuildAttributes$$THM_ISAv2$ARM_ISAv5$E$P$J$S$VFPv2$PE$FZ_POSZERO$A:L22$X:L11$S22$IEEE1$IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE$ROPI$EBA8$UX$STANDARDLIB$REQ8$PRES8$EABIv2 0x00000000   Number         0  anon$$obj.o ABSOLUTE
+    __ARM_use_no_argv                        0x00000000   Number         0  main.o ABSOLUTE
+    __ARM_exceptions_init                     - Undefined Weak Reference
+    __alloca_initialize                       - Undefined Weak Reference
+    __cpp_initialize__aeabi_                  - Undefined Weak Reference
+    __cxa_finalize                            - Undefined Weak Reference
+    __rt_locale                               - Undefined Weak Reference
+    __sigvec_lookup                           - Undefined Weak Reference
+    _atexit_init                              - Undefined Weak Reference
+    _call_atexit_fns                          - Undefined Weak Reference
+    _clock_init                               - Undefined Weak Reference
+    _fp_trap_init                             - Undefined Weak Reference
+    _fp_trap_shutdown                         - Undefined Weak Reference
+    _get_lc_collate                           - Undefined Weak Reference
+    _get_lc_ctype                             - Undefined Weak Reference
+    _get_lc_monetary                          - Undefined Weak Reference
+    _get_lc_numeric                           - Undefined Weak Reference
+    _get_lc_time                              - Undefined Weak Reference
+    _getenv_init                              - Undefined Weak Reference
+    _handle_redirection                       - Undefined Weak Reference
+    _init_alloc                               - Undefined Weak Reference
+    _init_user_alloc                          - Undefined Weak Reference
+    _initio                                   - Undefined Weak Reference
+    _rand_init                                - Undefined Weak Reference
+    _signal_finish                            - Undefined Weak Reference
+    _signal_init                              - Undefined Weak Reference
+    _terminate_alloc                          - Undefined Weak Reference
+    _terminate_user_alloc                     - Undefined Weak Reference
+    _terminateio                              - Undefined Weak Reference
+    Reset_Handler                            0x08000050   ARM Code       0  lpc32x0.o(RESET)
+    __main                                   0x08000280   ARM Code       8  __main.o(!!!main)
+    __scatterload                            0x08000288   ARM Code       0  __scatter.o(!!!scatter)
+    __scatterload_rt2                        0x08000288   ARM Code      52  __scatter.o(!!!scatter)
+    __scatterload_null                       0x0800029c   ARM Code       0  __scatter.o(!!!scatter)
+    __decompress                             0x080002c4   ARM Code      96  __dclz77c.o(!!dclz77c)
+    __decompress2                            0x080002c4   ARM Code       0  __dclz77c.o(!!dclz77c)
+    __scatterload_zeroinit                   0x08000324   ARM Code      44  __scatter_zi.o(!!handler_zi)
+    __rt_lib_init                            0x08000351   Thumb Code     0  libinit.o(.ARM.Collect$$libinit$$00000000)
+    __rt_lib_init_alloca_1                   0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000002A)
+    __rt_lib_init_argv_1                     0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000028)
+    __rt_lib_init_atexit_1                   0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000017)
+    __rt_lib_init_clock_1                    0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000001D)
+    __rt_lib_init_cpp_1                      0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000002E)
+    __rt_lib_init_exceptions_1               0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000002C)
+    __rt_lib_init_fp_trap_1                  0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000001B)
+    __rt_lib_init_getenv_1                   0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000001F)
+    __rt_lib_init_heap_1                     0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000006)
+    __rt_lib_init_lc_collate_1               0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000000D)
+    __rt_lib_init_lc_ctype_1                 0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000000F)
+    __rt_lib_init_lc_monetary_1              0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000011)
+    __rt_lib_init_lc_numeric_1               0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000013)
+    __rt_lib_init_lc_time_1                  0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000015)
+    __rt_lib_init_rand_1                     0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000000A)
+    __rt_lib_init_return                     0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000002F)
+    __rt_lib_init_signal_1                   0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000019)
+    __rt_lib_init_stdio_1                    0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000021)
+    __rt_lib_init_user_alloc_1               0x08000357   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000008)
+    __rt_lib_shutdown                        0x08000359   Thumb Code     0  libshutdown.o(.ARM.Collect$$libshutdown$$00000000)
+    __rt_lib_shutdown_fp_trap_1              0x0800035b   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000006)
+    __rt_lib_shutdown_heap_1                 0x0800035b   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E)
+    __rt_lib_shutdown_return                 0x0800035b   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000F)
+    __rt_lib_shutdown_signal_1               0x0800035b   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000009)
+    __rt_lib_shutdown_stdio_1                0x0800035b   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000003)
+    __rt_lib_shutdown_user_alloc_1           0x0800035b   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000B)
+    __rt_entry                               0x0800035c   ARM Code       0  rtentry.o(.ARM.Collect$$rtentry$$00000000)
+    __rt_entry_presh_1                       0x0800035c   ARM Code       0  rtentry2.o(.ARM.Collect$$rtentry$$00000002)
+    __rt_entry_sh                            0x0800035c   ARM Code       0  rtentry4.o(.ARM.Collect$$rtentry$$00000004)
+    __rt_entry_li                            0x08000364   ARM Code       0  rtentry2.o(.ARM.Collect$$rtentry$$0000000A)
+    __rt_entry_postsh_1                      0x08000364   ARM Code       0  rtentry2.o(.ARM.Collect$$rtentry$$00000009)
+    __rt_entry_main                          0x08000368   ARM Code       0  rtentry2.o(.ARM.Collect$$rtentry$$0000000D)
+    __rt_entry_postli_1                      0x08000368   ARM Code       0  rtentry2.o(.ARM.Collect$$rtentry$$0000000C)
+    __rt_exit                                0x08000390   ARM Code       0  rtexit.o(.ARM.Collect$$rtexit$$00000000)
+    __rt_exit_ls                             0x08000390   ARM Code       0  rtexit2.o(.ARM.Collect$$rtexit$$00000003)
+    __rt_exit_prels_1                        0x08000390   ARM Code       0  rtexit2.o(.ARM.Collect$$rtexit$$00000002)
+    __rt_exit_exit                           0x08000394   ARM Code       0  rtexit2.o(.ARM.Collect$$rtexit$$00000004)
+    __user_initial_stackheap                 0x08000398   ARM Code       0  lpc32x0.o(.text)
+    mb_setup_hardware                        0x080003bc   ARM Code     516  mb_hardware_setup.o(.text)
+    mb_get_timestamp                         0x080005e0   ARM Code      16  mb_software_setup.o(.text)
+    mb_update_execution_time                 0x080005f0   ARM Code      32  mb_software_setup.o(.text)
+    get_io_float                             0x08000610   ARM Code      20  mb_software_setup.o(.text)
+    set_io_float                             0x08000624   ARM Code      36  mb_software_setup.o(.text)
+    get_io_ul                                0x08000648   ARM Code      28  mb_software_setup.o(.text)
+    set_io_ul                                0x08000664   ARM Code      28  mb_software_setup.o(.text)
+    mark_as_read                             0x08000680   ARM Code      28  mb_software_setup.o(.text)
+    data_was_read                            0x0800069c   ARM Code      28  mb_software_setup.o(.text)
+    mb_read_error                            0x080006b8   ARM Code      24  mb_software_setup.o(.text)
+    mb_create_display_data_lists             0x080006d0   ARM Code      36  mb_software_setup.o(.text)
+    mb_send_data                             0x080006f4   ARM Code      28  mb_software_setup.o(.text)
+    mb_setup_software                        0x08000710   ARM Code     708  mb_software_setup.o(.text)
+    IRQ_Handler                              0x080009fc   ARM Code      72  main.o(.text)
+    FIQ_Handler                              0x08000a44   ARM Code      16  main.o(.text)
+    main                                     0x08000a54   ARM Code      24  main.o(.text)
+    mb_test_ui_board1                        0x08000a74   ARM Code       4  mb_data_nexus.o(.text)
+    labview_error_push                       0x08000a78   ARM Code     260  mb_data_nexus.o(.text)
+    lcd_error_push                           0x08000b7c   ARM Code     260  mb_data_nexus.o(.text)
+    lcd_error_pop                            0x08000c80   ARM Code     148  mb_data_nexus.o(.text)
+    labview_error_pop                        0x08000d14   ARM Code     148  mb_data_nexus.o(.text)
+    mb_distribute_error_frames               0x08000da8   ARM Code     656  mb_data_nexus.o(.text)
+    mb_schedule_init                         0x08001054   ARM Code      60  mb_scheduler.o(.text)
+    mb_schedule_tick                         0x08001090   ARM Code     164  mb_scheduler.o(.text)
+    mb_schedule_run                          0x08001134   ARM Code     152  mb_scheduler.o(.text)
+    a9_ssp_synchronize_arm7                  0x080011e4   ARM Code     356  mb_ssp_dma.o(.text)
+    a9_dn_ssp_init_tx_list                   0x08001348   ARM Code       4  mb_ssp_dma.o(.text)
+    a9_dn_red_led_blink                      0x0800134c   ARM Code      12  mb_ssp_dma.o(.text)
+    a9_dn_green_led_blink                    0x08001358   ARM Code      12  mb_ssp_dma.o(.text)
+    a9_dn_update_leds                        0x08001364   ARM Code     132  mb_ssp_dma.o(.text)
+    a9_dn_ssp_send_data                      0x080013e8   ARM Code     912  mb_ssp_dma.o(.text)
+    a9_dn_ssp_parse                          0x08001778   ARM Code     584  mb_ssp_dma.o(.text)
+    a9_dn_ssel_dma_isr                       0x080019c0   ARM Code     680  mb_ssp_dma.o(.text)
+    mb_set_heartbeat_period_ms               0x08001ccc   ARM Code      16  mb_heartbeat.o(.text)
+    mb_hb_toggle                             0x08001cdc   ARM Code      16  mb_heartbeat.o(.text)
+    mb_task_heartbeat                        0x08001cec   ARM Code      92  mb_heartbeat.o(.text)
+    mb_bt_create_data_lists                  0x08001d54   ARM Code     180  mb_bluetooth.o(.text)
+    a9_bt_push_io_data_point                 0x08001e08   ARM Code    1052  mb_bluetooth.o(.text)
+    a9_bt_data_sender                        0x08002224   ARM Code     976  mb_bluetooth.o(.text)
+    a9_bt_start_ch3_dma_transfer             0x080025f4   ARM Code     140  mb_bluetooth.o(.text)
+    a9_gpdma_isr                             0x08002680   ARM Code      44  mb_bluetooth.o(.text)
+    a9_software_int_isr                      0x080026ac   ARM Code      40  mb_bluetooth.o(.text)
+    a9_bt_dma_receive                        0x080026d4   ARM Code     812  mb_bluetooth.o(.text)
+    mb_bt_pop_receive_packets                0x08002a00   ARM Code     820  mb_bluetooth.o(.text)
+    a9_clock_tick                            0x08002d34   ARM Code     100  a9_clock.o(.text)
+    mb_clock_get_execution_time              0x08002d98   ARM Code      36  a9_clock.o(.text)
+    a9_timer0_isr                            0x08002dbc   ARM Code      56  a9_clock.o(.text)
+    mb_io_get_pointer                        0x08002e10   ARM Code      48  mb_io_data.o(.text)
+    mb_io_mark_as_read                       0x08002e40   ARM Code      72  mb_io_data.o(.text)
+    mb_io_mark_as_unread                     0x08002e88   ARM Code      72  mb_io_data.o(.text)
+    mb_io_mark_as_unread_by_all              0x08002ed0   ARM Code      52  mb_io_data.o(.text)
+    mb_io_data_was_read                      0x08002f04   ARM Code      80  mb_io_data.o(.text)
+    mb_io_get_float                          0x08002f54   ARM Code      52  mb_io_data.o(.text)
+    mb_io_get_ul                             0x08002f88   ARM Code      52  mb_io_data.o(.text)
+    mb_io_get_sl                             0x08002fbc   ARM Code      52  mb_io_data.o(.text)
+    mb_io_get_time                           0x08002ff0   ARM Code      52  mb_io_data.o(.text)
+    mb_io_set_float                          0x08003024   ARM Code      96  mb_io_data.o(.text)
+    mb_io_set_ul                             0x08003084   ARM Code      88  mb_io_data.o(.text)
+    mb_io_set_sl                             0x080030dc   ARM Code      88  mb_io_data.o(.text)
+    mb_io_set_time                           0x08003134   ARM Code      80  mb_io_data.o(.text)
+    mb_io_init                               0x08003184   ARM Code     520  mb_io_data.o(.text)
+    mb_error_pop                             0x080033c0   ARM Code     168  mb_error.o(.text)
+    mb_error_get_frame                       0x08003468   ARM Code     124  mb_error.o(.text)
+    mb_error_init                            0x080034e4   ARM Code      20  mb_error.o(.text)
+    mb_error_occurred                        0x080034f8   ARM Code      68  mb_error.o(.text)
+    mb_error_occurred_irq                    0x0800353c   ARM Code      68  mb_error.o(.text)
+    mb_error_occurred_fiq                    0x08003580   ARM Code      68  mb_error.o(.text)
+    mb_error_push                            0x080035c4   ARM Code     224  mb_error.o(.text)
+    mb_error_update                          0x080036a4   ARM Code     224  mb_error.o(.text)
+    error_ulvoid                             0x08003784   ARM Code       8  mb_error.o(.text)
+    addToQueue                               0x080037c8   ARM Code      80  bufferdataout.o(.text)
+    sendBufferedData                         0x08003818   ARM Code     204  bufferdataout.o(.text)
+    setFilterData                            0x080038f4   ARM Code      64  mb_estimator.o(.text)
+    runFilter                                0x08003934   ARM Code     140  mb_estimator.o(.text)
+    runAllFilters                            0x080039c0   ARM Code     424  mb_estimator.o(.text)
+    setFilterCoeff                           0x08003b68   ARM Code     500  mb_estimator.o(.text)
+    getComPos                                0x08003d5c   ARM Code     124  mb_estimator.o(.text)
+    getComVel                                0x08003dd8   ARM Code     140  mb_estimator.o(.text)
+    updateComKinematics                      0x08003e64   ARM Code     248  mb_estimator.o(.text)
+    resetRobotOrientation                    0x08003f5c   ARM Code      20  mb_estimator.o(.text)
+    updateRobotState                         0x08003f70   ARM Code     680  mb_estimator.o(.text)
+    updateParameters                         0x08004218   ARM Code     456  mb_estimator.o(.text)
+    getIntegralRateGyro                      0x080043e0   ARM Code     160  mb_estimator.o(.text)
+    updateRobotOrientation                   0x08004480   ARM Code     104  mb_estimator.o(.text)
+    heelStrikeGyroReset                      0x080044e8   ARM Code      40  mb_estimator.o(.text)
+    computeHeelStrikeGeometry                0x08004510   ARM Code     292  mb_estimator.o(.text)
+    triggerHeelStrikeUpdate                  0x08004634   ARM Code     140  mb_estimator.o(.text)
+    sendTotalPower                           0x080046c0   ARM Code     100  mb_estimator.o(.text)
+    checkIfRobotFellDown                     0x08004724   ARM Code     224  mb_estimator.o(.text)
+    mb_estimator_update                      0x08004804   ARM Code     352  mb_estimator.o(.text)
+    quadraticBowl_eval                       0x08004964   ARM Code      12  objectivefunction.o(.text)
+    quadraticBowl_send                       0x08004970   ARM Code      60  objectivefunction.o(.text)
+    objFun_set_quadraticBowl                 0x080049ac   ARM Code     140  objectivefunction.o(.text)
+    sineTrack_eval                           0x08004a38   ARM Code      12  objectivefunction.o(.text)
+    sineTrack_send                           0x08004a44   ARM Code      64  objectivefunction.o(.text)
+    objFun_set_sineTrack                     0x08004a84   ARM Code     136  objectivefunction.o(.text)
+    sineTrack_run                            0x08004b0c   ARM Code     616  objectivefunction.o(.text)
+    objFun_send                              0x08004d74   ARM Code     156  optimizegait.o(.text)
+    objFun_eval                              0x08004e10   ARM Code      56  optimizegait.o(.text)
+    objFun_set_optimizeGait                  0x08004e48   ARM Code     160  optimizegait.o(.text)
+    stepCostFun                              0x08004ee8   ARM Code      28  optimizegait.o(.text)
+    resetObjective                           0x08004f04   ARM Code      68  optimizegait.o(.text)
+    updateOptimizeFsm                        0x08004f48   ARM Code     748  optimizegait.o(.text)
+    updateOptimizeLed                        0x08005234   ARM Code     176  optimizegait.o(.text)
+    logStepData                              0x080052e4   ARM Code     208  optimizegait.o(.text)
+    optimizeGait_main                        0x080053b4   ARM Code      16  optimizegait.o(.text)
+    setObjFunInfo                            0x080053c4   ARM Code     188  pso.o(.text)
+    psoReset                                 0x08005480   ARM Code      32  pso.o(.text)
+    psoGetGlobalBest                         0x080054a0   ARM Code      48  pso.o(.text)
+    psoGetSelectBest                         0x080054d0   ARM Code      48  pso.o(.text)
+    psoGetSelectObjVal                       0x08005500   ARM Code      48  pso.o(.text)
+    psoGetParticleId                         0x08005530   ARM Code      12  pso.o(.text)
+    saveOptim                                0x0800553c   ARM Code     960  pso.o(.text)
+    pso_send_point                           0x080058fc   ARM Code     724  pso.o(.text)
+    pso_eval_point                           0x08005bd0   ARM Code     472  pso.o(.text)
+    updateGaitData                           0x08005da8   ARM Code     188  gaitcontrol.o(.text)
+    updateGaitFsm                            0x08005e64   ARM Code     272  gaitcontrol.o(.text)
+    setGaitFsmLed                            0x08005f74   ARM Code     184  gaitcontrol.o(.text)
+    gaitControl_entry                        0x0800602c   ARM Code      24  gaitcontrol.o(.text)
+    gaitControl_main                         0x08006044   ARM Code      16  gaitcontrol.o(.text)
+    int2ascii                                0x080060b0   ARM Code      16  input_output.o(.text)
+    detect_UI_button_input                   0x080060c0   ARM Code      56  input_output.o(.text)
+    set_UI_LCD                               0x080060f8   ARM Code     208  input_output.o(.text)
+    clear_UI_LED                             0x080061c8   ARM Code      80  input_output.o(.text)
+    clear_UI_LCD                             0x08006218   ARM Code      52  input_output.o(.text)
+    set_UI_LED                               0x0800624c   ARM Code     248  input_output.o(.text)
+    test_input_output                        0x08006344   ARM Code     544  input_output.o(.text)
+    update_ui_fsm_state                      0x08006578   ARM Code     120  mb_controller.o(.text)
+    enterSafeMode                            0x080065f0   ARM Code      24  mb_controller.o(.text)
+    mb_controller_update                     0x08006608   ARM Code     308  mb_controller.o(.text)
+    hip_gravity_compensation                 0x0800674c   ARM Code     180  motorcontrol.o(.text)
+    run_controller_hip                       0x08006800   ARM Code     252  motorcontrol.o(.text)
+    run_controller_ankOut                    0x080068fc   ARM Code     144  motorcontrol.o(.text)
+    run_controller_ankInn                    0x0800698c   ARM Code     200  motorcontrol.o(.text)
+    disable_hip                              0x08006a54   ARM Code      44  motorcontrol.o(.text)
+    disable_ankOut                           0x08006a80   ARM Code      44  motorcontrol.o(.text)
+    disable_ankInn                           0x08006aac   ARM Code      44  motorcontrol.o(.text)
+    disable_motors                           0x08006ad8   ARM Code      20  motorcontrol.o(.text)
+    trackRel_ankOut                          0x08006aec   ARM Code      64  motorcontrol.o(.text)
+    trackRel_ankInn                          0x08006b2c   ARM Code      64  motorcontrol.o(.text)
+    trackRel_hip                             0x08006b6c   ARM Code      64  motorcontrol.o(.text)
+    trackVel_hip                             0x08006bac   ARM Code      64  motorcontrol.o(.text)
+    trackAbs_ankOut                          0x08006bec   ARM Code     100  motorcontrol.o(.text)
+    trackAbs_ankInn                          0x08006c50   ARM Code     100  motorcontrol.o(.text)
+    trackScissor_hip                         0x08006cb4   ARM Code     384  motorcontrol.o(.text)
+    Clamp                                    0x08006e58   ARM Code      52  rangermath.o(.text)
+    LinInterpVar                             0x08006e8c   ARM Code     200  rangermath.o(.text)
+    QuadInterp                               0x08006f54   ARM Code     228  rangermath.o(.text)
+    Tanh                                     0x08007038   ARM Code     124  rangermath.o(.text)
+    Atan                                     0x080070b4   ARM Code      52  rangermath.o(.text)
+    Sin                                      0x080070e8   ARM Code     308  rangermath.o(.text)
+    Cos                                      0x0800721c   ARM Code      28  rangermath.o(.text)
+    Tan                                      0x08007238   ARM Code      36  rangermath.o(.text)
+    Sqrt                                     0x0800725c   ARM Code      52  rangermath.o(.text)
+    FastRand                                 0x08007290   ARM Code      80  rangermath.o(.text)
+    Abs                                      0x080072e0   ARM Code      40  rangermath.o(.text)
+    Fmod                                     0x08007308   ARM Code      40  rangermath.o(.text)
+    Mean                                     0x08007330   ARM Code      64  rangermath.o(.text)
+    SquareWave                               0x08007370   ARM Code      76  rangermath.o(.text)
+    SineWave                                 0x080073bc   ARM Code     148  rangermath.o(.text)
+    TriangleWave                             0x08007450   ARM Code     164  rangermath.o(.text)
+    SawToothWave                             0x080074f4   ARM Code      60  rangermath.o(.text)
+    PulseWave                                0x08007530   ARM Code     112  rangermath.o(.text)
+    setSafeModeConfig                        0x080075ac   ARM Code      52  safemode.o(.text)
+    safeMode_main                            0x080075e0   ARM Code     100  safemode.o(.text)
+    getTime                                  0x0800766c   ARM Code      32  unit_test.o(.text)
+    test_waveFunctions                       0x0800768c   ARM Code     176  unit_test.o(.text)
+    test_trackAbs_ankle                      0x0800773c   ARM Code      76  unit_test.o(.text)
+    test_trackRel_ankle                      0x08007788   ARM Code     172  unit_test.o(.text)
+    test_hipCompensation_flight              0x08007834   ARM Code     116  unit_test.o(.text)
+    test_hipCompensation_outer               0x080078a8   ARM Code     164  unit_test.o(.text)
+    test_hipCompensation_inner               0x0800794c   ARM Code     164  unit_test.o(.text)
+    test_hipScissorTrack_outer               0x080079f0   ARM Code     124  unit_test.o(.text)
+    test_hipScissorTrack_inner               0x08007a6c   ARM Code     136  unit_test.o(.text)
+    test_flipUpDownHold_outer                0x08007af4   ARM Code      96  unit_test.o(.text)
+    test_flipUpDownHold_inner                0x08007b54   ARM Code      96  unit_test.o(.text)
+    test_hipGlide_outer                      0x08007bb4   ARM Code      20  unit_test.o(.text)
+    test_hipGlide_inner                      0x08007bc8   ARM Code      20  unit_test.o(.text)
+    test_pushOff_outer                       0x08007bdc   ARM Code     148  unit_test.o(.text)
+    test_pushOff_inner                       0x08007c70   ARM Code     184  unit_test.o(.text)
+    test_hipHold                             0x08007d28   ARM Code      24  unit_test.o(.text)
+    test_doubleStanceContact                 0x08007d40   ARM Code      68  unit_test.o(.text)
+    debug_directCurrentControl               0x08007d84   ARM Code     148  unit_test.o(.text)
+    debug_singleStanceOuter                  0x08007e18   ARM Code      68  unit_test.o(.text)
+    debug_steeringMotors                     0x08007e5c   ARM Code      76  unit_test.o(.text)
+    test_linInterpVar                        0x08007ea8   ARM Code     144  unit_test.o(.text)
+    test_fastRand                            0x08007f38   ARM Code      32  unit_test.o(.text)
+    test_pso_quadBowl                        0x08007f58   ARM Code     272  unit_test.o(.text)
+    test_pso_quadBowlAsync                   0x08008068   ARM Code     396  unit_test.o(.text)
+    test_pso_sineTrack                       0x080081f4   ARM Code     240  unit_test.o(.text)
+    test_stepEventData                       0x080082e4   ARM Code     144  unit_test.o(.text)
+    test_uiPlaySong                          0x08008374   ARM Code      20  unit_test.o(.text)
+    test_safeMode                            0x08008388   ARM Code      12  unit_test.o(.text)
+    test_pulseWave                           0x08008394   ARM Code      96  unit_test.o(.text)
+    test_sendFastData                        0x080083f4   ARM Code      68  unit_test.o(.text)
+    test_sendFastDataBuffered                0x08008438   ARM Code     116  unit_test.o(.text)
+    test_optimSaveToOutput                   0x080084ac   ARM Code      88  unit_test.o(.text)
+    test_timestampSend                       0x08008504   ARM Code      36  unit_test.o(.text)
+    runUnitTest                              0x08008528   ARM Code     572  unit_test.o(.text)
+    updateWalkFsm                            0x08008764   ARM Code     300  walkcontrol.o(.text)
+    setWalkFsmLed                            0x08008890   ARM Code     168  walkcontrol.o(.text)
+    readGaitData                             0x08008938   ARM Code     184  walkcontrol.o(.text)
+    flipUp_ankInn                            0x080089f0   ARM Code      36  walkcontrol.o(.text)
+    holdStance_ankOut                        0x08008a14   ARM Code      36  walkcontrol.o(.text)
+    hipHold                                  0x08008a38   ARM Code     176  walkcontrol.o(.text)
+    pushOff_ankInn                           0x08008ae8   ARM Code      96  walkcontrol.o(.text)
+    flipDown_ankOut                          0x08008b48   ARM Code      36  walkcontrol.o(.text)
+    hipGlide                                 0x08008b6c   ARM Code      44  walkcontrol.o(.text)
+    holdStance_ankInn                        0x08008b98   ARM Code      36  walkcontrol.o(.text)
+    flipUp_ankOut                            0x08008bbc   ARM Code      36  walkcontrol.o(.text)
+    pushOff_ankOut                           0x08008be0   ARM Code     252  walkcontrol.o(.text)
+    flipDown_ankInn                          0x08008cdc   ARM Code      36  walkcontrol.o(.text)
+    sendMotorCommands                        0x08008d00   ARM Code     196  walkcontrol.o(.text)
+    test_walkFsmTransitions                  0x08008dc4   ARM Code      28  walkcontrol.o(.text)
+    walkControl_test                         0x08008de0   ARM Code      12  walkcontrol.o(.text)
+    walkControl_entry                        0x08008dec   ARM Code      32  walkcontrol.o(.text)
+    walkControl_main                         0x08008e0c   ARM Code      24  walkcontrol.o(.text)
+    __aeabi_idiv                             0x08008e24   ARM Code       0  aeabi_sdiv.o(.text)
+    __aeabi_idivmod                          0x08008e24   ARM Code     380  aeabi_sdiv.o(.text)
+    __use_two_region_memory                  0x08008fa1   Thumb Code     2  heapauxi.o(.text)
+    __rt_heap_escrow$2region                 0x08008fa3   Thumb Code     2  heapauxi.o(.text)
+    __rt_heap_expand$2region                 0x08008fa5   Thumb Code     2  heapauxi.o(.text)
+    __user_setup_stackheap                   0x08008fa8   ARM Code      96  sys_stackheap_outer.o(.text)
+    exit                                     0x08009009   Thumb Code    12  exit.o(.text)
+    __user_libspace                          0x08009014   ARM Code      12  libspace.o(.text)
+    __user_perproc_libspace                  0x08009014   ARM Code       0  libspace.o(.text)
+    __user_perthread_libspace                0x08009014   ARM Code       0  libspace.o(.text)
+    _sys_exit                                0x08009020   ARM Code      20  sys_exit.o(.text)
+    __I$use$semihosting                      0x08009038   ARM Code       0  use_no_semi.o(.text)
+    __use_no_semihosting_swi                 0x08009038   ARM Code       4  use_no_semi.o(.text)
+    _fp_init                                 0x0800903c   ARM Code      12  fpinit.o(x$fpl$fpinit)
+    __fplib_config_fpu_vfp                   0x08009044   ARM Code       0  fpinit.o(x$fpl$fpinit)
+    __fplib_config_pureend_doubles           0x08009044   ARM Code       0  fpinit.o(x$fpl$fpinit)
+    schedule                                 0x08009048   Data         424  mb_software_setup.o(.constdata)
+    PARAM_Phi                                0x080091f0   Data           4  robotparameters.o(.constdata)
+    PARAM_l                                  0x080091f4   Data           4  robotparameters.o(.constdata)
+    PARAM_d                                  0x080091f8   Data           4  robotparameters.o(.constdata)
+    PARAM_m                                  0x080091fc   Data           4  robotparameters.o(.constdata)
+    PARAM_c                                  0x08009200   Data           4  robotparameters.o(.constdata)
+    PARAM_g                                  0x08009204   Data           4  robotparameters.o(.constdata)
+    PARAM_hip_spring_const                   0x08009208   Data           4  robotparameters.o(.constdata)
+    PARAM_inv_hip_motor_const                0x0800920c   Data           4  robotparameters.o(.constdata)
+    PARAM_inv_ank_motor_const                0x08009210   Data           4  robotparameters.o(.constdata)
+    PARAM_ctrl_ank_flipTarget                0x08009214   Data           4  robotparameters.o(.constdata)
+    PARAM_ctrl_ank_holdLevel                 0x08009218   Data           4  robotparameters.o(.constdata)
+    PARAM_ctrl_ank_pushTarget                0x0800921c   Data           4  robotparameters.o(.constdata)
+    PARAM_critical_fall_leg_angle            0x08009220   Data           4  robotparameters.o(.constdata)
+    PARAM_critDoubleFailAngleSqr             0x08009224   Data           4  robotparameters.o(.constdata)
+    LED_OPTIMIZE                             0x08009228   Data           4  mb_controller.o(.constdata)
+    LED_WALK_FSM                             0x0800922c   Data           4  mb_controller.o(.constdata)
+    LED_CONTACT                              0x08009230   Data           4  mb_controller.o(.constdata)
+    LED_UI_FSM                               0x08009234   Data           4  mb_controller.o(.constdata)
+    LED_GAIT_FSM                             0x08009238   Data           4  mb_controller.o(.constdata)
+    LED_DEBUG                                0x0800923c   Data           4  mb_controller.o(.constdata)
+    BUTTON_ACCEPT_TRIAL                      0x08009240   Data           4  mb_controller.o(.constdata)
+    BUTTON_REJECT_TRIAL                      0x08009244   Data           4  mb_controller.o(.constdata)
+    BUTTON_UNIT_TEST                         0x08009248   Data           4  mb_controller.o(.constdata)
+    BUTTON_WALK_CONTROL                      0x0800924c   Data           4  mb_controller.o(.constdata)
+    BUTTON_STAND_BY                          0x08009250   Data           4  mb_controller.o(.constdata)
+    PI                                       0x08009254   Data           4  rangermath.o(.constdata)
+    TWO_PI                                   0x08009258   Data           4  rangermath.o(.constdata)
+    SQRT_TWO                                 0x0800925c   Data           4  rangermath.o(.constdata)
+    INV_TWO_PI                               0x08009260   Data           4  rangermath.o(.constdata)
+    HALF_PI                                  0x08009264   Data           4  rangermath.o(.constdata)
+    DEG_TO_RAD                               0x08009268   Data           4  rangermath.o(.constdata)
+    Region$$Table$$Base                      0x0800926c   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x0800928c   Number         0  anon$$obj.o(Region$$Table)
+    sched_schedule                           0x08020008   Data           4  mb_scheduler.o(.data)
+    sched_divider                            0x0802000c   Data           4  mb_scheduler.o(.data)
+    sched_div_counter                        0x08020010   Data           4  mb_scheduler.o(.data)
+    sched_slot_start_index                   0x08020014   Data           4  mb_scheduler.o(.data)
+    sched_saved_slot_start_index             0x08020018   Data           4  mb_scheduler.o(.data)
+    sched_next_task_index                    0x0802001c   Data           4  mb_scheduler.o(.data)
+    a9_dn_ssp_rx_index1                      0x08020020   Data           2  mb_ssp_dma.o(.data)
+    a9_dn_ssp_rx_index2                      0x08020022   Data           2  mb_ssp_dma.o(.data)
+    a9_dn_ssp_tx_list                        0x08020024   Data         608  mb_ssp_dma.o(.data)
+    a9_dn_ssp_tx_index1                      0x08020284   Data           2  mb_ssp_dma.o(.data)
+    a9_dn_ssp_tx_index2                      0x08020286   Data           2  mb_ssp_dma.o(.data)
+    a9_dn_red_led_time                       0x08020288   Data           2  mb_ssp_dma.o(.data)
+    a9_dn_green_led_time                     0x0802028a   Data           2  mb_ssp_dma.o(.data)
+    hb_period                                0x0802028c   Data           4  mb_heartbeat.o(.data)
+    hb_phase                                 0x08020290   Data           4  mb_heartbeat.o(.data)
+    a9_bt_rx_index1                          0x08020294   Data           2  mb_bluetooth.o(.data)
+    a9_bt_rx_index2                          0x08020296   Data           2  mb_bluetooth.o(.data)
+    a9_bt_tx_index1                          0x08020298   Data           2  mb_bluetooth.o(.data)
+    a9_bt_tx_index2                          0x0802029a   Data           2  mb_bluetooth.o(.data)
+    a9_clock_ms_counter                      0x080202b8   Data           4  a9_clock.o(.data)
+    INITIALIZE_ESTIMATOR                     0x080202e8   Data           1  mb_estimator.o(.data)
+    STATE_IS_FALLEN                          0x080202e9   Data           1  mb_estimator.o(.data)
+    STATE_contactMode                        0x080202ea   Data           1  mb_estimator.o(.data)
+    LABVIEW_HIP_COMPENSATION_TARGET          0x080202f4   Data           1  mb_estimator.o(.data)
+    LABVIEW_HIP_GRAVITY_COMPENSATION         0x080202f5   Data           1  mb_estimator.o(.data)
+    LABVIEW_HIP_SPRING_COMPENSATION          0x080202f6   Data           1  mb_estimator.o(.data)
+    LABVIEW_HIP_KP                           0x080202f8   Data           4  mb_estimator.o(.data)
+    LABVIEW_HIP_KD                           0x080202fc   Data           4  mb_estimator.o(.data)
+    LABVIEW_ANK_PUSH_KP                      0x08020300   Data           4  mb_estimator.o(.data)
+    LABVIEW_ANK_PUSH_KD                      0x08020304   Data           4  mb_estimator.o(.data)
+    LABVIEW_ANK_STANCE_KP                    0x08020308   Data           4  mb_estimator.o(.data)
+    LABVIEW_ANK_STANCE_KD                    0x0802030c   Data           4  mb_estimator.o(.data)
+    LABVIEW_ANK_SWING_KP                     0x08020310   Data           4  mb_estimator.o(.data)
+    LABVIEW_ANK_SWING_KD                     0x08020314   Data           4  mb_estimator.o(.data)
+    LABVIEW_WALK_CRIT_STANCE_ANGLE           0x08020318   Data           4  mb_estimator.o(.data)
+    LABVIEW_WALK_ANK_PUSH                    0x0802031c   Data           4  mb_estimator.o(.data)
+    LABVIEW_WALK_HIP_RATE                    0x08020320   Data           4  mb_estimator.o(.data)
+    LABVIEW_WALK_HIP_OFFSET                  0x08020324   Data           4  mb_estimator.o(.data)
+    LABVIEW_WALK_HIP_STEP_ANGLE              0x08020328   Data           4  mb_estimator.o(.data)
+    LABVIEW_WALK_SCISSOR_GAIN                0x0802032c   Data           4  mb_estimator.o(.data)
+    LABVIEW_WALK_SCISSOR_OFFSET              0x08020330   Data           4  mb_estimator.o(.data)
+    LABVIEW_GAIT_USE_MDP_DATA                0x08020334   Data           1  mb_estimator.o(.data)
+    STATE_t                                  0x08020338   Data           4  mb_estimator.o(.data)
+    STATE_qh                                 0x0802033c   Data           4  mb_estimator.o(.data)
+    STATE_q0                                 0x08020340   Data           4  mb_estimator.o(.data)
+    STATE_q1                                 0x08020344   Data           4  mb_estimator.o(.data)
+    STATE_dqh                                0x08020348   Data           4  mb_estimator.o(.data)
+    STATE_dq0                                0x0802034c   Data           4  mb_estimator.o(.data)
+    STATE_dq1                                0x08020350   Data           4  mb_estimator.o(.data)
+    STATE_th0                                0x08020354   Data           4  mb_estimator.o(.data)
+    STATE_th1                                0x08020358   Data           4  mb_estimator.o(.data)
+    STATE_phi0                               0x0802035c   Data           4  mb_estimator.o(.data)
+    STATE_phi1                               0x08020360   Data           4  mb_estimator.o(.data)
+    STATE_dth0                               0x08020364   Data           4  mb_estimator.o(.data)
+    STATE_dth1                               0x08020368   Data           4  mb_estimator.o(.data)
+    STATE_dphi0                              0x0802036c   Data           4  mb_estimator.o(.data)
+    STATE_dphi1                              0x08020370   Data           4  mb_estimator.o(.data)
+    STATE_psi                                0x08020374   Data           4  mb_estimator.o(.data)
+    STATE_posCom                             0x08020378   Data           4  mb_estimator.o(.data)
+    STATE_velCom                             0x0802037c   Data           4  mb_estimator.o(.data)
+    STATE_lastStepLength                     0x08020380   Data           4  mb_estimator.o(.data)
+    STATE_lastStepDuration                   0x08020384   Data           4  mb_estimator.o(.data)
+    STATE_c0                                 0x08020394   Data           1  mb_estimator.o(.data)
+    STATE_c1                                 0x08020395   Data           1  mb_estimator.o(.data)
+    OPTIMIZE_FSM_MODE                        0x080203c8   Data           1  optimizegait.o(.data)
+    PSO_OMEGA                                0x080203cc   Data           4  pso.o(.data)
+    PSO_ALPHA                                0x080203d0   Data           4  pso.o(.data)
+    PSO_BETA                                 0x080203d4   Data           4  pso.o(.data)
+    idxPopGlobal                             0x080203d8   Data           4  pso.o(.data)
+    idxPopSelect                             0x080203dc   Data           4  pso.o(.data)
+    initComplete                             0x080203e0   Data           1  pso.o(.data)
+    currentGeneration                        0x080203e4   Data           4  pso.o(.data)
+    DIM_STATE                                0x080203e8   Data           4  pso.o(.data)
+    POP_COUNT                                0x080203ec   Data           4  pso.o(.data)
+    OBJ_FUN_SEND                             0x080203f0   Data           4  pso.o(.data)
+    OBJ_FUN_EVAL                             0x080203f4   Data           4  pso.o(.data)
+    GAIT_WALK_ANK_PUSH                       0x080203fc   Data           4  gaitcontrol.o(.data)
+    GAIT_WALK_CRIT_STANCE_ANGLE              0x08020400   Data           4  gaitcontrol.o(.data)
+    GAIT_WALK_HIP_STEP_ANGLE                 0x08020404   Data           4  gaitcontrol.o(.data)
+    GAIT_WALK_SCISSOR_GAIN                   0x08020408   Data           4  gaitcontrol.o(.data)
+    GAIT_WALK_SCISSOR_OFFSET                 0x0802040c   Data           4  gaitcontrol.o(.data)
+    GAIT_WALK_IDX                            0x08020410   Data           4  gaitcontrol.o(.data)
+    GAITDATA_SPEED_KNOT_POINTS               0x08020414   Data          12  gaitcontroldata.o(.data)
+    GAITDATA_WALK_SCISSOR_OFFSET             0x08020420   Data          12  gaitcontroldata.o(.data)
+    GAITDATA_WALK_SCISSOR_GAIN               0x0802042c   Data          12  gaitcontroldata.o(.data)
+    GAITDATA_WALK_ANK_PUSH                   0x08020438   Data          12  gaitcontroldata.o(.data)
+    GAITDATA_WALK_CRIT_STANCE_ANGLE          0x08020444   Data          12  gaitcontroldata.o(.data)
+    GAITDATA_WALK_HIP_STEP_ANGLE             0x08020450   Data          12  gaitcontroldata.o(.data)
+    GAITDATA_NGRID                           0x0802045c   Data           4  gaitcontroldata.o(.data)
+    GAITDATA_TARGET_SPEED                    0x08020460   Data           4  gaitcontroldata.o(.data)
+    GAITDATA_NBOUND                          0x08020464   Data           4  gaitcontroldata.o(.data)
+    GAITDATA_LOW_BOUND                       0x08020468   Data          20  gaitcontroldata.o(.data)
+    GAITDATA_UPP_BOUND                       0x0802047c   Data          20  gaitcontroldata.o(.data)
+    UI_FSM_MODE                              0x08020490   Data           1  mb_controller.o(.data)
+    UI_FSM_MODE_PREV                         0x08020491   Data           1  mb_controller.o(.data)
+    FSM_LED_FLAG                             0x08020492   Data           1  mb_controller.o(.data)
+    walkLedColor                             0x08020493   Data           1  mb_controller.o(.data)
+    FAST_RAND_IDX                            0x08020494   Data           4  rangermath.o(.data)
+    mb_medium_data_display_list              0x080259d8   Data          98  mb_software_setup.o(.bss)
+    mb_fast_data_display_list                0x08025a3a   Data          98  mb_software_setup.o(.bss)
+    a9_dn_ssp_rx_buffer                      0x08025f9c   Data        1248  mb_ssp_dma.o(.bss)
+    a9_dn_ssp_tx_buffer                      0x0802647c   Data         992  mb_ssp_dma.o(.bss)
+    a9_bt_rx_buffer                          0x0802702c   Data         500  mb_bluetooth.o(.bss)
+    a9_bt_tx_buffer                          0x08027220   Data        1840  mb_bluetooth.o(.bss)
+    mb_io_data                               0x08027950   Data        4848  mb_io_data.o(.bss)
+    X_LOW                                    0x08029c74   Data          80  pso.o(.bss)
+    X_UPP                                    0x08029cc4   Data          80  pso.o(.bss)
+    x                                        0x08029d14   Data        2000  pso.o(.bss)
+    v                                        0x0802a4e4   Data        2000  pso.o(.bss)
+    f                                        0x0802acb4   Data         100  pso.o(.bss)
+    xBest                                    0x0802ad18   Data        2000  pso.o(.bss)
+    fBest                                    0x0802b4e8   Data         100  pso.o(.bss)
+    __libspace_start                         0x0802b588   Data          96  libspace.o(.bss)
+    __temporary_stack_top$libspace           0x0802b5e8   Data           0  libspace.o(.bss)
+
+
+
+==============================================================================
+
+Memory Map of the image
+
+  Image Entry point : 0x08000280
+
+  Load Region LR_IROM2 (Base: 0x08000000, Size: 0x0000ec64, Max: 0x00020000, ABSOLUTE, COMPRESSED[0x0000e2d4])
+
+    Execution Region ER_IROM2 (Base: 0x08000000, Size: 0x0000928c, Max: 0x00020000, ABSOLUTE)
+
+    Base Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x08000000   0x00000280   Code   RO            3    RESET               lpc32x0.o
+    0x08000280   0x00000008   Code   RO          542  * !!!main             __main.o(c_5.l)
+    0x08000288   0x0000003c   Code   RO          711    !!!scatter          __scatter.o(c_5.l)
+    0x080002c4   0x00000060   Code   RO          709    !!dclz77c           __dclz77c.o(c_5.l)
+    0x08000324   0x0000002c   Code   RO          713    !!handler_zi        __scatter_zi.o(c_5.l)
+    0x08000350   0x00000006   Code   RO          584    .ARM.Collect$$libinit$$00000000  libinit.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          598    .ARM.Collect$$libinit$$00000006  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          600    .ARM.Collect$$libinit$$00000008  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          602    .ARM.Collect$$libinit$$0000000A  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          605    .ARM.Collect$$libinit$$0000000D  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          607    .ARM.Collect$$libinit$$0000000F  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          609    .ARM.Collect$$libinit$$00000011  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          611    .ARM.Collect$$libinit$$00000013  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          613    .ARM.Collect$$libinit$$00000015  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          615    .ARM.Collect$$libinit$$00000017  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          617    .ARM.Collect$$libinit$$00000019  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          619    .ARM.Collect$$libinit$$0000001B  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          621    .ARM.Collect$$libinit$$0000001D  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          623    .ARM.Collect$$libinit$$0000001F  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          625    .ARM.Collect$$libinit$$00000021  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          629    .ARM.Collect$$libinit$$00000028  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          631    .ARM.Collect$$libinit$$0000002A  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          633    .ARM.Collect$$libinit$$0000002C  libinit2.o(c_5.l)
+    0x08000356   0x00000000   Code   RO          635    .ARM.Collect$$libinit$$0000002E  libinit2.o(c_5.l)
+    0x08000356   0x00000002   Code   RO          636    .ARM.Collect$$libinit$$0000002F  libinit2.o(c_5.l)
+    0x08000358   0x00000002   Code   RO          667    .ARM.Collect$$libshutdown$$00000000  libshutdown.o(c_5.l)
+    0x0800035a   0x00000000   Code   RO          694    .ARM.Collect$$libshutdown$$00000003  libshutdown2.o(c_5.l)
+    0x0800035a   0x00000000   Code   RO          697    .ARM.Collect$$libshutdown$$00000006  libshutdown2.o(c_5.l)
+    0x0800035a   0x00000000   Code   RO          700    .ARM.Collect$$libshutdown$$00000009  libshutdown2.o(c_5.l)
+    0x0800035a   0x00000000   Code   RO          702    .ARM.Collect$$libshutdown$$0000000B  libshutdown2.o(c_5.l)
+    0x0800035a   0x00000000   Code   RO          705    .ARM.Collect$$libshutdown$$0000000E  libshutdown2.o(c_5.l)
+    0x0800035a   0x00000002   Code   RO          706    .ARM.Collect$$libshutdown$$0000000F  libshutdown2.o(c_5.l)
+    0x0800035c   0x00000000   Code   RO          544    .ARM.Collect$$rtentry$$00000000  rtentry.o(c_5.l)
+    0x0800035c   0x00000000   Code   RO          551    .ARM.Collect$$rtentry$$00000002  rtentry2.o(c_5.l)
+    0x0800035c   0x00000008   Code   RO          566    .ARM.Collect$$rtentry$$00000004  rtentry4.o(c_5.l)
+    0x08000364   0x00000000   Code   RO          553    .ARM.Collect$$rtentry$$00000009  rtentry2.o(c_5.l)
+    0x08000364   0x00000004   Code   RO          554    .ARM.Collect$$rtentry$$0000000A  rtentry2.o(c_5.l)
+    0x08000368   0x00000000   Code   RO          556    .ARM.Collect$$rtentry$$0000000C  rtentry2.o(c_5.l)
+    0x08000368   0x00000028   Code   RO          557    .ARM.Collect$$rtentry$$0000000D  rtentry2.o(c_5.l)
+    0x08000390   0x00000000   Code   RO          588    .ARM.Collect$$rtexit$$00000000  rtexit.o(c_5.l)
+    0x08000390   0x00000000   Code   RO          642    .ARM.Collect$$rtexit$$00000002  rtexit2.o(c_5.l)
+    0x08000390   0x00000004   Code   RO          643    .ARM.Collect$$rtexit$$00000003  rtexit2.o(c_5.l)
+    0x08000394   0x00000004   Code   RO          644    .ARM.Collect$$rtexit$$00000004  rtexit2.o(c_5.l)
+    0x08000398   0x00000024   Code   RO            4    .text               lpc32x0.o
+    0x080003bc   0x00000224   Code   RO           11    .text               mb_hardware_setup.o
+    0x080005e0   0x0000041c   Code   RO           93    .text               mb_software_setup.o
+    0x080009fc   0x00000078   Code   RO          109    .text               main.o
+    0x08000a74   0x000005e0   Code   RO          121    .text               mb_data_nexus.o
+    0x08001054   0x00000190   Code   RO          136    .text               mb_scheduler.o
+    0x080011e4   0x00000ae8   Code   RO          151    .text               mb_ssp_dma.o
+    0x08001ccc   0x00000088   Code   RO          168    .text               mb_heartbeat.o
+    0x08001d54   0x00000fe0   Code   RO          183    .text               mb_bluetooth.o
+    0x08002d34   0x000000dc   Code   RO          200    .text               a9_clock.o
+    0x08002e10   0x000005b0   Code   RO          215    .text               mb_io_data.o
+    0x080033c0   0x00000408   Code   RO          230    .text               mb_error.o
+    0x080037c8   0x0000012c   Code   RO          245    .text               bufferdataout.o
+    0x080038f4   0x00001070   Code   RO          264    .text               mb_estimator.o
+    0x08004964   0x00000410   Code   RO          296    .text               objectivefunction.o
+    0x08004d74   0x00000650   Code   RO          316    .text               optimizegait.o
+    0x080053c4   0x000009e4   Code   RO          346    .text               pso.o
+    0x08005da8   0x00000308   Code   RO          381    .text               gaitcontrol.o
+    0x080060b0   0x000004c8   Code   RO          411    .text               input_output.o
+    0x08006578   0x000001d4   Code   RO          423    .text               mb_controller.o
+    0x0800674c   0x0000070c   Code   RO          448    .text               motorcontrol.o
+    0x08006e58   0x00000754   Code   RO          462    .text               rangermath.o
+    0x080075ac   0x000000c0   Code   RO          481    .text               safemode.o
+    0x0800766c   0x000010f8   Code   RO          495    .text               unit_test.o
+    0x08008764   0x000006c0   Code   RO          508    .text               walkcontrol.o
+    0x08008e24   0x0000017c   Code   RO          524    .text               aeabi_sdiv.o(c_5.l)
+    0x08008fa0   0x00000006   Code   RO          540    .text               heapauxi.o(c_5.l)
+    0x08008fa6   0x00000002   PAD
+    0x08008fa8   0x00000060   Code   RO          570    .text               sys_stackheap_outer.o(c_5.l)
+    0x08009008   0x0000000c   Code   RO          572    .text               exit.o(c_5.l)
+    0x08009014   0x0000000c   Code   RO          585    .text               libspace.o(c_5.l)
+    0x08009020   0x00000018   Code   RO          639    .text               sys_exit.o(c_5.l)
+    0x08009038   0x00000004   Code   RO          657    .text               use_no_semi.o(c_5.l)
+    0x0800903c   0x0000000c   Code   RO          637    x$fpl$fpinit        fpinit.o(fz_5v.l)
+    0x08009048   0x000001a8   Data   RO           95    .constdata          mb_software_setup.o
+    0x080091f0   0x00000038   Data   RO          369    .constdata          robotparameters.o
+    0x08009228   0x0000002c   Data   RO          424    .constdata          mb_controller.o
+    0x08009254   0x00000018   Data   RO          463    .constdata          rangermath.o
+    0x0800926c   0x00000020   Data   RO          707    Region$$Table       anon$$obj.o
+
+
+    Execution Region RW_IRAM1 (Base: 0x08020000, Size: 0x0001baf0, Max: 0x00020000, ABSOLUTE, COMPRESSED[0x00005048])
+
+    Base Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x08020000   0x00000008   Data   RW          123    .data               mb_data_nexus.o
+    0x08020008   0x00000018   Data   RW          137    .data               mb_scheduler.o
+    0x08020020   0x0000026c   Data   RW          153    .data               mb_ssp_dma.o
+    0x0802028c   0x00000008   Data   RW          169    .data               mb_heartbeat.o
+    0x08020294   0x00000022   Data   RW          186    .data               mb_bluetooth.o
+    0x080202b6   0x00000002   PAD
+    0x080202b8   0x00000006   Data   RW          201    .data               a9_clock.o
+    0x080202be   0x00000002   PAD
+    0x080202c0   0x00000020   Data   RW          232    .data               mb_error.o
+    0x080202e0   0x00000008   Data   RW          247    .data               bufferdataout.o
+    0x080202e8   0x000000ae   Data   RW          266    .data               mb_estimator.o
+    0x08020396   0x00000002   PAD
+    0x08020398   0x00000024   Data   RW          297    .data               objectivefunction.o
+    0x080203bc   0x0000000d   Data   RW          318    .data               optimizegait.o
+    0x080203c9   0x00000003   PAD
+    0x080203cc   0x0000002c   Data   RW          349    .data               pso.o
+    0x080203f8   0x0000001c   Data   RW          382    .data               gaitcontrol.o
+    0x08020414   0x0000007c   Data   RW          399    .data               gaitcontroldata.o
+    0x08020490   0x00000004   Data   RW          425    .data               mb_controller.o
+    0x08020494   0x000054b9   Data   RW          464    .data               rangermath.o
+    0x0802594d   0x00000003   PAD
+    0x08025950   0x00000010   Data   RW          482    .data               safemode.o
+    0x08025960   0x0000005e   Data   RW          496    .data               unit_test.o
+    0x080259be   0x00000002   PAD
+    0x080259c0   0x00000018   Data   RW          509    .data               walkcontrol.o
+    0x080259d8   0x000000c4   Zero   RW           94    .bss                mb_software_setup.o
+    0x08025a9c   0x00000500   Zero   RW          122    .bss                mb_data_nexus.o
+    0x08025f9c   0x000008c0   Zero   RW          152    .bss                mb_ssp_dma.o
+    0x0802685c   0x000010f4   Zero   RW          184    .bss                mb_bluetooth.o
+    0x08027950   0x000012f0   Zero   RW          216    .bss                mb_io_data.o
+    0x08028c40   0x000000b0   Zero   RW          231    .bss                mb_error.o
+    0x08028cf0   0x00000e10   Zero   RW          246    .bss                bufferdataout.o
+    0x08029b00   0x00000154   Zero   RW          265    .bss                mb_estimator.o
+    0x08029c54   0x00000020   Zero   RW          317    .bss                optimizegait.o
+    0x08029c74   0x000018d8   Zero   RW          347    .bss                pso.o
+    0x0802b54c   0x0000003c   Zero   RW          449    .bss                motorcontrol.o
+    0x0802b588   0x00000060   Zero   RW          586    .bss                libspace.o(c_5.l)
+    0x0802b5e8   0x00010000   Zero   RW            2    HEAP                lpc32x0.o
+    0x0803b5e8   0x00000508   Zero   RW            1    STACK               lpc32x0.o
+
+
+==============================================================================
+
+Image component sizes
+
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
+
+       220         28          0          6          0       1348   a9_clock.o
+       300         16          0          8       3600       1662   bufferdataout.o
+       776         92          0         28          0       2372   gaitcontrol.o
+         0          0          0        124          0       1324   gaitcontroldata.o
+      1224         20          0          0          0       2437   input_output.o
+       676         96          0          0      66824        636   lpc32x0.o
+       120          8          0          0          0        947   main.o
+      4064        100          0         34       4340       6036   mb_bluetooth.o
+       468         16         44          4          0       2191   mb_controller.o
+      1504         28          0          8       1280       3113   mb_data_nexus.o
+      1032         60          0         32        176       4065   mb_error.o
+      4208        420          0        174        340      10247   mb_estimator.o
+       548         32          0          0          0      16731   mb_hardware_setup.o
+       136         12          0          8          0       1321   mb_heartbeat.o
+      1456         64          0          0       4848       4966   mb_io_data.o
+       400         24          0         24          0       2367   mb_scheduler.o
+      1052         40        424          0        196       3736   mb_software_setup.o
+      2792        100          0        620       2240       4944   mb_ssp_dma.o
+      1804         92          0          0         60       5886   motorcontrol.o
+      1040        112          0         36          0       3674   objectivefunction.o
+      1616        108          0         13         32       4619   optimizegait.o
+      2532        100          0         44       6360       4738   pso.o
+      1876        136         24      21689          0       7523   rangermath.o
+         0          0         56          0          0        947   robotparameters.o
+       192         40          0         16          0       1014   safemode.o
+      4344        172          0         94          0      10263   unit_test.o
+      1728        156          0         24          0       4560   walkcontrol.o
+
+    ----------------------------------------------------------------------
+     36108       2072        580      23000      90296     113667   Object Totals
+         0          0         32          0          0          0   (incl. Generated)
+         0          0          0         14          0          3   (incl. Padding)
+
+    ----------------------------------------------------------------------
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Member Name
+
+        96          2          0          0          0          0   __dclz77c.o
+         8          0          0          0          0         68   __main.o
+        60          8          0          0          0          0   __scatter.o
+        44          0          0          0          0          0   __scatter_zi.o
+       380          0          0          0          0         76   aeabi_sdiv.o
+        12          0          0          0          0         60   exit.o
+        12          0          0          0          0        116   fpinit.o
+         6          0          0          0          0        132   heapauxi.o
+         6          0          0          0          0          0   libinit.o
+         2          0          0          0          0          0   libinit2.o
+         2          0          0          0          0          0   libshutdown.o
+         2          0          0          0          0          0   libshutdown2.o
+        12          4          0          0         96         68   libspace.o
+         0          0          0          0          0          0   rtentry.o
+        44          4          0          0          0          0   rtentry2.o
+         8          0          0          0          0          0   rtentry4.o
+         0          0          0          0          0          0   rtexit.o
+         8          0          0          0          0          0   rtexit2.o
+        24          8          0          0          0         68   sys_exit.o
+        96          0          0          0          0         80   sys_stackheap_outer.o
+         4          0          0          0          0         68   use_no_semi.o
+
+    ----------------------------------------------------------------------
+       828         26          0          0         96        736   Library Totals
+         2          0          0          0          0          0   (incl. Padding)
+
+    ----------------------------------------------------------------------
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Name
+
+       814         26          0          0         96        620   c_5.l
+        12          0          0          0          0        116   fz_5v.l
+
+    ----------------------------------------------------------------------
+       828         26          0          0         96        736   Library Totals
+
+    ----------------------------------------------------------------------
+
+==============================================================================
+
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
+
+     36936       2098        580      23000      90392     109704   Grand Totals
+     36936       2098        580      20552      90392     109704   ELF Image Totals (compressed)
+     36936       2098        580      20552          0          0   ROM Totals
+
+==============================================================================
+
+    Total RO  Size (Code + RO Data)                37516 (  36.64kB)
+    Total RW  Size (RW Data + ZI Data)            113392 ( 110.73kB)
+    Total ROM Size (Code + RO Data + RW Data)      58068 (  56.71kB)
+
+==============================================================================
+

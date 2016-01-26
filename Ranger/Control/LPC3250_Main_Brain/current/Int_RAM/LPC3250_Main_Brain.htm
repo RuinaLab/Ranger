@@ -1,0 +1,2301 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+<title>Static Call Graph - [.\Int_RAM\LPC3250_Main_Brain.axf]</title></head>
+<body><HR>
+<H1>Static Call Graph for image .\Int_RAM\LPC3250_Main_Brain.axf</H1><HR>
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, RVCT4.0 [Build 524]: Last Updated: Tue Jan 26 13:25:38 2016
+<BR><P>
+<H3>Maximum Stack Usage =        232 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+Call chain for Maximum Stack Depth:</H3>
+mb_controller_update &rArr; runUnitTest &rArr; test_pso_sineTrack &rArr; sineTrack_run &rArr; objFun_set_sineTrack &rArr; setObjFunInfo
+<P>
+<H3>
+Functions with no stack information
+</H3><UL>
+ <LI><a href="#[1f0b568]">Reset_Handler</a>
+ <LI><a href="#[1f0b5a4]">__user_initial_stackheap</a>
+ <LI><a href="#[1f0b748]">Undef_Handler</a>
+ <LI><a href="#[1f0b70c]">SWI_Handler</a>
+ <LI><a href="#[1f0b6d0]">PAbt_Handler</a>
+ <LI><a href="#[1f0b694]">DAbt_Handler</a>
+</UL>
+</UL>
+<P>
+<H3>
+Mutually Recursive functions
+</H3> <LI><a href="#[1f0b748]">Undef_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[1f0b748]">Undef_Handler</a><BR>
+ <LI><a href="#[1f0b70c]">SWI_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[1f0b70c]">SWI_Handler</a><BR>
+ <LI><a href="#[1f0b6d0]">PAbt_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[1f0b6d0]">PAbt_Handler</a><BR>
+ <LI><a href="#[1f0b694]">DAbt_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[1f0b694]">DAbt_Handler</a><BR>
+</UL>
+<P>
+<H3>
+Function Pointers
+</H3><UL>
+ <LI><a href="#[1f05370]">error_ulvoid</a>
+ <LI><a href="#[1f0b568]">Reset_Handler</a>
+ <LI><a href="#[1f0b748]">Undef_Handler</a>
+ <LI><a href="#[1f0b70c]">SWI_Handler</a>
+ <LI><a href="#[1f0b6d0]">PAbt_Handler</a>
+ <LI><a href="#[1f0b694]">DAbt_Handler</a>
+ <LI><a href="#[1f0b4f0]">IRQ_Handler</a>
+ <LI><a href="#[1f0b52c]">FIQ_Handler</a>
+ <LI><a href="#[1fc518c]">__main</a>
+ <LI><a href="#[1f08994]">main</a>
+ <LI><a href="#[1f08fe8]">mb_io_get_float</a>
+ <LI><a href="#[1fc0ce0]">__I$use$semihosting</a>
+ <LI><a href="#[1f0909c]">mb_error_update</a>
+ <LI><a href="#[1f08d90]">mb_task_heartbeat</a>
+ <LI><a href="#[1f092f4]">a9_dn_ssp_parse</a>
+ <LI><a href="#[1f09060]">mb_estimator_update</a>
+ <LI><a href="#[1f0918c]">mb_controller_update</a>
+ <LI><a href="#[1f092b8]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[1f0927c]">a9_dn_update_leds</a>
+ <LI><a href="#[1f093e4]">mb_send_data</a>
+ <LI><a href="#[1f09204]">mb_bt_pop_receive_packets</a>
+ <LI><a href="#[1f0909c]">mb_error_update</a>
+ <LI><a href="#[1f08d90]">mb_task_heartbeat</a>
+ <LI><a href="#[1f092f4]">a9_dn_ssp_parse</a>
+ <LI><a href="#[1f09060]">mb_estimator_update</a>
+ <LI><a href="#[1f0918c]">mb_controller_update</a>
+ <LI><a href="#[1f092b8]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[1f0927c]">a9_dn_update_leds</a>
+ <LI><a href="#[1f093e4]">mb_send_data</a>
+ <LI><a href="#[1f09330]">a9_bt_dma_receive</a>
+ <LI><a href="#[1f0909c]">mb_error_update</a>
+ <LI><a href="#[1f08d90]">mb_task_heartbeat</a>
+ <LI><a href="#[1f092f4]">a9_dn_ssp_parse</a>
+ <LI><a href="#[1f09060]">mb_estimator_update</a>
+ <LI><a href="#[1f0918c]">mb_controller_update</a>
+ <LI><a href="#[1f092b8]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[1f0927c]">a9_dn_update_leds</a>
+ <LI><a href="#[1f093e4]">mb_send_data</a>
+ <LI><a href="#[1f09420]">mb_create_display_data_lists</a>
+ <LI><a href="#[1f0909c]">mb_error_update</a>
+ <LI><a href="#[1f08d90]">mb_task_heartbeat</a>
+ <LI><a href="#[1f092f4]">a9_dn_ssp_parse</a>
+ <LI><a href="#[1f09060]">mb_estimator_update</a>
+ <LI><a href="#[1f0918c]">mb_controller_update</a>
+ <LI><a href="#[1f092b8]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[1f0927c]">a9_dn_update_leds</a>
+ <LI><a href="#[1f093e4]">mb_send_data</a>
+ <LI><a href="#[1f09150]">mb_distribute_error_frames</a>
+ <LI><a href="#[1f0909c]">mb_error_update</a>
+ <LI><a href="#[1f08d90]">mb_task_heartbeat</a>
+ <LI><a href="#[1f092f4]">a9_dn_ssp_parse</a>
+ <LI><a href="#[1f09060]">mb_estimator_update</a>
+ <LI><a href="#[1f0918c]">mb_controller_update</a>
+ <LI><a href="#[1f092b8]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[1f0927c]">a9_dn_update_leds</a>
+ <LI><a href="#[1f093e4]">mb_send_data</a>
+ <LI><a href="#[1f08d54]">mb_test_ui_board1</a>
+ <LI><a href="#[1f0909c]">mb_error_update</a>
+ <LI><a href="#[1f08d90]">mb_task_heartbeat</a>
+ <LI><a href="#[1f092f4]">a9_dn_ssp_parse</a>
+ <LI><a href="#[1f09060]">mb_estimator_update</a>
+ <LI><a href="#[1f0918c]">mb_controller_update</a>
+ <LI><a href="#[1f092b8]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[1f0927c]">a9_dn_update_leds</a>
+ <LI><a href="#[1f093e4]">mb_send_data</a>
+ <LI><a href="#[1f0909c]">mb_error_update</a>
+ <LI><a href="#[1f08d90]">mb_task_heartbeat</a>
+ <LI><a href="#[1f092f4]">a9_dn_ssp_parse</a>
+ <LI><a href="#[1f09060]">mb_estimator_update</a>
+ <LI><a href="#[1f0918c]">mb_controller_update</a>
+ <LI><a href="#[1f092b8]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[1f0927c]">a9_dn_update_leds</a>
+ <LI><a href="#[1f093e4]">mb_send_data</a>
+ <LI><a href="#[1f0909c]">mb_error_update</a>
+ <LI><a href="#[1f08d90]">mb_task_heartbeat</a>
+ <LI><a href="#[1f092f4]">a9_dn_ssp_parse</a>
+ <LI><a href="#[1f09060]">mb_estimator_update</a>
+ <LI><a href="#[1f0918c]">mb_controller_update</a>
+ <LI><a href="#[1f092b8]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[1f0927c]">a9_dn_update_leds</a>
+ <LI><a href="#[1f093e4]">mb_send_data</a>
+ <LI><a href="#[1f0909c]">mb_error_update</a>
+ <LI><a href="#[1f08d90]">mb_task_heartbeat</a>
+ <LI><a href="#[1f092f4]">a9_dn_ssp_parse</a>
+ <LI><a href="#[1f09060]">mb_estimator_update</a>
+ <LI><a href="#[1f0918c]">mb_controller_update</a>
+ <LI><a href="#[1f092b8]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[1f0927c]">a9_dn_update_leds</a>
+ <LI><a href="#[1f093e4]">mb_send_data</a>
+ <LI><a href="#[1f0909c]">mb_error_update</a>
+ <LI><a href="#[1f08d90]">mb_task_heartbeat</a>
+ <LI><a href="#[1f092f4]">a9_dn_ssp_parse</a>
+ <LI><a href="#[1f09060]">mb_estimator_update</a>
+ <LI><a href="#[1f0918c]">mb_controller_update</a>
+ <LI><a href="#[1f092b8]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[1f0927c]">a9_dn_update_leds</a>
+ <LI><a href="#[1f093e4]">mb_send_data</a>
+ <LI><a href="#[1f0909c]">mb_error_update</a>
+ <LI><a href="#[1f08d90]">mb_task_heartbeat</a>
+ <LI><a href="#[1f092f4]">a9_dn_ssp_parse</a>
+ <LI><a href="#[1f09060]">mb_estimator_update</a>
+ <LI><a href="#[1f0918c]">mb_controller_update</a>
+ <LI><a href="#[1f092b8]">a9_dn_ssp_send_data</a>
+ <LI><a href="#[1f0927c]">a9_dn_update_leds</a>
+ <LI><a href="#[1f093e4]">mb_send_data</a>
+ <LI><a href="#[1f09600]">mb_update_execution_time</a>
+ <LI><a href="#[1f05370]">error_ulvoid</a>
+</UL>
+<P>
+<H3>
+Global Symbols
+</H3>
+<P><STRONG><a name="[1f0b568]"></a>Reset_Handler</STRONG> (ARM, 0 bytes, Stack size unknown bytes, lpc32x0.o(RESET))
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[1fc518c]"></a>__main</STRONG> (ARM, 8 bytes, Stack size 0 bytes, __main.o(!!!main))
+<BR><BR>[Calls]<UL><LI><a href="#[1fbe4cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+<LI><a href="#[1fc5060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
+</UL>
+
+<P><STRONG><a name="[1fbe4cc]"></a>__scatterload</STRONG> (ARM, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter))
+<BR><BR>[Called By]<UL><LI><a href="#[1fc518c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
+<P><STRONG><a name="[1fbe490]"></a>__scatterload_rt2</STRONG> (ARM, 52 bytes, Stack size unknown bytes, __scatter.o(!!!scatter), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1fc5060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
+</UL>
+
+<P><STRONG><a name="[1fbe454]"></a>__scatterload_null</STRONG> (ARM, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter), UNUSED)
+
+<P><STRONG><a name="[1fbe5f8]"></a>__decompress</STRONG> (ARM, 96 bytes, Stack size unknown bytes, __dclz77c.o(!!dclz77c), UNUSED)
+
+<P><STRONG><a name="[1fbe5bc]"></a>__decompress2</STRONG> (ARM, 0 bytes, Stack size unknown bytes, __dclz77c.o(!!dclz77c), UNUSED)
+
+<P><STRONG><a name="[1fbe2b0]"></a>__scatterload_zeroinit</STRONG> (ARM, 44 bytes, Stack size unknown bytes, __scatter_zi.o(!!handler_zi), UNUSED)
+
+<P><STRONG><a name="[1fc3c74]"></a>__rt_lib_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit.o(.ARM.Collect$$libinit$$00000000))
+<BR><BR>[Calls]<UL><LI><a href="#[1fc16f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_init (via BLX)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc4994]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_li (via BLX)
+</UL>
+
+<P><STRONG><a name="[1fc1dc0]"></a>__rt_lib_init_alloca_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002A))
+
+<P><STRONG><a name="[1fc1e38]"></a>__rt_lib_init_argv_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000028))
+
+<P><STRONG><a name="[1fc21f8]"></a>__rt_lib_init_atexit_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000017))
+
+<P><STRONG><a name="[1fc2090]"></a>__rt_lib_init_clock_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001D))
+
+<P><STRONG><a name="[1fc1cd0]"></a>__rt_lib_init_cpp_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002E))
+
+<P><STRONG><a name="[1fc1d48]"></a>__rt_lib_init_exceptions_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002C))
+
+<P><STRONG><a name="[1fc2108]"></a>__rt_lib_init_fp_trap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001B))
+
+<P><STRONG><a name="[1fc2018]"></a>__rt_lib_init_getenv_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001F))
+
+<P><STRONG><a name="[1fc25f4]"></a>__rt_lib_init_heap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000006))
+
+<P><STRONG><a name="[1fc2450]"></a>__rt_lib_init_lc_collate_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000D))
+
+<P><STRONG><a name="[1fc23d8]"></a>__rt_lib_init_lc_ctype_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000F))
+
+<P><STRONG><a name="[1fc2360]"></a>__rt_lib_init_lc_monetary_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000011))
+
+<P><STRONG><a name="[1fc22e8]"></a>__rt_lib_init_lc_numeric_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000013))
+
+<P><STRONG><a name="[1fc2270]"></a>__rt_lib_init_lc_time_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000015))
+
+<P><STRONG><a name="[1fc2504]"></a>__rt_lib_init_rand_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000A))
+
+<P><STRONG><a name="[1fc1c94]"></a>__rt_lib_init_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002F))
+
+<P><STRONG><a name="[1fc2180]"></a>__rt_lib_init_signal_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000019))
+
+<P><STRONG><a name="[1fc1fa0]"></a>__rt_lib_init_stdio_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000021))
+
+<P><STRONG><a name="[1fc257c]"></a>__rt_lib_init_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000008))
+
+<P><STRONG><a name="[1fc00b0]"></a>__rt_lib_shutdown</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown.o(.ARM.Collect$$libshutdown$$00000000))
+<BR><BR>[Called By]<UL><LI><a href="#[1fc1370]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_ls (via BLX)
+</UL>
+
+<P><STRONG><a name="[1fbed78]"></a>__rt_lib_shutdown_fp_trap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000006))
+
+<P><STRONG><a name="[1fbeb98]"></a>__rt_lib_shutdown_heap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E))
+
+<P><STRONG><a name="[1fbeb5c]"></a>__rt_lib_shutdown_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000F))
+
+<P><STRONG><a name="[1fbecc4]"></a>__rt_lib_shutdown_signal_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000009))
+
+<P><STRONG><a name="[1fbee2c]"></a>__rt_lib_shutdown_stdio_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000003))
+
+<P><STRONG><a name="[1fbec4c]"></a>__rt_lib_shutdown_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000B))
+
+<P><STRONG><a name="[1fc5060]"></a>__rt_entry</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry.o(.ARM.Collect$$rtentry$$00000000))
+<BR><BR>[Called By]<UL><LI><a href="#[1fbe490]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
+<LI><a href="#[1fc518c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
+<P><STRONG><a name="[1fc4a48]"></a>__rt_entry_presh_1</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$00000002))
+
+<P><STRONG><a name="[1fc46c4]"></a>__rt_entry_sh</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry4.o(.ARM.Collect$$rtentry$$00000004))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
+<LI>Call Chain = __rt_entry_sh &rArr; __user_setup_stackheap
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1fc446c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
+</UL>
+
+<P><STRONG><a name="[1fc4994]"></a>__rt_entry_li</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$0000000A))
+<BR><BR>[Calls]<UL><LI><a href="#[1fc3c74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init (via BLX)
+</UL>
+
+<P><STRONG><a name="[1fc49d0]"></a>__rt_entry_postsh_1</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$00000009))
+
+<P><STRONG><a name="[1fc48e0]"></a>__rt_entry_main</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
+<BR><BR>[Calls]<UL><LI><a href="#[1fc4304]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit (via BX)
+</UL>
+
+<P><STRONG><a name="[1fc491c]"></a>__rt_entry_postli_1</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$0000000C))
+
+<P><STRONG><a name="[1fc34f4]"></a>__rt_exit</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtexit.o(.ARM.Collect$$rtexit$$00000000))
+<BR><BR>[Called By]<UL><LI><a href="#[1fc4304]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit (via BLX)
+</UL>
+
+<P><STRONG><a name="[1fc1370]"></a>__rt_exit_ls</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000003))
+<BR><BR>[Calls]<UL><LI><a href="#[1fc00b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_shutdown (via BLX)
+</UL>
+
+<P><STRONG><a name="[1fc13ac]"></a>__rt_exit_prels_1</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000002))
+
+<P><STRONG><a name="[1fc1334]"></a>__rt_exit_exit</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000004))
+<BR><BR>[Calls]<UL><LI><a href="#[1fc158c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sys_exit
+</UL>
+
+<P><STRONG><a name="[1f0b5a4]"></a>__user_initial_stackheap</STRONG> (ARM, 0 bytes, Stack size unknown bytes, lpc32x0.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1fc446c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
+</UL>
+
+<P><STRONG><a name="[1f09b64]"></a>mb_setup_hardware</STRONG> (ARM, 516 bytes, Stack size 0 bytes, mb_hardware_setup.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f08994]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[1f0963c]"></a>mb_get_timestamp</STRONG> (ARM, 16 bytes, Stack size 8 bytes, mb_software_setup.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f08f70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_time
+</UL>
+
+<P><STRONG><a name="[1f09600]"></a>mb_update_execution_time</STRONG> (ARM, 32 bytes, Stack size 16 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = mb_update_execution_time &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f091c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_clock_get_execution_time
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f095c4]"></a>get_io_float</STRONG> (ARM, 20 bytes, Stack size 8 bytes, mb_software_setup.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+
+<P><STRONG><a name="[1f09588]"></a>set_io_float</STRONG> (ARM, 36 bytes, Stack size 16 bytes, mb_software_setup.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+
+<P><STRONG><a name="[1f0954c]"></a>get_io_ul</STRONG> (ARM, 28 bytes, Stack size 8 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = get_io_ul &rArr; mb_io_get_ul
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08f34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_ul
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f012fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;detect_UI_button_input
+</UL>
+
+<P><STRONG><a name="[1f09510]"></a>set_io_ul</STRONG> (ARM, 28 bytes, Stack size 16 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = set_io_ul &rArr; mb_io_set_ul &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_ul
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1eff178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_UI_LCD
+<LI><a href="#[1f012c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_UI_LED
+<LI><a href="#[1f02d3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clear_UI_LED
+</UL>
+
+<P><STRONG><a name="[1f094d4]"></a>mark_as_read</STRONG> (ARM, 28 bytes, Stack size 16 bytes, mb_software_setup.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f08ebc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_mark_as_read
+</UL>
+
+<P><STRONG><a name="[1f09498]"></a>data_was_read</STRONG> (ARM, 28 bytes, Stack size 16 bytes, mb_software_setup.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f09024]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_data_was_read
+</UL>
+
+<P><STRONG><a name="[1f0945c]"></a>mb_read_error</STRONG> (ARM, 24 bytes, Stack size 8 bytes, mb_software_setup.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f08fac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_pointer
+<LI><a href="#[1f09114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_get_frame
+</UL>
+
+<P><STRONG><a name="[1f09420]"></a>mb_create_display_data_lists</STRONG> (ARM, 36 bytes, Stack size 8 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = mb_create_display_data_lists &rArr; mb_bt_create_data_lists
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f09240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_bt_create_data_lists
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f093a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f093e4]"></a>mb_send_data</STRONG> (ARM, 28 bytes, Stack size 8 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = mb_send_data &rArr; a9_bt_data_sender &rArr; a9_bt_push_io_data_point
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f0936c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_data_sender
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f093a8]"></a>mb_setup_software</STRONG> (ARM, 708 bytes, Stack size 8 bytes, mb_software_setup.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = mb_setup_software &rArr; mb_create_display_data_lists &rArr; mb_bt_create_data_lists
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08dcc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_set_heartbeat_period_ms
+<LI><a href="#[1f08e08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_schedule_init
+<LI><a href="#[1f08ef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_init
+<LI><a href="#[1f090d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_init
+<LI><a href="#[1f09420]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_create_display_data_lists
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f08994]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[1f0b4f0]"></a>IRQ_Handler</STRONG> (ARM, 72 bytes, Stack size 32 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = IRQ_Handler &rArr; a9_timer0_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f088a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_timer0_isr
+<LI><a href="#[1f088e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_software_int_isr
+<LI><a href="#[1f0891c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_gpdma_isr
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[1f0b52c]"></a>FIQ_Handler</STRONG> (ARM, 16 bytes, Stack size 24 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = FIQ_Handler &rArr; a9_dn_ssel_dma_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08958]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssel_dma_isr
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[1f08994]"></a>main</STRONG> (ARM, 24 bytes, Stack size 8 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = main &rArr; mb_setup_software &rArr; mb_create_display_data_lists &rArr; mb_bt_create_data_lists
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08868]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_schedule_run
+<LI><a href="#[1f093a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+<LI><a href="#[1f09b64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_hardware
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> rtentry2.o(.ARM.Collect$$rtentry$$0000000D)
+</UL>
+<P><STRONG><a name="[1f08d54]"></a>mb_test_ui_board1</STRONG> (ARM, 4 bytes, Stack size 0 bytes, mb_data_nexus.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f082c8]"></a>labview_error_push</STRONG> (ARM, 260 bytes, Stack size 0 bytes, mb_data_nexus.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f09150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_distribute_error_frames
+</UL>
+
+<P><STRONG><a name="[1f0828c]"></a>lcd_error_push</STRONG> (ARM, 260 bytes, Stack size 0 bytes, mb_data_nexus.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f09150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_distribute_error_frames
+</UL>
+
+<P><STRONG><a name="[1f08250]"></a>lcd_error_pop</STRONG> (ARM, 148 bytes, Stack size 0 bytes, mb_data_nexus.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f09150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_distribute_error_frames
+</UL>
+
+<P><STRONG><a name="[1f08214]"></a>labview_error_pop</STRONG> (ARM, 148 bytes, Stack size 0 bytes, mb_data_nexus.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f09150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_distribute_error_frames
+</UL>
+
+<P><STRONG><a name="[1f09150]"></a>mb_distribute_error_frames</STRONG> (ARM, 656 bytes, Stack size 8 bytes, mb_data_nexus.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = mb_distribute_error_frames &rArr; mb_io_mark_as_read
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f081d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_mark_as_unread_by_all
+<LI><a href="#[1f08214]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;labview_error_pop
+<LI><a href="#[1f08250]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_error_pop
+<LI><a href="#[1f0828c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lcd_error_push
+<LI><a href="#[1f082c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;labview_error_push
+<LI><a href="#[1f08ebc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_mark_as_read
+<LI><a href="#[1f08fac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_pointer
+<LI><a href="#[1f09024]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_data_was_read
+<LI><a href="#[1f09114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_get_frame
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f08e08]"></a>mb_schedule_init</STRONG> (ARM, 60 bytes, Stack size 0 bytes, mb_scheduler.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f093a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+</UL>
+
+<P><STRONG><a name="[1f07c38]"></a>mb_schedule_tick</STRONG> (ARM, 164 bytes, Stack size 0 bytes, mb_scheduler.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f06108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_clock_tick
+<LI><a href="#[1f088a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_timer0_isr
+</UL>
+
+<P><STRONG><a name="[1f08868]"></a>mb_schedule_run</STRONG> (ARM, 152 bytes, Stack size 8 bytes, mb_scheduler.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = mb_schedule_run
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f08994]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[1f07530]"></a>a9_ssp_synchronize_arm7</STRONG> (ARM, 356 bytes, Stack size 0 bytes, mb_ssp_dma.o(.text), UNUSED)
+
+<P><STRONG><a name="[1f074f4]"></a>a9_dn_ssp_init_tx_list</STRONG> (ARM, 4 bytes, Stack size 0 bytes, mb_ssp_dma.o(.text), UNUSED)
+
+<P><STRONG><a name="[1f074b8]"></a>a9_dn_red_led_blink</STRONG> (ARM, 12 bytes, Stack size 0 bytes, mb_ssp_dma.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f08958]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssel_dma_isr
+<LI><a href="#[1f09204]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_bt_pop_receive_packets
+<LI><a href="#[1f092b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_send_data
+<LI><a href="#[1f092f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_parse
+<LI><a href="#[1f09330]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_dma_receive
+</UL>
+
+<P><STRONG><a name="[1f0747c]"></a>a9_dn_green_led_blink</STRONG> (ARM, 12 bytes, Stack size 0 bytes, mb_ssp_dma.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f092f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_parse
+</UL>
+
+<P><STRONG><a name="[1f0927c]"></a>a9_dn_update_leds</STRONG> (ARM, 132 bytes, Stack size 0 bytes, mb_ssp_dma.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f092b8]"></a>a9_dn_ssp_send_data</STRONG> (ARM, 912 bytes, Stack size 48 bytes, mb_ssp_dma.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = a9_dn_ssp_send_data &rArr; mb_io_mark_as_read
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+<LI><a href="#[1f074b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_red_led_blink
+<LI><a href="#[1f08ebc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_mark_as_read
+<LI><a href="#[1f08fac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_pointer
+<LI><a href="#[1f09024]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_data_was_read
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f092f4]"></a>a9_dn_ssp_parse</STRONG> (ARM, 584 bytes, Stack size 24 bytes, mb_ssp_dma.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = a9_dn_ssp_parse &rArr; mb_io_mark_as_unread_by_all
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+<LI><a href="#[1f0747c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_green_led_blink
+<LI><a href="#[1f074b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_red_led_blink
+<LI><a href="#[1f081d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_mark_as_unread_by_all
+<LI><a href="#[1f08fac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_pointer
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f08958]"></a>a9_dn_ssel_dma_isr</STRONG> (ARM, 680 bytes, Stack size 16 bytes, mb_ssp_dma.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = a9_dn_ssel_dma_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07404]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred_fiq
+<LI><a href="#[1f074b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_red_led_blink
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0b52c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FIQ_Handler
+</UL>
+
+<P><STRONG><a name="[1f08dcc]"></a>mb_set_heartbeat_period_ms</STRONG> (ARM, 16 bytes, Stack size 0 bytes, mb_heartbeat.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f093a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+</UL>
+
+<P><STRONG><a name="[1f06f54]"></a>mb_hb_toggle</STRONG> (ARM, 16 bytes, Stack size 0 bytes, mb_heartbeat.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f08d90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_task_heartbeat
+</UL>
+
+<P><STRONG><a name="[1f08d90]"></a>mb_task_heartbeat</STRONG> (ARM, 92 bytes, Stack size 4 bytes, mb_heartbeat.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = mb_task_heartbeat
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f06f54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_hb_toggle
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f09240]"></a>mb_bt_create_data_lists</STRONG> (ARM, 180 bytes, Stack size 40 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = mb_bt_create_data_lists
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09420]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_create_display_data_lists
+</UL>
+
+<P><STRONG><a name="[1f065f4]"></a>a9_bt_push_io_data_point</STRONG> (ARM, 1052 bytes, Stack size 32 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = a9_bt_push_io_data_point
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0936c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_data_sender
+</UL>
+
+<P><STRONG><a name="[1f0936c]"></a>a9_bt_data_sender</STRONG> (ARM, 976 bytes, Stack size 48 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = a9_bt_data_sender &rArr; a9_bt_push_io_data_point
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f065f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_push_io_data_point
+<LI><a href="#[1f08ebc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_mark_as_read
+<LI><a href="#[1f08fac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_pointer
+<LI><a href="#[1f09024]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_data_was_read
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f093e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_send_data
+</UL>
+
+<P><STRONG><a name="[1f065b8]"></a>a9_bt_start_ch3_dma_transfer</STRONG> (ARM, 140 bytes, Stack size 0 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f088e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_software_int_isr
+<LI><a href="#[1f0891c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_gpdma_isr
+</UL>
+
+<P><STRONG><a name="[1f0891c]"></a>a9_gpdma_isr</STRONG> (ARM, 44 bytes, Stack size 4 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = a9_gpdma_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f065b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_start_ch3_dma_transfer
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0b4f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IRQ_Handler
+</UL>
+
+<P><STRONG><a name="[1f088e0]"></a>a9_software_int_isr</STRONG> (ARM, 40 bytes, Stack size 4 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = a9_software_int_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f065b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_start_ch3_dma_transfer
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0b4f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IRQ_Handler
+</UL>
+
+<P><STRONG><a name="[1f09330]"></a>a9_bt_dma_receive</STRONG> (ARM, 812 bytes, Stack size 24 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = a9_bt_dma_receive
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+<LI><a href="#[1f074b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_red_led_blink
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f09204]"></a>mb_bt_pop_receive_packets</STRONG> (ARM, 820 bytes, Stack size 24 bytes, mb_bluetooth.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = mb_bt_pop_receive_packets &rArr; mb_io_set_ul &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+<LI><a href="#[1f074b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_red_led_blink
+<LI><a href="#[1f08e44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_ul
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f06108]"></a>a9_clock_tick</STRONG> (ARM, 100 bytes, Stack size 8 bytes, a9_clock.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f07c38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_schedule_tick
+</UL>
+
+<P><STRONG><a name="[1f091c8]"></a>mb_clock_get_execution_time</STRONG> (ARM, 36 bytes, Stack size 0 bytes, a9_clock.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f09600]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_update_execution_time
+</UL>
+
+<P><STRONG><a name="[1f088a4]"></a>a9_timer0_isr</STRONG> (ARM, 56 bytes, Stack size 8 bytes, a9_clock.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = a9_timer0_isr
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07c38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_schedule_tick
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0b4f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IRQ_Handler
+</UL>
+
+<P><STRONG><a name="[1f08fac]"></a>mb_io_get_pointer</STRONG> (ARM, 48 bytes, Stack size 8 bytes, mb_io_data.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = mb_io_get_pointer
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_distribute_error_frames
+<LI><a href="#[1f092b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_send_data
+<LI><a href="#[1f092f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_parse
+<LI><a href="#[1f0936c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_data_sender
+<LI><a href="#[1f0945c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_read_error
+</UL>
+
+<P><STRONG><a name="[1f08ebc]"></a>mb_io_mark_as_read</STRONG> (ARM, 72 bytes, Stack size 16 bytes, mb_io_data.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = mb_io_mark_as_read
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_distribute_error_frames
+<LI><a href="#[1f092b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_send_data
+<LI><a href="#[1f0936c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_data_sender
+<LI><a href="#[1f094d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mark_as_read
+</UL>
+
+<P><STRONG><a name="[1f05c94]"></a>mb_io_mark_as_unread</STRONG> (ARM, 72 bytes, Stack size 16 bytes, mb_io_data.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+</UL>
+
+<P><STRONG><a name="[1f081d8]"></a>mb_io_mark_as_unread_by_all</STRONG> (ARM, 52 bytes, Stack size 8 bytes, mb_io_data.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = mb_io_mark_as_unread_by_all
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_distribute_error_frames
+<LI><a href="#[1f092f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_parse
+</UL>
+
+<P><STRONG><a name="[1f09024]"></a>mb_io_data_was_read</STRONG> (ARM, 80 bytes, Stack size 16 bytes, mb_io_data.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = mb_io_data_was_read
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_distribute_error_frames
+<LI><a href="#[1f092b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_send_data
+<LI><a href="#[1f0936c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_data_sender
+<LI><a href="#[1f09498]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data_was_read
+</UL>
+
+<P><STRONG><a name="[1f08fe8]"></a>mb_io_get_float</STRONG> (ARM, 52 bytes, Stack size 8 bytes, mb_io_data.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = mb_io_get_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+<LI><a href="#[1eff100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_input_output
+<LI><a href="#[1f01734]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateOptimizeFsm
+<LI><a href="#[1f031b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendTotalPower
+<LI><a href="#[1f03228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeHeelStrikeGeometry
+<LI><a href="#[1f032dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getIntegralRateGyro
+<LI><a href="#[1f03318]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateParameters
+<LI><a href="#[1f03354]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateRobotState
+<LI><a href="#[1f034f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runFilter
+<LI><a href="#[1f03534]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setFilterData
+<LI><a href="#[1f09060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_estimator_update
+<LI><a href="#[1f095c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_float
+<LI><a href="#[1fc6938]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_timestampSend
+<LI><a href="#[1fc6b18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_sineTrack
+<LI><a href="#[1fc6b54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowlAsync
+<LI><a href="#[1fc6b90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowl
+<LI><a href="#[1fc6c44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_steeringMotors
+<LI><a href="#[1fc6cbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_directCurrentControl
+<LI><a href="#[1fc6d70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_inner
+<LI><a href="#[1fc6dac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_outer
+<LI><a href="#[1fc6ed8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipScissorTrack_inner
+<LI><a href="#[1fc6f14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipScissorTrack_outer
+<LI><a href="#[1fc6fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_flight
+<LI><a href="#[1fc70b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTime
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.text)
+</UL>
+<P><STRONG><a name="[1f08f34]"></a>mb_io_get_ul</STRONG> (ARM, 52 bytes, Stack size 8 bytes, mb_io_data.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = mb_io_get_ul
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0954c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_ul
+</UL>
+
+<P><STRONG><a name="[1f05c58]"></a>mb_io_get_sl</STRONG> (ARM, 52 bytes, Stack size 8 bytes, mb_io_data.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+</UL>
+
+<P><STRONG><a name="[1f08f70]"></a>mb_io_get_time</STRONG> (ARM, 52 bytes, Stack size 8 bytes, mb_io_data.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f05c1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_sl
+<LI><a href="#[1f08e44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_ul
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f0963c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_get_timestamp
+</UL>
+
+<P><STRONG><a name="[1f08e80]"></a>mb_io_set_float</STRONG> (ARM, 96 bytes, Stack size 16 bytes, mb_io_data.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+<LI><a href="#[1f08f70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_time
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efdfe4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_ankInn
+<LI><a href="#[1efe020]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_ankOut
+<LI><a href="#[1efe05c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_hip
+<LI><a href="#[1efe098]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_controller_ankInn
+<LI><a href="#[1efe0d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_controller_ankOut
+<LI><a href="#[1efe110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_controller_hip
+<LI><a href="#[1f01734]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateOptimizeFsm
+<LI><a href="#[1f01824]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;objFun_eval
+<LI><a href="#[1f01860]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;objFun_send
+<LI><a href="#[1f02274]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pso_send_point
+<LI><a href="#[1f02cc4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;logStepData
+<LI><a href="#[1f031b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendTotalPower
+<LI><a href="#[1f031ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;triggerHeelStrikeUpdate
+<LI><a href="#[1f03228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeHeelStrikeGeometry
+<LI><a href="#[1f032a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateRobotOrientation
+<LI><a href="#[1f03354]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateRobotState
+<LI><a href="#[1f033cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateComKinematics
+<LI><a href="#[1f034bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runAllFilters
+<LI><a href="#[1f04ce0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendBufferedData
+<LI><a href="#[1f09588]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_float
+<LI><a href="#[1f09600]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_update_execution_time
+<LI><a href="#[1fc6938]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_timestampSend
+<LI><a href="#[1fc69ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_sendFastData
+<LI><a href="#[1fc6a28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pulseWave
+<LI><a href="#[1fc6aa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_uiPlaySong
+<LI><a href="#[1fc6b18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_sineTrack
+<LI><a href="#[1fc6b54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowlAsync
+<LI><a href="#[1fc6b90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowl
+<LI><a href="#[1fc6bcc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_fastRand
+<LI><a href="#[1fc6c08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_linInterpVar
+<LI><a href="#[1fc6c44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_steeringMotors
+<LI><a href="#[1fc6cbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_directCurrentControl
+<LI><a href="#[1fc6f50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_inner
+<LI><a href="#[1fc6f8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_outer
+<LI><a href="#[1fc7004]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_trackRel_ankle
+<LI><a href="#[1fc707c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_waveFunctions
+</UL>
+
+<P><STRONG><a name="[1f08e44]"></a>mb_io_set_ul</STRONG> (ARM, 88 bytes, Stack size 16 bytes, mb_io_data.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = mb_io_set_ul &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+<LI><a href="#[1f08f70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_time
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09204]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_bt_pop_receive_packets
+<LI><a href="#[1f09510]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_ul
+</UL>
+
+<P><STRONG><a name="[1f05c1c]"></a>mb_io_set_sl</STRONG> (ARM, 88 bytes, Stack size 16 bytes, mb_io_data.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+<LI><a href="#[1f08f70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_time
+</UL>
+
+<P><STRONG><a name="[1f05be0]"></a>mb_io_set_time</STRONG> (ARM, 80 bytes, Stack size 16 bytes, mb_io_data.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+</UL>
+
+<P><STRONG><a name="[1f08ef8]"></a>mb_io_init</STRONG> (ARM, 520 bytes, Stack size 0 bytes, mb_io_data.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f093a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+</UL>
+
+<P><STRONG><a name="[1f05424]"></a>mb_error_pop</STRONG> (ARM, 168 bytes, Stack size 0 bytes, mb_error.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f09114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_get_frame
+</UL>
+
+<P><STRONG><a name="[1f09114]"></a>mb_error_get_frame</STRONG> (ARM, 124 bytes, Stack size 8 bytes, mb_error.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = mb_error_get_frame
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f05424]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_pop
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_distribute_error_frames
+<LI><a href="#[1f0945c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_read_error
+</UL>
+
+<P><STRONG><a name="[1f090d8]"></a>mb_error_init</STRONG> (ARM, 20 bytes, Stack size 0 bytes, mb_error.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f093a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_setup_software
+</UL>
+
+<P><STRONG><a name="[1f07440]"></a>mb_error_occurred</STRONG> (ARM, 68 bytes, Stack size 0 bytes, mb_error.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f03174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkIfRobotFellDown
+<LI><a href="#[1f05be0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_time
+<LI><a href="#[1f05c1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_sl
+<LI><a href="#[1f05c58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_sl
+<LI><a href="#[1f05c94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_mark_as_unread
+<LI><a href="#[1f081d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_mark_as_unread_by_all
+<LI><a href="#[1f08e44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_ul
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f08ebc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_mark_as_read
+<LI><a href="#[1f08f34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_ul
+<LI><a href="#[1f08f70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_time
+<LI><a href="#[1f08fac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_pointer
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+<LI><a href="#[1f09024]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_data_was_read
+<LI><a href="#[1f09204]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_bt_pop_receive_packets
+<LI><a href="#[1f092b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_send_data
+<LI><a href="#[1f092f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssp_parse
+<LI><a href="#[1f09330]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_bt_dma_receive
+</UL>
+
+<P><STRONG><a name="[1f053e8]"></a>mb_error_occurred_irq</STRONG> (ARM, 68 bytes, Stack size 0 bytes, mb_error.o(.text), UNUSED)
+
+<P><STRONG><a name="[1f07404]"></a>mb_error_occurred_fiq</STRONG> (ARM, 68 bytes, Stack size 0 bytes, mb_error.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f08958]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;a9_dn_ssel_dma_isr
+</UL>
+
+<P><STRONG><a name="[1f053ac]"></a>mb_error_push</STRONG> (ARM, 224 bytes, Stack size 16 bytes, mb_error.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = mb_error_push
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0909c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_update
+</UL>
+
+<P><STRONG><a name="[1f0909c]"></a>mb_error_update</STRONG> (ARM, 224 bytes, Stack size 16 bytes, mb_error.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = mb_error_update &rArr; mb_error_push
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f053ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_push
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f05370]"></a>error_ulvoid</STRONG> (ARM, 8 bytes, Stack size 0 bytes, mb_error.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> mb_error.o(.data)
+</UL>
+<P><STRONG><a name="[1f04d1c]"></a>addToQueue</STRONG> (ARM, 80 bytes, Stack size 0 bytes, bufferdataout.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f00744]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;saveOptim
+<LI><a href="#[1fc69b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_sendFastDataBuffered
+</UL>
+
+<P><STRONG><a name="[1f04ce0]"></a>sendBufferedData</STRONG> (ARM, 204 bytes, Stack size 8 bytes, bufferdataout.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = sendBufferedData &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0918c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_controller_update
+</UL>
+
+<P><STRONG><a name="[1f03534]"></a>setFilterData</STRONG> (ARM, 64 bytes, Stack size 24 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = setFilterData &rArr; mb_io_get_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_estimator_update
+</UL>
+
+<P><STRONG><a name="[1f034f8]"></a>runFilter</STRONG> (ARM, 140 bytes, Stack size 24 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = runFilter &rArr; mb_io_get_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f034bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runAllFilters
+</UL>
+
+<P><STRONG><a name="[1f034bc]"></a>runAllFilters</STRONG> (ARM, 424 bytes, Stack size 16 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = runAllFilters &rArr; runFilter &rArr; mb_io_get_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f034f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runFilter
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_estimator_update
+</UL>
+
+<P><STRONG><a name="[1f03480]"></a>setFilterCoeff</STRONG> (ARM, 500 bytes, Stack size 16 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = setFilterCoeff &rArr; Tan &rArr; Cos &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02db4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tan
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_estimator_update
+</UL>
+
+<P><STRONG><a name="[1f03444]"></a>getComPos</STRONG> (ARM, 124 bytes, Stack size 32 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = getComPos &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02e2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sin
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f033cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateComKinematics
+</UL>
+
+<P><STRONG><a name="[1f03408]"></a>getComVel</STRONG> (ARM, 140 bytes, Stack size 40 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = getComVel &rArr; Cos &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f030c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cos
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f033cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateComKinematics
+</UL>
+
+<P><STRONG><a name="[1f033cc]"></a>updateComKinematics</STRONG> (ARM, 248 bytes, Stack size 16 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = updateComKinematics &rArr; getComVel &rArr; Cos &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f03408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getComVel
+<LI><a href="#[1f03444]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getComPos
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f03354]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateRobotState
+</UL>
+
+<P><STRONG><a name="[1f03390]"></a>resetRobotOrientation</STRONG> (ARM, 20 bytes, Stack size 0 bytes, mb_estimator.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f03354]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateRobotState
+<LI><a href="#[1f09060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_estimator_update
+</UL>
+
+<P><STRONG><a name="[1f03354]"></a>updateRobotState</STRONG> (ARM, 680 bytes, Stack size 8 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = updateRobotState &rArr; updateComKinematics &rArr; getComVel &rArr; Cos &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f03390]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;resetRobotOrientation
+<LI><a href="#[1f033cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateComKinematics
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_estimator_update
+</UL>
+
+<P><STRONG><a name="[1f03318]"></a>updateParameters</STRONG> (ARM, 456 bytes, Stack size 8 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = updateParameters &rArr; mb_io_get_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_estimator_update
+</UL>
+
+<P><STRONG><a name="[1f032dc]"></a>getIntegralRateGyro</STRONG> (ARM, 160 bytes, Stack size 16 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = getIntegralRateGyro &rArr; mb_io_get_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f032a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateRobotOrientation
+<LI><a href="#[1f09060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_estimator_update
+</UL>
+
+<P><STRONG><a name="[1f032a0]"></a>updateRobotOrientation</STRONG> (ARM, 104 bytes, Stack size 8 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = updateRobotOrientation &rArr; getIntegralRateGyro &rArr; mb_io_get_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f032dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getIntegralRateGyro
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_estimator_update
+</UL>
+
+<P><STRONG><a name="[1f03264]"></a>heelStrikeGyroReset</STRONG> (ARM, 40 bytes, Stack size 0 bytes, mb_estimator.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f03228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeHeelStrikeGeometry
+</UL>
+
+<P><STRONG><a name="[1f03228]"></a>computeHeelStrikeGeometry</STRONG> (ARM, 292 bytes, Stack size 56 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = computeHeelStrikeGeometry &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02df0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sqrt
+<LI><a href="#[1f02e2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sin
+<LI><a href="#[1f030c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cos
+<LI><a href="#[1f030fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Atan
+<LI><a href="#[1f03264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;heelStrikeGyroReset
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f031ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;triggerHeelStrikeUpdate
+</UL>
+
+<P><STRONG><a name="[1f031ec]"></a>triggerHeelStrikeUpdate</STRONG> (ARM, 140 bytes, Stack size 32 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = triggerHeelStrikeUpdate &rArr; computeHeelStrikeGeometry &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02cc4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;logStepData
+<LI><a href="#[1f03228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeHeelStrikeGeometry
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1effa9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateGaitFsm
+<LI><a href="#[1fc6adc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_stepEventData
+</UL>
+
+<P><STRONG><a name="[1f031b0]"></a>sendTotalPower</STRONG> (ARM, 100 bytes, Stack size 16 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = sendTotalPower &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_estimator_update
+</UL>
+
+<P><STRONG><a name="[1f03174]"></a>checkIfRobotFellDown</STRONG> (ARM, 224 bytes, Stack size 8 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = checkIfRobotFellDown &rArr; enterSafeMode
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02d00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enterSafeMode
+<LI><a href="#[1f03138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Abs
+<LI><a href="#[1f07440]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_error_occurred
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_estimator_update
+</UL>
+
+<P><STRONG><a name="[1f09060]"></a>mb_estimator_update</STRONG> (ARM, 352 bytes, Stack size 8 bytes, mb_estimator.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = mb_estimator_update &rArr; updateRobotState &rArr; updateComKinematics &rArr; getComVel &rArr; Cos &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02d3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clear_UI_LED
+<LI><a href="#[1f03174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkIfRobotFellDown
+<LI><a href="#[1f031b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendTotalPower
+<LI><a href="#[1f032a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateRobotOrientation
+<LI><a href="#[1f032dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getIntegralRateGyro
+<LI><a href="#[1f03318]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateParameters
+<LI><a href="#[1f03354]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateRobotState
+<LI><a href="#[1f03390]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;resetRobotOrientation
+<LI><a href="#[1f03480]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setFilterCoeff
+<LI><a href="#[1f034bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runAllFilters
+<LI><a href="#[1f03534]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setFilterData
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1f024cc]"></a>quadraticBowl_eval</STRONG> (ARM, 12 bytes, Stack size 0 bytes, objectivefunction.o(.text), UNUSED)
+
+<P><STRONG><a name="[1f02490]"></a>quadraticBowl_send</STRONG> (ARM, 60 bytes, Stack size 0 bytes, objectivefunction.o(.text), UNUSED)
+
+<P><STRONG><a name="[1f02454]"></a>objFun_set_quadraticBowl</STRONG> (ARM, 140 bytes, Stack size 72 bytes, objectivefunction.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = objFun_set_quadraticBowl &rArr; setObjFunInfo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setObjFunInfo
+<LI><a href="#[1f02328]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FastRand
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6b54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowlAsync
+<LI><a href="#[1fc6b90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowl
+</UL>
+
+<P><STRONG><a name="[1f02418]"></a>sineTrack_eval</STRONG> (ARM, 12 bytes, Stack size 0 bytes, objectivefunction.o(.text), UNUSED)
+
+<P><STRONG><a name="[1f023dc]"></a>sineTrack_send</STRONG> (ARM, 64 bytes, Stack size 0 bytes, objectivefunction.o(.text), UNUSED)
+
+<P><STRONG><a name="[1f023a0]"></a>objFun_set_sineTrack</STRONG> (ARM, 136 bytes, Stack size 72 bytes, objectivefunction.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = objFun_set_sineTrack &rArr; setObjFunInfo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setObjFunInfo
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f02364]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sineTrack_run
+</UL>
+
+<P><STRONG><a name="[1f02364]"></a>sineTrack_run</STRONG> (ARM, 616 bytes, Stack size 80 bytes, objectivefunction.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = sineTrack_run &rArr; objFun_set_sineTrack &rArr; setObjFunInfo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f021fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankInn
+<LI><a href="#[1f02274]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pso_send_point
+<LI><a href="#[1f022b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pso_eval_point
+<LI><a href="#[1f023a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;objFun_set_sineTrack
+<LI><a href="#[1f030c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cos
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6b18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_sineTrack
+</UL>
+
+<P><STRONG><a name="[1f01860]"></a>objFun_send</STRONG> (ARM, 156 bytes, Stack size 16 bytes, optimizegait.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+
+<P><STRONG><a name="[1f01824]"></a>objFun_eval</STRONG> (ARM, 56 bytes, Stack size 16 bytes, optimizegait.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f013ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mean
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+
+<P><STRONG><a name="[1f017e8]"></a>objFun_set_optimizeGait</STRONG> (ARM, 160 bytes, Stack size 72 bytes, optimizegait.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = objFun_set_optimizeGait &rArr; setObjFunInfo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setObjFunInfo
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f01734]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateOptimizeFsm
+</UL>
+
+<P><STRONG><a name="[1f017ac]"></a>stepCostFun</STRONG> (ARM, 28 bytes, Stack size 0 bytes, optimizegait.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f01770]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;resetObjective
+<LI><a href="#[1f02cc4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;logStepData
+</UL>
+
+<P><STRONG><a name="[1f01770]"></a>resetObjective</STRONG> (ARM, 68 bytes, Stack size 4 bytes, optimizegait.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = resetObjective
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f017ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepCostFun
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f01734]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateOptimizeFsm
+</UL>
+
+<P><STRONG><a name="[1f01734]"></a>updateOptimizeFsm</STRONG> (ARM, 748 bytes, Stack size 24 bytes, optimizegait.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = updateOptimizeFsm &rArr; objFun_set_optimizeGait &rArr; setObjFunInfo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f012fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;detect_UI_button_input
+<LI><a href="#[1f01770]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;resetObjective
+<LI><a href="#[1f017e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;objFun_set_optimizeGait
+<LI><a href="#[1f02274]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pso_send_point
+<LI><a href="#[1f022b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pso_eval_point
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f016bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;optimizeGait_main
+</UL>
+
+<P><STRONG><a name="[1f016f8]"></a>updateOptimizeLed</STRONG> (ARM, 176 bytes, Stack size 8 bytes, optimizegait.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = updateOptimizeLed &rArr; set_UI_LED &rArr; set_io_ul &rArr; mb_io_set_ul &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f012c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_UI_LED
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f016bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;optimizeGait_main
+</UL>
+
+<P><STRONG><a name="[1f02cc4]"></a>logStepData</STRONG> (ARM, 208 bytes, Stack size 32 bytes, optimizegait.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = logStepData &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f017ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;stepCostFun
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f031ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;triggerHeelStrikeUpdate
+</UL>
+
+<P><STRONG><a name="[1f016bc]"></a>optimizeGait_main</STRONG> (ARM, 16 bytes, Stack size 8 bytes, optimizegait.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = optimizeGait_main &rArr; updateOptimizeFsm &rArr; objFun_set_optimizeGait &rArr; setObjFunInfo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f016f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateOptimizeLed
+<LI><a href="#[1f01734]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateOptimizeFsm
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0918c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_controller_update
+</UL>
+
+<P><STRONG><a name="[1f02238]"></a>setObjFunInfo</STRONG> (ARM, 188 bytes, Stack size 32 bytes, pso.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = setObjFunInfo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f00708]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clamp
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f017e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;objFun_set_optimizeGait
+<LI><a href="#[1f023a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;objFun_set_sineTrack
+<LI><a href="#[1f02454]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;objFun_set_quadraticBowl
+</UL>
+
+<P><STRONG><a name="[1f00870]"></a>psoReset</STRONG> (ARM, 32 bytes, Stack size 0 bytes, pso.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1fc6b54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowlAsync
+<LI><a href="#[1fc6b90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowl
+</UL>
+
+<P><STRONG><a name="[1f00834]"></a>psoGetGlobalBest</STRONG> (ARM, 48 bytes, Stack size 0 bytes, pso.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1fc6b18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_sineTrack
+<LI><a href="#[1fc6b54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowlAsync
+<LI><a href="#[1fc6b90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowl
+</UL>
+
+<P><STRONG><a name="[1f007f8]"></a>psoGetSelectBest</STRONG> (ARM, 48 bytes, Stack size 0 bytes, pso.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1fc6b18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_sineTrack
+<LI><a href="#[1fc6b54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowlAsync
+<LI><a href="#[1fc6b90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowl
+</UL>
+
+<P><STRONG><a name="[1f007bc]"></a>psoGetSelectObjVal</STRONG> (ARM, 48 bytes, Stack size 0 bytes, pso.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1fc6b18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_sineTrack
+<LI><a href="#[1fc6b54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowlAsync
+<LI><a href="#[1fc6b90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowl
+</UL>
+
+<P><STRONG><a name="[1f00780]"></a>psoGetParticleId</STRONG> (ARM, 12 bytes, Stack size 0 bytes, pso.o(.text), UNUSED)
+
+<P><STRONG><a name="[1f00744]"></a>saveOptim</STRONG> (ARM, 960 bytes, Stack size 16 bytes, pso.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = saveOptim
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f04d1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;addToQueue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6974]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_optimSaveToOutput
+</UL>
+
+<P><STRONG><a name="[1f02274]"></a>pso_send_point</STRONG> (ARM, 724 bytes, Stack size 40 bytes, pso.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = pso_send_point &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f00708]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clamp
+<LI><a href="#[1f02328]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FastRand
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f01734]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateOptimizeFsm
+<LI><a href="#[1f02364]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sineTrack_run
+<LI><a href="#[1fc6b54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowlAsync
+<LI><a href="#[1fc6b90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowl
+</UL>
+
+<P><STRONG><a name="[1f022b0]"></a>pso_eval_point</STRONG> (ARM, 472 bytes, Stack size 16 bytes, pso.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = pso_eval_point
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f01734]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateOptimizeFsm
+<LI><a href="#[1f02364]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sineTrack_run
+<LI><a href="#[1fc6b54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowlAsync
+<LI><a href="#[1fc6b90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowl
+</UL>
+
+<P><STRONG><a name="[1effad8]"></a>updateGaitData</STRONG> (ARM, 188 bytes, Stack size 8 bytes, gaitcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = updateGaitData &rArr; LinInterpVar
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1eff8f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LinInterpVar
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1effa24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gaitControl_entry
+<LI><a href="#[1effa9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateGaitFsm
+</UL>
+
+<P><STRONG><a name="[1effa9c]"></a>updateGaitFsm</STRONG> (ARM, 272 bytes, Stack size 8 bytes, gaitcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = updateGaitFsm &rArr; triggerHeelStrikeUpdate &rArr; computeHeelStrikeGeometry &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1effad8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateGaitData
+<LI><a href="#[1f031ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;triggerHeelStrikeUpdate
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1eff9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gaitControl_main
+</UL>
+
+<P><STRONG><a name="[1effa60]"></a>setGaitFsmLed</STRONG> (ARM, 184 bytes, Stack size 8 bytes, gaitcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = setGaitFsmLed &rArr; set_UI_LED &rArr; set_io_ul &rArr; mb_io_set_ul &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f012c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_UI_LED
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1eff9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gaitControl_main
+</UL>
+
+<P><STRONG><a name="[1effa24]"></a>gaitControl_entry</STRONG> (ARM, 24 bytes, Stack size 8 bytes, gaitcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = gaitControl_entry &rArr; updateGaitData &rArr; LinInterpVar
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1effad8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateGaitData
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0918c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_controller_update
+</UL>
+
+<P><STRONG><a name="[1eff9e8]"></a>gaitControl_main</STRONG> (ARM, 16 bytes, Stack size 8 bytes, gaitcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = gaitControl_main &rArr; updateGaitFsm &rArr; triggerHeelStrikeUpdate &rArr; computeHeelStrikeGeometry &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1effa60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setGaitFsmLed
+<LI><a href="#[1effa9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateGaitFsm
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0918c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_controller_update
+</UL>
+
+<P><STRONG><a name="[1eff1b4]"></a>int2ascii</STRONG> (ARM, 16 bytes, Stack size 0 bytes, input_output.o(.text), UNUSED)
+
+<P><STRONG><a name="[1f012fc]"></a>detect_UI_button_input</STRONG> (ARM, 56 bytes, Stack size 16 bytes, input_output.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = detect_UI_button_input &rArr; get_io_ul &rArr; mb_io_get_ul
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f0954c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_io_ul
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe764]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;update_ui_fsm_state
+<LI><a href="#[1f01734]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateOptimizeFsm
+</UL>
+
+<P><STRONG><a name="[1eff178]"></a>set_UI_LCD</STRONG> (ARM, 208 bytes, Stack size 16 bytes, input_output.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1f09510]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_ul
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1eff100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_input_output
+<LI><a href="#[1eff13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clear_UI_LCD
+</UL>
+
+<P><STRONG><a name="[1f02d3c]"></a>clear_UI_LED</STRONG> (ARM, 80 bytes, Stack size 8 bytes, input_output.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = clear_UI_LED &rArr; set_io_ul &rArr; mb_io_set_ul &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f09510]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_ul
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f09060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_estimator_update
+</UL>
+
+<P><STRONG><a name="[1eff13c]"></a>clear_UI_LCD</STRONG> (ARM, 52 bytes, Stack size 16 bytes, input_output.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1eff178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_UI_LCD
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1eff100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_input_output
+</UL>
+
+<P><STRONG><a name="[1f012c0]"></a>set_UI_LED</STRONG> (ARM, 248 bytes, Stack size 16 bytes, input_output.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = set_UI_LED &rArr; set_io_ul &rArr; mb_io_set_ul &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f09510]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_io_ul
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1eff100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_input_output
+<LI><a href="#[1effa60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setGaitFsmLed
+<LI><a href="#[1f016f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateOptimizeLed
+<LI><a href="#[1f0918c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_controller_update
+<LI><a href="#[1fc60c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setWalkFsmLed
+</UL>
+
+<P><STRONG><a name="[1eff100]"></a>test_input_output</STRONG> (ARM, 544 bytes, Stack size 48 bytes, input_output.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1eff13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clear_UI_LCD
+<LI><a href="#[1eff178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_UI_LCD
+<LI><a href="#[1f012c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_UI_LED
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+<LI><a href="#[1fc5c18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
+</UL>
+
+<P><STRONG><a name="[1efe764]"></a>update_ui_fsm_state</STRONG> (ARM, 120 bytes, Stack size 8 bytes, mb_controller.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = update_ui_fsm_state &rArr; detect_UI_button_input &rArr; get_io_ul &rArr; mb_io_get_ul
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f012fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;detect_UI_button_input
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0918c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_controller_update
+</UL>
+
+<P><STRONG><a name="[1f02d00]"></a>enterSafeMode</STRONG> (ARM, 24 bytes, Stack size 8 bytes, mb_controller.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = enterSafeMode
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efe674]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setSafeModeConfig
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f03174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkIfRobotFellDown
+<LI><a href="#[1fc6a64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_safeMode
+</UL>
+
+<P><STRONG><a name="[1f0918c]"></a>mb_controller_update</STRONG> (ARM, 308 bytes, Stack size 8 bytes, mb_controller.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = mb_controller_update &rArr; runUnitTest &rArr; test_pso_sineTrack &rArr; sineTrack_run &rArr; objFun_set_sineTrack &rArr; setObjFunInfo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efe5fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;walkControl_main
+<LI><a href="#[1efe638]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;walkControl_entry
+<LI><a href="#[1efe6b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;safeMode_main
+<LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+<LI><a href="#[1efe728]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_motors
+<LI><a href="#[1efe764]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;update_ui_fsm_state
+<LI><a href="#[1eff9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gaitControl_main
+<LI><a href="#[1effa24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gaitControl_entry
+<LI><a href="#[1f012c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_UI_LED
+<LI><a href="#[1f016bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;optimizeGait_main
+<LI><a href="#[1f04ce0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendBufferedData
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mb_software_setup.o(.constdata)
+</UL>
+<P><STRONG><a name="[1efe14c]"></a>hip_gravity_compensation</STRONG> (ARM, 180 bytes, Stack size 32 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02e2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sin
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_controller_hip
+</UL>
+
+<P><STRONG><a name="[1efe110]"></a>run_controller_hip</STRONG> (ARM, 252 bytes, Stack size 32 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efe14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hip_gravity_compensation
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efde7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackScissor_hip
+<LI><a href="#[1efdf30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackVel_hip
+<LI><a href="#[1efdf6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_hip
+</UL>
+
+<P><STRONG><a name="[1efe0d4]"></a>run_controller_ankOut</STRONG> (ARM, 144 bytes, Stack size 32 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = run_controller_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efdef4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankOut
+<LI><a href="#[1efdfa8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankOut
+</UL>
+
+<P><STRONG><a name="[1efe098]"></a>run_controller_ankInn</STRONG> (ARM, 200 bytes, Stack size 32 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = run_controller_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efdeb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankInn
+<LI><a href="#[1f021fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankInn
+</UL>
+
+<P><STRONG><a name="[1efe05c]"></a>disable_hip</STRONG> (ARM, 44 bytes, Stack size 8 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = disable_hip &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe728]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_motors
+<LI><a href="#[1fc6014]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_walkFsmTransitions
+<LI><a href="#[1fc6050]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendMotorCommands
+<LI><a href="#[1fc67d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hipHold
+<LI><a href="#[1fc6adc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_stepEventData
+<LI><a href="#[1fc6c80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_singleStanceOuter
+<LI><a href="#[1fc6cf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_doubleStanceContact
+<LI><a href="#[1fc6e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_inner
+<LI><a href="#[1fc6e9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_outer
+<LI><a href="#[1fc7004]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_trackRel_ankle
+<LI><a href="#[1fc7040]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_trackAbs_ankle
+</UL>
+
+<P><STRONG><a name="[1efe020]"></a>disable_ankOut</STRONG> (ARM, 44 bytes, Stack size 8 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = disable_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe728]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_motors
+<LI><a href="#[1fc6fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_flight
+</UL>
+
+<P><STRONG><a name="[1efdfe4]"></a>disable_ankInn</STRONG> (ARM, 44 bytes, Stack size 8 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = disable_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe728]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_motors
+<LI><a href="#[1fc6fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_flight
+</UL>
+
+<P><STRONG><a name="[1efe728]"></a>disable_motors</STRONG> (ARM, 20 bytes, Stack size 8 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = disable_motors &rArr; disable_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdfe4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_ankInn
+<LI><a href="#[1efe020]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_ankOut
+<LI><a href="#[1efe05c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_hip
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe638]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;walkControl_entry
+<LI><a href="#[1f0918c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_controller_update
+</UL>
+
+<P><STRONG><a name="[1efdfa8]"></a>trackRel_ankOut</STRONG> (ARM, 64 bytes, Stack size 32 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = trackRel_ankOut &rArr; run_controller_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efe0d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_controller_ankOut
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;safeMode_main
+<LI><a href="#[1fc6848]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipUp_ankOut
+<LI><a href="#[1fc6ed8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipScissorTrack_inner
+<LI><a href="#[1fc6f50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_inner
+<LI><a href="#[1fc7004]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_trackRel_ankle
+</UL>
+
+<P><STRONG><a name="[1f021fc]"></a>trackRel_ankInn</STRONG> (ARM, 64 bytes, Stack size 32 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = trackRel_ankInn &rArr; run_controller_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efe098]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_controller_ankInn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;safeMode_main
+<LI><a href="#[1f02364]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sineTrack_run
+<LI><a href="#[1fc6884]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipUp_ankInn
+<LI><a href="#[1fc6c80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_singleStanceOuter
+<LI><a href="#[1fc6f14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipScissorTrack_outer
+<LI><a href="#[1fc6f8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_outer
+<LI><a href="#[1fc7004]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_trackRel_ankle
+</UL>
+
+<P><STRONG><a name="[1efdf6c]"></a>trackRel_hip</STRONG> (ARM, 64 bytes, Stack size 32 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = trackRel_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efe110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_controller_hip
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;safeMode_main
+<LI><a href="#[1fc67d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hipHold
+<LI><a href="#[1fc6d70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_inner
+<LI><a href="#[1fc6dac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_outer
+<LI><a href="#[1fc6f50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_inner
+<LI><a href="#[1fc6f8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_outer
+<LI><a href="#[1fc6fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_flight
+</UL>
+
+<P><STRONG><a name="[1efdf30]"></a>trackVel_hip</STRONG> (ARM, 64 bytes, Stack size 32 bytes, motorcontrol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1efe110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_controller_hip
+</UL>
+
+<P><STRONG><a name="[1efdef4]"></a>trackAbs_ankOut</STRONG> (ARM, 100 bytes, Stack size 32 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = trackAbs_ankOut &rArr; run_controller_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efe0d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_controller_ankOut
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc66e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pushOff_ankOut
+<LI><a href="#[1fc6758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankOut
+<LI><a href="#[1fc68c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipDown_ankOut
+<LI><a href="#[1fc6adc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_stepEventData
+<LI><a href="#[1fc6c80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_singleStanceOuter
+<LI><a href="#[1fc6cf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_doubleStanceContact
+<LI><a href="#[1fc6f14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipScissorTrack_outer
+<LI><a href="#[1fc6f8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_outer
+<LI><a href="#[1fc7040]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_trackAbs_ankle
+</UL>
+
+<P><STRONG><a name="[1efdeb8]"></a>trackAbs_ankInn</STRONG> (ARM, 100 bytes, Stack size 32 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = trackAbs_ankInn &rArr; run_controller_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efe098]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_controller_ankInn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc671c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pushOff_ankInn
+<LI><a href="#[1fc6794]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankInn
+<LI><a href="#[1fc68fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipDown_ankInn
+<LI><a href="#[1fc6adc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_stepEventData
+<LI><a href="#[1fc6cf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_doubleStanceContact
+<LI><a href="#[1fc6ed8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipScissorTrack_inner
+<LI><a href="#[1fc6f50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_inner
+<LI><a href="#[1fc7040]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_trackAbs_ankle
+</UL>
+
+<P><STRONG><a name="[1efde7c]"></a>trackScissor_hip</STRONG> (ARM, 384 bytes, Stack size 32 bytes, motorcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = trackScissor_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efe110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;run_controller_hip
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc680c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hipGlide
+<LI><a href="#[1fc6ed8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipScissorTrack_inner
+<LI><a href="#[1fc6f14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipScissorTrack_outer
+</UL>
+
+<P><STRONG><a name="[1f00708]"></a>Clamp</STRONG> (ARM, 52 bytes, Stack size 0 bytes, rangermath.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1efd2c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QuadInterp
+<LI><a href="#[1eff8f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LinInterpVar
+<LI><a href="#[1f02238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setObjFunInfo
+<LI><a href="#[1f02274]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pso_send_point
+</UL>
+
+<P><STRONG><a name="[1eff8f8]"></a>LinInterpVar</STRONG> (ARM, 200 bytes, Stack size 8 bytes, rangermath.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LinInterpVar
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f00708]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clamp
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1effad8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateGaitData
+<LI><a href="#[1fc6c08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_linInterpVar
+</UL>
+
+<P><STRONG><a name="[1efd2c4]"></a>QuadInterp</STRONG> (ARM, 228 bytes, Stack size 12 bytes, rangermath.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f00708]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clamp
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efd288]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tanh
+<LI><a href="#[1f02df0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sqrt
+<LI><a href="#[1f02e2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sin
+<LI><a href="#[1f030fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Atan
+</UL>
+
+<P><STRONG><a name="[1efd288]"></a>Tanh</STRONG> (ARM, 124 bytes, Stack size 4 bytes, rangermath.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1efd2c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QuadInterp
+</UL>
+
+<P><STRONG><a name="[1f030fc]"></a>Atan</STRONG> (ARM, 52 bytes, Stack size 4 bytes, rangermath.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = Atan &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd2c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QuadInterp
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f03228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeHeelStrikeGeometry
+</UL>
+
+<P><STRONG><a name="[1f02e2c]"></a>Sin</STRONG> (ARM, 308 bytes, Stack size 4 bytes, rangermath.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd2c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QuadInterp
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efd1d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SineWave
+<LI><a href="#[1efe14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hip_gravity_compensation
+<LI><a href="#[1f02db4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tan
+<LI><a href="#[1f030c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cos
+<LI><a href="#[1f03228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeHeelStrikeGeometry
+<LI><a href="#[1f03444]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getComPos
+</UL>
+
+<P><STRONG><a name="[1f030c0]"></a>Cos</STRONG> (ARM, 28 bytes, Stack size 4 bytes, rangermath.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = Cos &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02e2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sin
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f02364]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sineTrack_run
+<LI><a href="#[1f02db4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tan
+<LI><a href="#[1f03228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeHeelStrikeGeometry
+<LI><a href="#[1f03408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getComVel
+</UL>
+
+<P><STRONG><a name="[1f02db4]"></a>Tan</STRONG> (ARM, 36 bytes, Stack size 4 bytes, rangermath.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = Tan &rArr; Cos &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02e2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sin
+<LI><a href="#[1f030c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cos
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f03480]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setFilterCoeff
+</UL>
+
+<P><STRONG><a name="[1f02df0]"></a>Sqrt</STRONG> (ARM, 52 bytes, Stack size 4 bytes, rangermath.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = Sqrt &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd2c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QuadInterp
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f03228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;computeHeelStrikeGeometry
+</UL>
+
+<P><STRONG><a name="[1f02328]"></a>FastRand</STRONG> (ARM, 80 bytes, Stack size 0 bytes, rangermath.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f02274]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pso_send_point
+<LI><a href="#[1f02454]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;objFun_set_quadraticBowl
+<LI><a href="#[1fc6bcc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_fastRand
+</UL>
+
+<P><STRONG><a name="[1f03138]"></a>Abs</STRONG> (ARM, 40 bytes, Stack size 0 bytes, rangermath.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1f03174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkIfRobotFellDown
+</UL>
+
+<P><STRONG><a name="[1efd24c]"></a>Fmod</STRONG> (ARM, 40 bytes, Stack size 0 bytes, rangermath.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1efd15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SawToothWave
+<LI><a href="#[1efd198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TriangleWave
+<LI><a href="#[1efd210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SquareWave
+</UL>
+
+<P><STRONG><a name="[1f013ec]"></a>Mean</STRONG> (ARM, 64 bytes, Stack size 0 bytes, rangermath.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[1f01824]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;objFun_eval
+</UL>
+
+<P><STRONG><a name="[1efd210]"></a>SquareWave</STRONG> (ARM, 76 bytes, Stack size 4 bytes, rangermath.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = SquareWave
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efd120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PulseWave
+<LI><a href="#[1fc6d70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_inner
+<LI><a href="#[1fc6dac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_outer
+<LI><a href="#[1fc6e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_inner
+<LI><a href="#[1fc6e9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_outer
+<LI><a href="#[1fc7004]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_trackRel_ankle
+<LI><a href="#[1fc707c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_waveFunctions
+</UL>
+
+<P><STRONG><a name="[1efd1d4]"></a>SineWave</STRONG> (ARM, 148 bytes, Stack size 12 bytes, rangermath.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = SineWave &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02e2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sin
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6f50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_inner
+<LI><a href="#[1fc6f8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_outer
+<LI><a href="#[1fc707c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_waveFunctions
+</UL>
+
+<P><STRONG><a name="[1efd198]"></a>TriangleWave</STRONG> (ARM, 164 bytes, Stack size 4 bytes, rangermath.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = TriangleWave
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc7004]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_trackRel_ankle
+<LI><a href="#[1fc707c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_waveFunctions
+</UL>
+
+<P><STRONG><a name="[1efd15c]"></a>SawToothWave</STRONG> (ARM, 60 bytes, Stack size 4 bytes, rangermath.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = SawToothWave
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6c08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_linInterpVar
+<LI><a href="#[1fc707c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_waveFunctions
+</UL>
+
+<P><STRONG><a name="[1efd120]"></a>PulseWave</STRONG> (ARM, 112 bytes, Stack size 4 bytes, rangermath.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = PulseWave &rArr; SquareWave
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SquareWave
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6a28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pulseWave
+</UL>
+
+<P><STRONG><a name="[1efe674]"></a>setSafeModeConfig</STRONG> (ARM, 52 bytes, Stack size 0 bytes, safemode.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1efe6b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;safeMode_main
+<LI><a href="#[1f02d00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enterSafeMode
+</UL>
+
+<P><STRONG><a name="[1efe6b0]"></a>safeMode_main</STRONG> (ARM, 100 bytes, Stack size 8 bytes, safemode.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = safeMode_main &rArr; trackRel_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdf6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_hip
+<LI><a href="#[1efdfa8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankOut
+<LI><a href="#[1efe674]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setSafeModeConfig
+<LI><a href="#[1f021fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankInn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0918c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_controller_update
+</UL>
+
+<P><STRONG><a name="[1fc70b8]"></a>getTime</STRONG> (ARM, 32 bytes, Stack size 8 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = getTime &rArr; mb_io_get_float
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6a28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pulseWave
+<LI><a href="#[1fc6c08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_linInterpVar
+<LI><a href="#[1fc6d70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_inner
+<LI><a href="#[1fc6dac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_outer
+<LI><a href="#[1fc6e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_inner
+<LI><a href="#[1fc6e9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_outer
+<LI><a href="#[1fc6f50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_inner
+<LI><a href="#[1fc6f8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_outer
+<LI><a href="#[1fc7004]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_trackRel_ankle
+<LI><a href="#[1fc707c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_waveFunctions
+</UL>
+
+<P><STRONG><a name="[1fc707c]"></a>test_waveFunctions</STRONG> (ARM, 176 bytes, Stack size 32 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = test_waveFunctions &rArr; SineWave &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SawToothWave
+<LI><a href="#[1efd198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TriangleWave
+<LI><a href="#[1efd1d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SineWave
+<LI><a href="#[1efd210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SquareWave
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1fc70b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTime
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc7040]"></a>test_trackAbs_ankle</STRONG> (ARM, 76 bytes, Stack size 32 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = test_trackAbs_ankle &rArr; trackAbs_ankInn &rArr; run_controller_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdeb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankInn
+<LI><a href="#[1efdef4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankOut
+<LI><a href="#[1efe05c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_hip
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc7004]"></a>test_trackRel_ankle</STRONG> (ARM, 172 bytes, Stack size 40 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = test_trackRel_ankle &rArr; trackRel_ankOut &rArr; run_controller_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TriangleWave
+<LI><a href="#[1efd210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SquareWave
+<LI><a href="#[1efdfa8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankOut
+<LI><a href="#[1efe05c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_hip
+<LI><a href="#[1f021fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankInn
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1fc70b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTime
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6fc8]"></a>test_hipCompensation_flight</STRONG> (ARM, 116 bytes, Stack size 32 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = test_hipCompensation_flight &rArr; trackRel_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdf6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_hip
+<LI><a href="#[1efdfe4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_ankInn
+<LI><a href="#[1efe020]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_ankOut
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6f8c]"></a>test_hipCompensation_outer</STRONG> (ARM, 164 bytes, Stack size 48 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = test_hipCompensation_outer &rArr; trackRel_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd1d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SineWave
+<LI><a href="#[1efdef4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankOut
+<LI><a href="#[1efdf6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_hip
+<LI><a href="#[1f021fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankInn
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1fc70b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTime
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6f50]"></a>test_hipCompensation_inner</STRONG> (ARM, 164 bytes, Stack size 48 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = test_hipCompensation_inner &rArr; trackRel_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd1d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SineWave
+<LI><a href="#[1efdeb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankInn
+<LI><a href="#[1efdf6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_hip
+<LI><a href="#[1efdfa8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankOut
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1fc70b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTime
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6f14]"></a>test_hipScissorTrack_outer</STRONG> (ARM, 124 bytes, Stack size 32 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = test_hipScissorTrack_outer &rArr; trackScissor_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efde7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackScissor_hip
+<LI><a href="#[1efdef4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankOut
+<LI><a href="#[1f021fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankInn
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6ed8]"></a>test_hipScissorTrack_inner</STRONG> (ARM, 136 bytes, Stack size 32 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = test_hipScissorTrack_inner &rArr; trackScissor_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efde7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackScissor_hip
+<LI><a href="#[1efdeb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankInn
+<LI><a href="#[1efdfa8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankOut
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6e9c]"></a>test_flipUpDownHold_outer</STRONG> (ARM, 96 bytes, Stack size 32 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = test_flipUpDownHold_outer &rArr; holdStance_ankOut &rArr; trackAbs_ankOut &rArr; run_controller_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SquareWave
+<LI><a href="#[1efe05c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_hip
+<LI><a href="#[1fc6758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankOut
+<LI><a href="#[1fc6884]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipUp_ankInn
+<LI><a href="#[1fc68fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipDown_ankInn
+<LI><a href="#[1fc70b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTime
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6e60]"></a>test_flipUpDownHold_inner</STRONG> (ARM, 96 bytes, Stack size 32 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = test_flipUpDownHold_inner &rArr; holdStance_ankInn &rArr; trackAbs_ankInn &rArr; run_controller_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SquareWave
+<LI><a href="#[1efe05c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_hip
+<LI><a href="#[1fc6794]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankInn
+<LI><a href="#[1fc6848]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipUp_ankOut
+<LI><a href="#[1fc68c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipDown_ankOut
+<LI><a href="#[1fc70b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTime
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6e24]"></a>test_hipGlide_outer</STRONG> (ARM, 20 bytes, Stack size 8 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = test_hipGlide_outer &rArr; hipGlide &rArr; trackScissor_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1fc6758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankOut
+<LI><a href="#[1fc680c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hipGlide
+<LI><a href="#[1fc6884]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipUp_ankInn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6de8]"></a>test_hipGlide_inner</STRONG> (ARM, 20 bytes, Stack size 8 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = test_hipGlide_inner &rArr; hipGlide &rArr; trackScissor_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1fc6794]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankInn
+<LI><a href="#[1fc680c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hipGlide
+<LI><a href="#[1fc6848]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipUp_ankOut
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6dac]"></a>test_pushOff_outer</STRONG> (ARM, 148 bytes, Stack size 40 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = test_pushOff_outer &rArr; trackRel_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SquareWave
+<LI><a href="#[1efdf6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_hip
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+<LI><a href="#[1fc671c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pushOff_ankInn
+<LI><a href="#[1fc6758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankOut
+<LI><a href="#[1fc6794]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankInn
+<LI><a href="#[1fc70b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTime
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6d70]"></a>test_pushOff_inner</STRONG> (ARM, 184 bytes, Stack size 40 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = test_pushOff_inner &rArr; trackRel_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SquareWave
+<LI><a href="#[1efdf6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_hip
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+<LI><a href="#[1fc66e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pushOff_ankOut
+<LI><a href="#[1fc6758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankOut
+<LI><a href="#[1fc6794]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankInn
+<LI><a href="#[1fc70b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTime
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6d34]"></a>test_hipHold</STRONG> (ARM, 24 bytes, Stack size 8 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = test_hipHold &rArr; hipHold &rArr; trackRel_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1fc6758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankOut
+<LI><a href="#[1fc6794]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankInn
+<LI><a href="#[1fc67d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hipHold
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6cf8]"></a>test_doubleStanceContact</STRONG> (ARM, 68 bytes, Stack size 16 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = test_doubleStanceContact &rArr; trackAbs_ankInn &rArr; run_controller_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdeb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankInn
+<LI><a href="#[1efdef4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankOut
+<LI><a href="#[1efe05c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_hip
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6cbc]"></a>debug_directCurrentControl</STRONG> (ARM, 148 bytes, Stack size 16 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = debug_directCurrentControl &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6c80]"></a>debug_singleStanceOuter</STRONG> (ARM, 68 bytes, Stack size 16 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = debug_singleStanceOuter &rArr; trackAbs_ankOut &rArr; run_controller_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdef4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankOut
+<LI><a href="#[1efe05c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_hip
+<LI><a href="#[1f021fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankInn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6c44]"></a>debug_steeringMotors</STRONG> (ARM, 76 bytes, Stack size 16 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = debug_steeringMotors &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6c08]"></a>test_linInterpVar</STRONG> (ARM, 144 bytes, Stack size 32 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = test_linInterpVar &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SawToothWave
+<LI><a href="#[1eff8f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LinInterpVar
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1fc70b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTime
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6bcc]"></a>test_fastRand</STRONG> (ARM, 32 bytes, Stack size 16 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = test_fastRand &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02328]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FastRand
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6b90]"></a>test_pso_quadBowl</STRONG> (ARM, 272 bytes, Stack size 32 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = test_pso_quadBowl &rArr; objFun_set_quadraticBowl &rArr; setObjFunInfo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f007bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;psoGetSelectObjVal
+<LI><a href="#[1f007f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;psoGetSelectBest
+<LI><a href="#[1f00834]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;psoGetGlobalBest
+<LI><a href="#[1f00870]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;psoReset
+<LI><a href="#[1f02274]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pso_send_point
+<LI><a href="#[1f022b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pso_eval_point
+<LI><a href="#[1f02454]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;objFun_set_quadraticBowl
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6b54]"></a>test_pso_quadBowlAsync</STRONG> (ARM, 396 bytes, Stack size 32 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = test_pso_quadBowlAsync &rArr; objFun_set_quadraticBowl &rArr; setObjFunInfo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f007bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;psoGetSelectObjVal
+<LI><a href="#[1f007f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;psoGetSelectBest
+<LI><a href="#[1f00834]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;psoGetGlobalBest
+<LI><a href="#[1f00870]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;psoReset
+<LI><a href="#[1f02274]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pso_send_point
+<LI><a href="#[1f022b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pso_eval_point
+<LI><a href="#[1f02454]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;objFun_set_quadraticBowl
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6b18]"></a>test_pso_sineTrack</STRONG> (ARM, 240 bytes, Stack size 32 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = test_pso_sineTrack &rArr; sineTrack_run &rArr; objFun_set_sineTrack &rArr; setObjFunInfo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f007bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;psoGetSelectObjVal
+<LI><a href="#[1f007f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;psoGetSelectBest
+<LI><a href="#[1f00834]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;psoGetGlobalBest
+<LI><a href="#[1f02364]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sineTrack_run
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6adc]"></a>test_stepEventData</STRONG> (ARM, 144 bytes, Stack size 16 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = test_stepEventData &rArr; triggerHeelStrikeUpdate &rArr; computeHeelStrikeGeometry &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdeb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankInn
+<LI><a href="#[1efdef4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankOut
+<LI><a href="#[1efe05c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_hip
+<LI><a href="#[1f031ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;triggerHeelStrikeUpdate
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6aa0]"></a>test_uiPlaySong</STRONG> (ARM, 20 bytes, Stack size 8 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = test_uiPlaySong &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6a64]"></a>test_safeMode</STRONG> (ARM, 12 bytes, Stack size 8 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = test_safeMode &rArr; enterSafeMode
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f02d00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;enterSafeMode
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6a28]"></a>test_pulseWave</STRONG> (ARM, 96 bytes, Stack size 16 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = test_pulseWave &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efd120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PulseWave
+<LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1fc70b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTime
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc69ec]"></a>test_sendFastData</STRONG> (ARM, 68 bytes, Stack size 16 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = test_sendFastData &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc69b0]"></a>test_sendFastDataBuffered</STRONG> (ARM, 116 bytes, Stack size 16 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = test_sendFastDataBuffered
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f04d1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;addToQueue
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6974]"></a>test_optimSaveToOutput</STRONG> (ARM, 88 bytes, Stack size 8 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = test_optimSaveToOutput &rArr; saveOptim
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f00744]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;saveOptim
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1fc6938]"></a>test_timestampSend</STRONG> (ARM, 36 bytes, Stack size 16 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = test_timestampSend &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08e80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_set_float
+<LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1efe6ec]"></a>runUnitTest</STRONG> (ARM, 572 bytes, Stack size 8 bytes, unit_test.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = runUnitTest &rArr; test_pso_sineTrack &rArr; sineTrack_run &rArr; objFun_set_sineTrack &rArr; setObjFunInfo
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f08fe8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_io_get_float
+<LI><a href="#[1fc66a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;walkControl_test
+<LI><a href="#[1fc6938]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_timestampSend
+<LI><a href="#[1fc6974]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_optimSaveToOutput
+<LI><a href="#[1fc69b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_sendFastDataBuffered
+<LI><a href="#[1fc69ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_sendFastData
+<LI><a href="#[1fc6a28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pulseWave
+<LI><a href="#[1fc6a64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_safeMode
+<LI><a href="#[1fc6aa0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_uiPlaySong
+<LI><a href="#[1fc6adc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_stepEventData
+<LI><a href="#[1fc6b18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_sineTrack
+<LI><a href="#[1fc6b54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowlAsync
+<LI><a href="#[1fc6b90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pso_quadBowl
+<LI><a href="#[1fc6bcc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_fastRand
+<LI><a href="#[1fc6c08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_linInterpVar
+<LI><a href="#[1fc6c44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_steeringMotors
+<LI><a href="#[1fc6c80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_singleStanceOuter
+<LI><a href="#[1fc6cbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_directCurrentControl
+<LI><a href="#[1fc6cf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_doubleStanceContact
+<LI><a href="#[1fc6d34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipHold
+<LI><a href="#[1fc6d70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_inner
+<LI><a href="#[1fc6dac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_outer
+<LI><a href="#[1fc6de8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipGlide_inner
+<LI><a href="#[1fc6e24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipGlide_outer
+<LI><a href="#[1fc6e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_inner
+<LI><a href="#[1fc6e9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_outer
+<LI><a href="#[1fc6ed8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipScissorTrack_inner
+<LI><a href="#[1fc6f14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipScissorTrack_outer
+<LI><a href="#[1fc6f50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_inner
+<LI><a href="#[1fc6f8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_outer
+<LI><a href="#[1fc6fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipCompensation_flight
+<LI><a href="#[1fc7004]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_trackRel_ankle
+<LI><a href="#[1fc7040]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_trackAbs_ankle
+<LI><a href="#[1fc707c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_waveFunctions
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0918c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_controller_update
+</UL>
+
+<P><STRONG><a name="[1fc6104]"></a>updateWalkFsm</STRONG> (ARM, 300 bytes, Stack size 0 bytes, walkcontrol.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1efe5fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;walkControl_main
+<LI><a href="#[1fc6014]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_walkFsmTransitions
+</UL>
+
+<P><STRONG><a name="[1fc60c8]"></a>setWalkFsmLed</STRONG> (ARM, 168 bytes, Stack size 8 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = setWalkFsmLed &rArr; set_UI_LED &rArr; set_io_ul &rArr; mb_io_set_ul &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f012c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_UI_LED
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe5fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;walkControl_main
+<LI><a href="#[1fc6014]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_walkFsmTransitions
+</UL>
+
+<P><STRONG><a name="[1fc608c]"></a>readGaitData</STRONG> (ARM, 184 bytes, Stack size 0 bytes, walkcontrol.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1efe5fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;walkControl_main
+</UL>
+
+<P><STRONG><a name="[1fc6884]"></a>flipUp_ankInn</STRONG> (ARM, 36 bytes, Stack size 8 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = flipUp_ankInn &rArr; trackRel_ankInn &rArr; run_controller_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f021fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankInn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6050]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendMotorCommands
+<LI><a href="#[1fc6e24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipGlide_outer
+<LI><a href="#[1fc6e9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_outer
+</UL>
+
+<P><STRONG><a name="[1fc6758]"></a>holdStance_ankOut</STRONG> (ARM, 36 bytes, Stack size 8 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = holdStance_ankOut &rArr; trackAbs_ankOut &rArr; run_controller_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdef4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankOut
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6014]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_walkFsmTransitions
+<LI><a href="#[1fc6050]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendMotorCommands
+<LI><a href="#[1fc6d34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipHold
+<LI><a href="#[1fc6d70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_inner
+<LI><a href="#[1fc6dac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_outer
+<LI><a href="#[1fc6e24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipGlide_outer
+<LI><a href="#[1fc6e9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_outer
+</UL>
+
+<P><STRONG><a name="[1fc67d0]"></a>hipHold</STRONG> (ARM, 176 bytes, Stack size 16 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = hipHold &rArr; trackRel_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdf6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_hip
+<LI><a href="#[1efe05c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_hip
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6050]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendMotorCommands
+<LI><a href="#[1fc6d34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipHold
+</UL>
+
+<P><STRONG><a name="[1fc671c]"></a>pushOff_ankInn</STRONG> (ARM, 96 bytes, Stack size 16 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = pushOff_ankInn &rArr; trackAbs_ankInn &rArr; run_controller_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdeb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankInn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6050]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendMotorCommands
+<LI><a href="#[1fc6dac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_outer
+</UL>
+
+<P><STRONG><a name="[1fc68c0]"></a>flipDown_ankOut</STRONG> (ARM, 36 bytes, Stack size 8 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = flipDown_ankOut &rArr; trackAbs_ankOut &rArr; run_controller_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdef4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankOut
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6050]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendMotorCommands
+<LI><a href="#[1fc6e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_inner
+</UL>
+
+<P><STRONG><a name="[1fc680c]"></a>hipGlide</STRONG> (ARM, 44 bytes, Stack size 8 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = hipGlide &rArr; trackScissor_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efde7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackScissor_hip
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6050]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendMotorCommands
+<LI><a href="#[1fc6de8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipGlide_inner
+<LI><a href="#[1fc6e24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipGlide_outer
+</UL>
+
+<P><STRONG><a name="[1fc6794]"></a>holdStance_ankInn</STRONG> (ARM, 36 bytes, Stack size 8 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = holdStance_ankInn &rArr; trackAbs_ankInn &rArr; run_controller_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdeb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankInn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6014]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_walkFsmTransitions
+<LI><a href="#[1fc6050]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendMotorCommands
+<LI><a href="#[1fc6d34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipHold
+<LI><a href="#[1fc6d70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_inner
+<LI><a href="#[1fc6dac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_outer
+<LI><a href="#[1fc6de8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipGlide_inner
+<LI><a href="#[1fc6e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_inner
+</UL>
+
+<P><STRONG><a name="[1fc6848]"></a>flipUp_ankOut</STRONG> (ARM, 36 bytes, Stack size 8 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = flipUp_ankOut &rArr; trackRel_ankOut &rArr; run_controller_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdfa8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackRel_ankOut
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6050]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendMotorCommands
+<LI><a href="#[1fc6de8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_hipGlide_inner
+<LI><a href="#[1fc6e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_inner
+</UL>
+
+<P><STRONG><a name="[1fc66e0]"></a>pushOff_ankOut</STRONG> (ARM, 252 bytes, Stack size 16 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = pushOff_ankOut &rArr; trackAbs_ankOut &rArr; run_controller_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdef4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankOut
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6050]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendMotorCommands
+<LI><a href="#[1fc6d70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_pushOff_inner
+</UL>
+
+<P><STRONG><a name="[1fc68fc]"></a>flipDown_ankInn</STRONG> (ARM, 36 bytes, Stack size 8 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = flipDown_ankInn &rArr; trackAbs_ankInn &rArr; run_controller_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efdeb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trackAbs_ankInn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc6050]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendMotorCommands
+<LI><a href="#[1fc6e9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_flipUpDownHold_outer
+</UL>
+
+<P><STRONG><a name="[1fc6050]"></a>sendMotorCommands</STRONG> (ARM, 196 bytes, Stack size 16 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = sendMotorCommands &rArr; hipHold &rArr; trackRel_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efe05c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_hip
+<LI><a href="#[1fc66e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pushOff_ankOut
+<LI><a href="#[1fc671c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pushOff_ankInn
+<LI><a href="#[1fc6758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankOut
+<LI><a href="#[1fc6794]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankInn
+<LI><a href="#[1fc67d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hipHold
+<LI><a href="#[1fc680c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hipGlide
+<LI><a href="#[1fc6848]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipUp_ankOut
+<LI><a href="#[1fc6884]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipUp_ankInn
+<LI><a href="#[1fc68c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipDown_ankOut
+<LI><a href="#[1fc68fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flipDown_ankInn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe5fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;walkControl_main
+</UL>
+
+<P><STRONG><a name="[1fc6014]"></a>test_walkFsmTransitions</STRONG> (ARM, 28 bytes, Stack size 8 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = test_walkFsmTransitions &rArr; holdStance_ankOut &rArr; trackAbs_ankOut &rArr; run_controller_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efe05c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_hip
+<LI><a href="#[1fc60c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setWalkFsmLed
+<LI><a href="#[1fc6104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateWalkFsm
+<LI><a href="#[1fc6758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankOut
+<LI><a href="#[1fc6794]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;holdStance_ankInn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc66a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;walkControl_test
+</UL>
+
+<P><STRONG><a name="[1fc66a4]"></a>walkControl_test</STRONG> (ARM, 12 bytes, Stack size 8 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = walkControl_test &rArr; test_walkFsmTransitions &rArr; holdStance_ankOut &rArr; trackAbs_ankOut &rArr; run_controller_ankOut &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1fc6014]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_walkFsmTransitions
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1efe6ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUnitTest
+</UL>
+
+<P><STRONG><a name="[1efe638]"></a>walkControl_entry</STRONG> (ARM, 32 bytes, Stack size 8 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = walkControl_entry &rArr; disable_motors &rArr; disable_ankInn &rArr; mb_io_set_float &rArr; mb_io_get_time
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1efe728]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;disable_motors
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0918c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_controller_update
+</UL>
+
+<P><STRONG><a name="[1efe5fc]"></a>walkControl_main</STRONG> (ARM, 24 bytes, Stack size 8 bytes, walkcontrol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = walkControl_main &rArr; sendMotorCommands &rArr; hipHold &rArr; trackRel_hip &rArr; run_controller_hip &rArr; hip_gravity_compensation &rArr; Sin &rArr; QuadInterp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1fc6050]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendMotorCommands
+<LI><a href="#[1fc608c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readGaitData
+<LI><a href="#[1fc60c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setWalkFsmLed
+<LI><a href="#[1fc6104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updateWalkFsm
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0918c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mb_controller_update
+</UL>
+
+<P><STRONG><a name="[1fc5c54]"></a>__aeabi_idiv</STRONG> (ARM, 0 bytes, Stack size 8 bytes, aeabi_sdiv.o(.text), UNUSED)
+
+<P><STRONG><a name="[1fc5c18]"></a>__aeabi_idivmod</STRONG> (ARM, 380 bytes, Stack size 8 bytes, aeabi_sdiv.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[1eff100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_input_output
+</UL>
+
+<P><STRONG><a name="[1fc52f4]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+
+<P><STRONG><a name="[1fc52b8]"></a>__rt_heap_escrow$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+
+<P><STRONG><a name="[1fc527c]"></a>__rt_heap_expand$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+
+<P><STRONG><a name="[1fc446c]"></a>__user_setup_stackheap</STRONG> (ARM, 96 bytes, Stack size 8 bytes, sys_stackheap_outer.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
+<LI>Call Chain = __user_setup_stackheap
+</UL>
+<BR>[Calls]<UL><LI><a href="#[1f0b5a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_initial_stackheap
+<LI><a href="#[1fc35e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_perproc_libspace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc46c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_sh
+</UL>
+
+<P><STRONG><a name="[1fc4304]"></a>exit</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, exit.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[1fc34f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit (via BLX)
+<LI><a href="#[1fc428c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_call_atexit_fns (Weak Reference)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1fc48e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
+</UL>
+
+<P><STRONG><a name="[1fc3620]"></a>__user_libspace</STRONG> (ARM, 12 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
+
+<P><STRONG><a name="[1fc35e4]"></a>__user_perproc_libspace</STRONG> (ARM, 0 bytes, Stack size 0 bytes, libspace.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1fc446c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
+</UL>
+
+<P><STRONG><a name="[1fc35a8]"></a>__user_perthread_libspace</STRONG> (ARM, 0 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
+
+<P><STRONG><a name="[1fc158c]"></a>_sys_exit</STRONG> (ARM, 20 bytes, Stack size 0 bytes, sys_exit.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[1fc1334]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_exit
+</UL>
+
+<P><STRONG><a name="[1fc0ce0]"></a>__I$use$semihosting</STRONG> (ARM, 0 bytes, Stack size 0 bytes, use_no_semi.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> sys_exit.o(.text)
+</UL>
+<P><STRONG><a name="[1fc0ca4]"></a>__use_no_semihosting_swi</STRONG> (ARM, 4 bytes, Stack size 0 bytes, use_no_semi.o(.text), UNUSED)
+
+<P><STRONG><a name="[1fc16f4]"></a>_fp_init</STRONG> (ARM, 12 bytes, Stack size 0 bytes, fpinit.o(x$fpl$fpinit))
+<BR><BR>[Called By]<UL><LI><a href="#[1fc3c74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init (via BLX)
+</UL>
+
+<P><STRONG><a name="[1fc16b8]"></a>__fplib_config_fpu_vfp</STRONG> (ARM, 0 bytes, Stack size unknown bytes, fpinit.o(x$fpl$fpinit), UNUSED)
+
+<P><STRONG><a name="[1fc167c]"></a>__fplib_config_pureend_doubles</STRONG> (ARM, 0 bytes, Stack size unknown bytes, fpinit.o(x$fpl$fpinit), UNUSED)
+<P>
+<H3>
+Local Symbols
+</H3>
+<P><STRONG><a name="[1f0b748]"></a>Undef_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, lpc32x0.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[1f0b748]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Undef_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0b748]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Undef_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[1f0b70c]"></a>SWI_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, lpc32x0.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[1f0b70c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SWI_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0b70c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SWI_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[1f0b6d0]"></a>PAbt_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, lpc32x0.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[1f0b6d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PAbt_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0b6d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PAbt_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL>
+<P><STRONG><a name="[1f0b694]"></a>DAbt_Handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, lpc32x0.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[1f0b694]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DAbt_Handler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[1f0b694]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DAbt_Handler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> lpc32x0.o(RESET)
+</UL><P>
+<H3>
+Undefined Global Symbols
+</H3>
+<P><STRONG><a name="[1fc428c]"></a>_call_atexit_fns</STRONG> (ARM, 0 bytes, Stack size 0 bytes, UNDEFINED)
+<BR><BR>[Called By]<UL><LI><a href="#[1fc4304]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
+</UL>
+<HR></body></html>
