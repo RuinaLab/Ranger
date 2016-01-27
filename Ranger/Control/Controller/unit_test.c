@@ -619,6 +619,32 @@ void test_timestampSend(void){
 	mb_io_set_float(ID_CTRL_TEST_W0, mb_io_get_float(ID_TIMESTAMP));
 }
 
+/* --34--  Make sure we understand the difference between MOTOR_CURRENT, COMMAND_CURRENT, and TARGET_CURRENT.
+ * Theory: MOTOR_CURRENT is actually what's sensed at the motor. COMMAND_CURRENT is the feedforward term of
+ * current control loop, and TARGET_CURRENT is the current command sent to the low level controller after 
+ * feedback is added.
+ * Test: Give COMMAND_CURRENT a value.. Alternate between 0 and nonzero gains. See what changes. 
+ * Result: MOTOR_CURRENT seems to track COMMAND_CURRENT. TARGET_CURRENT doesn't seem to do anything. 
+ * If TARGET_CURRENT is set directly, it affects neither of the other two. */
+
+void test_motorCurrentCommandTypes(void){
+
+	float period = 1.5;
+	bool pulse = PulseWave(getTime(), period);
+
+	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, 0.01);
+	// mb_io_set_float(ID_MCFI_MOTOR_TARGET_CURRENT, 0.05);
+	if (pulse){
+
+		mb_io_set_float(ID_MCFI_STIFFNESS, 1);
+		mb_io_set_float(ID_MCFI_DAMPNESS, 1);
+	}else{
+
+		mb_io_set_float(ID_MCFI_STIFFNESS, 0.0);
+		mb_io_set_float(ID_MCFI_DAMPNESS, 0.0);
+	}
+
+}
 
 
 /* Entry-point function for all unit tests */
@@ -642,6 +668,7 @@ void runUnitTest(void) {
 	case 6: test_hipCompensation_inner(); break;
 	case 7: test_hipScissorTrack_outer(); break;
 	case 8: test_hipScissorTrack_inner(); break;
+	case 34: test_motorCurrentCommandTypes(); break;
 
 	/**** High-Level Motor Control ****/
 	case 9: test_flipUpDownHold_outer(); break;
