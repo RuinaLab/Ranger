@@ -31,7 +31,7 @@ OPTFFF 4,8,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_
 OPTFFF 4,9,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_bluetooth\mb_bluetooth.c><mb_bluetooth.c> 
 OPTFFF 4,10,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c><a9_clock.c> 
 OPTFFF 4,11,1,-2046820352,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c> 
-OPTFFF 4,12,1,503316482,0,43,43,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,110,0,0,0,145,0,0,0,44,5,0,0,140,2,0,0 }
+OPTFFF 4,12,1,503316482,0,73,73,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,59,0,0,0,64,0,0,0,249,4,0,0,59,2,0,0 }
 OPTFFF 5,13,1,0,0,0,0,0,<..\..\Estimator\bufferDataOut.c><bufferDataOut.c> 
 OPTFFF 5,14,1,0,0,0,0,0,<..\..\Estimator\mb_estimator.c><mb_estimator.c> 
 OPTFFF 5,15,1,0,0,0,0,0,<..\..\Estimator\objectiveFunction.c><objectiveFunction.c> 

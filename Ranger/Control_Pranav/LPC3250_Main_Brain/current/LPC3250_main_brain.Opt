@@ -43,7 +43,6 @@ OPTFFF 6,20,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\leg_fsm.cpp><leg_fsm
 OPTFFF 6,21,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\mb_fsm.cpp><mb_fsm.cpp> 
 OPTFFF 6,22,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\steering_fsm.cpp><steering_fsm.cpp> 
 
-ExtF <C:\Users\Matt\Documents\RangerGit\Robot_Nervous_System\LPC3xxx_Modules\mb_includes.h> 15,15,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,82,0,0,0,34,0,0,0,237,5,0,0,65,1,0,0 }
 
 TARGOPT 1, (LPC3250 Int RAM)
  ADSCLK=13000000
