@@ -62,6 +62,12 @@ static FilterData FD_MCFI_RIGHT_HEEL_SENSE;
 /* Butterworth filter on steering angle */
 static FilterData FD_MCSI_STEER_ANGLE;
 
+/* Power used by boards */
+static float POWER_MCH;
+static float POWER_MCFO;
+static float POWER_MCFI;
+static float POWER_OVERHEAD;
+
 // /* Parameters from Labview */
 bool LABVIEW_HIP_COMPENSATION_TARGET; // Hip compensation at the target (true) or measured state (false)
 bool LABVIEW_HIP_GRAVITY_COMPENSATION;  // enable gravity compensation in hip?
@@ -455,13 +461,54 @@ void triggerHeelStrikeUpdate(void){
 /* This function sums up the power used by all boards and sends it out as a single
  * data value to LabVIEW */
 void sendTotalPower(void) {
-	float power = 0.0;  // accumulate total power
-	power = power + mb_io_get_float(ID_MCH_BATT_POWER);
-	power = power + mb_io_get_float(ID_MCFO_BATT_POWER);
-	power = power + mb_io_get_float(ID_MCFI_BATT_POWER);
-	power = power + mb_io_get_float(ID_CSR_MCU_POWER);  // All overhead power
+	float power;
+
+	// Read CAN bus:
+	POWER_MCH = mb_io_get_float(ID_MCH_BATT_POWER);
+	POWER_MCFO = mb_io_get_float(ID_MCFO_BATT_POWER);
+	POWER_MCFI = mb_io_get_float(ID_MCFI_BATT_POWER);
+	POWER_OVERHEAD = mb_io_get_float(ID_CSR_MCU_POWER);
+
+	// Accumulate power use and send out
+	power = POWER_MCH + POWER_MCFO + POWER_MCFI + POWER_OVERHEAD;  
 	mb_io_set_float(ID_EST_TOTAL_BATT_POWER, power);
 }
+
+/* This function accumulates the total energy used by each board */
+void updateEnergyUsage(void){
+	static float t = 0;  // time at last data point
+	static float pHip = 0;  // power used by the hip
+	static float p0 = 0;  // power used by the outer feet
+	static float p1 = 0;  // power used by the inner feet
+	static float pCpu = 0;  // power used by the overheads	
+	static float eHip = 0;  // energy used by the hip
+	static float e0 = 0;  // energy used by the outer feet
+	static float e1 = 0;  // energy used by the inner feet
+	static float eCpu = 0;  // energy used by the overheads
+	float dt = 0; // time step between current and previous data
+
+	// Approximate integral by trapezoid method
+	dt = STATE_t - t;
+	eHip = eHip + 0.5*dt*(pHip + POWER_MCH);
+	e0 = e0 + 0.5*dt*(p0 + POWER_MCFO);
+	e1 = e1 + 0.5*dt*(p1 + POWER_MCFI);
+	eCpu = eCpu + 0.5*dt*(pCpu + POWER_OVERHEAD);
+
+	// Send estimates:
+	mb_io_set_float(ID_EST_ENERGY_MCH,eHip);
+	mb_io_set_float(ID_EST_ENERGY_MCFO,e0);
+	mb_io_set_float(ID_EST_ENERGY_MCFI,e1);
+	mb_io_set_float(ID_EST_ENERGY_OVERHEAD,eCpu);
+
+	// Update static power variables:
+	t = STATE_t;
+	pHip = POWER_MCH;
+	p0 = POWER_MCFO;
+	p1 = POWER_MCFI;
+	pCpu = POWER_OVERHEAD;
+
+}
+
 
 /* Checks to see if the robot fell down, by measuring the absolute angle of both legs
  * If the absolute value of the legs are outside of the bounds, then it sets the
@@ -540,7 +587,8 @@ void mb_estimator_update(void) {
 	STATE_t = 0.001*mb_io_get_float(ID_TIMESTAMP);  // Robot Time (converted to seconds)
 	runAllFilters();// Run the butterworth filters:
 	updateRobotOrientation();
-	sendTotalPower();  // Used when data-logging the cost of transport
+	sendTotalPower();  
+	updateEnergyUsage(); // Must come after sendTotalPower()
 
 	// Update the state variables:  (absolute orientation and rate)
 	updateRobotState();

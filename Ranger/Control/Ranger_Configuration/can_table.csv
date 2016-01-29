@@ -234,6 +234,10 @@ OPTIM_FSM_MODE,0,1,0,0 = INIT    1 = PRE_TRIAL    2 = TRIAL    3 = FLYING
 OPTIM_BUTTON_PUSH,0,1,0,0 == reject      1 = accept
 OPTIM_SAVE_OPTIM_STATE,0,1,0,Save an optimization so it can be loaded later. Order of parameter dump TBD
 OPTIM_LAST_START_TIME,0,1,0,The time that the most recent trial has begun. Same value sent very frequently to make sure it gets through.
+EST_ENERGY_MCH,0,1,0,Accumulated work since robot turned on - measured at board power supply.
+EST_ENERGY_MCFO,0,1,0,Accumulated work since robot turned on - measured at board power supply.
+EST_ENERGY_MCFI,0,1,0,Accumulated work since robot turned on - measured at board power supply.
+EST_ENERGY_OVERHEAD,0,1,0,Accumulated work since robot turned on - measured at board power supply.
 #,,,,
 #ControllerParameters,,,,
 CTRL_HIP_KP,25,0,1,
