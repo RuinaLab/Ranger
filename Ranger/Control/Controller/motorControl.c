@@ -210,7 +210,7 @@ void trackVel_hip(float qh, float dqh, float kp, float kd) {
  * a constant absolute orientation (phi0). */
 void trackAbs_ankOut(float phi0, float kp, float kd) {
 	ctrlAnkOut.uRef = 0.0;
-	ctrlAnkOut.xRef = PARAM_Phi - phi0 + STATE_th0;
+	ctrlAnkOut.xRef = PARAM_Phi0 - phi0 + STATE_th0;
 	ctrlAnkOut.vRef = STATE_dth0;
 	ctrlAnkOut.kp = kp;
 	ctrlAnkOut.kd = kd;
@@ -221,7 +221,7 @@ void trackAbs_ankOut(float phi0, float kp, float kd) {
  * a constant absolute orientation (phi1). */
 void trackAbs_ankInn(float phi1, float kp, float kd) {
 	ctrlAnkInn.uRef = 0.0;
-	ctrlAnkInn.xRef = PARAM_Phi - phi1 + STATE_th1;
+	ctrlAnkInn.xRef = PARAM_Phi1 - phi1 + STATE_th1;
 	ctrlAnkInn.vRef = STATE_dth1;
 	ctrlAnkInn.kp = kp;
 	ctrlAnkInn.kd = kd;

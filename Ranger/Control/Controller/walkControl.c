@@ -9,9 +9,11 @@
 
 typedef enum {
 	Glide_Out,   // Outer feet on the ground, inner feet swing through with scissor gait
-	Push_Out,    // Outer feet on the ground,
+	Push1_Out,    // Outer feet on the ground,
+	Push2_Out,
 	Glide_Inn,  // Inner feet on the ground, inner feet swing through with scissor gait
-	Push_Inn,
+	Push1_Inn,
+	Push2_Inn,
 	Flight
 } WalkFsmMode;
 
@@ -26,6 +28,10 @@ static float CtrlWalk_critAngle;
 static float CtrlWalk_hipHold;
 static float CtrlWalk_hipGain;
 static float CtrlWalk_hipOffset;
+static float CtrlWalk_pushTime;
+
+/* Time since last state change: */
+static float WalkFsm_switchTime;
 
 /* This function is called once per loop, and checks the
  * sensors that are used to trigger transitions between
@@ -35,31 +41,49 @@ void updateWalkFsm(void) {
 
 	if (STATE_contactMode == CONTACT_FL) { // Then robot is in the air
 		WALK_FSM_MODE = Flight;  // Give up on walking and enter flight mode
+		WalkFsm_switchTime = STATE_t;
 	} else {  // Run the normal walking finite state machine
 		switch (WALK_FSM_MODE_PREV) {
+
 		case Glide_Out:
 			if (STATE_th0 < CtrlWalk_critAngle) {
-				WALK_FSM_MODE = Push_Out;
+				WALK_FSM_MODE = Push1_Out;
+				WalkFsm_switchTime = STATE_t;
 			} break;
-		case Push_Out:
+		case Push1_Out:
 			if (STATE_c1) {  // If inner feet hit the ground
-				WALK_FSM_MODE = Glide_Inn;
+				WALK_FSM_MODE = Push2_Out;
+				WalkFsm_switchTime = STATE_t;
 			} break;
+		case Push2_Out:
+			if (STATE_t - WalkFsm_switchTime > CtrlWalk_pushTime) {
+				WALK_FSM_MODE = Glide_Inn;
+				WalkFsm_switchTime = STATE_t;
+			}
+
 		case Glide_Inn:
 			if (STATE_th1 < CtrlWalk_critAngle) {
-				WALK_FSM_MODE = Push_Inn;
+				WALK_FSM_MODE = Push1_Inn;
+				WalkFsm_switchTime = STATE_t;
 			} break;
-		case Push_Inn:
+		case Push1_Inn:
 			if (STATE_c0) {  // If outer feet hit the ground
-				WALK_FSM_MODE = Glide_Out;
+				WALK_FSM_MODE = Push2_Inn;
+				WalkFsm_switchTime = STATE_t;
 			} break;
+		case Push2_Inn:
+			if  (STATE_t - WalkFsm_switchTime > CtrlWalk_pushTime) { // If outer feet hit the ground
+				WALK_FSM_MODE = Glide_Out;
+				WalkFsm_switchTime = STATE_t;
+			} break;
+
 		case Flight:
 			if (STATE_c0) {  // If outer feet hit the ground
 				WALK_FSM_MODE = Glide_Out;
-				// } else if (STATE_c1) { // If inner feet hit the ground
-				// 	WALK_FSM_MODE = Glide_Inn;
+				WalkFsm_switchTime = STATE_t;
 			} break;
 		}
+
 	}
 }
 
@@ -72,13 +96,15 @@ void setWalkFsmLed(void) {
 		case Glide_Out:
 			set_UI_LED(LED_WALK_FSM , 'r');
 			break;
-		case Push_Out:
+		case Push1_Out:
+		case Push2_Out:
 			set_UI_LED(LED_WALK_FSM , 'o');
 			break;
 		case Glide_Inn:
 			set_UI_LED(LED_WALK_FSM , 'b');
 			break;
-		case Push_Inn:
+		case Push1_Inn:
+		case Push2_Inn:
 			set_UI_LED(LED_WALK_FSM , 'p');
 			break;
 		}
@@ -96,12 +122,14 @@ void readGaitData(void) {
 		CtrlWalk_hipHold = GAIT_WALK_HIP_STEP_ANGLE;
 		CtrlWalk_hipGain = GAIT_WALK_SCISSOR_GAIN;
 		CtrlWalk_hipOffset = GAIT_WALK_SCISSOR_OFFSET;
+		CtrlWalk_pushTime = GAIT_WALK_PUSH_TIME;
 	} else {
 		CtrlWalk_ankPush = LABVIEW_WALK_ANK_PUSH;
 		CtrlWalk_critAngle = LABVIEW_WALK_CRIT_STANCE_ANGLE;
 		CtrlWalk_hipHold = LABVIEW_WALK_HIP_STEP_ANGLE;
 		CtrlWalk_hipGain = LABVIEW_WALK_SCISSOR_GAIN;
 		CtrlWalk_hipOffset = LABVIEW_WALK_SCISSOR_OFFSET;
+		CtrlWalk_pushTime = LABVIEW_WALK_PUSH_TIME;
 	}
 }
 
@@ -118,7 +146,8 @@ void sendMotorCommands(void) {
 		flipUp_ankInn();
 		hipGlide();
 		break;
-	case Push_Out:
+	case Push1_Out:
+	case Push2_Out:
 		flipDown_ankInn();
 		pushOff_ankOut(push);
 		hipHold(CtrlWalk_hipHold);
@@ -128,7 +157,8 @@ void sendMotorCommands(void) {
 		holdStance_ankInn();
 		hipGlide();
 		break;
-	case Push_Inn:
+	case Push1_Inn:
+	case Push2_Inn:
 		flipDown_ankOut();
 		pushOff_ankInn(push);
 		hipHold(CtrlWalk_hipHold);

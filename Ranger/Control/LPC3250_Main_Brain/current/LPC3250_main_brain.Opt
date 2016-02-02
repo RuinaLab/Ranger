@@ -31,14 +31,14 @@ OPTFFF 4,8,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_
 OPTFFF 4,9,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_bluetooth\mb_bluetooth.c><mb_bluetooth.c> 
 OPTFFF 4,10,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_clock\a9_clock.c><a9_clock.c> 
 OPTFFF 4,11,1,-2046820352,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_io_data\mb_io_data.c><mb_io_data.c> 
-OPTFFF 4,12,1,503316482,0,73,73,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,59,0,0,0,64,0,0,0,249,4,0,0,59,2,0,0 }
+OPTFFF 4,12,1,503316480,0,73,73,0,<..\..\..\..\Robot_Nervous_System\LPC3xxx_Modules\mod_mb_error\mb_error.c><mb_error.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,59,0,0,0,64,0,0,0,249,4,0,0,59,2,0,0 }
 OPTFFF 5,13,1,0,0,0,0,0,<..\..\Estimator\bufferDataOut.c><bufferDataOut.c> 
-OPTFFF 5,14,1,0,0,0,0,0,<..\..\Estimator\mb_estimator.c><mb_estimator.c> 
+OPTFFF 5,14,1,1224736770,0,395,424,0,<..\..\Estimator\mb_estimator.c><mb_estimator.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,25,0,0,0,25,0,0,0,109,5,0,0,227,1,0,0 }
 OPTFFF 5,15,1,0,0,0,0,0,<..\..\Estimator\objectiveFunction.c><objectiveFunction.c> 
 OPTFFF 5,16,1,0,0,0,0,0,<..\..\Estimator\optimizeGait.c><optimizeGait.c> 
 OPTFFF 5,17,1,0,0,0,0,0,<..\..\Estimator\PSO.c><PSO.c> 
 OPTFFF 5,18,1,0,0,0,0,0,<..\..\Estimator\robotParameters.c><robotParameters.c> 
-OPTFFF 6,19,1,0,0,0,0,0,<..\..\Controller\gaitControl.c><gaitControl.c> 
+OPTFFF 6,19,1,1476395008,0,1,1,0,<..\..\Controller\gaitControl.c><gaitControl.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,84,5,0,0,202,1,0,0 }
 OPTFFF 6,20,1,0,0,0,0,0,<..\..\Controller\gaitControlData.c><gaitControlData.c> 
 OPTFFF 6,21,1,0,0,0,0,0,<..\..\Controller\input_output.c><input_output.c> 
 OPTFFF 6,22,1,0,0,0,0,0,<..\..\Controller\mb_controller.c><mb_controller.c> 
@@ -46,7 +46,7 @@ OPTFFF 6,23,1,0,0,0,0,0,<..\..\Controller\motorControl.c><motorControl.c>
 OPTFFF 6,24,1,0,0,0,0,0,<..\..\Controller\RangerMath.c><RangerMath.c> 
 OPTFFF 6,25,1,0,0,0,0,0,<..\..\Controller\safeMode.c><safeMode.c> 
 OPTFFF 6,26,1,0,0,0,0,0,<..\..\Controller\unit_test.c><unit_test.c> 
-OPTFFF 6,27,1,0,0,0,0,0,<..\..\Controller\walkControl.c><walkControl.c> 
+OPTFFF 6,27,1,1056964608,0,94,110,0,<..\..\Controller\walkControl.c><walkControl.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,200,0,0,0,200,0,0,0,28,6,0,0,146,2,0,0 }
 
 
 TARGOPT 1, (LPC3250 Int RAM)
@@ -88,6 +88,7 @@ TARGOPT 2, (LPC3250 Ext SDRAM (NOR))
   OPTKEY 0,(DLGTARM)(Œô)
   OPTKEY 0,(ARMDBGFLAGS)()
   OPTKEY 0,(UL2ARM)(-UV0145LAE -O39 -S135 -C1 -N00("Unknown JTAG device") -D00(1B900F0F) -L00(4) -N01("ARM926EJ-S Core") -D01(17900F0F) -L01(4) -FO15 -FD8000000 -FC2000 -FN1 -FF0LPC32x0_S29AL008Dx2 -FS080000000 -FL01F8000)
+  OPTBB 0,0,73,1,0,0,0,0,0,0,<walkControl.c>()()
   OPTWA 0,1,(a9_dn_ssp_tx_buffer)
   OPTWA 1,1,(a9_dn_ssp_tx_index1)
   OPTWA 2,1,(a9_dn_ssp_tx_index2)

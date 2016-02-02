@@ -23,8 +23,8 @@ float GAIT_WALK_CRIT_STANCE_ANGLE;
 float GAIT_WALK_HIP_STEP_ANGLE;
 float GAIT_WALK_SCISSOR_GAIN;
 float GAIT_WALK_SCISSOR_OFFSET;
+float GAIT_WALK_PUSH_TIME;
 float GAIT_WALK_IDX;   // used for debugging - says which gait parameters are being used
-
 
 /* This function is called once per walking step at mid-stance
  * It computes the new set of gait data that is used by the
@@ -36,6 +36,7 @@ void updateGaitData() {
 	GAIT_WALK_HIP_STEP_ANGLE = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_HIP_STEP_ANGLE, GAITDATA_NGRID);
 	GAIT_WALK_SCISSOR_GAIN = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_SCISSOR_GAIN, GAITDATA_NGRID);
 	GAIT_WALK_SCISSOR_OFFSET = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_SCISSOR_OFFSET, GAITDATA_NGRID);
+	GAIT_WALK_PUSH_TIME = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_PUSH_TIME, GAITDATA_NGRID);
 }
 
 

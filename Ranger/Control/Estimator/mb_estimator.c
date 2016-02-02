@@ -89,6 +89,7 @@ float LABVIEW_WALK_CRIT_STANCE_ANGLE; // the critical stance leg angle when push
 float LABVIEW_WALK_HIP_STEP_ANGLE; //	Target angle for the hip to reach by the end of the step
 float LABVIEW_WALK_SCISSOR_GAIN;
 float LABVIEW_WALK_SCISSOR_OFFSET;
+float LABVIEW_WALK_PUSH_TIME;
 bool LABVIEW_GAIT_USE_MDP_DATA;  // True if walking controller should use MDP generated gait data.
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
@@ -298,8 +299,8 @@ void updateRobotState(void) {
 
 	// Compute the absolute orientation of the robot's feet and legs
 	STATE_th1 = STATE_qh + STATE_th0; // absolute orientation of inner legs
-	STATE_phi0 = PARAM_Phi + STATE_th0 - STATE_q0;  // absolute orientation of outer feet
-	STATE_phi1 = PARAM_Phi  + STATE_qh + STATE_th0 - STATE_q1; // absolute orientation of inner feet
+	STATE_phi0 = PARAM_Phi0 + STATE_th0 - STATE_q0;  // absolute orientation of outer feet
+	STATE_phi1 = PARAM_Phi1  + STATE_qh + STATE_th0 - STATE_q1; // absolute orientation of inner feet
 	STATE_dth1 = STATE_dqh + STATE_dth0;  // absolute orientation rate of inner legs
 	STATE_dphi0 = STATE_dth0 - STATE_dq0;  // absolute orientation rate of outer feet
 	STATE_dphi1 = STATE_dqh + STATE_dth0 - STATE_dq1; // absolute orientation rate of inner feet
@@ -404,7 +405,8 @@ float computeHeelStrikeGeometry(void) {
 	float Slope = 0.0;  // Assume flat ground for now
 	float x, y; // scalar distances, in coordinate system aligned with outer legs
 
-	float Phi = PARAM_Phi;
+	float Phi0 = PARAM_Phi0;
+		float Phi1 = PARAM_Phi1;
 	float l = PARAM_l;
 	float d = PARAM_d;
 	float qh, q0, q1; // robot joint angles
@@ -420,8 +422,8 @@ float computeHeelStrikeGeometry(void) {
 	 * be found in:
 	 * templates/Estimator/legAngleEstimator/Derive_Eqns.m
 	 */
-	x = l * Sin(qh) - d * Sin(Phi - q1 + qh) + d * Sin(Phi - q0);
-	y = l + d * Cos(Phi - q1 + qh) - l * Cos(qh) - d * Cos(Phi - q0);
+	x = l * Sin(qh) - d * Sin(Phi1 - q1 + qh) + d * Sin(Phi0 - q0);
+	y = l + d * Cos(Phi1 - q1 + qh) - l * Cos(qh) - d * Cos(Phi0 - q0);
 
 	stepLength = Sqrt(x * x + y * y);  // Distance between two contact points
 	stepAngle = -(Atan(y / x) + Slope);   // angle of the outer legs

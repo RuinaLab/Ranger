@@ -2,7 +2,8 @@
 #define __ROBOT_PARAMETERS_H__
 
 /* Robot physical parameters. */
-extern const float PARAM_Phi;  // ankle joint orientation constant
+extern const float PARAM_Phi0;  // inner ankle joint orientation constant
+extern const float PARAM_Phi1;  // outer ankle joint orientation constant
 extern const float PARAM_l;  // length of ranger's leg
 extern const float PARAM_d;  // distance between foot joint and virtual center
 extern const float PARAM_m;  // Mass of a single leg on Ranger
