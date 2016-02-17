@@ -15,6 +15,8 @@ typedef enum {
 
 static GaitFsmMode GAIT_FSM_MODE = PreMid_Out;
 
+static bool flagFirstStep = true;  // True if the robot is taking its first step
+
 /* Parameters that are updated once per step and read by the estimator,
  * which then passes them to the walking controller. They are initialized
  * in gaitControl_entry() */
@@ -23,20 +25,36 @@ float GAIT_WALK_CRIT_STANCE_ANGLE;
 float GAIT_WALK_HIP_STEP_ANGLE;
 float GAIT_WALK_SCISSOR_GAIN;
 float GAIT_WALK_SCISSOR_OFFSET;
-float GAIT_WALK_PUSH_TIME;
+float GAIT_WALK_DS_DELAY;
 float GAIT_WALK_IDX;   // used for debugging - says which gait parameters are being used
+
+/* This function computes the average walking speed, using the step length and the time since
+ * the last mid-stance. We assume that this is called at each mid-stance!! */
+float getMeanWalkSpeed(void) {
+	static float lastCallTime = 0.0;
+	float stepDuration = STATE_t - lastCallTime;
+	float speed = STATE_lastStepLength / stepDuration;
+	if (flagFirstStep) {
+		return 0.0;
+	} else {
+		lastCallTime = STATE_t;
+		return speed;
+	}
+}
 
 /* This function is called once per walking step at mid-stance
  * It computes the new set of gait data that is used by the
  * walking controller  */
 void updateGaitData() {
+	float speed = getMeanWalkSpeed();
 	// Linear interpolation over data
-	GAIT_WALK_ANK_PUSH = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_ANK_PUSH, GAITDATA_NGRID);
-	GAIT_WALK_CRIT_STANCE_ANGLE = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_CRIT_STANCE_ANGLE, GAITDATA_NGRID);
-	GAIT_WALK_HIP_STEP_ANGLE = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_HIP_STEP_ANGLE, GAITDATA_NGRID);
-	GAIT_WALK_SCISSOR_GAIN = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_SCISSOR_GAIN, GAITDATA_NGRID);
-	GAIT_WALK_SCISSOR_OFFSET = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_SCISSOR_OFFSET, GAITDATA_NGRID);
-	GAIT_WALK_PUSH_TIME = LinInterpVar(STATE_velCom, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_PUSH_TIME, GAITDATA_NGRID);
+	GAIT_WALK_ANK_PUSH = LinInterpVar(speed, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_ANK_PUSH, GAITDATA_NGRID);
+	GAIT_WALK_CRIT_STANCE_ANGLE = LinInterpVar(speed, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_CRIT_STANCE_ANGLE, GAITDATA_NGRID);
+	GAIT_WALK_HIP_STEP_ANGLE = LinInterpVar(speed, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_HIP_STEP_ANGLE, GAITDATA_NGRID);
+	GAIT_WALK_SCISSOR_GAIN = LinInterpVar(speed, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_SCISSOR_GAIN, GAITDATA_NGRID);
+	GAIT_WALK_SCISSOR_OFFSET = LinInterpVar(speed, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_SCISSOR_OFFSET, GAITDATA_NGRID);
+	GAIT_WALK_DS_DELAY = LinInterpVar(speed, GAITDATA_SPEED_KNOT_POINTS, GAITDATA_WALK_DS_DELAY, GAITDATA_NGRID);
+	flagFirstStep = false;
 }
 
 
@@ -47,31 +65,32 @@ void updateGaitFsm(void) {
 
 	if (STATE_contactMode == CONTACT_FL) { // Then robot is in the air
 		GAIT_FSM_MODE = PreMid_Out;  // Reset the finite state machine to initial state
+		flagFirstStep = true;
 	} else {  // Run the normal mid-stance finite state machine
 		switch (GAIT_FSM_MODE) {
 		case PreMid_Out:
-			if (STATE_th0 < 0.0) { 
+			if (STATE_th0 < 0.0) {
 				GAIT_FSM_MODE = PostMid_Out;
 				updateGaitData();      // Update the controller at mid-stance on the outer legs
-			} 
+			}
 			break;
 		case PostMid_Out:
 			if (STATE_c1) { // Inner feet hit ground
 				triggerHeelStrikeUpdate();  // Tell estimtor that we've reached heel-strike
 				GAIT_FSM_MODE = PreMid_Inn;
-			} 
+			}
 			break;
 		case PreMid_Inn:
 			if (STATE_th1 < 0.0) {
 				GAIT_FSM_MODE = PostMid_Inn;
 				updateGaitData();      // Update the controller at mid-stance on the outer legs
-			} 
+			}
 			break;
 		case PostMid_Inn:
 			if (STATE_c0) { // Outer feet hit ground
 				triggerHeelStrikeUpdate();  // Tell estimtor that we've reached heel-strike
 				GAIT_FSM_MODE = PreMid_Out;
-			} 
+			}
 			break;
 		}
 	}

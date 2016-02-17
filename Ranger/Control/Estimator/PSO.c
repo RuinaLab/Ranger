@@ -41,10 +41,13 @@ float fBest[POP_COUNT_MAX]; // velocity of the particle
 /* Index for pointing to key parts of the arrays */
 int idxPopGlobal = 0;  // Index of the populations best-ever particle
 int idxPopSelect = 0;  // Index of the particle that is currently selected
-bool initComplete = false;  // Has the entire population been initialized?
+bool FLAG_INIT = false;  // Has the entire population been initialized?
 int currentGeneration = 0;
 
-const int NUM_SAVE_SEND_ATTEMPTS = 2; // Data sometimes gets dropped. Do we want to do redundant multiple send to hopefully have a full set? 1 is just one try (normal)
+/* Allow the user to send a "hint" point anytime */
+bool FLAG_HINT = false;   // True if the user has just sent a hint to be tested
+float X_HINT[DIM_STATE_MAX];   // the point that the user sent as a "hint"
+
 
 /******************************************************************
  *               Public Interface Functions                       *
@@ -75,18 +78,28 @@ void setObjFunInfo(float * xLow, float *xUpp, int nDim, int nPop
 	}
 }
 
+/* Allow the user to send a hint, which resets the position of the
+ * active particle, and sets its velocity to zero. Must be called 
+ * after the problem is initialized with setObjFunInfo(). */
+void psoGiveHint(float * xHint){
+	int dim;
+	for (dim = 0; dim < DIM_STATE; dim++) {
+		X_HINT[dim] = xHint[dim];
+	}
+	FLAG_HINT = true;
+}
 
 /* Clears the particle swarm and restarts the optimization */
 void psoReset(void) {
 	idxPopGlobal = 0;
 	idxPopSelect = 0;
-	initComplete = false;
+	FLAG_INIT = false;
 }
 
 /* Returns the objective function value for the global best point. Returns
  * zero if the population has not been initialized. */
 float psoGetGlobalBest(void) {
-	if (initComplete) {
+	if (FLAG_INIT) {
 		return fBest[idxPopGlobal];
 	} else {
 		return 0.0;
@@ -96,7 +109,7 @@ float psoGetGlobalBest(void) {
 /* Returns the best objective function value for the selected particle. Returns
  * zero if the population has not been initialized. */
 float psoGetSelectBest(void) {
-	if (initComplete) {
+	if (FLAG_INIT) {
 		return fBest[idxPopSelect];
 	} else {
 		return 0.0;
@@ -106,7 +119,7 @@ float psoGetSelectBest(void) {
 /* Returns the most recent objective function value. Returns
  * zero if the population has not been initialized. */
 float psoGetSelectObjVal(void) {
-	if (initComplete) {
+	if (FLAG_INIT) {
 		return f[idxPopSelect];
 	} else {
 		return 0.0;
@@ -117,105 +130,6 @@ float psoGetSelectObjVal(void) {
 int psoGetParticleId(void) {
 	return idxPopSelect;
 }
-
-/* Send all current optimization paramters to labview. This is done so the parameters can
- * be loaded after a shutdown and the trial resumed.	*/
-void saveOptim(void){
-
-	int i;
-	int j;
-	int k;
-
-	for ( k = 0; k < NUM_SAVE_SEND_ATTEMPTS; k++ ){ // If we're doing redundant sends.
-
-// 9 singles, 3, 5, 2 DIM_STATE, 2 POP_COUNT, 3* POP_COUNT * DIM_STATE NUMBERS
-	// 9 + 3 + 5 + 10 + 30 + 300 = 282 with current values.
-
-// PSO behavior parameters -- 3 NUMBERS
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, PSO_OMEGA);
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, PSO_ALPHA);
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, PSO_BETA);
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, DIM_STATE);
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, POP_COUNT);
-
-
-// Divider number -- 1 NUMBER
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
-
-// Search space lower bound -- DIM_STATE NUMBERS
-		for ( i = 0; i < DIM_STATE; i++){
-			addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, X_LOW[i]);
-		}
-
-// Divider number -- 1 NUMBER
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
-
-// Search space lower bound -- DIM_STATE NUMBERS
-		for ( i = 0; i < DIM_STATE; i++){
-			addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, X_UPP[i]);
-		}
-
-// Divider number -- 1 NUMBER
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
-
-// Particle locations -- POP_COUNT * DIM_STATE NUMBERS
-		for ( i = 0; i < POP_COUNT; i++){
-			for ( j = 0; j < DIM_STATE; j++){
-				addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, x[i][j]);
-			}
-		}
-
-// Divider number -- 1 NUMBER
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
-
-// Particle velocities -- POP_COUNT * DIM_STATE NUMBERS
-		for ( i = 0; i < POP_COUNT; i++){
-			for ( j = 0; j < DIM_STATE; j++){
-				addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, v[i][j]);
-			}
-		}
-
-// Divider number -- 1 NUMBER
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
-
-// Particle value -- POP_COUNT NUMBERS
-		for ( i = 0; i < POP_COUNT; i++){
-			addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, f[i]);
-		}
-
-// Divider number -- 1 NUMBER
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
-
-// Best particle location -- POP_COUNT * DIM_STATE NUMBERS
-		for ( i = 0; i < POP_COUNT; i++){
-			for ( j = 0; j < DIM_STATE; j++){
-				addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, xBest[i][j]);
-			}
-		}
-
-// Divider number -- 1 NUMBER
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
-
-// Best values -- POP_COUNT NUMBERS 
-		for ( i = 0; i < POP_COUNT; i++){
-			addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, fBest[i]);
-		}
-
-// Divider number -- 1 NUMBER
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -8888888.);
-
-// Best particle index, particle we're on, current generation -- 3 NUMBERS
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, (float)idxPopGlobal);
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, (float)idxPopSelect);
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, (float)currentGeneration);
-
-// Final number to let us know it's done -- 1 NUMBER
-		addToQueue(ID_OPTIM_SAVE_OPTIM_STATE, -9999999.);
-
-
-	}
-}
-
 
 /******************************************************************
  *                       Main Entry-Point                         *
@@ -249,7 +163,14 @@ void pso_send_point(void) {
 	int dim = 0;  // counter to loop over each dimension of the search space
 	int idx = idxPopSelect; // Index of the currently selected particle
 
-	if (!initComplete) {  // Initialize the particle randomly in search space
+	if (FLAG_HINT){  // Initialize the current particle to the hint 
+		for (dim = 0; dim < DIM_STATE; dim++) {
+			x[idx][dim] = X_HINT[dim];
+			v[idx][dim] = 0.0;
+			FLAG_HINT = false;  // Used the hint, so tell PSO to ignore it now.
+		}
+
+	} else if (!FLAG_INIT) {  // Initialize the particle randomly in search space
 		for (dim = 0; dim < DIM_STATE; dim++) {
 			r1 = FastRand();
 			r2 = FastRand();
@@ -286,7 +207,7 @@ void pso_eval_point(void) {
 	f[idx] = OBJ_FUN_EVAL();    // Reads the obj fun evaluation of query point
 
 	// Update the local best
-	if (!initComplete) { // Still working on initialization
+	if (!FLAG_INIT) { // Still working on initialization
 		fBest[idx] = f[idx];  // current point is best by definition
 		for (dim = 0; dim < DIM_STATE; dim++) {
 			xBest[idx][dim] = x[idx][dim];
@@ -309,7 +230,7 @@ void pso_eval_point(void) {
 	idxPopSelect++;
 	if (idxPopSelect >= POP_COUNT) {
 		idxPopSelect = 0;
-		initComplete = true; // We've ran through the population at least once
+		FLAG_INIT = true; // We've ran through the population at least once
 
 		currentGeneration++;
 	}

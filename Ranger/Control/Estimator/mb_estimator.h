@@ -24,7 +24,7 @@ extern float LABVIEW_WALK_HIP_STEP_ANGLE; //	Target angle for the hip to reach b
 extern float LABVIEW_WALK_HIP_TARGET_RATE;  //Target angular rate for the swing leg (hip joint) during the glide phase of motion
 extern float LABVIEW_WALK_SCISSOR_GAIN;  
 extern float LABVIEW_WALK_SCISSOR_OFFSET;
-extern float LABVIEW_WALK_PUSH_TIME;
+extern float LABVIEW_WALK_DS_DELAY;
 extern bool LABVIEW_GAIT_USE_MDP_DATA;  // True if walking controller should use MDP generated gait data.
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
