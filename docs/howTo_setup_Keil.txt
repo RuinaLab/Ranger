@@ -12,6 +12,9 @@ RangerCode\Ranger\Control\LPC3250_Main_Brain\current\LPC3250_main_brain.Uv2
 
 --> Good luck.
 
+Note: All licenses are consumed. If you need one, you're going to need to open a support ticket and mention the computer ID
+no longer in use. It probably needs to come from the person who it's registered to.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -28,11 +31,19 @@ Computer ID     (CID): CCLWI-1YZ19
 Serial Number   (PSN): TIVRL-0RMZQ-CCMJA
 License ID Code (LIC): UJWSM-XXJWW-EACDP-5AX48-LP21Y-W4ZVU
 
+
+************ Made a ticket with ARM to disable this one *************
 PC Description       : MATTS
 Computer ID     (CID): CS3UW-WB7Q1
 Serial Number   (PSN): PE7GW-QPPPT-EA8DP
-
 License ID Code (LIC): X96F7-E6F89-SR1XY-1GE5U-WVZY4-PU1SK
+*********************************************************************
+
+
+PC Description       : MWSBOOTCAMP
+Computer ID     (CID): CAIM3-M76C1
+Serial Number   (PSN): PE7GW-QPPPT-EA8DP
+License ID Code (LIC): X96F7-E6F89-SRVXY-1NSZS-YXSRG-4MU71
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
