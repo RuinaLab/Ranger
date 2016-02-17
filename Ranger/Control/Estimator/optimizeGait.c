@@ -48,6 +48,9 @@ static float lastStepLength = 0.0;
 
 static float lastTrialStartTime = 0.0; // Keep track of the time at which a new trial starts. Send this many times to make sure we have a correct starting timestamp.
 
+float X_DEFAULT[6];   // Default control, send as hint;
+
+
 OptimizeFsmMode OPTIMIZE_FSM_MODE = INIT;
 
 
@@ -56,8 +59,7 @@ OptimizeFsmMode OPTIMIZE_FSM_MODE = INIT;
  *******************************************************************************/
 
 
-/* Objective function for a quadratic bowl. Evaluates the query point
- * the is sent by the optimizer and saves it to memory. */
+/* Objective function for the optimization. */
 void objFun_send(float* x, int nDim) {
 	/// Update the middle value on each data channel. Assume that the other values [0] and [2] are good enough
 	GAITDATA_WALK_SCISSOR_OFFSET[1] = x[0];
@@ -65,6 +67,7 @@ void objFun_send(float* x, int nDim) {
 	GAITDATA_WALK_ANK_PUSH[1] = x[2];
 	GAITDATA_WALK_CRIT_STANCE_ANGLE[1] = x[3];
 	GAITDATA_WALK_HIP_STEP_ANGLE[1] = x[4];
+	GAITDATA_WALK_DS_DELAY[1] = x[5];
 
 	/// Send out over CAN network
 	mb_io_set_float(ID_OPTIM_WALK_SCISSOR_OFFSET, x[0]);
@@ -72,6 +75,7 @@ void objFun_send(float* x, int nDim) {
 	mb_io_set_float(ID_OPTIM_WALK_ANK_PUSH, x[2]);
 	mb_io_set_float(ID_OPTIM_WALK_CRIT_STANCE_ANGLE, x[3]);
 	mb_io_set_float(ID_OPTIM_WALK_HIP_STEP_ANGLE, x[4]);
+	mb_io_set_float(ID_OPTIM_WALK_DS_DELAY, x[5]);
 }
 
 
@@ -91,12 +95,12 @@ float objFun_eval(void) {
 void objFun_set_optimizeGait(void) {
 
 	int dim;
-	int nDim = 5;   ////HACK////   GAITDATA_NBOUND
+	int nDim = 6;   ////HACK////   GAITDATA_NBOUND
 	int nPop = N_POPULATION;
 	void (*objFunSend)(float * x, int nDim);
 	float (*objFunEval)();
-	float xLow[5];
-	float xUpp[5];
+	float xLow[6];
+	float xUpp[6];
 	objFunSend = &objFun_send;
 	objFunEval = &objFun_eval;
 	for (dim = 0; dim < nDim; dim++) {
@@ -108,6 +112,14 @@ void objFun_set_optimizeGait(void) {
 	PSO_ALPHA = ALPHA;
 	PSO_BETA = BETA;
 	setObjFunInfo(xLow, xUpp, nDim, nPop, objFunSend, objFunEval); // Send problem to PSO
+
+	/// Copy the default gait data for using later as a hint.
+	X_DEFAULT[0] = GAITDATA_WALK_SCISSOR_OFFSET[1];
+	X_DEFAULT[1] = GAITDATA_WALK_SCISSOR_GAIN[1];
+	X_DEFAULT[2] = GAITDATA_WALK_ANK_PUSH[1];
+	X_DEFAULT[3] = GAITDATA_WALK_CRIT_STANCE_ANGLE[1];
+	X_DEFAULT[4] = GAITDATA_WALK_HIP_STEP_ANGLE[1];
+	X_DEFAULT[5] = GAITDATA_WALK_DS_DELAY[1];
 
 }
 
@@ -156,6 +168,8 @@ void updateOptimizeFsm(void) {
 
 			lastTrialStartTime = mb_io_get_float(ID_TIMESTAMP); // Record the start time of this new trial.
 			mb_io_set_float(ID_OPTIM_LAST_START_TIME, lastTrialStartTime);
+
+			psoGiveHint(X_DEFAULT);  // Give PSO a good place to start
 
 			pso_send_point();   // Tell PSO to send a new point (Updates controller)
 			OPTIMIZE_FSM_MODE = PRE_1;

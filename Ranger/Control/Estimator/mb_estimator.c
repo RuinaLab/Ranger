@@ -89,7 +89,7 @@ float LABVIEW_WALK_CRIT_STANCE_ANGLE; // the critical stance leg angle when push
 float LABVIEW_WALK_HIP_STEP_ANGLE; //	Target angle for the hip to reach by the end of the step
 float LABVIEW_WALK_SCISSOR_GAIN;
 float LABVIEW_WALK_SCISSOR_OFFSET;
-float LABVIEW_WALK_PUSH_TIME;
+float LABVIEW_WALK_DS_DELAY;
 bool LABVIEW_GAIT_USE_MDP_DATA;  // True if walking controller should use MDP generated gait data.
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
