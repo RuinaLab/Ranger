@@ -274,11 +274,11 @@ void init_hardware(void){
   // *******************************************************************************
   PINSEL1 &= ~(3<<12); //p0.22 clear
   PINSEL1 &= ~(3<<22); //p0.27 clear
-  PINSEL1 &= ~(3<<0); //p0.16  clear 
+  //PINSEL1 &= ~(3<<0); //p0.16  clear 	MATTS: Using for LED sync output. Removing any association with RC stuff for this pin.
   PINSEL1 &= ~(3<<26); //p0.29 clear 
   PINSEL1 |= (2<<12); //p0.22 cap0
   PINSEL1 |= (2<<22); //p0.27 cap1
-  PINSEL1 |= (3<<0); //p0.16 cap2 
+  //PINSEL1 |= (3<<0); //p0.16 cap2    MATTS:	 Using for LED sync output. Removing any association with RC stuff for this pin.
   PINSEL1 |= (2<<26); //p0.29 cap3 
 
   T0IR = 0xFF;

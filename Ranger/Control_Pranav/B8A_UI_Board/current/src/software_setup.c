@@ -153,7 +153,6 @@ void task_every_row(void)
   
 	if(sync_led_on) {ui_sync_led_flash();}
   else {ui_sync_led_off();}
-
   //update the song if it's playing
   song_update();   
 }

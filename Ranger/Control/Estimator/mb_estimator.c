@@ -421,7 +421,7 @@ float computeHeelStrikeGeometry(void) {
 	 * These functions were determined using computer math. The code can
 	 * be found in:
 	 * templates/Estimator/legAngleEstimator/Derive_Eqns.m
-	 */
+	 */																		 
 	x = l * Sin(qh) - d * Sin(Phi1 - q1 + qh) + d * Sin(Phi0 - q0);
 	y = l + d * Cos(Phi1 - q1 + qh) - l * Cos(qh) - d * Cos(Phi0 - q0);
 

@@ -31,15 +31,16 @@ void ui_sync_led_init(INT_VOID_F timestamp_in)
 {
   led_get_timestamp = timestamp_in;
   ui_sync_led_off();
-}
+}		
 
 /**
   Turns on the sync led.
 */
 void ui_sync_led_on(void)
 {
-//	ui_led_rgb(1, 100,0,0);   //LED1, red, at back
-  FIO0SET = 1<<16;    //Green top LED on
+	ui_led_rgb(1, 100,0,0);   //LED1, red, at back
+ // FIO0SET = 1<<16;    //Green top LED on
+    FIO0CLR = 1<<16;      //Note: MattS changed logic backwards due to P-channel mosfet to drive the bright LED
 }
 
 /**
@@ -47,8 +48,9 @@ void ui_sync_led_on(void)
 */
 void ui_sync_led_off(void)
 {
-//	ui_led_rgb(1, 0,0,0); //LED1, red, at back
-  FIO0CLR = 1<<16;      //Green top LED off
+	ui_led_rgb(1, 0,0,0); //LED1, red, at back
+ // FIO0CLR = 1<<16;      //Green top LED off
+  FIO0SET = 1<<16;    //Note: MattS changed logic backwards due to P-channel mosfet to drive the bright LED
 }
 
 /**
