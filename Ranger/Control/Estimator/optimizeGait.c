@@ -32,8 +32,8 @@
  */
 
 static int STEP_COUNT = 0;
-static const int N_STEP_TRANSIENT = 3;  // Ignore the first few steps to reject transients
-static const int N_STEP_TRIAL = 8; // Include this many steps in objective function
+static const int N_STEP_TRANSIENT = 4;  // Ignore the first few steps to reject transients
+static const int N_STEP_TRIAL = 10; // Include this many steps in objective function
 
 static const int N_POPULATION = 15;  // population to use in optimization
 
