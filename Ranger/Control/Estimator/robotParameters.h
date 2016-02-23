@@ -18,7 +18,8 @@ extern const float PARAM_inv_ank_motor_const; // (Amp/Nm)  ==  (1.0)/(P.Km*P.Ga)
 /* Parameters and set-points for walking sub-functions */
 extern const float PARAM_ctrl_ank_flipTarget;  // relative ankle angle when foot is flipped up. Hard stop at 0.0.
 extern const float PARAM_ctrl_ank_holdLevel;  // absolute foot angle for the stance foot to hold during the step
-extern const float PARAM_ctrl_ank_pushTarget;  // relative ankle angle when foot is flipped down for push-off. Hard stop at 3.2.
+extern const float PARAM_ctrl_ank_pushTarget_0;  // relative ankle angle when foot is flipped down for push-off. Hard stop at 3.2.
+extern const float PARAM_ctrl_ank_pushTarget_1;
 
 /* Other stuff */
 extern const float PARAM_critical_fall_leg_angle; // 45 deg = pi/4  <--> if either ansolute leg angle exceeds this angle, then go to stand-by immediately
