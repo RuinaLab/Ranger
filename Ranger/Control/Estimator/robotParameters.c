@@ -1,8 +1,9 @@
 #include <robotParameters.h>
 
 /* Robot physical parameters. */
-const float PARAM_Phi0 = 1.86;  // outer ankle joint orientation constant
-const float PARAM_Phi1 = 1.84;  // inner ankle joint orientation constant
+const float PARAM_Phi0 = 1.85;  // outer ankle joint orientation constant
+const float PARAM_Phi1 = 1.85;  // inner ankle joint orientation constant
+
 const float PARAM_l = 0.96;  // length of ranger's leg
 const float PARAM_d = 0.14;  // distance between foot joint and virtual center
 const float PARAM_m = 4.5;  // Mass of a single leg on Ranger

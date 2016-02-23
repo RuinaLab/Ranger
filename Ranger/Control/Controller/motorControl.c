@@ -35,8 +35,6 @@ float hip_gravity_compensation(float qRefHip) {
 	case CONTACT_S1:
 		qRefSwing = STATE_th1 - qRefHip;
 		return -uGravity * Sin(qRefSwing);
-	case CONTACT_DS:
-		return 0.0;    // Do nothing 
 	default:
 		return 0.0;
 	}
@@ -54,6 +52,7 @@ void run_controller_hip( ControllerData * C ) {
 	float vRef = C->vRef;
 	float xComp;
 
+
 	if (LABVIEW_HIP_COMPENSATION_TARGET) {
 		xComp = xRef; // Compensate for the target state
 	} else {
@@ -67,6 +66,7 @@ void run_controller_hip( ControllerData * C ) {
 	if (LABVIEW_HIP_GRAVITY_COMPENSATION) {
 		uRef = uRef + hip_gravity_compensation(xComp);
 	}
+
 
 	/* Combine all constant terms:                         *
 	 * u = uRef + kp*(xRef - x) + kd*(vRef - v)            *
