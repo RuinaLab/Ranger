@@ -85,8 +85,7 @@ float LABVIEW_WALK_ANK_PUSH;  //magnitude of the push-off during walking, normal
 float LABVIEW_WALK_HIP_RATE;  //scissor tracking rate, should be near one (~0.5, ~1.5)
 float LABVIEW_WALK_HIP_OFFSET;  //How much the swing leg should lead the stance leg during scissor tracking
 float LABVIEW_WALK_ANK_PUSH; // magnitude of the push-off during walking  normalized to be on the range 0 to 1
-float LABVIEW_WALK_CRIT_STANCE_ANGLE; // the critical stance leg angle when push-off should occur
-float LABVIEW_WALK_HIP_STEP_ANGLE; //	Target angle for the hip to reach by the end of the step
+float LABVIEW_WALK_CRIT_STEP_LENGTH; // the critical stance leg angle when push-off should occur
 float LABVIEW_WALK_SCISSOR_GAIN;
 float LABVIEW_WALK_SCISSOR_OFFSET;
 float LABVIEW_WALK_DS_DELAY;
@@ -350,11 +349,10 @@ void updateParameters(void) {
 	LABVIEW_ANK_SWING_KP = mb_io_get_float(ID_CTRL_ANK_SWING_KP);  // ankle pd controller p gain when foot in air.
 	LABVIEW_ANK_SWING_KD = mb_io_get_float(ID_CTRL_ANK_SWING_KD);  // ankle pd controller d gain when foot in air.
 	LABVIEW_WALK_ANK_PUSH = mb_io_get_float(ID_CTRL_WALK_ANK_PUSH); // magnitude of the push-off during walking  normalized to be on the range 0 to 1
-	LABVIEW_WALK_CRIT_STANCE_ANGLE = mb_io_get_float(ID_CTRL_WALK_CRIT_STANCE_ANGLE); // the critical stance leg angle when push-off should occur
-	LABVIEW_WALK_HIP_STEP_ANGLE = mb_io_get_float(ID_CTRL_WALK_HIP_STEP_ANGLE); //	Target angle for the hip to reach by the end of the step
-	LABVIEW_WALK_SCISSOR_GAIN = mb_io_get_float(ID_CTRL_WALK_HIP_STEP_ANGLE);
-	LABVIEW_WALK_SCISSOR_OFFSET = mb_io_get_float(ID_CTRL_WALK_HIP_STEP_ANGLE);
-	LABVIEW_GAIT_USE_MDP_DATA = mb_io_get_float(ID_GAIT_USE_MDP_DATA) > 0.5;  // True if walking controller should use MDP generated gait data.
+	LABVIEW_WALK_CRIT_STEP_LENGTH = mb_io_get_float(ID_CTRL_WALK_CRIT_STEP_LENGTH); // the critical ankle joint separation when push-off should occur
+	LABVIEW_WALK_SCISSOR_GAIN = mb_io_get_float(ID_CTRL_WALK_SCISSOR_GAIN);
+	LABVIEW_WALK_SCISSOR_OFFSET = mb_io_get_float(ID_CTRL_WALK_SCISSOR_OFFSET);
+	LABVIEW_GAIT_USE_MDP_DATA = mb_io_get_float(ID_GAIT_USE_MDP_DATA) > 0.5;  // True if walking controller should use off-line generated gait data.
 	FSM_LED_FLAG = mb_io_get_float(ID_CTRL_FSM_LED) > 0.5;  // True if FSM LEDs should be turned on
 }
 

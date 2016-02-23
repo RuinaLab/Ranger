@@ -31,6 +31,8 @@
  *
  */
 
+#define N_DEC_VARS 5   // Number of decision variables used in the optimization
+
 static int STEP_COUNT = 0;
 static const int N_STEP_TRANSIENT = 4;  // Ignore the first few steps to reject transients
 static const int N_STEP_TRIAL = 10; // Include this many steps in objective function
@@ -48,7 +50,7 @@ static float lastStepLength = 0.0;
 
 static float lastTrialStartTime = 0.0; // Keep track of the time at which a new trial starts. Send this many times to make sure we have a correct starting timestamp.
 
-float X_DEFAULT[6];   // Default control, send as hint;
+float X_DEFAULT[N_DEC_VARS];   // Default control, send as hint;
 
 
 OptimizeFsmMode OPTIMIZE_FSM_MODE = INIT;
@@ -65,17 +67,15 @@ void objFun_send(float* x, int nDim) {
 	GAITDATA_WALK_SCISSOR_OFFSET[1] = x[0];
 	GAITDATA_WALK_SCISSOR_GAIN[1] = x[1];
 	GAITDATA_WALK_ANK_PUSH[1] = x[2];
-	GAITDATA_WALK_CRIT_STANCE_ANGLE[1] = x[3];
-	GAITDATA_WALK_HIP_STEP_ANGLE[1] = x[4];
-	GAITDATA_WALK_DS_DELAY[1] = x[5];
+	GAITDATA_WALK_CRIT_STEP_LENGTH[1] = x[3];
+	GAITDATA_WALK_DS_DELAY[1] = x[4];
 
 	/// Send out over CAN network
 	mb_io_set_float(ID_OPTIM_WALK_SCISSOR_OFFSET, x[0]);
 	mb_io_set_float(ID_OPTIM_WALK_SCISSOR_GAIN, x[1]);
 	mb_io_set_float(ID_OPTIM_WALK_ANK_PUSH, x[2]);
-	mb_io_set_float(ID_OPTIM_WALK_CRIT_STANCE_ANGLE, x[3]);
-	mb_io_set_float(ID_OPTIM_WALK_HIP_STEP_ANGLE, x[4]);
-	mb_io_set_float(ID_OPTIM_WALK_DS_DELAY, x[5]);
+	mb_io_set_float(ID_OPTIM_WALK_CRIT_STEP_LENGTH, x[3]);
+	mb_io_set_float(ID_OPTIM_WALK_DS_DELAY, x[4]);
 }
 
 
@@ -95,12 +95,12 @@ float objFun_eval(void) {
 void objFun_set_optimizeGait(void) {
 
 	int dim;
-	int nDim = 6;   ////HACK////   GAITDATA_NBOUND
+	int nDim = N_DEC_VARS;  
 	int nPop = N_POPULATION;
 	void (*objFunSend)(float * x, int nDim);
 	float (*objFunEval)();
-	float xLow[6];
-	float xUpp[6];
+	float xLow[N_DEC_VARS];
+	float xUpp[N_DEC_VARS];
 	objFunSend = &objFun_send;
 	objFunEval = &objFun_eval;
 	for (dim = 0; dim < nDim; dim++) {
@@ -117,9 +117,8 @@ void objFun_set_optimizeGait(void) {
 	X_DEFAULT[0] = GAITDATA_WALK_SCISSOR_OFFSET[1];
 	X_DEFAULT[1] = GAITDATA_WALK_SCISSOR_GAIN[1];
 	X_DEFAULT[2] = GAITDATA_WALK_ANK_PUSH[1];
-	X_DEFAULT[3] = GAITDATA_WALK_CRIT_STANCE_ANGLE[1];
-	X_DEFAULT[4] = GAITDATA_WALK_HIP_STEP_ANGLE[1];
-	X_DEFAULT[5] = GAITDATA_WALK_DS_DELAY[1];
+	X_DEFAULT[3] = GAITDATA_WALK_CRIT_STEP_LENGTH[1];
+	X_DEFAULT[4] = GAITDATA_WALK_DS_DELAY[1];
 
 }
 

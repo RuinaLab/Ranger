@@ -19,8 +19,7 @@ extern float LABVIEW_ANK_STANCE_KD;  // ankle pd controller d gain when foot on 
 extern float LABVIEW_ANK_SWING_KP;  // ankle pd controller p gain when foot in air.
 extern float LABVIEW_ANK_SWING_KD;  // ankle pd controller d gain when foot in air.
 extern float LABVIEW_WALK_ANK_PUSH; // magnitude of the push-off during walking  normalized to be on the range 0 to 1
-extern float LABVIEW_WALK_CRIT_STANCE_ANGLE; // the critical stance leg angle when push-off should occur
-extern float LABVIEW_WALK_HIP_STEP_ANGLE; //	Target angle for the hip to reach by the end of the step
+extern float LABVIEW_WALK_CRIT_STEP_LENGTH; // the critical stance leg angle when push-off should occur
 extern float LABVIEW_WALK_HIP_TARGET_RATE;  //Target angular rate for the swing leg (hip joint) during the glide phase of motion
 extern float LABVIEW_WALK_SCISSOR_GAIN;  
 extern float LABVIEW_WALK_SCISSOR_OFFSET;

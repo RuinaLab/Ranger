@@ -17,6 +17,7 @@ float LinInterpVar(float x, float* X, float*Y, int nGrid); // Linear interpolati
 float Sin(float);
 float Cos(float);
 float Tan(float);
+float Acos(float x);
 float Atan(float);
 float Tanh(float);
 float Sqrt(float);

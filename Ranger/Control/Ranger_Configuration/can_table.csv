@@ -220,8 +220,7 @@ EST_LAST_STEP_ANGLE,0,1,0,the absolute angle of the outer leg that was computed 
 EST_LAST_STEP_DURATION,0,1,0,Duration of the previous walking step.
 EST_TOTAL_BATT_POWER,0,1,0,add up the battery power being consumed by all boards
 OPTIM_WALK_ANK_PUSH ,0,1,0,magnitude of the push-off during walking  normalized to be on the range 0 to 1
-OPTIM_WALK_CRIT_STANCE_ANGLE,0,1,0,the critical stance angle when push-off should occur (should be less than zero)
-OPTIM_WALK_HIP_STEP_ANGLE ,0,1,0,Target angle for the hip to hold during push-off
+OPTIM_WALK_CRIT_STEP_LENGTH,0,1,0,The critical step length that must be achieved before flip down
 OPTIM_WALK_SCISSOR_GAIN,0,1,0,
 OPTIM_WALK_SCISSOR_OFFSET,0,1,0,
 OPTIM_WALK_DS_DELAY,0,1,0,
@@ -253,8 +252,7 @@ CTRL_HIP_COMPENSATION_TARGET,0,0,1,hip compensation at target (1) or at measured
 CTRL_HIP_GRAVITY_COMPENSATION,1,0,1,Enables (1) or disables (0) gravity compensation in hip controller
 CTRL_HIP_SPRING_COMPENSATION,1,0,1,Enables (1) or disables (0) spring compensation in hip controller
 CTRL_WALK_ANK_PUSH ,0.8,0,1,magnitude of the push-off during walking  normalized to be on the range 0 to 1
-CTRL_WALK_CRIT_STANCE_ANGLE,-0.08,0,1,the critical stance angle when push-off should occur (should be less than zero)
-CTRL_WALK_HIP_STEP_ANGLE ,0.2,0,1,Target angle for the hip to hold during push-off
+CTRL_WALK_CRIT_STEP_LENGTH,0.25,0,1,the criticl step length after which flip down and push off should occur
 CTRL_WALK_SCISSOR_GAIN,1.2,0,1,
 CTRL_WALK_SCISSOR_OFFSET,0.1,0,1,
 CTRL_WALK_DS_DELAY,0.05,0,1,How long to sustain push-off after heel-strike

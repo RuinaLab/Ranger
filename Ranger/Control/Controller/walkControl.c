@@ -24,8 +24,7 @@ static WalkFsmMode WALK_FSM_MODE_PREV;  // What we ran last time
 
 /* The current set of gait parameters */
 static float CtrlWalk_ankPush;
-static float CtrlWalk_critAngle;
-static float CtrlWalk_hipHold;
+static float CtrlWalk_critStepLen;
 static float CtrlWalk_hipGain;
 static float CtrlWalk_hipOffset;
 static float CtrlWalk_pushDelay;
@@ -33,10 +32,32 @@ static float CtrlWalk_pushDelay;
 /* Time since last state change: */
 static float WalkFsm_switchTime;
 
+/* This function computes the distance between the ankle joints of the robot,
+ * projected on to the ground */
+float getAnkleJointRelDistance(float thStance, float thSwing) {
+	return PARAM_l * (Sin(thSwing) - Sin(thStance));
+}
+
+/* This function computes the height between the ankle joints of the robot,
+ * projected on to the ground */
+float getAnkleJointRelHeight(float thStance, float thSwing) {
+	return PARAM_l * (Cos(thStance) - Cos(thSwing));
+}
+
+/* Computes abs(targetHipAngle) for the hip, such that the swing ankle is virtually constrained
+ * to move only in the vertical direction, with the distance locked at the target step length */
+float getTargetHipAngle(float thStance, float thSwing, float stepLen) {
+	float d = stepLen;   // target step length
+	float l = PARAM_l;   // robot leg length
+	float h = getAnkleJointRelHeight(thStance, thSwing);
+	return Acos( 1 - ( d * d + h * h ) / ( 2 * l * l ) );
+}
+
 /* This function is called once per loop, and checks the
  * sensors that are used to trigger transitions between
  * modes of the finite state machine */
 void updateWalkFsm(void) {
+	float stepLen;
 	WALK_FSM_MODE_PREV = WALK_FSM_MODE;
 
 	if (STATE_contactMode == CONTACT_FL) { // Then robot is in the air
@@ -46,7 +67,8 @@ void updateWalkFsm(void) {
 		switch (WALK_FSM_MODE_PREV) {
 
 		case Glide_Out:
-			if (STATE_th0 < CtrlWalk_critAngle) {
+			stepLen = getAnkleJointRelDistance(STATE_th0, STATE_th1);
+			if (stepLen > CtrlWalk_critStepLen) {
 				WALK_FSM_MODE = Push1_Out;
 				WalkFsm_switchTime = STATE_t;
 			} break;
@@ -62,7 +84,8 @@ void updateWalkFsm(void) {
 			}
 
 		case Glide_Inn:
-			if (STATE_th1 < CtrlWalk_critAngle) {
+			stepLen = getAnkleJointRelDistance(STATE_th1, STATE_th0);
+			if (stepLen > CtrlWalk_critStepLen) {
 				WALK_FSM_MODE = Push1_Inn;
 				WalkFsm_switchTime = STATE_t;
 			} break;
@@ -118,15 +141,13 @@ void readGaitData(void) {
 
 	if (LABVIEW_GAIT_USE_MDP_DATA) {
 		CtrlWalk_ankPush = GAIT_WALK_ANK_PUSH;
-		CtrlWalk_critAngle = GAIT_WALK_CRIT_STANCE_ANGLE;
-		CtrlWalk_hipHold = GAIT_WALK_HIP_STEP_ANGLE;
+		CtrlWalk_critStepLen = GAIT_WALK_CRIT_STEP_LENGTH;
 		CtrlWalk_hipGain = GAIT_WALK_SCISSOR_GAIN;
 		CtrlWalk_hipOffset = GAIT_WALK_SCISSOR_OFFSET;
 		CtrlWalk_pushDelay = GAIT_WALK_DS_DELAY;
 	} else {
 		CtrlWalk_ankPush = LABVIEW_WALK_ANK_PUSH;
-		CtrlWalk_critAngle = LABVIEW_WALK_CRIT_STANCE_ANGLE;
-		CtrlWalk_hipHold = LABVIEW_WALK_HIP_STEP_ANGLE;
+		CtrlWalk_critStepLen = LABVIEW_WALK_CRIT_STEP_LENGTH;
 		CtrlWalk_hipGain = LABVIEW_WALK_SCISSOR_GAIN;
 		CtrlWalk_hipOffset = LABVIEW_WALK_SCISSOR_OFFSET;
 		CtrlWalk_pushDelay = LABVIEW_WALK_DS_DELAY;
@@ -137,7 +158,7 @@ void readGaitData(void) {
 /* Sends commands to the motors based on the current state of the
  * walking finite state machine */
 void sendMotorCommands(void) {
-
+	float hipTargetAngle;  
 	float push = CtrlWalk_ankPush;
 
 	switch (WALK_FSM_MODE_PREV) {
@@ -150,7 +171,8 @@ void sendMotorCommands(void) {
 	case Push2_Out:
 		flipDown_ankInn();
 		pushOff_ankOut(push);
-		hipHold(CtrlWalk_hipHold);
+		hipTargetAngle = getTargetHipAngle(STATE_th0, STATE_th1, CtrlWalk_critStepLen);
+		hipHold(hipTargetAngle);
 		break;
 	case Glide_Inn:
 		flipUp_ankOut();
@@ -160,8 +182,9 @@ void sendMotorCommands(void) {
 	case Push1_Inn:
 	case Push2_Inn:
 		flipDown_ankOut();
-		pushOff_ankInn(push);
-		hipHold(CtrlWalk_hipHold);
+		pushOff_ankInn(push);		
+		hipTargetAngle = getTargetHipAngle(STATE_th1, STATE_th0, CtrlWalk_critStepLen);
+		hipHold(hipTargetAngle);
 		break;
 	case Flight:  // In the air, get ready for Glide_Out
 		holdStance_ankOut();
