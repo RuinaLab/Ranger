@@ -5,6 +5,7 @@
 #include <robotParameters.h>
 #include <PSO.h>
 #include <optimizeGait.h>
+#include <motorControl.h>
 
 typedef struct {
 	float a1;
@@ -331,6 +332,11 @@ void updateRobotState(void) {
 
 	// Do a bit of harder math to figure out the horizontal component of the CoM motion
 	updateComKinematics();
+
+	// Send tracking errors:    (computed in motorControl.c)
+	mb_io_set_float(ID_EST_MOTOR_QH_ERR, MOTOR_qh_trackErr);
+	mb_io_set_float(ID_EST_MOTOR_Q0_ERR, MOTOR_q0_trackErr);
+	mb_io_set_float(ID_EST_MOTOR_Q1_ERR, MOTOR_q1_trackErr);
 
 }
 

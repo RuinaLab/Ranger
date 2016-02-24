@@ -137,9 +137,9 @@ void test_hipCompensation_inner() {
  * leg angle, with the constant offset being set by R0 and the
  * linear gain being set by R1. */
 void test_hipScissorTrack_outer() {
-	float kp_hip = 14.0;
-	float kd_hip = 2.0;
-	float kp_ank = 7.0;
+	float kp_hip = 25.0;
+	float kd_hip = 3.0;
+	float kp_ank = 15.0;
 	float kd_ank = 1.0;
 	float offset, rate;
 
@@ -158,9 +158,9 @@ void test_hipScissorTrack_outer() {
  * leg angle, with the constant offset being set by R0 and the
  * linear gain being set by R1. */
 void test_hipScissorTrack_inner() {
-	float kp_hip = 14.0;
-	float kd_hip = 2.0;
-	float kp_ank = 7.0;
+	float kp_hip = 25.0;
+	float kd_hip = 3.0;
+	float kp_ank = 15.0;
 	float kd_ank = 1.0;
 	float offset, rate;
 

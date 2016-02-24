@@ -4,6 +4,10 @@
 #include "robotParameters.h"
 #include "mb_estimator.h"
 
+float MOTOR_qh_trackErr;  // hip tracking error
+float MOTOR_q0_trackErr;  // outer ankle tracking error
+float MOTOR_q1_trackErr;  // inner ankle tracking error
+
 /* standardized controller input struct */
 typedef struct  {
 	float uRef;   // feed-forward torque term
@@ -81,6 +85,9 @@ void run_controller_hip( ControllerData * C ) {
 	mb_io_set_float(ID_MCH_COMMAND_CURRENT, uRef);
 	mb_io_set_float(ID_MCH_STIFFNESS, kp);
 	mb_io_set_float(ID_MCH_DAMPNESS, kd);
+
+	MOTOR_qh_trackErr = xRef - STATE_qh;
+
 }
 
 
@@ -103,6 +110,8 @@ void run_controller_ankOut( ControllerData * C ) {
 	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, uRef);
 	mb_io_set_float(ID_MCFO_STIFFNESS, kp);
 	mb_io_set_float(ID_MCFO_DAMPNESS, kd);
+
+	MOTOR_q0_trackErr = C->xRef - STATE_q0;
 }
 
 
@@ -126,6 +135,8 @@ void run_controller_ankInn( ControllerData * C ) {
 	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, uRef);
 	mb_io_set_float(ID_MCFI_STIFFNESS, kp);
 	mb_io_set_float(ID_MCFI_DAMPNESS, kd);
+
+	MOTOR_q1_trackErr = C->xRef - STATE_q1;
 }
 
 
@@ -244,7 +255,7 @@ void trackScissor_hip(float rate, float offset, float kp, float kd) {
 		ctrlHip.uRef = 0.0;
 		ctrlHip.kp = kp;
 		ctrlHip.kd = kd;
-		ctrlHip.xRef = offset - STATE_th0 * (rate + 1.0);;
+		ctrlHip.xRef = offset - STATE_th0 * (rate + 1.0);
 		ctrlHip.vRef = -STATE_dth0 * (rate + 1.0);
 		break;
 	case CONTACT_S1:

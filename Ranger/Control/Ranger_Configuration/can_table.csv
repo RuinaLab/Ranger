@@ -238,6 +238,9 @@ EST_ENERGY_MCH,0,1,0,Accumulated work since robot turned on - measured at board 
 EST_ENERGY_MCFO,0,1,0,Accumulated work since robot turned on - measured at board power supply.
 EST_ENERGY_MCFI,0,1,0,Accumulated work since robot turned on - measured at board power supply.
 EST_ENERGY_OVERHEAD,0,1,0,Accumulated work since robot turned on - measured at board power supply.
+EST_MOTOR_QH_ERR,0,1,0,low-level tracking error in the hip controller
+EST_MOTOR_Q0_ERR,0,1,0,low-level tracking error in the outer ankel controller
+EST_MOTOR_Q1_ERR,0,1,0,low-level tracking error in the inner ankle controller
 #,,,,
 #ControllerParameters,,,,
 CTRL_HIP_KP,25,0,1,

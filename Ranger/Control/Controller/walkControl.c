@@ -175,8 +175,8 @@ void sendMotorCommands(void) {
 		hipHold(hipTargetAngle);
 		break;
 	case Glide_Inn:
-		flipUp_ankOut();
 		holdStance_ankInn();
+		flipUp_ankOut();
 		hipGlide();
 		break;
 	case Push1_Inn:

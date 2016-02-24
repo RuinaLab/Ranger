@@ -3,6 +3,10 @@
 
 #include <stdbool.h>
 
+extern float MOTOR_qh_trackErr;  // hip tracking error
+extern float MOTOR_q0_trackErr;  // outer ankle tracking error
+extern float MOTOR_q1_trackErr;  // inner ankle tracking error
+
 void disable_motors(void);  // Shuts down all motors
 void disable_hip(void); // shuts down hip motor
 void disable_ankOut(void); // Shuts down the outer ankles
