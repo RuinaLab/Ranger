@@ -7,20 +7,11 @@
 #include <robotParameters.h>
 #include <gaitControl.h>
 
-typedef enum {
-	Glide_Out,   // Outer feet on the ground, inner feet swing through with scissor gait
-	Push1_Out,    // Outer feet on the ground,
-	Push2_Out,
-	Glide_Inn,  // Inner feet on the ground, inner feet swing through with scissor gait
-	Push1_Inn,
-	Push2_Inn,
-	Flight
-} WalkFsmMode;
 
 /* Current and previous finite state machine modes. Initialized in
  * walkControl_entry()  */
-static WalkFsmMode WALK_FSM_MODE;  // What to run now
-static WalkFsmMode WALK_FSM_MODE_PREV;  // What we ran last time
+WalkFsmMode WALK_FSM_MODE;  // What to run now
+WalkFsmMode WALK_FSM_MODE_PREV;  // What we ran last time
 
 /* The current set of gait parameters */
 static float CtrlWalk_ankPush;

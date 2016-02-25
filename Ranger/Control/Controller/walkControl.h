@@ -1,6 +1,21 @@
 #ifndef __WALKCONTROL_H__
 #define __WALKCONTROL_H__
 
+typedef enum {
+	Glide_Out,   // Outer feet on the ground, inner feet swing through with scissor gait
+	Push1_Out,    // Outer feet on the ground,
+	Push2_Out,
+	Glide_Inn,  // Inner feet on the ground, inner feet swing through with scissor gait
+	Push1_Inn,
+	Push2_Inn,
+	Flight
+} WalkFsmMode;
+
+/* Current and previous finite state machine modes. Initialized in
+ * walkControl_entry()  */
+extern WalkFsmMode WALK_FSM_MODE;  // What to run now
+extern WalkFsmMode WALK_FSM_MODE_PREV;  // What we ran last time
+
 /* Functions to be called during walking. All use gains from LabVIEW
  * and/or controller setpoints from robotParameters. */
 void holdStance_ankOut(void);  // Call to hold the outer foot level on the ground

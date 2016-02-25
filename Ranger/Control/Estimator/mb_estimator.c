@@ -6,6 +6,7 @@
 #include <PSO.h>
 #include <optimizeGait.h>
 #include <motorControl.h>
+#include <walkControl.h>
 
 typedef struct {
 	float a1;
@@ -112,6 +113,7 @@ float STATE_posCom;  // horizontal component of the center of mass position
 float STATE_velCom;  // horizontal component of the center of mass velocity
 float STATE_lastStepLength;  // length of the last step (meters)
 float STATE_lastStepDuration;  // Duration of the last step (seconds)
+float STATE_lastEstTime; // Timestamp of the last time the estimator was called.
 
 /* Variables for sensor fusion on the outer leg angle */
 static float STATE_th0_gyro;  // outer leg angle, based on integral of the gyro
@@ -122,6 +124,10 @@ static float STATE_lastStepTimeSec;  //  cpu clock time at last heel strike.
 bool STATE_c0;
 bool STATE_c1;
 ContactMode STATE_contactMode = CONTACT_FL;
+
+/* Accumulators for integrating ankle push-off */
+static float outPushAccumulatingCurrent = 0;
+static float innPushAccumulatingCurrent = 0;
 
 /* Initializes the filter to a single value. */
 void setFilterData(FilterData * FD, CAN_ID canId) {
@@ -336,6 +342,27 @@ void updateRobotState(void) {
 	mb_io_set_float(ID_EST_MOTOR_Q0_ERR, MOTOR_q0_trackErr);
 	mb_io_set_float(ID_EST_MOTOR_Q1_ERR, MOTOR_q1_trackErr);
 
+
+	// Accumulate the current to the ankles during push-off -- OUTER
+	if (WALK_FSM_MODE == Push1_Out || WALK_FSM_MODE == Push2_Out) {
+		// Add current_now/timeInterval to the accumulator
+		outPushAccumulatingCurrent += mb_io_get_float(ID_MCFO_MOTOR_CURRENT)/(STATE_t- STATE_lastEstTime);
+
+	} else { // Not pushing off with outer feet.
+		outPushAccumulatingCurrent = 5;
+	}
+
+	// Accumulate the current to the ankles during push-off -- INNER
+	if (WALK_FSM_MODE == Push1_Inn || WALK_FSM_MODE == Push2_Inn) {
+		// Add current_now/timeInterval to the accumulator
+		innPushAccumulatingCurrent += mb_io_get_float(ID_MCFI_MOTOR_CURRENT)/(STATE_t- STATE_lastEstTime);
+
+	} else { // Not pushing off with inner feet.
+		innPushAccumulatingCurrent = 0;
+	}
+
+	mb_io_set_float(ID_EST_OUT_PUSH_ACCUMULATED, outPushAccumulatingCurrent);
+	mb_io_set_float(ID_EST_INN_PUSH_ACCUMULATED, innPushAccumulatingCurrent);
 }
 
 
@@ -582,6 +609,7 @@ void mb_estimator_update(void) {
 		STATE_lastStepDuration = 0.0;  // Duration of the last step (seconds)
 
 
+		STATE_lastEstTime = 0.001 * mb_io_get_float(ID_TIMESTAMP);
 		// Remember that we've initialized everything properly
 		INITIALIZE_ESTIMATOR = false;
 	}
@@ -601,5 +629,6 @@ void mb_estimator_update(void) {
 	// Check if the robot fell down
 	checkIfRobotFellDown();
 
+	STATE_lastEstTime = STATE_t; // Update previous estimation time.
 	return;
 }
