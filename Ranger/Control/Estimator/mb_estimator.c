@@ -70,9 +70,7 @@ static float POWER_MCFI;
 static float POWER_OVERHEAD;
 
 // /* Parameters from Labview */
-bool LABVIEW_HIP_COMPENSATION_TARGET; // Hip compensation at the target (true) or measured state (false)
-bool LABVIEW_HIP_GRAVITY_COMPENSATION;  // enable gravity compensation in hip?
-bool LABVIEW_HIP_SPRING_COMPENSATION; // enable spring compensation in hip?
+bool LABVIEW_HIP_COMPENSATION;  // enable compensation in hip?
 float LABVIEW_HIP_KP;  // hip pd controller p gain
 float LABVIEW_HIP_KD;  // hip pd controller d gain
 float LABVIEW_ANK_PUSH_KP;  // ankle p gain used during push off
@@ -343,9 +341,7 @@ void updateRobotState(void) {
 
 /* Updates any controller parameters that are set from LabVIEW */
 void updateParameters(void) {
-	LABVIEW_HIP_COMPENSATION_TARGET = mb_io_get_float(ID_CTRL_HIP_COMPENSATION_TARGET) > 0.5;
-	LABVIEW_HIP_GRAVITY_COMPENSATION = mb_io_get_float(ID_CTRL_HIP_GRAVITY_COMPENSATION) > 0.5;
-	LABVIEW_HIP_SPRING_COMPENSATION = mb_io_get_float(ID_CTRL_HIP_SPRING_COMPENSATION) > 0.5;
+	LABVIEW_HIP_COMPENSATION = mb_io_get_float(ID_CTRL_HIP_COMPENSATION) > 0.5;
 	LABVIEW_HIP_KP = mb_io_get_float(ID_CTRL_HIP_KP);  // hip pd controller p gain
 	LABVIEW_HIP_KD = mb_io_get_float(ID_CTRL_HIP_KD);  // hip pd controller d gain
 	LABVIEW_ANK_PUSH_KP = mb_io_get_float(ID_CTRL_ANK_PUSH_KP);  // push-off ankle p gain
@@ -402,7 +398,7 @@ void heelStrikeGyroReset(float th0_heelStrike) {
 
 /* Sets the estimate for the step length and the stance leg angle, assuming that the robot
  * is in double stance. This is designed to be called once per step, by the walking finite
- * state machine. Returns the step length. Posts other data as STATE variables and to CAN 
+ * state machine. Returns the step length. Posts other data as STATE variables and to CAN
  * bus.*/
 float computeHeelStrikeGeometry(void) {
 
@@ -410,7 +406,7 @@ float computeHeelStrikeGeometry(void) {
 	float x, y; // scalar distances, in coordinate system aligned with outer legs
 
 	float Phi0 = PARAM_Phi0;
-		float Phi1 = PARAM_Phi1;
+	float Phi1 = PARAM_Phi1;
 	float l = PARAM_l;
 	float d = PARAM_d;
 	float qh, q0, q1; // robot joint angles
@@ -425,7 +421,7 @@ float computeHeelStrikeGeometry(void) {
 	 * These functions were determined using computer math. The code can
 	 * be found in:
 	 * templates/Estimator/legAngleEstimator/Derive_Eqns.m
-	 */																		 
+	 */
 	x = l * Sin(qh) - d * Sin(Phi1 - q1 + qh) + d * Sin(Phi0 - q0);
 	y = l + d * Cos(Phi1 - q1 + qh) - l * Cos(qh) - d * Cos(Phi0 - q0);
 
@@ -443,7 +439,7 @@ float computeHeelStrikeGeometry(void) {
 
 /* This function is called by gaitControl during walking, whenever there is a heel-strike,
  * which should occur whenever the foot strikes the ground during walking. */
-void triggerHeelStrikeUpdate(void){
+void triggerHeelStrikeUpdate(void) {
 	float newStepTime;
 	float stepDuration;
 	float stepLength;
@@ -456,7 +452,7 @@ void triggerHeelStrikeUpdate(void){
 	stepDuration = newStepTime - STATE_lastStepTimeSec; // Duration of the last step (seconds)
 	STATE_lastStepDuration = stepDuration;
 	STATE_lastStepTimeSec = newStepTime;
-	mb_io_set_float(ID_EST_LAST_STEP_DURATION, stepDuration);	
+	mb_io_set_float(ID_EST_LAST_STEP_DURATION, stepDuration);
 
 	/// Update the objective function:
 	logStepData(stepDuration, stepLength);
@@ -476,17 +472,17 @@ void sendTotalPower(void) {
 	POWER_OVERHEAD = mb_io_get_float(ID_CSR_MCU_POWER);
 
 	// Accumulate power use and send out
-	power = POWER_MCH + POWER_MCFO + POWER_MCFI + POWER_OVERHEAD;  
+	power = POWER_MCH + POWER_MCFO + POWER_MCFI + POWER_OVERHEAD;
 	mb_io_set_float(ID_EST_TOTAL_BATT_POWER, power);
 }
 
 /* This function accumulates the total energy used by each board */
-void updateEnergyUsage(void){
+void updateEnergyUsage(void) {
 	static float t = 0;  // time at last data point
 	static float pHip = 0;  // power used by the hip
 	static float p0 = 0;  // power used by the outer feet
 	static float p1 = 0;  // power used by the inner feet
-	static float pCpu = 0;  // power used by the overheads	
+	static float pCpu = 0;  // power used by the overheads
 	static float eHip = 0;  // energy used by the hip
 	static float e0 = 0;  // energy used by the outer feet
 	static float e1 = 0;  // energy used by the inner feet
@@ -495,16 +491,16 @@ void updateEnergyUsage(void){
 
 	// Approximate integral by trapezoid method
 	dt = STATE_t - t;
-	eHip = eHip + 0.5*dt*(pHip + POWER_MCH);
-	e0 = e0 + 0.5*dt*(p0 + POWER_MCFO);
-	e1 = e1 + 0.5*dt*(p1 + POWER_MCFI);
-	eCpu = eCpu + 0.5*dt*(pCpu + POWER_OVERHEAD);
+	eHip = eHip + 0.5 * dt * (pHip + POWER_MCH);
+	e0 = e0 + 0.5 * dt * (p0 + POWER_MCFO);
+	e1 = e1 + 0.5 * dt * (p1 + POWER_MCFI);
+	eCpu = eCpu + 0.5 * dt * (pCpu + POWER_OVERHEAD);
 
 	// Send estimates:
-	mb_io_set_float(ID_EST_ENERGY_MCH,eHip);
-	mb_io_set_float(ID_EST_ENERGY_MCFO,e0);
-	mb_io_set_float(ID_EST_ENERGY_MCFI,e1);
-	mb_io_set_float(ID_EST_ENERGY_OVERHEAD,eCpu);
+	mb_io_set_float(ID_EST_ENERGY_MCH, eHip);
+	mb_io_set_float(ID_EST_ENERGY_MCFO, e0);
+	mb_io_set_float(ID_EST_ENERGY_MCFI, e1);
+	mb_io_set_float(ID_EST_ENERGY_OVERHEAD, eCpu);
 
 	// Update static power variables:
 	t = STATE_t;
@@ -531,8 +527,8 @@ void checkIfRobotFellDown(void) {
 	}
 
 	// If both feet on the ground and both leg angles have the same sign... no good.
-	if (STATE_c1 && STATE_c0){
-		if (STATE_th0*STATE_th1 > PARAM_critDoubleFailAngleSqr){
+	if (STATE_c1 && STATE_c0) {
+		if (STATE_th0 * STATE_th1 > PARAM_critDoubleFailAngleSqr) {
 			STATE_IS_FALLEN = true;
 		}
 	}
@@ -590,10 +586,10 @@ void mb_estimator_update(void) {
 		INITIALIZE_ESTIMATOR = false;
 	}
 
-	STATE_t = 0.001*mb_io_get_float(ID_TIMESTAMP);  // Robot Time (converted to seconds)
+	STATE_t = 0.001 * mb_io_get_float(ID_TIMESTAMP); // Robot Time (converted to seconds)
 	runAllFilters();// Run the butterworth filters:
 	updateRobotOrientation();
-	sendTotalPower();  
+	sendTotalPower();
 	updateEnergyUsage(); // Must come after sendTotalPower()
 
 	// Update the state variables:  (absolute orientation and rate)

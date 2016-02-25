@@ -21,24 +21,27 @@ static ControllerData ctrlHip;
 static ControllerData ctrlAnkOut;
 static ControllerData ctrlAnkInn;
 
+/* Hip Compensation constants. Computed experimentally by
+ *  data fitting on Feb 25, 2016
+ *  torque = kSpring*(thSwing-thStance) + kGravity*sin(thSwing)  */
+static float HIP_OUT_K_GRAVITY = 6.2700 * 1.1880;  // (current gain)*(motor constant) 
+static float HIP_OUT_K_SPRING = 5.5566 * 1.1880;   // (current gain)*(motor constant) 
+static float HIP_INN_K_GRAVITY = -5.5260 * 1.1880; // (current gain)*(motor constant) 
+static float HIP_INN_K_SPRING = -5.4468 * 1.1880;  // (current gain)*(motor constant) 
 
 /************************************************************************
  *                    Private Methods                                   *
  ************************************************************************/
 
-/* Returns the torque needed to compensate for gravity at the target hip angle.
- * Returns 0.0 if the robot is in double stance. */
-float hip_gravity_compensation(float qRefHip) {
-	float uGravity = PARAM_m * PARAM_g * PARAM_c; // Torque scale factor
-	float qRefSwing;
-
+/* Returns the torque needed to compensate for gravity and the hip spring.
+ * Returns 0.0 if the robot is in double stance.
+ * torque = kSpring*(thSwing-thStance) + kGravity*sin(thSwing) */
+float hip_compensation(void) {
 	switch (STATE_contactMode) {
 	case CONTACT_S0:
-		qRefSwing = qRefHip + STATE_th0;
-		return  uGravity * Sin(qRefSwing);
+		return  HIP_OUT_K_SPRING * (STATE_th1 - STATE_th0) + HIP_OUT_K_GRAVITY * Sin(STATE_th1);
 	case CONTACT_S1:
-		qRefSwing = STATE_th1 - qRefHip;
-		return -uGravity * Sin(qRefSwing);
+		return  HIP_INN_K_SPRING * (STATE_th0 - STATE_th1) + HIP_INN_K_GRAVITY * Sin(STATE_th0);
 	default:
 		return 0.0;
 	}
@@ -54,23 +57,10 @@ void run_controller_hip( ControllerData * C ) {
 	float kd = C->kd;
 	float xRef = C->xRef;
 	float vRef = C->vRef;
-	float xComp;
 
-
-	if (LABVIEW_HIP_COMPENSATION_TARGET) {
-		xComp = xRef; // Compensate for the target state
-	} else {
-		xComp = STATE_qh;  // Compensate for the present state
+	if (LABVIEW_HIP_COMPENSATION) {
+		uRef = uRef + hip_compensation();
 	}
-
-	if (LABVIEW_HIP_SPRING_COMPENSATION) {
-		uRef = uRef  + xComp * PARAM_hip_spring_const;
-	}
-
-	if (LABVIEW_HIP_GRAVITY_COMPENSATION) {
-		uRef = uRef + hip_gravity_compensation(xComp);
-	}
-
 
 	/* Combine all constant terms:                         *
 	 * u = uRef + kp*(xRef - x) + kd*(vRef - v)            *

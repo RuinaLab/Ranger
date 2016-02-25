@@ -251,9 +251,7 @@ CTRL_ANK_STANCE_KP,15,0,1,
 CTRL_ANK_STANCE_KD,1,0,1,
 CTRL_ANK_SWING_KP,20,0,1,
 CTRL_ANK_SWING_KD,1,0,1,
-CTRL_HIP_COMPENSATION_TARGET,0,0,1,hip compensation at target (1) or at measured state (0)
-CTRL_HIP_GRAVITY_COMPENSATION,1,0,1,Enables (1) or disables (0) gravity compensation in hip controller
-CTRL_HIP_SPRING_COMPENSATION,1,0,1,Enables (1) or disables (0) spring compensation in hip controller
+CTRL_HIP_COMPENSATION,1,0,1,Enables (1) or disables (0) spring compensation in hip controller
 CTRL_WALK_ANK_PUSH ,0.8,0,1,magnitude of the push-off during walking  normalized to be on the range 0 to 1
 CTRL_WALK_CRIT_STEP_LENGTH,0.25,0,1,the criticl step length after which flip down and push off should occur
 CTRL_WALK_SCISSOR_GAIN,1.2,0,1,

@@ -26,6 +26,7 @@ const float PARAM_g = 9.81;  // acceleration due to gravity
 const float PARAM_hip_spring_const = 8.045;  // (Nm/rad) Hip spring constant
 const float PARAM_inv_hip_motor_const = 0.841750841750842; // (Amp/Nm)  ==  (1.0)/(P.Km*P.Gh) == (1.0)/(0.018*66)
 const float PARAM_inv_ank_motor_const = 1.633986928104575; // (Amp/Nm)  ==  (1.0)/(P.Km*P.Ga) == (1.0)/(0.018*34)
+// float PARAM_hip_motor_const = 1.1880; // (Nm/Amp) == (P.Km*P.Gh) == (0.018*66)
 
 /* Parameters and set-points for walking sub-functions */
 const float PARAM_ctrl_ank_flipTarget = 0.4;  // relative ankle angle when foot is flipped up. Hard stop at 0.0.

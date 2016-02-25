@@ -7,9 +7,7 @@ extern bool INITIALIZE_ESTIMATOR; // Should the estimator be initialized?
 
 
 /* Parameters set by LabVIEW */
-extern bool LABVIEW_HIP_COMPENSATION_TARGET; // Hip compensation at the target (true) or measured state (false)
-extern bool LABVIEW_HIP_GRAVITY_COMPENSATION;
-extern bool LABVIEW_HIP_SPRING_COMPENSATION;
+extern bool LABVIEW_HIP_COMPENSATION;
 extern float LABVIEW_HIP_KP;  // hip pd controller p gain
 extern float LABVIEW_HIP_KD;  // hip pd controller d gain
 extern float LABVIEW_ANK_PUSH_KP;  // ankle p gain used during push off 

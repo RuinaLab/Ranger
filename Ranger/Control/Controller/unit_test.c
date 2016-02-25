@@ -90,13 +90,13 @@ void test_hipCompensation_flight() {
  * minimal stead-state error thanks to gravity and spring
  * compensation. The target hip angle is on ID_CTRL_TEST_W0. */
 void test_hipCompensation_outer() {
-	float kp_hip = 14.0;
-	float kd_hip = 2.0;
-	float kp_ank = 7.0;
+	float kp_hip = 25.0;
+	float kd_hip = 3.0;
+	float kp_ank = 15.0;
 	float kd_ank = 1.0;
-	float min = -0.2;
-	float max = 0.2;
-	float period = 5.0;
+	float min = -0.35;
+	float max = 0.35;
+	float period = 2.0;
 	float qTarget;
 	float time = getTime();
 
@@ -113,13 +113,13 @@ void test_hipCompensation_outer() {
  * minimal stead-state error thanks to gravity and spring
  * compensation. The target hip angle is on ID_CTRL_TEST_W0. */
 void test_hipCompensation_inner() {
-	float kp_hip = 14.0;
-	float kd_hip = 2.0;
-	float kp_ank = 7.0;
+	float kp_hip = 25.0;
+	float kd_hip = 3.0;
+	float kp_ank = 15.0;
 	float kd_ank = 1.0;
-	float min = -0.2;
-	float max = 0.2;
-	float period = 5.0;
+	float min = -0.35;
+	float max = 0.35;
+	float period = 2.0;
 	float qTarget;
 	float time = getTime();
 
