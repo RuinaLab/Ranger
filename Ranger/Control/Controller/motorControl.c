@@ -265,8 +265,8 @@ void trackScissor_hip(float rate, float offset, float kp, float kd) {
 		break;
 	case CONTACT_S1:
 		ctrlHip.uRef = 0.0;
-		ctrlHip.kp = kp;
-		ctrlHip.kd = kd;
+		ctrlHip.kp = kp;  
+		ctrlHip.kd = kd;  
 		ctrlHip.xRef = -offset + STATE_th1 * (rate + 1.0);
 		ctrlHip.vRef = STATE_dth1 * (rate + 1.0);
 		break;

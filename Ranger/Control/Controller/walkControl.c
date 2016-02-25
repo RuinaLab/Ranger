@@ -90,7 +90,7 @@ void updateWalkFsm(void) {
 				WalkFsm_switchTime = STATE_t;
 			} break;
 		case Push2_Out:
-			if (WalkFsm_ankOutPushInt > 0.6 || !STATE_c0) {
+			if (WalkFsm_ankOutPushInt > 0.6 || !STATE_c0) {   ////HACK////
 				// if (STATE_t - WalkFsm_switchTime > CtrlWalk_pushDelay) {
 				WALK_FSM_MODE = Glide_Inn;
 				WalkFsm_switchTime = STATE_t;
@@ -110,7 +110,7 @@ void updateWalkFsm(void) {
 				WalkFsm_switchTime = STATE_t;
 			} break;
 		case Push2_Inn:
-			if (WalkFsm_ankInnPushInt > 0.6 || !STATE_c1) {
+			if (WalkFsm_ankInnPushInt > 0.6 || !STATE_c1) {  ////HACK////
 				// if  (STATE_t - WalkFsm_switchTime > CtrlWalk_pushDelay) { // If outer feet hit the ground
 				WALK_FSM_MODE = Glide_Out;
 				WalkFsm_switchTime = STATE_t;
