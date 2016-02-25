@@ -23,6 +23,10 @@ static float CtrlWalk_pushDelay;
 /* Time since last state change: */
 static float WalkFsm_switchTime;
 
+/* Current Integral Stuff */
+static float WalkFsm_ankOutPushInt = 0.0;
+static float WalkFsm_ankInnPushInt = 0.0;
+
 /* This function computes the distance between the ankle joints of the robot,
  * projected on to the ground */
 float getAnkleJointRelDistance(float thStance, float thSwing) {
@@ -44,24 +48,41 @@ float getTargetHipAngle(float thStance, float thSwing, float stepLen) {
 	return Acos( 1 - ( d * d + h * h ) / ( 2 * l * l ) );
 }
 
+/* Accumulate (integrate) current signals to the motors for push-off
+ * exit conditions */
+void accumulatePushOffCurrent(void) {
+	WalkFsm_ankOutPushInt += CLOCK_CYCLE_DURATION * Abs(mb_io_get_float(ID_MCFO_MOTOR_CURRENT));
+	WalkFsm_ankInnPushInt += CLOCK_CYCLE_DURATION * Abs(mb_io_get_float(ID_MCFI_MOTOR_CURRENT));
+	mb_io_set_float(ID_EST_OUT_PUSH_ACCUMULATED, WalkFsm_ankOutPushInt);
+	mb_io_set_float(ID_EST_INN_PUSH_ACCUMULATED, WalkFsm_ankInnPushInt);
+}
+
+/* Reset the accumulators when the FSM changes */
+void resetPushOffAccumulators(void) {
+	WalkFsm_ankOutPushInt = 0.0;
+	WalkFsm_ankInnPushInt = 0.0;
+}
+
 /* This function is called once per loop, and checks the
  * sensors that are used to trigger transitions between
  * modes of the finite state machine */
 void updateWalkFsm(void) {
 	float stepLen;
 	WALK_FSM_MODE_PREV = WALK_FSM_MODE;
+	accumulatePushOffCurrent();  // Compute the current integrals
 
 	if (STATE_contactMode == CONTACT_FL) { // Then robot is in the air
 		WALK_FSM_MODE = Flight;  // Give up on walking and enter flight mode
 		WalkFsm_switchTime = STATE_t;
+		resetPushOffAccumulators();
 	} else {  // Run the normal walking finite state machine
 		switch (WALK_FSM_MODE_PREV) {
-
 		case Glide_Out:
 			stepLen = getAnkleJointRelDistance(STATE_th0, STATE_th1);
 			if (stepLen > CtrlWalk_critStepLen) {
 				WALK_FSM_MODE = Push1_Out;
 				WalkFsm_switchTime = STATE_t;
+				resetPushOffAccumulators();
 			} break;
 		case Push1_Out:
 			if (STATE_c1) {  // If inner feet hit the ground
@@ -69,9 +90,11 @@ void updateWalkFsm(void) {
 				WalkFsm_switchTime = STATE_t;
 			} break;
 		case Push2_Out:
-			if (STATE_t - WalkFsm_switchTime > CtrlWalk_pushDelay) {
+			if (WalkFsm_ankOutPushInt > 0.6 || !STATE_c0) {
+				// if (STATE_t - WalkFsm_switchTime > CtrlWalk_pushDelay) {
 				WALK_FSM_MODE = Glide_Inn;
 				WalkFsm_switchTime = STATE_t;
+				resetPushOffAccumulators();
 			}
 
 		case Glide_Inn:
@@ -79,6 +102,7 @@ void updateWalkFsm(void) {
 			if (stepLen > CtrlWalk_critStepLen) {
 				WALK_FSM_MODE = Push1_Inn;
 				WalkFsm_switchTime = STATE_t;
+				resetPushOffAccumulators();
 			} break;
 		case Push1_Inn:
 			if (STATE_c0) {  // If outer feet hit the ground
@@ -86,15 +110,18 @@ void updateWalkFsm(void) {
 				WalkFsm_switchTime = STATE_t;
 			} break;
 		case Push2_Inn:
-			if  (STATE_t - WalkFsm_switchTime > CtrlWalk_pushDelay) { // If outer feet hit the ground
+			if (WalkFsm_ankInnPushInt > 0.6 || !STATE_c1) {
+				// if  (STATE_t - WalkFsm_switchTime > CtrlWalk_pushDelay) { // If outer feet hit the ground
 				WALK_FSM_MODE = Glide_Out;
 				WalkFsm_switchTime = STATE_t;
+				resetPushOffAccumulators();
 			} break;
 
 		case Flight:
 			if (STATE_c0) {  // If outer feet hit the ground
 				WALK_FSM_MODE = Glide_Out;
 				WalkFsm_switchTime = STATE_t;
+				resetPushOffAccumulators();
 			} break;
 		}
 
@@ -126,7 +153,7 @@ void setWalkFsmLed(void) {
 }
 
 /* Updates the data that are used by the walking controller,
- * and determines whether to read from LabVIEW or from the 
+ * and determines whether to read from LabVIEW or from the
  * gait controller */
 void readGaitData(void) {
 
@@ -149,7 +176,7 @@ void readGaitData(void) {
 /* Sends commands to the motors based on the current state of the
  * walking finite state machine */
 void sendMotorCommands(void) {
-	float hipTargetAngle;  
+	float hipTargetAngle;
 	float push = CtrlWalk_ankPush;
 
 	switch (WALK_FSM_MODE_PREV) {
@@ -173,7 +200,7 @@ void sendMotorCommands(void) {
 	case Push1_Inn:
 	case Push2_Inn:
 		flipDown_ankOut();
-		pushOff_ankInn(push);		
+		pushOff_ankInn(push);
 		hipTargetAngle = getTargetHipAngle(STATE_th1, STATE_th0, CtrlWalk_critStepLen);
 		hipHold(hipTargetAngle);
 		break;
@@ -220,7 +247,6 @@ void flipDown_ankOut(void) {
 void flipDown_ankInn(void) {
 	trackAbs_ankInn(PARAM_ctrl_ank_holdLevel, LABVIEW_ANK_SWING_KP, LABVIEW_ANK_SWING_KD);
 }
-
 
 /* Wrapper Function.
  * Push-off with the outer ankles*/

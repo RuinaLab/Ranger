@@ -6,7 +6,6 @@
 #include <PSO.h>
 #include <optimizeGait.h>
 #include <motorControl.h>
-#include <walkControl.h>
 
 typedef struct {
 	float a1;
@@ -30,7 +29,7 @@ typedef struct {
 bool INITIALIZE_ESTIMATOR = true;   // Should the estimator be initialized?
 
 /* Filter cut-off frequencies */
-static const float CLOCK_CYCLE_DURATION = 0.002;   // Ranger runs the main brain at 500Hz
+const float CLOCK_CYCLE_DURATION = 0.002;   // Ranger runs the main brain at 500Hz
 static const float FILTER_CUTOFF_FAST = 2 * CLOCK_CYCLE_DURATION * 20.0; // (2*period in sec)*(cutoff frequency in Hz) -- Used by joint sensors
 static const float FILTER_CUTOFF_SLOW = 2 * CLOCK_CYCLE_DURATION * 10.0; // (2*period in sec)*(cutoff frequency in Hz) -- Used by foot contact sensors
 static const float FILTER_CUTOFF_VERY_SLOW = 2 * CLOCK_CYCLE_DURATION * 2.0; //  (2*period in sec)*(cutoff frequency in Hz) -- Used by steering motor
@@ -124,10 +123,6 @@ static float STATE_lastStepTimeSec;  //  cpu clock time at last heel strike.
 bool STATE_c0;
 bool STATE_c1;
 ContactMode STATE_contactMode = CONTACT_FL;
-
-/* Accumulators for integrating ankle push-off */
-static float outPushAccumulatingCurrent = 0;
-static float innPushAccumulatingCurrent = 0;
 
 /* Initializes the filter to a single value. */
 void setFilterData(FilterData * FD, CAN_ID canId) {
@@ -343,26 +338,6 @@ void updateRobotState(void) {
 	mb_io_set_float(ID_EST_MOTOR_Q1_ERR, MOTOR_q1_trackErr);
 
 
-	// Accumulate the current to the ankles during push-off -- OUTER
-	if (WALK_FSM_MODE == Push1_Out || WALK_FSM_MODE == Push2_Out) {
-		// Add current_now/timeInterval to the accumulator
-		outPushAccumulatingCurrent += mb_io_get_float(ID_MCFO_MOTOR_CURRENT)/(STATE_t- STATE_lastEstTime);
-
-	} else { // Not pushing off with outer feet.
-		outPushAccumulatingCurrent = 5;
-	}
-
-	// Accumulate the current to the ankles during push-off -- INNER
-	if (WALK_FSM_MODE == Push1_Inn || WALK_FSM_MODE == Push2_Inn) {
-		// Add current_now/timeInterval to the accumulator
-		innPushAccumulatingCurrent += mb_io_get_float(ID_MCFI_MOTOR_CURRENT)/(STATE_t- STATE_lastEstTime);
-
-	} else { // Not pushing off with inner feet.
-		innPushAccumulatingCurrent = 0;
-	}
-
-	mb_io_set_float(ID_EST_OUT_PUSH_ACCUMULATED, outPushAccumulatingCurrent);
-	mb_io_set_float(ID_EST_INN_PUSH_ACCUMULATED, innPushAccumulatingCurrent);
 }
 
 

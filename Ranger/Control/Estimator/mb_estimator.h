@@ -5,6 +5,7 @@
 
 extern bool INITIALIZE_ESTIMATOR; // Should the estimator be initialized?
 
+extern const float CLOCK_CYCLE_DURATION; 
 
 /* Parameters set by LabVIEW */
 extern bool LABVIEW_HIP_COMPENSATION;

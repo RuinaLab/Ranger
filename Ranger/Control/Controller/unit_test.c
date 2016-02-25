@@ -635,6 +635,48 @@ void test_motorCurrentCommandTypes(void){
 }
 
 
+/* --35-- Robot is standing in single stance on the outer feet.
+ * The hip is turned off, and the inner feet are flipped up. The
+ * stance feet should roll back and forth, to check tracking error. */
+void test_stanceAnkleTracking_outer() {
+	float kp_ank = 15.0;
+	float kd_ank = 1.0;
+	float min = -0.8;
+	float max = 0.0;
+	float period = 1.0;
+	float qTarget;
+	float time = getTime();
+
+	qTarget = SineWave(time, period, min, max);
+
+	trackAbs_ankOut(qTarget, kp_ank, kd_ank);
+	trackRel_ankInn(0.2, kp_ank, kd_ank);
+	disable_hip();
+	mb_io_set_float(ID_CTRL_TEST_W0, qTarget);
+}
+
+/* --36-- Robot is standing in single stance on the inner feet.
+ * The hip is turned off, and the outer feet are flipped up. The
+ * stance feet should roll back and forth, to check tracking error. */
+void test_stanceAnkleTracking_inner() {
+	float kp_ank = 15.0;
+	float kd_ank = 1.0;
+	float min = -0.8;
+	float max = 0.0;
+	float period = 1.0;
+	float qTarget;
+	float time = getTime();
+
+	qTarget = SineWave(time, period, min, max);
+
+	trackRel_ankOut(0.2, kp_ank, kd_ank);
+	trackAbs_ankInn(qTarget, kp_ank, kd_ank);
+	disable_hip();
+	mb_io_set_float(ID_CTRL_TEST_W0, qTarget);
+}
+
+
+
 /* Entry-point function for all unit tests */
 void runUnitTest(void) {
 
@@ -667,6 +709,8 @@ void runUnitTest(void) {
 	case 14: test_pushOff_inner(); break;
 	case 15: test_hipHold(); break;
 	case 28: test_safeMode(); break;
+	case 35: test_stanceAnkleTracking_outer(); break;
+	case 36: test_stanceAnkleTracking_inner(); break;
 
 	/**** Walking Controller ****/
 	case 16: walkControl_test(); break; // Calls a function in walkControl.c

@@ -12,6 +12,9 @@ void disable_hip(void); // shuts down hip motor
 void disable_ankOut(void); // Shuts down the outer ankles
 void disable_ankInn(void); // shuts down the inner ankles
 
+void sendCurrent_ankInn(float current);  // directly sends current command
+void sendCurrent_ankOut(float current);  // directly sends current command
+
 void trackRel_ankOut(float q0, float kp, float kd);  // outer ankles track desired joint angle
 void trackRel_ankInn(float q1, float kp, float kd);  // inner ankles track desired joint angle
 void trackRel_hip(float qh, float kp, float kd);  // Hip motor tracks a desired hip joint angle

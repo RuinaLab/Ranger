@@ -24,10 +24,10 @@ static ControllerData ctrlAnkInn;
 /* Hip Compensation constants. Computed experimentally by
  *  data fitting on Feb 25, 2016
  *  torque = kSpring*(thSwing-thStance) + kGravity*sin(thSwing)  */
-static float HIP_OUT_K_GRAVITY = 6.2700 * 1.1880;  // (current gain)*(motor constant) 
-static float HIP_OUT_K_SPRING = 5.5566 * 1.1880;   // (current gain)*(motor constant) 
-static float HIP_INN_K_GRAVITY = -5.5260 * 1.1880; // (current gain)*(motor constant) 
-static float HIP_INN_K_SPRING = -5.4468 * 1.1880;  // (current gain)*(motor constant) 
+static float HIP_OUT_K_GRAVITY = 6.2700 * 1.1880;  // (current gain)*(motor constant)
+static float HIP_OUT_K_SPRING = 5.5566 * 1.1880;   // (current gain)*(motor constant)
+static float HIP_INN_K_GRAVITY = -5.5260 * 1.1880; // (current gain)*(motor constant)
+static float HIP_INN_K_SPRING = -5.4468 * 1.1880;  // (current gain)*(motor constant)
 
 /************************************************************************
  *                    Private Methods                                   *
@@ -157,11 +157,26 @@ void disable_ankOut() {
 }
 
 /* turn off the inner ankle motor */
+void sendCurrent_ankInn(float current) {
+	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, current);
+	mb_io_set_float(ID_MCFI_STIFFNESS, 0.0);
+	mb_io_set_float(ID_MCFI_DAMPNESS, 0.0);
+}
+
+/* turn off the outer ankle motor */
+void sendCurrent_ankOut(float current) {
+	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, current);
+	mb_io_set_float(ID_MCFO_STIFFNESS, 0.0);
+	mb_io_set_float(ID_MCFO_DAMPNESS, 0.0);
+}
+
+/* turn off the inner ankle motor */
 void disable_ankInn() {
 	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, 0.0);
 	mb_io_set_float(ID_MCFI_STIFFNESS, 0.0);
 	mb_io_set_float(ID_MCFI_DAMPNESS, 0.0);
 }
+
 
 /* Computes controller commands such that the outer ankle tracks
  * a constant joint angle (q0). */
