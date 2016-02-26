@@ -237,7 +237,7 @@ void pso_eval_point(void) {
 				xBest[idx][dim] = x[idx][dim];
 			}
 		} else { // Initialization is complete
-			if (objFunVal< fBest[idx]) {  // check new point for improvement
+			if (objFunVal < fBest[idx]) {  // check new point for improvement
 				fBest[idx] = objFunVal;
 				for (dim = 0; dim < DIM_STATE; dim++) {
 					xBest[idx][dim] = x[idx][dim];

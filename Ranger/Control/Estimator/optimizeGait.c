@@ -35,11 +35,11 @@
 
 static int STEP_COUNT = 0;
 static const int N_STEP_TRANSIENT = 4;  // Ignore the first few steps to reject transients
-static const int N_STEP_TRIAL = 10; // Include this many steps in objective function
+static const int N_STEP_TRIAL = 12; // Include this many steps in objective function
 
-static const int N_POPULATION = 15;  // population to use in optimization
+static const int N_POPULATION = 18;  // population to use in optimization
 
-static const float OMEGA = 0.3;   // PSO inertial weighting term
+static const float OMEGA = 0.5;   // PSO inertial weighting term
 static const float ALPHA = 0.9;   // PSO local search weight
 static const float BETA = 0.9;    // PSO global search weight
 
@@ -84,7 +84,7 @@ void objFun_send(float* x, int nDim) {
 float objFun_eval(void) {
 	float objVal = 0;
 	objVal = Mean(COST, N_STEP_TRIAL);
-	mb_io_set_float(ID_OPTIM_OBJ_FUN_LAST_VAL, objVal ); // Report to LabView.
+	mb_io_set_float(ID_OPTIM_OBJ_FUN_LAST_VAL, objVal); // Report to LabView.
 	return objVal;
 }
 
