@@ -7,6 +7,9 @@
 #include <robotParameters.h>
 #include <gaitControl.h>
 
+/* HACK !!  Add a bias term to the hip tracking controller during walking.
+ * Bias = 0.10  -->  10% increase of outer tracking, 10% decrease to inner tracking */
+static float WALK_CONTROLLER_BIAS_TERM = 0.0;   // Bias term. Set to 0.0 for no bias.
 
 /* Current and previous finite state machine modes. Initialized in
  * walkControl_entry()  */
@@ -68,8 +71,10 @@ void resetPushOffAccumulators(void) {
  * modes of the finite state machine */
 void updateWalkFsm(void) {
 	float stepLen;
+	float bias;
 	WALK_FSM_MODE_PREV = WALK_FSM_MODE;
 	accumulatePushOffCurrent();  // Compute the current integrals
+
 
 	if (STATE_contactMode == CONTACT_FL) { // Then robot is in the air
 		WALK_FSM_MODE = Flight;  // Give up on walking and enter flight mode
@@ -90,7 +95,8 @@ void updateWalkFsm(void) {
 				WalkFsm_switchTime = STATE_t;
 			} break;
 		case Push2_Out:
-			if (WalkFsm_ankOutPushInt > CtrlWalk_pushIntegral || !STATE_c0) {   
+			bias = WALK_CONTROLLER_BIAS_TERM + 1.0;
+			if (WalkFsm_ankOutPushInt > bias * CtrlWalk_pushIntegral || !STATE_c0) {
 				WALK_FSM_MODE = Glide_Inn;
 				WalkFsm_switchTime = STATE_t;
 				resetPushOffAccumulators();
@@ -109,7 +115,8 @@ void updateWalkFsm(void) {
 				WalkFsm_switchTime = STATE_t;
 			} break;
 		case Push2_Inn:
-			if (WalkFsm_ankInnPushInt > CtrlWalk_pushIntegral || !STATE_c1) { 
+			bias = -WALK_CONTROLLER_BIAS_TERM + 1.0;
+			if (WalkFsm_ankInnPushInt > bias * CtrlWalk_pushIntegral || !STATE_c1) {
 				WALK_FSM_MODE = Glide_Out;
 				WalkFsm_switchTime = STATE_t;
 				resetPushOffAccumulators();
@@ -181,7 +188,7 @@ void sendMotorCommands(void) {
 	case Glide_Out:
 		holdStance_ankOut();
 		flipUp_ankInn();
-		hipGlide();
+		hipGlideBias(WALK_CONTROLLER_BIAS_TERM);
 		break;
 	case Push1_Out:
 	case Push2_Out:
@@ -193,7 +200,7 @@ void sendMotorCommands(void) {
 	case Glide_Inn:
 		holdStance_ankInn();
 		flipUp_ankOut();
-		hipGlide();
+		hipGlideBias(-WALK_CONTROLLER_BIAS_TERM);
 		break;
 	case Push1_Inn:
 	case Push2_Inn:
@@ -247,23 +254,36 @@ void flipDown_ankInn(void) {
 }
 
 /* Wrapper Function.
- * Push-off with the outer ankles*/
+ * Push-off with the outer ankles. Now includes bias term.
+ * set WALK_CONTROLLER_BIAS_TERM = 0.0 for now bias during walking */
 void pushOff_ankOut(float push) {
-	float target = push * (PARAM_ctrl_ank_pushTarget_0) + (1.0 - push) * PARAM_ctrl_ank_holdLevel;
-	trackAbs_ankOut(target, LABVIEW_ANK_PUSH_KP, LABVIEW_ANK_PUSH_KD);
+	float target;
+	float bias = WALK_CONTROLLER_BIAS_TERM + 1.0;
+	target = push * (PARAM_ctrl_ank_pushTarget_0) + (1.0 - push) * PARAM_ctrl_ank_holdLevel;
+	trackAbs_ankOut(target, bias * LABVIEW_ANK_PUSH_KP, bias * LABVIEW_ANK_PUSH_KD);
 }
 void pushOff_ankInn(float push) {
-	float target = push * (PARAM_ctrl_ank_pushTarget_1) + (1.0 - push) * PARAM_ctrl_ank_holdLevel;
-	trackAbs_ankInn(target, LABVIEW_ANK_PUSH_KP, LABVIEW_ANK_PUSH_KD);
+	float target;
+	float bias = -WALK_CONTROLLER_BIAS_TERM + 1.0;
+	target = push * (PARAM_ctrl_ank_pushTarget_1) + (1.0 - push) * PARAM_ctrl_ank_holdLevel;
+	trackAbs_ankInn(target, bias * LABVIEW_ANK_PUSH_KP, bias * LABVIEW_ANK_PUSH_KD);
 }
 
 
 /* Wrapper function.
  * Does scissor tracking on the hip, using labview gains.  */
 void hipGlide(void) {
+	hipGlideBias(0.0);  // Call without bias added
+}
+
+/* Wrapper function for hipGlide, but applies a bias to the control.
+ * bias = 0.1  -->  increase gains and tracking by 10%
+ * bias = -0.1 -->  decrease gains and tracking by 10%    */
+void hipGlideBias(float bias) {
+	bias += 1.0;
 	trackScissor_hip(
-	    CtrlWalk_hipGain, CtrlWalk_hipOffset,
-	    LABVIEW_HIP_KP, LABVIEW_HIP_KD);
+	    bias * CtrlWalk_hipGain, bias * CtrlWalk_hipOffset,
+	    bias * LABVIEW_HIP_KP, bias * LABVIEW_HIP_KD);
 }
 
 
