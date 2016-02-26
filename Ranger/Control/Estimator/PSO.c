@@ -16,6 +16,7 @@
 
 #define DIM_STATE_MAX 20 // Max dimension of the search space for optimization
 #define POP_COUNT_MAX 25  // Max number of particles 
+#define COUNT_TRIAL_REPEAT 2 // Repeat each trial this many times
 
 float DIM_STATE;  // dimension of the search space
 float POP_COUNT;  // number of particles in the search
@@ -34,15 +35,16 @@ float X_UPP[DIM_STATE_MAX];
 /* Arrays to store the population data */
 float x[POP_COUNT_MAX][DIM_STATE_MAX];  // Current location of the particle
 float v[POP_COUNT_MAX][DIM_STATE_MAX];  // best ever location of the particle
-float f[POP_COUNT_MAX];  // Current value of the particle
+float f[POP_COUNT_MAX][COUNT_TRIAL_REPEAT];  // Current value of the particle
 float xBest[POP_COUNT_MAX][DIM_STATE_MAX]; // best ever value of the particle
 float fBest[POP_COUNT_MAX]; // velocity of the particle
 
 /* Index for pointing to key parts of the arrays */
 int idxPopGlobal = 0;  // Index of the populations best-ever particle
 int idxPopSelect = 0;  // Index of the particle that is currently selected
+int idxTrialRepeat = 0;  // Which trial are we on for this particle?
 bool FLAG_INIT = false;  // Has the entire population been initialized?
-int currentGeneration = 0;
+int idxGeneration = 0;
 
 /* Allow the user to send a "hint" point anytime */
 bool FLAG_HINT = false;   // True if the user has just sent a hint to be tested
@@ -79,9 +81,9 @@ void setObjFunInfo(float * xLow, float *xUpp, int nDim, int nPop
 }
 
 /* Allow the user to send a hint, which resets the position of the
- * active particle, and sets its velocity to zero. Must be called 
+ * active particle, and sets its velocity to zero. Must be called
  * after the problem is initialized with setObjFunInfo(). */
-void psoGiveHint(float * xHint){
+void psoGiveHint(float * xHint) {
 	int dim;
 	for (dim = 0; dim < DIM_STATE; dim++) {
 		X_HINT[dim] = xHint[dim];
@@ -93,6 +95,7 @@ void psoGiveHint(float * xHint){
 void psoReset(void) {
 	idxPopGlobal = 0;
 	idxPopSelect = 0;
+	idxTrialRepeat = 0;
 	FLAG_INIT = false;
 }
 
@@ -120,7 +123,7 @@ float psoGetSelectBest(void) {
  * zero if the population has not been initialized. */
 float psoGetSelectObjVal(void) {
 	if (FLAG_INIT) {
-		return f[idxPopSelect];
+		return f[idxPopSelect][idxTrialRepeat];
 	} else {
 		return 0.0;
 	}
@@ -129,6 +132,11 @@ float psoGetSelectObjVal(void) {
 /* Returns the index of the currently selected particle */
 int psoGetParticleId(void) {
 	return idxPopSelect;
+}
+
+/* Returns the index of the trial for the current particle */
+int psoGetTrialId(void) {
+	return idxTrialRepeat;
 }
 
 /******************************************************************
@@ -163,7 +171,7 @@ void pso_send_point(void) {
 	int dim = 0;  // counter to loop over each dimension of the search space
 	int idx = idxPopSelect; // Index of the currently selected particle
 
-	if (FLAG_HINT){  // Initialize the current particle to the hint 
+	if (FLAG_HINT) { // Initialize the current particle to the hint
 		for (dim = 0; dim < DIM_STATE; dim++) {
 			x[idx][dim] = X_HINT[dim];
 			v[idx][dim] = 0.0;
@@ -191,9 +199,10 @@ void pso_send_point(void) {
 		}
 	}
 
-	mb_io_set_float(ID_OPTIM_CURRENT_GENERATION, currentGeneration);
+	mb_io_set_float(ID_OPTIM_CURRENT_GENERATION, idxGeneration);
 	mb_io_set_float(ID_OPTIM_ACTIVE_PARTICLE, idxPopSelect);
-	
+	mb_io_set_float(ID_OPTIM_TRIAL_INDEX, idxTrialRepeat);
+
 	OBJ_FUN_SEND(x[idx], DIM_STATE);   // Send query to objective function
 }
 
@@ -203,35 +212,58 @@ void pso_send_point(void) {
 void pso_eval_point(void) {
 	int dim = 0;  // counter to loop over each dimension of the search space
 	int idx = idxPopSelect; // Index of the currently selected particle
-	
-	f[idx] = OBJ_FUN_EVAL();    // Reads the obj fun evaluation of query point
+	float objFunVal;   // Store the tenetative best value for the objective function here  
+	int iTrial;  // temp counter for looping over trials
 
-	// Update the local best
-	if (!FLAG_INIT) { // Still working on initialization
-		fBest[idx] = f[idx];  // current point is best by definition
-		for (dim = 0; dim < DIM_STATE; dim++) {
-			xBest[idx][dim] = x[idx][dim];
+	f[idx][idxTrialRepeat] = OBJ_FUN_EVAL();    // Reads the obj fun evaluation of query point
+
+	// Only check for best point after all trials have been completed for a given trial
+	if ( idxTrialRepeat >= (COUNT_TRIAL_REPEAT - 1) ) {  // Completed final trial!
+
+		/* Compute the value of the objective function, which is defined to be the worst
+ 		 * of the trials that were attempted min(max()) optimization 
+ 		 *  -->   objFunVal = max(f[idx][]) 								*/
+		objFunVal = f[idx][0];
+		for (iTrial = 1; iTrial < COUNT_TRIAL_REPEAT; iTrial++){
+			if (f[idx][iTrial] > objFunVal){
+				objFunVal = f[idx][iTrial];  
+			}
 		}
-	} else { // Initialization is complete
-		if (f[idx] < fBest[idx]) {  // check new point for improvement
-			fBest[idx] = f[idx];
+
+		// Update the local best
+		if (!FLAG_INIT) { // Still working on initialization
+			fBest[idx] = objFunVal;  // current point is best by definition
 			for (dim = 0; dim < DIM_STATE; dim++) {
 				xBest[idx][dim] = x[idx][dim];
 			}
+		} else { // Initialization is complete
+			if (objFunVal< fBest[idx]) {  // check new point for improvement
+				fBest[idx] = objFunVal;
+				for (dim = 0; dim < DIM_STATE; dim++) {
+					xBest[idx][dim] = x[idx][dim];
+				}
+			}
 		}
+
+		// Update the global best:
+		if (fBest[idxPopSelect] < fBest[idxPopGlobal] ) {
+			idxPopGlobal = idxPopSelect;
+		}
+
+		// Incrememnt the particle pointer: new trial!
+		idxPopSelect++; // Advance the index to point to next particle, check initPop:
+		idxTrialRepeat = 0;  // Next particle starts on trial zero
+
+		// See if we need to go to the next generation!
+		if (idxPopSelect >= POP_COUNT) {
+			idxPopSelect = 0;
+			FLAG_INIT = true; // We've ran through the population at least once
+			idxGeneration++;
+		}
+
+	} else {   // Same particle, next trial
+		idxTrialRepeat++;  // Same particle, next evaluation
 	}
 
-	// Update the global best:
-	if (fBest[idxPopSelect] < fBest[idxPopGlobal] ) {
-		idxPopGlobal = idxPopSelect;
-	}
 
-	// Advance the index to point to next particle, check initPop:
-	idxPopSelect++;
-	if (idxPopSelect >= POP_COUNT) {
-		idxPopSelect = 0;
-		FLAG_INIT = true; // We've ran through the population at least once
-
-		currentGeneration++;
-	}
 }

@@ -29,7 +29,6 @@ void flipDown_ankInn(void); // flips the inner feet down, preparing for heel-str
 void pushOff_ankOut(float push); // push off with outer feet, using both feed-forward and feed-back terms.
 void pushOff_ankInn(float push); // push off with inner feet, using both feed-forward and feed-back terms.
 void hipGlide(void); // Hip scissor tracking, using labview gains
-void hipGlideBias(float bias); // Hip scissor tracking with bias
 void hipHold(float qh);  // Hold the hip, using gains from labview
 
 /* For unit testing */
