@@ -15,6 +15,8 @@ typedef enum {
  * walkControl_entry()  */
 extern WalkFsmMode WALK_FSM_MODE;  // What to run now
 extern WalkFsmMode WALK_FSM_MODE_PREV;  // What we ran last time
+extern float WalkFsm_switchTime;  // Time since last state change
+
 
 /* Functions to be called during walking. All use gains from LabVIEW
  * and/or controller setpoints from robotParameters. */

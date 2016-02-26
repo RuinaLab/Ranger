@@ -87,8 +87,8 @@ float LABVIEW_WALK_ANK_PUSH; // magnitude of the push-off during walking  normal
 float LABVIEW_WALK_CRIT_STEP_LENGTH; // the critical stance leg angle when push-off should occur
 float LABVIEW_WALK_SCISSOR_GAIN;
 float LABVIEW_WALK_SCISSOR_OFFSET;
-float LABVIEW_WALK_DS_DELAY;
-bool LABVIEW_GAIT_USE_MDP_DATA;  // True if walking controller should use MDP generated gait data.
+float LABVIEW_WALK_PUSH_INTEGRAL;
+bool LABVIEW_GAIT_USE_CTRL_DATA;  // True if walking controller should use MDP generated gait data.
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */
 bool STATE_IS_FALLEN = false;   // Is the robot in a fallen state?
@@ -356,7 +356,7 @@ void updateParameters(void) {
 	LABVIEW_WALK_CRIT_STEP_LENGTH = mb_io_get_float(ID_CTRL_WALK_CRIT_STEP_LENGTH); // the critical ankle joint separation when push-off should occur
 	LABVIEW_WALK_SCISSOR_GAIN = mb_io_get_float(ID_CTRL_WALK_SCISSOR_GAIN);
 	LABVIEW_WALK_SCISSOR_OFFSET = mb_io_get_float(ID_CTRL_WALK_SCISSOR_OFFSET);
-	LABVIEW_GAIT_USE_MDP_DATA = mb_io_get_float(ID_GAIT_USE_MDP_DATA) > 0.5;  // True if walking controller should use off-line generated gait data.
+	LABVIEW_GAIT_USE_CTRL_DATA = mb_io_get_float(ID_CTRL_WALK_USE_CTRL_DATA) > 0.5;  // True if walking controller should use off-line generated gait data.
 	FSM_LED_FLAG = mb_io_get_float(ID_CTRL_FSM_LED) > 0.5;  // True if FSM LEDs should be turned on
 }
 

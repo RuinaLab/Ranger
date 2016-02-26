@@ -18,10 +18,10 @@ static float CtrlWalk_ankPush;
 static float CtrlWalk_critStepLen;
 static float CtrlWalk_hipGain;
 static float CtrlWalk_hipOffset;
-static float CtrlWalk_pushDelay;
+static float CtrlWalk_pushIntegral;
 
 /* Time since last state change: */
-static float WalkFsm_switchTime;
+float WalkFsm_switchTime;
 
 /* Current Integral Stuff */
 static float WalkFsm_ankOutPushInt = 0.0;
@@ -49,7 +49,7 @@ float getTargetHipAngle(float thStance, float thSwing, float stepLen) {
 }
 
 /* Accumulate (integrate) current signals to the motors for push-off
- * exit conditions */
+ * exit conditions. Implemented using Euler's method. */
 void accumulatePushOffCurrent(void) {
 	WalkFsm_ankOutPushInt += CLOCK_CYCLE_DURATION * Abs(mb_io_get_float(ID_MCFO_MOTOR_CURRENT));
 	WalkFsm_ankInnPushInt += CLOCK_CYCLE_DURATION * Abs(mb_io_get_float(ID_MCFI_MOTOR_CURRENT));
@@ -90,8 +90,7 @@ void updateWalkFsm(void) {
 				WalkFsm_switchTime = STATE_t;
 			} break;
 		case Push2_Out:
-			if (WalkFsm_ankOutPushInt > 0.6 || !STATE_c0) {   ////HACK////
-				// if (STATE_t - WalkFsm_switchTime > CtrlWalk_pushDelay) {
+			if (WalkFsm_ankOutPushInt > CtrlWalk_pushIntegral || !STATE_c0) {   
 				WALK_FSM_MODE = Glide_Inn;
 				WalkFsm_switchTime = STATE_t;
 				resetPushOffAccumulators();
@@ -110,8 +109,7 @@ void updateWalkFsm(void) {
 				WalkFsm_switchTime = STATE_t;
 			} break;
 		case Push2_Inn:
-			if (WalkFsm_ankInnPushInt > 0.6 || !STATE_c1) {  ////HACK////
-				// if  (STATE_t - WalkFsm_switchTime > CtrlWalk_pushDelay) { // If outer feet hit the ground
+			if (WalkFsm_ankInnPushInt > CtrlWalk_pushIntegral || !STATE_c1) { 
 				WALK_FSM_MODE = Glide_Out;
 				WalkFsm_switchTime = STATE_t;
 				resetPushOffAccumulators();
@@ -157,18 +155,18 @@ void setWalkFsmLed(void) {
  * gait controller */
 void readGaitData(void) {
 
-	if (LABVIEW_GAIT_USE_MDP_DATA) {
+	if (LABVIEW_GAIT_USE_CTRL_DATA) {
 		CtrlWalk_ankPush = GAIT_WALK_ANK_PUSH;
 		CtrlWalk_critStepLen = GAIT_WALK_CRIT_STEP_LENGTH;
 		CtrlWalk_hipGain = GAIT_WALK_SCISSOR_GAIN;
 		CtrlWalk_hipOffset = GAIT_WALK_SCISSOR_OFFSET;
-		CtrlWalk_pushDelay = GAIT_WALK_DS_DELAY;
+		CtrlWalk_pushIntegral = GAIT_WALK_PUSH_INTEGRAL;
 	} else {
 		CtrlWalk_ankPush = LABVIEW_WALK_ANK_PUSH;
 		CtrlWalk_critStepLen = LABVIEW_WALK_CRIT_STEP_LENGTH;
 		CtrlWalk_hipGain = LABVIEW_WALK_SCISSOR_GAIN;
 		CtrlWalk_hipOffset = LABVIEW_WALK_SCISSOR_OFFSET;
-		CtrlWalk_pushDelay = LABVIEW_WALK_DS_DELAY;
+		CtrlWalk_pushIntegral = LABVIEW_WALK_PUSH_INTEGRAL;
 	}
 }
 

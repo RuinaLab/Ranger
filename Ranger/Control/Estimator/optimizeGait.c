@@ -68,14 +68,14 @@ void objFun_send(float* x, int nDim) {
 	GAITDATA_WALK_SCISSOR_GAIN[1] = x[1];
 	GAITDATA_WALK_ANK_PUSH[1] = x[2];
 	GAITDATA_WALK_CRIT_STEP_LENGTH[1] = x[3];
-	GAITDATA_WALK_DS_DELAY[1] = x[4];
+	GAITDATA_WALK_PUSH_INTEGRAL[1] = x[4];
 
 	/// Send out over CAN network
 	mb_io_set_float(ID_OPTIM_WALK_SCISSOR_OFFSET, x[0]);
 	mb_io_set_float(ID_OPTIM_WALK_SCISSOR_GAIN, x[1]);
 	mb_io_set_float(ID_OPTIM_WALK_ANK_PUSH, x[2]);
 	mb_io_set_float(ID_OPTIM_WALK_CRIT_STEP_LENGTH, x[3]);
-	mb_io_set_float(ID_OPTIM_WALK_DS_DELAY, x[4]);
+	mb_io_set_float(ID_OPTIM_WALK_PUSH_INTEGRAL, x[4]);
 }
 
 
@@ -118,7 +118,7 @@ void objFun_set_optimizeGait(void) {
 	X_DEFAULT[1] = GAITDATA_WALK_SCISSOR_GAIN[1];
 	X_DEFAULT[2] = GAITDATA_WALK_ANK_PUSH[1];
 	X_DEFAULT[3] = GAITDATA_WALK_CRIT_STEP_LENGTH[1];
-	X_DEFAULT[4] = GAITDATA_WALK_DS_DELAY[1];
+	X_DEFAULT[4] = GAITDATA_WALK_PUSH_INTEGRAL[1];
 
 }
 

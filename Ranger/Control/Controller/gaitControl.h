@@ -8,7 +8,7 @@ extern float GAIT_WALK_ANK_PUSH;
 extern float GAIT_WALK_CRIT_STEP_LENGTH;
 extern float GAIT_WALK_SCISSOR_GAIN;
 extern float GAIT_WALK_SCISSOR_OFFSET;
-extern float GAIT_WALK_DS_DELAY;
+extern float GAIT_WALK_PUSH_INTEGRAL;
 
 /* Entry-point functions */
 void gaitControl_entry(void);

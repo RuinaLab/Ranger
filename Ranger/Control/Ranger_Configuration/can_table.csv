@@ -223,7 +223,7 @@ OPTIM_WALK_ANK_PUSH ,0,1,0,magnitude of the push-off during walking  normalized 
 OPTIM_WALK_CRIT_STEP_LENGTH,0,1,0,The critical step length that must be achieved before flip down
 OPTIM_WALK_SCISSOR_GAIN,0,1,0,
 OPTIM_WALK_SCISSOR_OFFSET,0,1,0,
-OPTIM_WALK_DS_DELAY,0,1,0,
+OPTIM_WALK_PUSH_INTEGRAL,0,1,0,
 OPTIM_STEP_COUNT,0,1,0,Steps in the current optimization walk. Transient steps are negative.
 OPTIM_ACTIVE_PARTICLE,0,1,0,PSO population particle active
 OPTIM_CURRENT_GENERATION,0,1,0,
@@ -241,8 +241,8 @@ EST_ENERGY_OVERHEAD,0,1,0,Accumulated work since robot turned on - measured at b
 EST_MOTOR_QH_ERR,0,1,0,low-level tracking error in the hip controller
 EST_MOTOR_Q0_ERR,0,1,0,low-level tracking error in the outer ankel controller
 EST_MOTOR_Q1_ERR,0,1,0,low-level tracking error in the inner ankle controller
-EST_OUT_PUSH_ACCUMULATED,0,1,0,accumulated current to the ankle motors during push off
-EST_INN_PUSH_ACCUMULATED,0,1,0,accumulated current to the ankle motors during push off
+EST_OUT_PUSH_ACCUMULATED,,,,
+EST_INN_PUSH_ACCUMULATED,,,,
 #,,,,
 #ControllerParameters,,,,
 CTRL_HIP_KP,25,0,1,
@@ -258,7 +258,8 @@ CTRL_WALK_ANK_PUSH ,0.8,0,1,magnitude of the push-off during walking  normalized
 CTRL_WALK_CRIT_STEP_LENGTH,0.25,0,1,the criticl step length after which flip down and push off should occur
 CTRL_WALK_SCISSOR_GAIN,1.2,0,1,
 CTRL_WALK_SCISSOR_OFFSET,0.1,0,1,
-CTRL_WALK_DS_DELAY,0.05,0,1,How long to sustain push-off after heel-strike
+CTRL_WALK_PUSH_INTEGRAL,0.6,0,1,How long to sustain push-off after heel-strike (integral of current)
+CTRL_WALK_USE_CTRL_DATA,1,0,1,Use data from the controller (1) or use data from labview (0)
 CTRL_FSM_LED,0,0,1,0 = LED OFF        1 = LED ON
 #,,,,
 #ControllerTesting,,,,

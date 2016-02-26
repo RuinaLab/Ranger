@@ -8,7 +8,7 @@ extern float GAITDATA_WALK_SCISSOR_OFFSET[];
 extern float GAITDATA_WALK_SCISSOR_GAIN[];
 extern float GAITDATA_WALK_ANK_PUSH[];
 extern float GAITDATA_WALK_CRIT_STEP_LENGTH[];
-extern float GAITDATA_WALK_DS_DELAY[];
+extern float GAITDATA_WALK_PUSH_INTEGRAL[];
 extern int GAITDATA_NGRID;
 extern float GAITDATA_TARGET_SPEED;
  

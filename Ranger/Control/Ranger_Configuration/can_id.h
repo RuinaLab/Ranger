@@ -211,7 +211,7 @@ typedef enum can_ids{
 	ID_OPTIM_WALK_CRIT_STEP_LENGTH = 199,	 // 0 1 0 // The critical step length that must be achieved before flip down
 	ID_OPTIM_WALK_SCISSOR_GAIN = 200,	 // 0 1 0 // 
 	ID_OPTIM_WALK_SCISSOR_OFFSET = 201,	 // 0 1 0 // 
-	ID_OPTIM_WALK_DS_DELAY = 202,	 // 0 1 0 // 
+	ID_OPTIM_WALK_PUSH_INTEGRAL = 202,	 // 0 1 0 // 
 	ID_OPTIM_STEP_COUNT = 203,	 // 0 1 0 // Steps in the current optimization walk. Transient steps are negative.
 	ID_OPTIM_ACTIVE_PARTICLE = 204,	 // 0 1 0 // PSO population particle active
 	ID_OPTIM_CURRENT_GENERATION = 205,	 // 0 1 0 // 
@@ -229,8 +229,8 @@ typedef enum can_ids{
 	ID_EST_MOTOR_QH_ERR = 217,	 // 0 1 0 // low-level tracking error in the hip controller
 	ID_EST_MOTOR_Q0_ERR = 218,	 // 0 1 0 // low-level tracking error in the outer ankel controller
 	ID_EST_MOTOR_Q1_ERR = 219,	 // 0 1 0 // low-level tracking error in the inner ankle controller
-	ID_EST_OUT_PUSH_ACCUMULATED = 220,	 // 0 1 0 // accumulated current to the ankle motors during push off
-	ID_EST_INN_PUSH_ACCUMULATED = 221,	 // 0 1 0 // accumulated current to the ankle motors during push off
+	ID_EST_OUT_PUSH_ACCUMULATED = 220,	 //    // 
+	ID_EST_INN_PUSH_ACCUMULATED = 221,	 //    // 
 	ID_CTRL_HIP_KP = 222,	 // 25 0 1 // 
 	ID_CTRL_HIP_KD = 223,	 // 3 0 1 // 
 	ID_CTRL_ANK_PUSH_KP = 224,	 // 20 0 1 // 
@@ -244,30 +244,31 @@ typedef enum can_ids{
 	ID_CTRL_WALK_CRIT_STEP_LENGTH = 232,	 // 0.25 0 1 // the criticl step length after which flip down and push off should occur
 	ID_CTRL_WALK_SCISSOR_GAIN = 233,	 // 1.2 0 1 // 
 	ID_CTRL_WALK_SCISSOR_OFFSET = 234,	 // 0.1 0 1 // 
-	ID_CTRL_WALK_DS_DELAY = 235,	 // 0.05 0 1 // How long to sustain push-off after heel-strike
-	ID_CTRL_FSM_LED = 236,	 // 0 0 1 // 0 = LED OFF        1 = LED ON
-	ID_CTRL_UNIT_TEST_ID = 237,	 // 0 0 1 // Selects which unit test the robot should be running. Default is zero = no test
-	ID_CTRL_TEST_R0 = 238,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R1 = 239,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R2 = 240,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R3 = 241,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R4 = 242,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R5 = 243,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R6 = 244,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R7 = 245,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R8 = 246,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R9 = 247,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_W0 = 248,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W1 = 249,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W2 = 250,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W3 = 251,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W4 = 252,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W5 = 253,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W6 = 254,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W7 = 255,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W8 = 256,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W9 = 257,	 // 0 1 0 // test write to labview
-	ID_GAIT_USE_MDP_DATA = 258,	 // 1 0 1 // true (1) if the robot should use gait parameters from the MDP   and     false(0) if it should use defaults from LabVIEW
+	ID_CTRL_WALK_PUSH_INTEGRAL = 235,	 // 0.6 0 1 // How long to sustain push-off after heel-strike (integral of current)
+	ID_CTRL_WALK_USE_CTRL_DATA = 236,	 // 1 0 1 // Use data from the controller (1) or use data from labview (0)
+	ID_CTRL_FSM_LED = 237,	 // 0 0 1 // 0 = LED OFF        1 = LED ON
+	ID_CTRL_UNIT_TEST_ID = 238,	 // 0 0 1 // Selects which unit test the robot should be running. Default is zero = no test
+	ID_CTRL_TEST_R0 = 239,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R1 = 240,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R2 = 241,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R3 = 242,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R4 = 243,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R5 = 244,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R6 = 245,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R7 = 246,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R8 = 247,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R9 = 248,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_W0 = 249,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W1 = 250,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W2 = 251,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W3 = 252,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W4 = 253,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W5 = 254,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W6 = 255,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W7 = 256,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W8 = 257,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W9 = 258,	 // 0 1 0 // test write to labview
+	ID_GAIT_USE_MDP_DATA = 259,	 // 1 0 1 // true (1) if the robot should use gait parameters from the MDP   and     false(0) if it should use defaults from LabVIEW
 	ID_LV_START,	 //    // 
 	ID_LV_CH_0,	 //    // 
 	ID_LV_CH_1,	 //    // 
