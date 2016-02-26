@@ -171,32 +171,35 @@ void pso_send_point(void) {
 	int dim = 0;  // counter to loop over each dimension of the search space
 	int idx = idxPopSelect; // Index of the currently selected particle
 
-	if (FLAG_HINT) { // Initialize the current particle to the hint
-		for (dim = 0; dim < DIM_STATE; dim++) {
-			x[idx][dim] = X_HINT[dim];
-			v[idx][dim] = 0.0;
-			FLAG_HINT = false;  // Used the hint, so tell PSO to ignore it now.
-		}
+	if (idxTrialRepeat == 0) {   // If on the first (zeroth) trial, then get a new point
 
-	} else if (!FLAG_INIT) {  // Initialize the particle randomly in search space
-		for (dim = 0; dim < DIM_STATE; dim++) {
-			r1 = FastRand();
-			r2 = FastRand();
-			x[idx][dim] = X_LOW[dim] + (X_UPP[dim] - X_LOW[dim]) * r1;
-			v[idx][dim] = -(X_UPP[dim] - X_LOW[dim]) + 2 * (X_UPP[dim] - X_LOW[dim]) * r2;
-		}
+		if (FLAG_HINT) { // Initialize the current particle to the hint
+			for (dim = 0; dim < DIM_STATE; dim++) {
+				x[idx][dim] = X_HINT[dim];
+				v[idx][dim] = 0.0;
+				FLAG_HINT = false;  // Used the hint, so tell PSO to ignore it now.
+			}
 
-	} else {   // Run the standard particle update equations
+		} else if (!FLAG_INIT) {  // Initialize the particle randomly in search space
+			for (dim = 0; dim < DIM_STATE; dim++) {
+				r1 = FastRand();
+				r2 = FastRand();
+				x[idx][dim] = X_LOW[dim] + (X_UPP[dim] - X_LOW[dim]) * r1;
+				v[idx][dim] = -(X_UPP[dim] - X_LOW[dim]) + 2 * (X_UPP[dim] - X_LOW[dim]) * r2;
+			}
+		} else {   // Run the standard particle update equations
 
-		for (dim = 0; dim < DIM_STATE; dim++) {
-			r1 = FastRand();
-			r2 = FastRand();
-			v[idx][dim] = PSO_OMEGA * v[idx][dim] +
-			              PSO_ALPHA * r1 * (xBest[idx][dim] - x[idx][dim]) +
-			              PSO_BETA * r2 * (xBest[idxPopGlobal][dim] - x[idx][dim]);
-			xNew = x[idx][dim] + v[idx][dim];
-			x[idx][dim] = Clamp(xNew, X_LOW[dim], X_UPP[dim]);
+			for (dim = 0; dim < DIM_STATE; dim++) {
+				r1 = FastRand();
+				r2 = FastRand();
+				v[idx][dim] = PSO_OMEGA * v[idx][dim] +
+				              PSO_ALPHA * r1 * (xBest[idx][dim] - x[idx][dim]) +
+				              PSO_BETA * r2 * (xBest[idxPopGlobal][dim] - x[idx][dim]);
+				xNew = x[idx][dim] + v[idx][dim];
+				x[idx][dim] = Clamp(xNew, X_LOW[dim], X_UPP[dim]);
+			}
 		}
+		
 	}
 
 	mb_io_set_float(ID_OPTIM_CURRENT_GENERATION, idxGeneration);
@@ -212,7 +215,7 @@ void pso_send_point(void) {
 void pso_eval_point(void) {
 	int dim = 0;  // counter to loop over each dimension of the search space
 	int idx = idxPopSelect; // Index of the currently selected particle
-	float objFunVal;   // Store the tenetative best value for the objective function here  
+	float objFunVal;   // Store the tenetative best value for the objective function here
 	int iTrial;  // temp counter for looping over trials
 
 	f[idx][idxTrialRepeat] = OBJ_FUN_EVAL();    // Reads the obj fun evaluation of query point
@@ -221,12 +224,12 @@ void pso_eval_point(void) {
 	if ( idxTrialRepeat >= (COUNT_TRIAL_REPEAT - 1) ) {  // Completed final trial!
 
 		/* Compute the value of the objective function, which is defined to be the worst
- 		 * of the trials that were attempted min(max()) optimization 
- 		 *  -->   objFunVal = max(f[idx][]) 								*/
+		 * of the trials that were attempted min(max()) optimization
+		 *  -->   objFunVal = max(f[idx][]) 								*/
 		objFunVal = f[idx][0];
-		for (iTrial = 1; iTrial < COUNT_TRIAL_REPEAT; iTrial++){
-			if (f[idx][iTrial] > objFunVal){
-				objFunVal = f[idx][iTrial];  
+		for (iTrial = 1; iTrial < COUNT_TRIAL_REPEAT; iTrial++) {
+			if (f[idx][iTrial] > objFunVal) {
+				objFunVal = f[idx][iTrial];
 			}
 		}
 
