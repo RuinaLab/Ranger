@@ -57,6 +57,7 @@ void run_controller_hip( ControllerData * C ) {
 	float kd = C->kd;
 	float xRef = C->xRef;
 	float vRef = C->vRef;
+	float qErr;
 
 	if (LABVIEW_HIP_COMPENSATION) {
 		uRef = uRef + hip_compensation();
@@ -75,8 +76,10 @@ void run_controller_hip( ControllerData * C ) {
 	mb_io_set_float(ID_MCH_COMMAND_CURRENT, uRef);
 	mb_io_set_float(ID_MCH_STIFFNESS, kp);
 	mb_io_set_float(ID_MCH_DAMPNESS, kd);
+	mb_io_set_float(ID_MCH_MOTOR_TARGET_CURRENT,uRef - kp*STATE_qh - kd*STATE_dqh);
 
-	MOTOR_qh_trackErr = xRef - STATE_qh;
+	qErr = xRef - STATE_qh;
+	MOTOR_qh_trackErr = qErr;
 
 }
 
@@ -86,11 +89,14 @@ void run_controller_ankOut( ControllerData * C ) {
 	float uRef = C->uRef; // Nominal torque expected at joint before control
 	float kp = C->kp;
 	float kd = C->kd;
+	float xRef = C->xRef;
+	float vRef = C->vRef;
+	float qErr;
 
 	/* Combine all constant terms:                         *
 	 * u = uRef + kp*(xRef - x) + kd*(vRef - v)            *
 	 * u = (uRef + kp*xRef + kd*vRef) - (kp)*x - (kd)*v    */
-	uRef = uRef + kp * C->xRef + kd * C->vRef;
+	uRef = uRef + kp * xRef + kd * vRef;
 
 	// Convert from torques to currents:
 	uRef = uRef * PARAM_inv_ank_motor_const;
@@ -100,8 +106,10 @@ void run_controller_ankOut( ControllerData * C ) {
 	mb_io_set_float(ID_MCFO_COMMAND_CURRENT, uRef);
 	mb_io_set_float(ID_MCFO_STIFFNESS, kp);
 	mb_io_set_float(ID_MCFO_DAMPNESS, kd);
+	mb_io_set_float(ID_MCFO_MOTOR_TARGET_CURRENT, uRef - kp*STATE_q0 - kd*STATE_dq0);
 
-	MOTOR_q0_trackErr = C->xRef - STATE_q0;
+	qErr = xRef - STATE_q0;
+	MOTOR_q0_trackErr = qErr;
 }
 
 
@@ -111,11 +119,14 @@ void run_controller_ankInn( ControllerData * C ) {
 	float uRef = C->uRef; // Nominal torque expected at joint before control
 	float kp = C->kp;
 	float kd = C->kd;
+	float xRef = C->xRef;
+	float vRef = C->vRef;
+	float qErr;
 
 	/* Combine all constant terms:                         *
 	 * u = uRef + kp*(xRef - x) + kd*(vRef - v)            *
 	 * u = (uRef + kp*xRef + kd*vRef) - (kp)*x - (kd)*v    */
-	uRef = uRef + kp * C->xRef + kd * C->vRef;
+	uRef = uRef + kp * xRef + kd * vRef;
 
 	// Convert from torques to currents:
 	uRef = uRef * PARAM_inv_ank_motor_const;
@@ -125,8 +136,10 @@ void run_controller_ankInn( ControllerData * C ) {
 	mb_io_set_float(ID_MCFI_COMMAND_CURRENT, uRef);
 	mb_io_set_float(ID_MCFI_STIFFNESS, kp);
 	mb_io_set_float(ID_MCFI_DAMPNESS, kd);
+	mb_io_set_float(ID_MCFI_MOTOR_TARGET_CURRENT, uRef - kp*STATE_q1 - kd*STATE_dq1);
 
-	MOTOR_q1_trackErr = C->xRef - STATE_q1;
+	qErr = xRef - STATE_q1;
+	MOTOR_q1_trackErr = qErr;
 }
 
 

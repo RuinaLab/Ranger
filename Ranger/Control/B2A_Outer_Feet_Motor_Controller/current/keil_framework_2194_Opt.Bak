@@ -25,15 +25,15 @@ OPTFFF 2,4,1,603979776,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules
 OPTFFF 2,5,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\mutex.c><mutex.c> 
 OPTFFF 2,6,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\utility.c><utility.c> 
 OPTFFF 3,7,1,83886080,0,0,0,0,<.\src\hardware_setup.c><hardware_setup.c> 
-OPTFFF 3,8,1,33554434,0,8,29,0,<.\src\software_setup.c><software_setup.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,44,0,0,0,58,0,0,0,56,5,0,0,35,2,0,0 }
-OPTFFF 3,9,1,1912602624,0,64,73,0,<.\src\can_setup.c><can_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,66,0,0,0,66,0,0,0,134,3,0,0,124,1,0,0 }
+OPTFFF 3,8,1,234881026,0,124,134,0,<.\src\software_setup.c><software_setup.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,44,0,0,0,58,0,0,0,56,5,0,0,35,2,0,0 }
+OPTFFF 3,9,1,1912602624,0,64,73,0,<.\src\can_setup.c><can_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,66,0,0,0,66,0,0,0,134,3,0,0,124,1,0,0 }
 OPTFFF 3,10,1,587202560,0,0,0,0,<.\src\interrupts.c><interrupts.c> 
 OPTFFF 3,11,1,218103808,0,178,178,0,<.\src\data_nexus.c><data_nexus.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,22,0,0,0,22,0,0,0,90,3,0,0,80,1,0,0 }
 OPTFFF 3,12,1,721420288,0,0,0,0,<.\src\Retarget.c><Retarget.c> 
 OPTFFF 4,13,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_heartbeat\heartbeat.c><heartbeat.c> 
 OPTFFF 4,14,1,150994944,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_adc_internal\adc_internal.c><adc_internal.c> 
 OPTFFF 4,15,1,67108864,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_limit_switch\limit_switch.c><limit_switch.c> 
-OPTFFF 4,16,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_motor_controller\motor_controller.c><motor_controller.c> 
+OPTFFF 4,16,1,0,0,166,166,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_motor_controller\motor_controller.c><motor_controller.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,75,0,0,0,75,0,0,0,159,5,0,0,21,2,0,0 }
 OPTFFF 4,17,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_uart\UART.c><UART.c> 
 OPTFFF 4,18,1,83886080,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_abs_enc\abs_enc.c><abs_enc.c> 
 OPTFFF 4,19,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_mcu_led\mcu_led.c><mcu_led.c> 

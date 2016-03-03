@@ -1,7 +1,7 @@
 .\Flash\error.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\error.c
 .\Flash\error.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\error.o: C:\Keil\ARM\RV31\INC\stdio.h
-.\Flash\error.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\error.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
+.\Flash\error.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\error.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\error.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\error.o: ..\..\Ranger_Configuration\error_id.h
