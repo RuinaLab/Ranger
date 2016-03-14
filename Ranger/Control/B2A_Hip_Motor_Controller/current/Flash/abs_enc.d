@@ -1,7 +1,7 @@
 .\Flash\abs_enc.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_abs_enc\abs_enc.c
 .\Flash\abs_enc.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\abs_enc.o: C:\Keil\ARM\RV31\INC\stdio.h
-.\Flash\abs_enc.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\abs_enc.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
+.\Flash\abs_enc.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\abs_enc.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\abs_enc.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\abs_enc.o: ..\..\Ranger_Configuration\error_id.h

@@ -1,7 +1,7 @@
 .\Flash\uart.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_uart\UART.c
 .\Flash\uart.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\uart.o: C:\Keil\ARM\RV31\INC\stdio.h
-.\Flash\uart.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\uart.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
+.\Flash\uart.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\uart.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\uart.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\uart.o: ..\..\Ranger_Configuration\error_id.h

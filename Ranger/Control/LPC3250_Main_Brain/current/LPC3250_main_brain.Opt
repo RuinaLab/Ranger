@@ -42,13 +42,13 @@ OPTFFF 6,19,1,0,0,1,1,0,<..\..\Controller\gaitControl.c><gaitControl.c> { 44,0,0
 OPTFFF 6,20,1,0,0,1,8,0,<..\..\Controller\gaitControlData.c><gaitControlData.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,84,5,0,0,202,1,0,0 }
 OPTFFF 6,21,1,0,0,0,0,0,<..\..\Controller\input_output.c><input_output.c> 
 OPTFFF 6,22,1,0,0,0,0,0,<..\..\Controller\mb_controller.c><mb_controller.c> 
-OPTFFF 6,23,1,0,0,0,0,0,<..\..\Controller\motorControl.c><motorControl.c> 
+OPTFFF 6,23,1,0,0,92,106,0,<..\..\Controller\motorControl.c><motorControl.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,50,0,0,0,237,255,255,255,130,5,0,0,179,1,0,0 }
 OPTFFF 6,24,1,0,0,0,0,0,<..\..\Controller\RangerMath.c><RangerMath.c> 
 OPTFFF 6,25,1,0,0,0,0,0,<..\..\Controller\safeMode.c><safeMode.c> 
 OPTFFF 6,26,1,0,0,0,0,0,<..\..\Controller\unit_test.c><unit_test.c> 
 OPTFFF 6,27,1,503316480,0,7,22,0,<..\..\Controller\walkControl.c><walkControl.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,200,0,0,0,200,0,0,0,28,6,0,0,146,2,0,0 }
 
-ExtF <C:\Users\Matt\Documents\RangerGit\Ranger\Control\Controller\walkControl.h> 4,18,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,25,0,0,0,25,0,0,0,109,5,0,0,227,1,0,0 }
+ExtF <C:\Users\Matt\Documents\RangerGit\Ranger\Control\Controller\walkControl.h> 4,30,0,{ 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,92,0,0,0,87,0,0,0,176,5,0,0,33,2,0,0 }
 
 TARGOPT 1, (LPC3250 Int RAM)
  ADSCLK=13000000

@@ -18,7 +18,7 @@ const VOID_VOID_F main_schedule[]=
 {
   task_every_row, can_tx_angle, dn_sched_done, NULL,
   task_every_row, can_tx_angle_rate, dn_sched_done, NULL,
-  task_every_row, can_tx_battery_power, dn_sched_done, NULL, // added by anoop to make the battery can id faster (otherwise comment this row) 20th Feb 2013
+  task_every_row, can_tx_motor_current, dn_sched_done, NULL,  // Switched with batt_power on March 4, 2016 by MPK
   task_every_row, run_occasionally, dn_sched_done, NULL,
   NULL
 };
@@ -61,7 +61,7 @@ void run_occasionally(void)
   static short i = 0;
   if (i == 0){error_send_next();}                 // Send error from error buffer over the CAN bus
   else if (i == 1){can_tx_motor_position();}      // Send motor angle over the CAN bus
-  else if (i == 2){can_tx_motor_current();}       // Send motor current over the CAN bus
+  else if (i == 2){can_tx_battery_power();}        // Switched with motor current on March 4, 2016 by MPK
   //else if (i == 3){can_tx_battery_power();}       // Send motor controller input power over the CAN bus % commented by anoop feb 20 2013, look into scheduler (it has been transferred there to make it high speed)
   else if (i == 3){can_tx_board_status();}        // Send board operation status code to main brain
   else if (i == 4){can_tx_battery_current();}     // Send motor controller input power over the CAN bus

@@ -1,7 +1,7 @@
 .\Flash\main.o: src\main.c
 .\Flash\main.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\main.o: C:\Keil\ARM\RV31\INC\stdio.h
-.\Flash\main.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\main.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
+.\Flash\main.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\main.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\main.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\main.o: ..\..\Ranger_Configuration\error_id.h

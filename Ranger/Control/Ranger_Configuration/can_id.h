@@ -230,8 +230,8 @@ typedef enum can_ids{
 	ID_EST_MOTOR_QH_ERR = 218,	 // 0 1 0 // low-level tracking error in the hip controller
 	ID_EST_MOTOR_Q0_ERR = 219,	 // 0 1 0 // low-level tracking error in the outer ankel controller
 	ID_EST_MOTOR_Q1_ERR = 220,	 // 0 1 0 // low-level tracking error in the inner ankle controller
-	ID_EST_OUT_PUSH_ACCUMULATED = 221,	 //    // 
-	ID_EST_INN_PUSH_ACCUMULATED = 222,	 //    // 
+	ID_EST_OUT_PUSH_ACCUMULATED = 221,	 // 0 1 0 // Integrate the ankle current during each phase. Reset at when FSM switches
+	ID_EST_INN_PUSH_ACCUMULATED = 222,	 // 0 1 0 // Integrate the ankle current during each phase. Reset at when FSM switches
 	ID_CTRL_HIP_KP = 223,	 // 25 0 1 // 
 	ID_CTRL_HIP_KD = 224,	 // 3 0 1 // 
 	ID_CTRL_ANK_PUSH_KP = 225,	 // 20 0 1 // 

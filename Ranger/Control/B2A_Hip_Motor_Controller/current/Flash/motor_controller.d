@@ -1,7 +1,7 @@
 .\Flash\motor_controller.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_motor_controller\motor_controller.c
 .\Flash\motor_controller.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\motor_controller.o: C:\Keil\ARM\RV31\INC\stdio.h
-.\Flash\motor_controller.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\motor_controller.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
+.\Flash\motor_controller.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\motor_controller.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\motor_controller.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\motor_controller.o: ..\..\Ranger_Configuration\error_id.h

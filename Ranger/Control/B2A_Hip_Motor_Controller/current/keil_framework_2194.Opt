@@ -18,14 +18,14 @@ GRPOPT 2,(ranger_os),1,0,0
 GRPOPT 3,(Setup),1,0,0
 GRPOPT 4,(Modules),1,0,0
 
-OPTFFF 1,1,1,503316482,0,22,38,0,<.\src\main.c><main.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,232,3,0,0,156,1,0,0 }
+OPTFFF 1,1,1,503316480,0,22,38,0,<.\src\main.c><main.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,232,3,0,0,156,1,0,0 }
 OPTFFF 1,2,2,0,0,0,0,0,<.\src\Startup.s><Startup.s> 
 OPTFFF 2,3,1,100663296,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\utility.c><utility.c> 
 OPTFFF 2,4,1,0,0,9,14,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\async_scheduler.c><async_scheduler.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,132,0,0,0,174,0,0,0,108,4,0,0,74,2,0,0 }
 OPTFFF 2,5,1,0,0,225,225,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\error.c><error.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,88,0,0,0,88,0,0,0,156,3,0,0,146,1,0,0 }
 OPTFFF 2,6,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\mutex.c><mutex.c> 
 OPTFFF 3,7,1,33554432,0,297,297,0,<.\src\hardware_setup.c><hardware_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,132,0,0,0,132,0,0,0,200,3,0,0,190,1,0,0 }
-OPTFFF 3,8,1,285212672,0,40,40,0,<.\src\software_setup.c><software_setup.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,154,0,0,0,154,0,0,0,222,3,0,0,214,1,0,0 }
+OPTFFF 3,8,1,1761607682,0,7,7,0,<.\src\software_setup.c><software_setup.c> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,154,0,0,0,154,0,0,0,222,3,0,0,214,1,0,0 }
 OPTFFF 3,9,1,855638016,0,0,0,0,<.\src\can_setup.c><can_setup.c> 
 OPTFFF 3,10,1,603979776,0,0,0,0,<.\src\interrupts.c><interrupts.c> 
 OPTFFF 3,11,1,536870912,0,24,34,0,<.\src\data_nexus.c><data_nexus.c> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,233,255,255,255,0,0,0,0,0,0,0,0,68,3,0,0,60,1,0,0 }
@@ -43,7 +43,6 @@ OPTFFF 4,22,2,1627389952,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modul
 OPTFFF 4,23,1,620756992,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can.c><can.c> 
 OPTFFF 4,24,1,0,0,0,0,0,<..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can_types.c><can_types.c> 
 
-ExtF <C:\Documents and Settings\Robot Admin\My Documents\SVN\Trunk\Robot_Nervous_System\LPC2xxx_Modules\mod_motor_controller\motor_controller.h> 74,74,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,252,255,255,255,226,255,255,255,22,0,0,0,29,0,0,0,70,4,0,0,133,1,0,0 }
 
 TARGOPT 1, (Simulator)
  ADSCLK=12000000
