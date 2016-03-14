@@ -224,6 +224,7 @@ OPTIM_WALK_CRIT_STEP_LENGTH,0,1,0,The critical step length that must be achieved
 OPTIM_WALK_SCISSOR_GAIN,0,1,0,
 OPTIM_WALK_SCISSOR_OFFSET,0,1,0,
 OPTIM_WALK_PUSH_INTEGRAL,0,1,0,
+OPTIM_WALK_DS_DELAY,0,1,0,
 OPTIM_STEP_COUNT,0,1,0,Steps in the current optimization walk. Transient steps are negative.
 OPTIM_ACTIVE_PARTICLE,0,1,0,PSO population particle active
 OPTIM_TRIAL_INDEX,0,1,0,index of the trial that we are on within a single particle.
@@ -260,6 +261,7 @@ CTRL_WALK_CRIT_STEP_LENGTH,0.25,0,1,the criticl step length after which flip dow
 CTRL_WALK_SCISSOR_GAIN,1.2,0,1,
 CTRL_WALK_SCISSOR_OFFSET,0.1,0,1,
 CTRL_WALK_PUSH_INTEGRAL,0.6,0,1,How long to sustain push-off after heel-strike (integral of current)
+CTRL_WALK_DS_DELAY,0.06,0,1,how long to sustain push-off after heel-strike (timer)
 CTRL_WALK_USE_CTRL_DATA,1,0,1,Use data from the controller (1) or use data from labview (0)
 CTRL_FSM_LED,0,0,1,0 = LED OFF        1 = LED ON
 #,,,,

@@ -13,6 +13,7 @@ mb_io_data[ID_CTRL_WALK_CRIT_STEP_LENGTH].payload.ful.f = 0.250000;
 mb_io_data[ID_CTRL_WALK_SCISSOR_GAIN].payload.ful.f = 1.200000; 
 mb_io_data[ID_CTRL_WALK_SCISSOR_OFFSET].payload.ful.f = 0.100000; 
 mb_io_data[ID_CTRL_WALK_PUSH_INTEGRAL].payload.ful.f = 0.600000; 
+mb_io_data[ID_CTRL_WALK_DS_DELAY].payload.ful.f = 0.060000; 
 mb_io_data[ID_CTRL_WALK_USE_CTRL_DATA].payload.ful.f = 1.000000; 
 mb_io_data[ID_CTRL_FSM_LED].payload.ful.f = 0.000000; 
 mb_io_data[ID_CTRL_UNIT_TEST_ID].payload.ful.f = 0.000000; 

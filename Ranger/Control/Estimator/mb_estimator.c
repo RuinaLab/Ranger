@@ -87,7 +87,8 @@ float LABVIEW_WALK_ANK_PUSH; // magnitude of the push-off during walking  normal
 float LABVIEW_WALK_CRIT_STEP_LENGTH; // the critical stance leg angle when push-off should occur
 float LABVIEW_WALK_SCISSOR_GAIN;
 float LABVIEW_WALK_SCISSOR_OFFSET;
-float LABVIEW_WALK_PUSH_INTEGRAL;
+// float LABVIEW_WALK_PUSH_INTEGRAL;
+float LABVIEW_WALK_DS_DELAY;  // How long to continue push-off after heel-strike
 bool LABVIEW_GAIT_USE_CTRL_DATA;  // True if walking controller should use MDP generated gait data.
 
 /* Robot state variables. Naming conventions in docs. Matches simulator. */

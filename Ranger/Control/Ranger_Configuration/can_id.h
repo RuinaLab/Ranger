@@ -212,64 +212,66 @@ typedef enum can_ids{
 	ID_OPTIM_WALK_SCISSOR_GAIN = 200,	 // 0 1 0 // 
 	ID_OPTIM_WALK_SCISSOR_OFFSET = 201,	 // 0 1 0 // 
 	ID_OPTIM_WALK_PUSH_INTEGRAL = 202,	 // 0 1 0 // 
-	ID_OPTIM_STEP_COUNT = 203,	 // 0 1 0 // Steps in the current optimization walk. Transient steps are negative.
-	ID_OPTIM_ACTIVE_PARTICLE = 204,	 // 0 1 0 // PSO population particle active
-	ID_OPTIM_TRIAL_INDEX = 205,	 // 0 1 0 // index of the trial that we are on within a single particle.
-	ID_OPTIM_CURRENT_GENERATION = 206,	 // 0 1 0 // 
-	ID_OPTIM_OBJ_FUN_SPEED = 207,	 // 0 1 0 // average speed over the the last step
-	ID_OPTIM_OBJ_FUN_LENGTH  = 208,	 // 0 1 0 // last step length
-	ID_OPTIM_OBJ_FUN_LAST_VAL = 209,	 // 0 1 0 // last value of the objective function
-	ID_OPTIM_FSM_MODE = 210,	 // 0 1 0 // 0 = INIT    1 = PRE_TRIAL    2 = TRIAL    3 = FLYING   
-	ID_OPTIM_BUTTON_PUSH = 211,	 // 0 1 0 // 0 == reject      1 = accept
-	ID_OPTIM_SAVE_OPTIM_STATE = 212,	 // 0 1 0 // Save an optimization so it can be loaded later. Order of parameter dump TBD
-	ID_OPTIM_LAST_START_TIME = 213,	 // 0 1 0 // The time that the most recent trial has begun. Same value sent very frequently to make sure it gets through.
-	ID_EST_ENERGY_MCH = 214,	 // 0 1 0 // Accumulated work since robot turned on - measured at board power supply.
-	ID_EST_ENERGY_MCFO = 215,	 // 0 1 0 // Accumulated work since robot turned on - measured at board power supply.
-	ID_EST_ENERGY_MCFI = 216,	 // 0 1 0 // Accumulated work since robot turned on - measured at board power supply.
-	ID_EST_ENERGY_OVERHEAD = 217,	 // 0 1 0 // Accumulated work since robot turned on - measured at board power supply.
-	ID_EST_MOTOR_QH_ERR = 218,	 // 0 1 0 // low-level tracking error in the hip controller
-	ID_EST_MOTOR_Q0_ERR = 219,	 // 0 1 0 // low-level tracking error in the outer ankel controller
-	ID_EST_MOTOR_Q1_ERR = 220,	 // 0 1 0 // low-level tracking error in the inner ankle controller
-	ID_EST_OUT_PUSH_ACCUMULATED = 221,	 // 0 1 0 // Integrate the ankle current during each phase. Reset at when FSM switches
-	ID_EST_INN_PUSH_ACCUMULATED = 222,	 // 0 1 0 // Integrate the ankle current during each phase. Reset at when FSM switches
-	ID_CTRL_HIP_KP = 223,	 // 25 0 1 // 
-	ID_CTRL_HIP_KD = 224,	 // 3 0 1 // 
-	ID_CTRL_ANK_PUSH_KP = 225,	 // 20 0 1 // 
-	ID_CTRL_ANK_PUSH_KD = 226,	 // 2 0 1 // 
-	ID_CTRL_ANK_STANCE_KP = 227,	 // 15 0 1 // 
-	ID_CTRL_ANK_STANCE_KD = 228,	 // 1 0 1 // 
-	ID_CTRL_ANK_SWING_KP = 229,	 // 20 0 1 // 
-	ID_CTRL_ANK_SWING_KD = 230,	 // 1 0 1 // 
-	ID_CTRL_HIP_COMPENSATION = 231,	 // 1 0 1 // Enables (1) or disables (0) spring compensation in hip controller
-	ID_CTRL_WALK_ANK_PUSH  = 232,	 // 0.8 0 1 // magnitude of the push-off during walking  normalized to be on the range 0 to 1
-	ID_CTRL_WALK_CRIT_STEP_LENGTH = 233,	 // 0.25 0 1 // the criticl step length after which flip down and push off should occur
-	ID_CTRL_WALK_SCISSOR_GAIN = 234,	 // 1.2 0 1 // 
-	ID_CTRL_WALK_SCISSOR_OFFSET = 235,	 // 0.1 0 1 // 
-	ID_CTRL_WALK_PUSH_INTEGRAL = 236,	 // 0.6 0 1 // How long to sustain push-off after heel-strike (integral of current)
-	ID_CTRL_WALK_USE_CTRL_DATA = 237,	 // 1 0 1 // Use data from the controller (1) or use data from labview (0)
-	ID_CTRL_FSM_LED = 238,	 // 0 0 1 // 0 = LED OFF        1 = LED ON
-	ID_CTRL_UNIT_TEST_ID = 239,	 // 0 0 1 // Selects which unit test the robot should be running. Default is zero = no test
-	ID_CTRL_TEST_R0 = 240,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R1 = 241,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R2 = 242,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R3 = 243,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R4 = 244,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R5 = 245,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R6 = 246,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R7 = 247,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R8 = 248,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_R9 = 249,	 // 0 0 1 // test read from labview
-	ID_CTRL_TEST_W0 = 250,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W1 = 251,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W2 = 252,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W3 = 253,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W4 = 254,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W5 = 255,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W6 = 256,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W7 = 257,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W8 = 258,	 // 0 1 0 // test write to labview
-	ID_CTRL_TEST_W9 = 259,	 // 0 1 0 // test write to labview
-	ID_GAIT_USE_MDP_DATA = 260,	 // 1 0 1 // true (1) if the robot should use gait parameters from the MDP   and     false(0) if it should use defaults from LabVIEW
+	ID_OPTIM_WALK_DS_DELAY = 203,	 // 0 1 0 // 
+	ID_OPTIM_STEP_COUNT = 204,	 // 0 1 0 // Steps in the current optimization walk. Transient steps are negative.
+	ID_OPTIM_ACTIVE_PARTICLE = 205,	 // 0 1 0 // PSO population particle active
+	ID_OPTIM_TRIAL_INDEX = 206,	 // 0 1 0 // index of the trial that we are on within a single particle.
+	ID_OPTIM_CURRENT_GENERATION = 207,	 // 0 1 0 // 
+	ID_OPTIM_OBJ_FUN_SPEED = 208,	 // 0 1 0 // average speed over the the last step
+	ID_OPTIM_OBJ_FUN_LENGTH  = 209,	 // 0 1 0 // last step length
+	ID_OPTIM_OBJ_FUN_LAST_VAL = 210,	 // 0 1 0 // last value of the objective function
+	ID_OPTIM_FSM_MODE = 211,	 // 0 1 0 // 0 = INIT    1 = PRE_TRIAL    2 = TRIAL    3 = FLYING   
+	ID_OPTIM_BUTTON_PUSH = 212,	 // 0 1 0 // 0 == reject      1 = accept
+	ID_OPTIM_SAVE_OPTIM_STATE = 213,	 // 0 1 0 // Save an optimization so it can be loaded later. Order of parameter dump TBD
+	ID_OPTIM_LAST_START_TIME = 214,	 // 0 1 0 // The time that the most recent trial has begun. Same value sent very frequently to make sure it gets through.
+	ID_EST_ENERGY_MCH = 215,	 // 0 1 0 // Accumulated work since robot turned on - measured at board power supply.
+	ID_EST_ENERGY_MCFO = 216,	 // 0 1 0 // Accumulated work since robot turned on - measured at board power supply.
+	ID_EST_ENERGY_MCFI = 217,	 // 0 1 0 // Accumulated work since robot turned on - measured at board power supply.
+	ID_EST_ENERGY_OVERHEAD = 218,	 // 0 1 0 // Accumulated work since robot turned on - measured at board power supply.
+	ID_EST_MOTOR_QH_ERR = 219,	 // 0 1 0 // low-level tracking error in the hip controller
+	ID_EST_MOTOR_Q0_ERR = 220,	 // 0 1 0 // low-level tracking error in the outer ankel controller
+	ID_EST_MOTOR_Q1_ERR = 221,	 // 0 1 0 // low-level tracking error in the inner ankle controller
+	ID_EST_OUT_PUSH_ACCUMULATED = 222,	 // 0 1 0 // Integrate the ankle current during each phase. Reset at when FSM switches
+	ID_EST_INN_PUSH_ACCUMULATED = 223,	 // 0 1 0 // Integrate the ankle current during each phase. Reset at when FSM switches
+	ID_CTRL_HIP_KP = 224,	 // 25 0 1 // 
+	ID_CTRL_HIP_KD = 225,	 // 3 0 1 // 
+	ID_CTRL_ANK_PUSH_KP = 226,	 // 20 0 1 // 
+	ID_CTRL_ANK_PUSH_KD = 227,	 // 2 0 1 // 
+	ID_CTRL_ANK_STANCE_KP = 228,	 // 15 0 1 // 
+	ID_CTRL_ANK_STANCE_KD = 229,	 // 1 0 1 // 
+	ID_CTRL_ANK_SWING_KP = 230,	 // 20 0 1 // 
+	ID_CTRL_ANK_SWING_KD = 231,	 // 1 0 1 // 
+	ID_CTRL_HIP_COMPENSATION = 232,	 // 1 0 1 // Enables (1) or disables (0) spring compensation in hip controller
+	ID_CTRL_WALK_ANK_PUSH  = 233,	 // 0.8 0 1 // magnitude of the push-off during walking  normalized to be on the range 0 to 1
+	ID_CTRL_WALK_CRIT_STEP_LENGTH = 234,	 // 0.25 0 1 // the criticl step length after which flip down and push off should occur
+	ID_CTRL_WALK_SCISSOR_GAIN = 235,	 // 1.2 0 1 // 
+	ID_CTRL_WALK_SCISSOR_OFFSET = 236,	 // 0.1 0 1 // 
+	ID_CTRL_WALK_PUSH_INTEGRAL = 237,	 // 0.6 0 1 // How long to sustain push-off after heel-strike (integral of current)
+	ID_CTRL_WALK_DS_DELAY = 238,	 // 0.06 0 1 // how long to sustain push-off after heel-strike (timer)
+	ID_CTRL_WALK_USE_CTRL_DATA = 239,	 // 1 0 1 // Use data from the controller (1) or use data from labview (0)
+	ID_CTRL_FSM_LED = 240,	 // 0 0 1 // 0 = LED OFF        1 = LED ON
+	ID_CTRL_UNIT_TEST_ID = 241,	 // 0 0 1 // Selects which unit test the robot should be running. Default is zero = no test
+	ID_CTRL_TEST_R0 = 242,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R1 = 243,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R2 = 244,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R3 = 245,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R4 = 246,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R5 = 247,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R6 = 248,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R7 = 249,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R8 = 250,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_R9 = 251,	 // 0 0 1 // test read from labview
+	ID_CTRL_TEST_W0 = 252,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W1 = 253,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W2 = 254,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W3 = 255,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W4 = 256,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W5 = 257,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W6 = 258,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W7 = 259,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W8 = 260,	 // 0 1 0 // test write to labview
+	ID_CTRL_TEST_W9 = 261,	 // 0 1 0 // test write to labview
+	ID_GAIT_USE_MDP_DATA = 262,	 // 1 0 1 // true (1) if the robot should use gait parameters from the MDP   and     false(0) if it should use defaults from LabVIEW
 	ID_LV_START,	 //    // 
 	ID_LV_CH_0,	 //    // 
 	ID_LV_CH_1,	 //    // 
