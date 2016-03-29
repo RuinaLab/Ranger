@@ -35,9 +35,18 @@
 
 static int STEP_COUNT = 0;
 static const int N_STEP_TRANSIENT = 4;  // Ignore the first few steps to reject transients
-static const int N_STEP_TRIAL = 12; // Include this many steps in objective function
 
-static const int N_POPULATION = 18;  // population to use in optimization
+
+
+
+//// HACK ////
+// JUST FOR COLLECTION DATA FROM RANGER
+static const int N_STEP_TRIAL = 25;  // 14; // Include this many steps in objective function
+static const int N_POPULATION = 25; // 15; // population to use in optimization
+//
+//// DONE ////
+
+
 
 static const float OMEGA = 0.5;   // PSO inertial weighting term
 static const float ALPHA = 0.9;   // PSO local search weight
