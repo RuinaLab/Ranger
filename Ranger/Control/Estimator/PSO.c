@@ -16,7 +16,7 @@
 
 #define DIM_STATE_MAX 20 // Max dimension of the search space for optimization
 #define POP_COUNT_MAX 25  // Max number of particles 
-#define COUNT_TRIAL_REPEAT 2 // Repeat each trial this many times
+#define COUNT_TRIAL_REPEAT 1 // Repeat each trial this many times
 
 float DIM_STATE;  // dimension of the search space
 float POP_COUNT;  // number of particles in the search
