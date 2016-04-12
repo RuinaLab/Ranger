@@ -43,7 +43,10 @@ static const float OMEGA = 0.5;   // PSO inertial weighting term
 static const float ALPHA = 0.9;   // PSO local search weight
 static const float BETA = 0.9;    // PSO global search weight
 
-static float COST[N_STEP_TRIAL];
+static float STEP_DURATION_TARGET = 0.62;  // Target duration for each walking step
+
+static float STEP_LENGTH[N_STEP_TRIAL];
+static float STEP_DURATION[N_STEP_TRIAL];
 
 static const float MIN_STEP_LENGTH = 0.1;
 static float lastStepLength = 0.0;
@@ -54,6 +57,54 @@ float X_DEFAULT[N_DEC_VARS];   // Default control, send as hint;
 
 
 OptimizeFsmMode OPTIMIZE_FSM_MODE = INIT;
+
+
+
+/*******************************************************************************
+ *                    PRIVATE UTILITY FUNCTIONS                                *
+ *******************************************************************************/
+
+/* Computes the mean of the squared error in step duration
+ * mean((t-t0).^2); */
+float getMeanDurationSquaredError(void) {
+	float errorSquared[N_STEP_TRIAL];
+	float err;					 
+	int stepCountIdx;  // counter
+	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
+		err = STEP_DURATION[stepCountIdx] - STEP_DURATION_TARGET;
+		errorSquared[stepCountIdx] = err * err;
+	}
+	return Mean(errorSquared,N_STEP_TRIAL);
+}
+
+/* Computes the error in average speed over the entire trial, squared.
+ * (sum(d) / sum(t))^2; */
+float getAverageSpeedError(void) {
+	float speedError = 0.0;
+	float totalStepDuration = 0.0;
+	float totalStepLength = 0.0;
+	int stepCountIdx;  // counter
+	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
+		totalStepDuration += STEP_DURATION[stepCountIdx];
+		totalStepLength += STEP_LENGTH[stepCountIdx];
+	}
+	speedError = GAITDATA_TARGET_SPEED - (totalStepLength / totalStepDuration);
+	return speedError * speedError;
+}
+
+
+/* This function is called at the start of a new trial. This occurs whenever the
+ * robot transitions from flight phase to single stance.  */
+void resetObjective(void) {
+	int stepCountIdx;  // counter
+	STEP_COUNT = -N_STEP_TRANSIENT;
+
+	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
+		STEP_DURATION[stepCountIdx] = 2.0;   //  Default to a step duration of 2 seconds
+		STEP_LENGTH[stepCountIdx] = 0.0;  // Default to zero step length
+	}
+}
+
 
 
 /*******************************************************************************
@@ -68,8 +119,8 @@ void objFun_send(float* x, int nDim) {
 	GAITDATA_WALK_SCISSOR_GAIN[1] = x[1];
 	GAITDATA_WALK_ANK_PUSH[1] = x[2];
 	GAITDATA_WALK_CRIT_STEP_LENGTH[1] = x[3];
-	// GAITDATA_WALK_PUSH_INTEGRAL[1] = x[4];	  
-	GAITDATA_WALK_DS_DELAY[1] = x[4];	  
+	// GAITDATA_WALK_PUSH_INTEGRAL[1] = x[4];
+	GAITDATA_WALK_DS_DELAY[1] = x[4];
 
 	/// Send out over CAN network
 	mb_io_set_float(ID_OPTIM_WALK_SCISSOR_OFFSET, x[0]);
@@ -82,10 +133,11 @@ void objFun_send(float* x, int nDim) {
 
 
 /* Returns the value of the objective function at the last called
- * query point. Accumulates the cost function*/
+ * query point. Accumulates the cost function. */
 float objFun_eval(void) {
-	float objVal = 0;
-	objVal = Mean(COST, N_STEP_TRIAL);
+	float objVal;
+	// objVal = getAverageSpeedError();   // (sum(d) / sum(t))^2;
+	objVal = getMeanDurationSquaredError();  // mean((t-t0).^2);
 	mb_io_set_float(ID_OPTIM_OBJ_FUN_LAST_VAL, objVal); // Report to LabView.
 	return objVal;
 }
@@ -97,7 +149,7 @@ float objFun_eval(void) {
 void objFun_set_optimizeGait(void) {
 
 	int dim;
-	int nDim = N_DEC_VARS;  
+	int nDim = N_DEC_VARS;
 	int nPop = N_POPULATION;
 	void (*objFunSend)(float * x, int nDim);
 	float (*objFunEval)();
@@ -125,29 +177,6 @@ void objFun_set_optimizeGait(void) {
 
 }
 
-
-
-/*******************************************************************************
- *                    PRIVATE UTILITY FUNCTIONS                                *
- *******************************************************************************/
-
-/* Computes the cost for a single step */
-float stepCostFun(float speed) {
-	float err = speed - GAITDATA_TARGET_SPEED; //Also evaluate the cost of this step.
-	return err * err;
-}
-
-/* This function is called at the start of a new trial. This occurs whenever the
- * robot transitions from flight phase to single stance.  */
-void resetObjective(void) {
-	int stepCountIdx;  // counter
-	float speed = -1.0;  // All incomplete steps are assigned this speed.
-	STEP_COUNT = -N_STEP_TRANSIENT;
-
-	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
-		COST[stepCountIdx] = stepCostFun(speed);
-	}
-}
 
 
 /*******************************************************************************
@@ -301,8 +330,8 @@ void logStepData(double duration, double length) {
 		speed = length / duration;  // Log the speed data
 	}
 	if (OPTIMIZE_FSM_MODE == TRIAL) {
-		// SPEED[STEP_COUNT] = speed;
-		COST[STEP_COUNT] = stepCostFun(speed);
+		STEP_DURATION[STEP_COUNT] = duration;
+		STEP_LENGTH[STEP_COUNT] = length;
 	}
 
 	STEP_COUNT++;   // THIS COMES AFTER objFun_runningAvg()  <-- important !
