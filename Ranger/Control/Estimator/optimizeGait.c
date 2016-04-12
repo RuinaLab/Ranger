@@ -43,7 +43,7 @@ static const float OMEGA = 0.5;   // PSO inertial weighting term
 static const float ALPHA = 0.9;   // PSO local search weight
 static const float BETA = 0.9;    // PSO global search weight
 
-static float STEP_DURATION_TARGET = 0.62;  // Target duration for each walking step
+static float STEP_DURATION_TARGET = 0.62;  // Target duration for each walking step, if used
 
 static float STEP_LENGTH[N_STEP_TRIAL];
 static float STEP_DURATION[N_STEP_TRIAL];
@@ -63,6 +63,22 @@ OptimizeFsmMode OPTIMIZE_FSM_MODE = INIT;
 /*******************************************************************************
  *                    PRIVATE UTILITY FUNCTIONS                                *
  *******************************************************************************/
+
+
+/* Computes the mean of the squared error in speed
+ * mean(((d/t)-v0).^2); */
+float getMeanSpeedSquaredError(void) {
+	float errorSquared[N_STEP_TRIAL];
+	float err;					 
+	int stepCountIdx;  // counter
+	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
+		err = (STEP_DISTANCE[stepCountIdx]/STEP_DURATION[stepCountIdx]) - GAITDATA_TARGET_SPEED;
+		errorSquared[stepCountIdx] = err * err;
+	}
+	return Mean(errorSquared,N_STEP_TRIAL);
+}
+
+
 
 /* Computes the mean of the squared error in step duration
  * mean((t-t0).^2); */
@@ -137,7 +153,8 @@ void objFun_send(float* x, int nDim) {
 float objFun_eval(void) {
 	float objVal;
 	// objVal = getAverageSpeedError();   // (sum(d) / sum(t))^2;
-	objVal = getMeanDurationSquaredError();  // mean((t-t0).^2);
+	// objVal = getMeanDurationSquaredError();  // mean((t-t0).^2);
+	objVal = getMeanSpeedSquaredError();  // mean(((d/t)-v0).^2); 
 	mb_io_set_float(ID_OPTIM_OBJ_FUN_LAST_VAL, objVal); // Report to LabView.
 	return objVal;
 }
