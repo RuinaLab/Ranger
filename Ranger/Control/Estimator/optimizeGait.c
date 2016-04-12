@@ -37,7 +37,7 @@ static int STEP_COUNT = 0;
 static const int N_STEP_TRANSIENT = 5;  // Ignore the first few steps to reject transients
 
 static const int N_STEP_TRIAL = 12; // Include this many steps in objective function
-static const int N_POPULATION = 15; // population to use in optimization
+static const int N_POPULATION = 10; // population to use in optimization
 
 static const float OMEGA = 0.5;   // PSO inertial weighting term
 static const float ALPHA = 0.9;   // PSO local search weight
@@ -141,7 +141,7 @@ float stepCostFun(float speed) {
  * robot transitions from flight phase to single stance.  */
 void resetObjective(void) {
 	int stepCountIdx;  // counter
-	float speed = 0.0;  // Reset the speed for each step to this
+	float speed = -1.0;  // All incomplete steps are assigned this speed.
 	STEP_COUNT = -N_STEP_TRANSIENT;
 
 	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
