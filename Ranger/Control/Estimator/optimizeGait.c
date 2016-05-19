@@ -37,7 +37,7 @@ static int STEP_COUNT = 0;
 static const int N_STEP_TRANSIENT = 5;  // Ignore the first few steps to reject transients
 
 static const int N_STEP_TRIAL = 12; // Include this many steps in objective function
-static const int N_POPULATION = 10; // population to use in optimization
+static const int N_POPULATION = 6; // population to use in optimization
 
 static const float OMEGA = 0.5;   // PSO inertial weighting term
 static const float ALPHA = 0.9;   // PSO local search weight
@@ -72,7 +72,7 @@ float getMeanSpeedSquaredError(void) {
 	float err;					 
 	int stepCountIdx;  // counter
 	for (stepCountIdx = 0;  stepCountIdx < N_STEP_TRIAL; stepCountIdx++) {
-		err = (STEP_DISTANCE[stepCountIdx]/STEP_DURATION[stepCountIdx]) - GAITDATA_TARGET_SPEED;
+		err = (STEP_LENGTH[stepCountIdx]/STEP_DURATION[stepCountIdx]) - GAITDATA_TARGET_SPEED;
 		errorSquared[stepCountIdx] = err * err;
 	}
 	return Mean(errorSquared,N_STEP_TRIAL);
