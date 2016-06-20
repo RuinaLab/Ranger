@@ -1,7 +1,7 @@
 .\Flash\qdc.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_qdc\qdc.c
 .\Flash\qdc.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\qdc.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
-.\Flash\qdc.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\qdc.o: C:\Keil\ARM\RV31\INC\stdio.h
+.\Flash\qdc.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\qdc.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\qdc.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\qdc.o: ..\..\Ranger_Configuration\error_id.h

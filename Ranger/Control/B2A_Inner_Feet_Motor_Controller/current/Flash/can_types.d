@@ -1,7 +1,7 @@
 .\Flash\can_types.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_can\can_types.c
 .\Flash\can_types.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\can_types.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
-.\Flash\can_types.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\can_types.o: C:\Keil\ARM\RV31\INC\stdio.h
+.\Flash\can_types.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\can_types.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\can_types.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\can_types.o: ..\..\Ranger_Configuration\error_id.h

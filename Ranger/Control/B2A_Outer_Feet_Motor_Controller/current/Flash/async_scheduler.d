@@ -1,7 +1,7 @@
 .\Flash\async_scheduler.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\ranger_os_v0.1\async_scheduler.c
 .\Flash\async_scheduler.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\async_scheduler.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
-.\Flash\async_scheduler.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\async_scheduler.o: C:\Keil\ARM\RV31\INC\stdio.h
+.\Flash\async_scheduler.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\async_scheduler.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\async_scheduler.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\async_scheduler.o: ..\..\Ranger_Configuration\error_id.h

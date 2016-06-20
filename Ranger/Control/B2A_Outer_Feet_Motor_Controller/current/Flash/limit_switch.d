@@ -1,7 +1,7 @@
 .\Flash\limit_switch.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_limit_switch\limit_switch.c
 .\Flash\limit_switch.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\limit_switch.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
-.\Flash\limit_switch.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\limit_switch.o: C:\Keil\ARM\RV31\INC\stdio.h
+.\Flash\limit_switch.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\limit_switch.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\limit_switch.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\limit_switch.o: ..\..\Ranger_Configuration\error_id.h

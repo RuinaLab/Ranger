@@ -33,7 +33,7 @@
 ### ADS-LD Output File: '.\Flash\keil_framework_2194.axf'
 ### ADS-LD Command File: '.\Flash\keil_framework_2194.lnp'
 ### Checking for dirty Components...
-### Creating CmdFile '.\Flash\keil_framework_2194.lnp', Handle=0x00000340
+### Creating CmdFile '.\Flash\keil_framework_2194.lnp', Handle=0x000004D8
 ### Writing '.lnp' file
 ### ADS-LD Command file '.\Flash\keil_framework_2194.lnp' is ready.
 ### ADS-LD: About to start ADS-LD Thread.

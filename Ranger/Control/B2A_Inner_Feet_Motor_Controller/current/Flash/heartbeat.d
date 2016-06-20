@@ -1,7 +1,7 @@
 .\Flash\heartbeat.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_heartbeat\heartbeat.c
 .\Flash\heartbeat.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\heartbeat.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
-.\Flash\heartbeat.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\heartbeat.o: C:\Keil\ARM\RV31\INC\stdio.h
+.\Flash\heartbeat.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\heartbeat.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\heartbeat.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\heartbeat.o: ..\..\Ranger_Configuration\error_id.h

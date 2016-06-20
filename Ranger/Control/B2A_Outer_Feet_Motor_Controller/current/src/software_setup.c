@@ -23,7 +23,8 @@ const VOID_VOID_F main_schedule[]=
   task_every_row, can_tx_hs_left, dn_sched_done, NULL,
   task_every_row, can_tx_motor_pos, dn_sched_done, NULL,
   task_every_row, can_tx_left_heel_sense, dn_sched_done, NULL, 
-  task_every_row, can_tx_motor_current, dn_sched_done, NULL,  // Switched with batt_power on March 4, 2016 by MPK
+    task_every_row, can_tx_batt_power, dn_sched_done,NULL, // Reverted MPK's change 6/20/16 -- MWS. No longer using current at main brain.
+  //task_every_row, can_tx_motor_current, dn_sched_done, NULL,  // Switched with batt_power on March 4, 2016 by MPK
   task_every_row, run_occasionally, dn_sched_done, NULL,
   NULL
 };
@@ -65,7 +66,8 @@ void run_occasionally(void)
   
   if (i == 0){error_send_next();}          // Send error from error buffer over the CAN bus
   else if (i == 1){can_tx_motor_vel();}    // Send motor angle over the CAN bus
-    else if (i == 2){can_tx_batt_power();}  	   // Switched with motor current on March 4, 2016 by MPK
+  else if (i == 2){can_tx_motor_current();}        // Reverted MPK's March 4th change.
+  //else if (i == 2){can_tx_batt_power();}  	   // Switched with motor current on March 4, 2016 by MPK
 	  //else if (i == 3){can_tx_batt_power();}     // Send motor controller input power over the CAN bus  (commented byanoop becasue its transfered to scheduler now, feb 20, 2013
   else if (i == 3){can_tx_board_status();}      // Send board operation status code to main brain
   else if (i == 4){can_tx_batt_current();}     // Send battery current over the CAN bus

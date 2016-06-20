@@ -1,7 +1,7 @@
 .\Flash\adc_internal.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\mod_adc_internal\adc_internal.c
 .\Flash\adc_internal.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\includes.h
-.\Flash\adc_internal.o: C:\Program Files (x86)\Keil\ARM\RV31\INC\stdio.h
-.\Flash\adc_internal.o: C:\Program Files (x86)\Keil\ARM\INC\Philips\LPC21xx.H
+.\Flash\adc_internal.o: C:\Keil\ARM\RV31\INC\stdio.h
+.\Flash\adc_internal.o: C:\Keil\ARM\INC\Philips\LPC21xx.H
 .\Flash\adc_internal.o: ..\..\..\..\Robot_Nervous_System\LPC2xxx_Modules\lpc2194def.h
 .\Flash\adc_internal.o: ..\..\Ranger_Configuration\can_id.h
 .\Flash\adc_internal.o: ..\..\Ranger_Configuration\error_id.h

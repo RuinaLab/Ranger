@@ -37,12 +37,15 @@ OPTFFF 5,14,1,0,0,1,1,0,<..\..\Estimator\mb_estimator_execution_time.c><mb_estim
 OPTFFF 6,15,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\UI_fsm.cpp><UI_fsm.cpp> 
 OPTFFF 6,16,8,234881024,0,1,4,0,<..\..\Finite_State_Machines\FSM_16\foot_inner_fsm.cpp><foot_inner_fsm.cpp> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,25,0,0,0,25,0,0,0,59,5,0,0,43,2,0,0 }
 OPTFFF 6,17,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\foot_outer_fsm.cpp><foot_outer_fsm.cpp> 
-OPTFFF 6,18,8,2,0,588,604,0,<..\..\Finite_State_Machines\FSM_16\fsm.cpp><fsm.cpp> { 44,0,0,0,2,0,0,0,3,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,225,255,255,255,30,254,255,255,30,0,0,0,64,3,0,0,48,2,0,0 }
+OPTFFF 6,18,8,570425344,0,648,648,0,<..\..\Finite_State_Machines\FSM_16\fsm.cpp><fsm.cpp> { 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,250,0,0,0,250,0,0,0,28,6,0,0,12,3,0,0 }
 OPTFFF 6,19,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\hip_fsm.cpp><hip_fsm.cpp> 
 OPTFFF 6,20,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\leg_fsm.cpp><leg_fsm.cpp> 
 OPTFFF 6,21,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\mb_fsm.cpp><mb_fsm.cpp> 
 OPTFFF 6,22,8,0,0,0,0,0,<..\..\Finite_State_Machines\FSM_16\steering_fsm.cpp><steering_fsm.cpp> 
 
+ExtF <C:\Users\Matt\Documents\RangerGit\Ranger\Control_Pranav\Finite_State_Machines\FSM_16\fsm.h> 1,1,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,0,0,0,0,0,0,0,0,34,5,0,0,18,2,0,0 }
+ExtF <C:\Users\Matt\Documents\RangerGit\Ranger\Control_Pranav\Finite_State_Machines\FSM_16\foot_inner_fsm_conditions.h> 45,52,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,50,0,0,0,50,0,0,0,84,5,0,0,68,2,0,0 }
+ExtF <C:\Users\Matt\Documents\RangerGit\Ranger\Control_Pranav\Finite_State_Machines\FSM_16\foot_inner_fsm_actions.h> 49,49,0,{ 44,0,0,0,0,0,0,0,1,0,0,0,255,255,255,255,255,255,255,255,248,255,255,255,226,255,255,255,75,0,0,0,75,0,0,0,109,5,0,0,93,2,0,0 }
 
 TARGOPT 1, (LPC3250 Int RAM)
  ADSCLK=13000000
